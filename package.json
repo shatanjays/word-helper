@@ -1,0 +1,12 @@
+{
+  "name": "word-helper",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev-server.mjs",
+    "preview": "node scripts/dev-server.mjs --port 4173",
+    "check:domain": "node scripts/check-domain-email.mjs"
+  }
+}
