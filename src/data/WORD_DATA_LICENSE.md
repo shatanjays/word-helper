@@ -6,31 +6,30 @@ The production word list at `dist/assets/word-data.js` is generated at build tim
 
 1. **Curated seed list** (`src/data/seed-words.txt`) — A hand-curated set of common English words used by tool examples, rhyme data, and fallback behavior. This list is owned by the Word Helper project and is free to use and redistribute.
 
-2. **System dictionary** (`/usr/share/dict/words`) — When available on the build machine, the build script reads this file to supplement the seed list with additional English words. On macOS, this file is typically derived from public-domain word lists (including BSD and Ispell sources), but the exact redistribution terms depend on the operating system image and distribution.
+2. **ENABLE word list** (`src/data/words.txt`) — The ENABLE (Enhanced North American Benchmark Lexicon) word list, a public-domain English word list containing approximately 172,000 words. ENABLE is widely used in competitive word games and is freely available for any use without restriction.
 
-## Licensing Concern
+## ENABLE Word List
 
-The macOS `/usr/share/dict/words` redistribution license is not explicitly documented for all OS versions. Before distributing the generated `word-data.js` file publicly, review whether your specific system's dictionary file permits redistribution.
+- **License**: Public domain — no restrictions on use or redistribution
+- **Source**: Originally compiled by Alan Beale from public-domain word sources
+- **Mirror used**: https://github.com/dolph/dictionary (enable1.txt)
+- **Word count**: ~172,000 words
+- **Filtered to**: lowercase alphabetic, 2–14 characters, no 4+ consecutive repeated letters
 
-## Recommended Production Alternative
+The ENABLE word list has been used in Scrabble tournaments, crossword puzzle software, word-game apps, and academic research. Its public-domain status makes it safe to bundle with and redistribute as part of this project.
 
-For clear production licensing, replace the system dictionary dependency with one of the following openly licensed word lists:
+## Build Filtering
 
-| Source | License | Notes |
-|--------|---------|-------|
-| [SCOWL (Spell Checker Oriented Word Lists)](http://wordlist.aspell.net/) | BSD-style (permissive) | 12 size levels, widely used |
-| [ENABLE word list](https://everything2.com/title/ENABLE+word+list) | Public domain | ~172,000 words, competitive Scrabble standard |
-| [Moby Word Lists](https://en.wikipedia.org/wiki/Moby_Project) | Public domain | Multiple lists including common words |
-
-To use a custom word list: place a plain-text file with one word per line at `src/data/words.txt`, then modify `scripts/build.mjs` to prefer that file over the system dictionary.
-
-## Current Word Count
-
-The generated word list is capped at 30,000 entries, filtered to:
+The build script filters the ENABLE list to:
 - Lowercase alphabetic only (`[a-z]`)
 - 2–14 characters long
-- No more than 3 consecutive repeated letters
-- Longer words (12+ letters) further filtered to common word-forming endings
+- No four or more consecutive repeated letters
+- 12+ letter words further filtered to common word-forming endings (`tion`, `ness`, `ment`, `less`, `able`, `ible`, `ing`, `ful`)
+- Capped at 30,000 words for performance
+
+## Fallback Behavior
+
+If `src/data/words.txt` is not present at build time, the build script falls back to the system dictionary at `/usr/share/dict/words` or `/usr/dict/words`. The fallback is acceptable for development but should not be used for production distribution due to unclear redistribution terms.
 
 ## Contact
 

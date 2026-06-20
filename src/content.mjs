@@ -3,7 +3,7 @@ export const site = {
   url: "https://wordhelper.online",
   email: "hello@wordhelper.online",
   description:
-    "Word Helper is a free word tools platform for unscrambling letters, solving anagrams, finding rhymes, counting syllables, and finding prefixes or suffixes.",
+    "Word Helper is a premium word tools platform for solving word games, finding rhymes, counting syllables, exploring spelling patterns, and building vocabulary.",
 };
 
 export const toolNav = [
@@ -16,10 +16,14 @@ export const toolNav = [
 ];
 
 export const mainNav = [
-  { href: "/", label: "Home" },
-  { href: "/tools/", label: "Tools" },
+  { href: "/word-lab/", label: "Tools" },
+  { href: "/word-games/", label: "Word Games" },
+  { href: "/writing-tools/", label: "Writing Tools" },
+  { href: "/rhyming-words/", label: "Rhyming Words" },
+  { href: "/vocabulary/", label: "Vocabulary" },
+  { href: "/spelling-patterns/", label: "Spelling Patterns" },
+  { href: "/guides/", label: "Guides" },
   { href: "/about/", label: "About" },
-  { href: "/contact/", label: "Contact" },
 ];
 
 export const hubNav = [
@@ -35,8 +39,9 @@ export const legalNav = [
   { href: "/privacy-policy/", label: "Privacy Policy" },
   { href: "/terms/", label: "Terms" },
   { href: "/disclaimer/", label: "Disclaimer" },
-  { href: "/editorial-policy/", label: "Editorial Policy" },
   { href: "/cookie-policy/", label: "Cookie Policy" },
+  { href: "/editorial-policy/", label: "Editorial Policy" },
+  { href: "/affiliate-disclosure/", label: "Affiliate Disclosure" },
 ];
 
 export const tools = [
@@ -405,63 +410,31 @@ export const tools = [
 
 export const hubs = [
   {
-    href: "/tools/",
-    icon: "tools",
-    title: "Free Word Tools",
-    h1: "Free Word Tools",
-    metaTitle: "Free Word Tools - Word Helper Tool Hub",
-    metaDescription:
-      "Explore Word Helper tools for scrambled letters, anagrams, rhymes, syllables, prefixes, suffixes, writing, and word games.",
-    answer:
-      "Word Helper gives you focused tools for letters, sounds, syllables, and word patterns. You can unscramble letters, solve anagrams, find rhymes, count syllables, and search words by prefix or suffix.",
-    sections: [
-      {
-        heading: "Choose the tool that matches the job",
-        text: "Use the letter tools when you have scrambled tiles or an anagram clue. Use rhyme and syllable tools when you are shaping a poem, lyric, caption, or speech. Use prefix and suffix tools when you need spelling patterns or vocabulary families.",
-      },
-      {
-        heading: "Why the tools are separate",
-        text: "A word unscrambler, anagram solver, rhyme finder, syllable counter, prefix finder, and suffix finder answer different questions. Keeping them separate makes the result area clearer and avoids generic output.",
-      },
-    ],
-    links: toolNav,
-    faqs: [
-      {
-        q: "What can I do with Word Helper?",
-        a: "You can find words from scrambled letters, solve exact or partial anagrams, find rhyme ideas, estimate syllables, and search words by starting or ending patterns.",
-      },
-      {
-        q: "Are these tools only for word games?",
-        a: "No. They also help writers, students, poets, lyricists, teachers, and vocabulary learners.",
-      },
-      {
-        q: "Do the tools use fake results?",
-        a: "No. Word results come from a local word list and tool-specific matching logic.",
-      },
-    ],
-  },
-  {
     href: "/word-games/",
     icon: "games",
     title: "Word Games Hub",
-    h1: "Word Games Hub",
-    metaTitle: "Word Game Helper - Words From Letters and Pattern Tools",
+    h1: "Word Game Tools — Solve Letters, Anagrams, and Patterns",
+    metaTitle: "Word Game Helper — Unscramble Letters, Anagrams, and Patterns | Word Helper",
     metaDescription:
-      "Use Word Helper for scrambled letters, anagrams, duplicate letters, word length strategies, and pattern-based word game searches.",
+      "Free word game tools for unscrambling letters, solving exact and partial anagrams, finding words by pattern, and checking letter counts. Works for Scrabble, Wordle, crosswords, and any letter-based game.",
     answer:
-      "Word Helper supports word-game play by turning letters and patterns into scannable word lists. You can search by available letters, exact anagrams, starting letters, ending letters, and word length.",
+      "Word Helper supports word-game play by turning letters and patterns into scannable word lists. Search by available letters, exact anagrams, starting letters, ending letters, or word length — then apply pattern filters to narrow results to what the board allows.",
     sections: [
       {
-        heading: "Finding words from letters",
-        text: "Start with Word Unscramble when you have a rack of letters. It checks letter counts so a word only appears when it can be built from your letters.",
+        heading: "Finding words from your rack",
+        text: "Start with Word Unscramble when you have a set of letters on your rack. The tool checks exact letter counts, so a word only appears if your letters can actually build it. Duplicate letters are handled correctly: one tile cannot make a two-tile word unless a wildcard covers the gap. Enter your letters, scan the results grouped by length, and pick the highest-scoring option that fits the board.",
       },
       {
-        heading: "Using filters in word games",
-        text: "Starts-with, ends-with, contains, and length filters help when a board or clue gives you fixed positions.",
+        heading: "Using board filters and pattern clues",
+        text: "Most games give you fixed information: a required starting letter, a known word length, or a letter that must appear in a specific position. Use the starts-with, ends-with, contains, and length filters after your first broad search. This turns hundreds of results into a short, focused list that matches the board's constraints. The Prefix Finder and Suffix Finder are useful when you know part of the word but not the full answer.",
       },
       {
-        heading: "Duplicate letters and word length strategies",
-        text: "Duplicate letters can change what is playable. If you only have one t, words needing two t's should not appear unless a wildcard is available.",
+        heading: "Anagram clues and exact rearrangements",
+        text: "Some games and puzzles expect every letter to be used exactly once. Anagram Solver's exact mode handles this: it finds only words that use every cleaned letter. Partial mode finds smaller valid words hiding inside a larger set — useful when a phrase or clue has playable words inside it.",
+      },
+      {
+        heading: "Duplicate letters and word length strategy",
+        text: "If your rack has two copies of a letter, words that need two of that letter are valid. If you only have one, they are not — unless a blank tile or wildcard stands in. Word Helper's wildcard support uses ? or * for unknown letters, so a rack with a blank tile can be searched accurately by substituting the unknown position.",
       },
     ],
     links: [
@@ -469,19 +442,30 @@ export const hubs = [
       "/tools/anagram-solver/",
       "/tools/prefix-finder/",
       "/tools/suffix-finder/",
+      "/guides/how-to-unscramble-letters/",
+      "/guides/exact-anagram-vs-partial-anagram/",
+      "/guides/use-word-helper-for-word-games/",
     ],
     faqs: [
       {
         q: "Which tool should I use for scrambled game letters?",
-        a: "Use Word Unscramble for broad words-from-letters results, then add pattern filters if the game board gives you fixed letters.",
+        a: "Use Word Unscramble for broad words-from-letters results, then add pattern filters if the game board gives you fixed letters or a required word length.",
       },
       {
-        q: "When should I use the Anagram Solver?",
-        a: "Use it when a clue expects every letter to be rearranged into another valid word.",
+        q: "When should I use the Anagram Solver instead of Word Unscramble?",
+        a: "Use Anagram Solver when a clue or game rule expects every letter to be rearranged into another valid word. Use Word Unscramble when you want all buildable words regardless of whether every letter is used.",
       },
       {
-        q: "Can prefix and suffix tools help games?",
-        a: "Yes. They help when you know the start or end of the word but not the full answer.",
+        q: "Can prefix and suffix tools help with word games?",
+        a: "Yes. Prefix Finder helps when you know the first letters of the answer. Suffix Finder helps when you know the ending. Both tools support length filters to match a known word size.",
+      },
+      {
+        q: "How do I use a wildcard or blank tile?",
+        a: "Enter ? or * in place of the unknown letter when searching with Word Unscramble. The wildcard fills the missing position so results include words that need that letter.",
+      },
+      {
+        q: "Are Word Helper results accepted in every word game?",
+        a: "Results come from the public-domain ENABLE word list. Different games use different official dictionaries, so confirm final answers in your game's accepted word source before playing.",
       },
     ],
   },
@@ -489,24 +473,28 @@ export const hubs = [
     href: "/writing-tools/",
     icon: "writing",
     title: "Writing Tools Hub",
-    h1: "Writing Tools for Better Word Choice",
-    metaTitle: "Writing Tools - Rhymes, Syllables, and Word Pattern Helpers",
+    h1: "Writing Tools — Rhymes, Rhythm, Word Choice, and Patterns",
+    metaTitle: "Writing Tools — Rhymes, Syllables, Word Patterns for Writers | Word Helper",
     metaDescription:
-      "Free writing tools for rhyme ideas, syllable rhythm, captions, vocabulary variation, and word-choice support.",
+      "Free writing tools for finding rhyme ideas, checking syllable rhythm, exploring word patterns, and building stronger vocabulary. Designed for poets, songwriters, students, and content writers.",
     answer:
-      "Word Helper gives writers quick support for rhyme ideas, sentence rhythm, captions, vocabulary variation, and word patterns without burying the writing task under clutter.",
+      "Word Helper gives writers fast, focused support for rhyme ideas, sentence rhythm, vocabulary variation, and word patterns — without clutter, forced registration, or irrelevant results. Tools are designed to speed up drafting, not to replace the final judgment of an experienced writer.",
     sections: [
       {
-        heading: "Rhyme ideas for creative drafts",
-        text: "The Rhyme Finder groups perfect rhymes, near rhymes, and similar endings so you can choose words by meaning as well as sound.",
+        heading: "Finding rhyme ideas that fit the meaning",
+        text: "The Rhyme Finder groups results as perfect rhymes, near rhymes, and similar endings, so you can choose a word by sound AND by meaning. A perfect rhyme that breaks the sentence's logic is weaker than a near rhyme that fits naturally. Read rhyme options aloud before committing — what looks like a match on screen may not work in speech.",
       },
       {
-        heading: "Sentence rhythm and spoken writing",
-        text: "The Syllable Counter helps compare the spoken beats in poems, speeches, captions, and classroom writing.",
+        heading: "Checking sentence and line rhythm",
+        text: "The Syllable Counter estimates the number of spoken beats in any word, sentence, or paragraph. Paste a full poem stanza, a song chorus, or a speech section and see where the rhythm shifts. The word-by-word breakdown lets you spot which word is making a line feel too long, too short, or oddly weighted.",
       },
       {
-        heading: "Vocabulary variation",
-        text: "Prefix and suffix tools help writers notice word families, spelling shifts, and related forms.",
+        heading: "Exploring word families and spelling patterns",
+        text: "When writing feels repetitive, prefix and suffix tools help you find related forms. If you have used 'create' too often, looking at the create family — creation, creative, creativity, uncreative, recreate — gives you natural variation without changing the meaning. Exploring ending patterns like -ful, -less, and -ness also reveals vocabulary choices you may not have considered.",
+      },
+      {
+        heading: "Word lists for vivid writing",
+        text: "The Word Lists section includes a curated collection of strong action verbs, descriptive adjectives, and positive vocabulary — all with meanings and example sentences. These are not random synonym dumps. Each list is selected for usefulness in real writing contexts, from blog posts and academic work to creative fiction and captions.",
       },
     ],
     links: [
@@ -514,19 +502,31 @@ export const hubs = [
       "/tools/syllable-counter/",
       "/tools/prefix-finder/",
       "/tools/suffix-finder/",
+      "/word-lists/",
+      "/guides/perfect-rhymes-vs-near-rhymes/",
+      "/guides/use-word-helper-for-poetry-and-lyrics/",
+      "/guides/why-syllable-counts-can-vary/",
     ],
     faqs: [
       {
-        q: "Can Word Helper help with captions?",
-        a: "Yes. Rhyme and syllable tools can help short lines feel cleaner and easier to say.",
-      },
-      {
-        q: "Can the tools replace editing?",
-        a: "No. They are quick drafting aids. Final word choice should still fit the meaning and audience.",
-      },
-      {
         q: "Which writing tool should I start with?",
-        a: "Use Rhyme Finder for sound, Syllable Counter for rhythm, and prefix or suffix tools for word patterns.",
+        a: "Start with Rhyme Finder for end-of-line sounds, Syllable Counter for rhythm checks, and prefix or suffix tools for word variation. Word Lists are the best starting point if you need strong verbs or descriptive adjectives.",
+      },
+      {
+        q: "Can Word Helper help with song lyrics?",
+        a: "Yes. Rhyme Finder's near-rhyme results are particularly useful for lyrics because they give natural-sounding options that don't feel forced. Syllable Counter helps you match a line's beat to the music.",
+      },
+      {
+        q: "Can Word Helper help with poetry and haiku?",
+        a: "Yes. Syllable Counter can estimate syllable counts for haiku (5–7–5), sonnet lines, and other metrical forms. Rhyme Finder supports end rhymes, and the Learn English guide on how syllables work explains open and closed syllables.",
+      },
+      {
+        q: "Do these tools replace editing?",
+        a: "No. They are drafting aids that speed up the search for options. Final word choice should still be made by the writer based on meaning, tone, and audience.",
+      },
+      {
+        q: "Can I use these tools for captions and social media?",
+        a: "Yes. Short lines that rhyme or have strong rhythm often perform better as captions. Rhyme Finder and Syllable Counter are both fast enough to test multiple options quickly.",
       },
     ],
   },
@@ -534,39 +534,59 @@ export const hubs = [
     href: "/rhyming-words/",
     icon: "rhyme",
     title: "Rhyming Words and Rhythm",
-    h1: "Rhyming Words and Rhythm",
-    metaTitle: "Rhyming Words - Rhyme and Syllable Tools for Writers",
+    h1: "Rhyming Words — Find Rhymes and Check Line Rhythm",
+    metaTitle: "Rhyming Words — Perfect Rhymes, Near Rhymes, and Syllable Rhythm | Word Helper",
     metaDescription:
-      "Find rhyming words, compare near rhymes, understand similar endings, and check syllable rhythm for poems and lyrics.",
+      "Find rhyming words for any English word. Compare perfect rhymes, near rhymes, and similar endings. Check syllable counts for poem and lyric rhythm.",
     answer:
-      "Word Helper helps with rhyme and rhythm by pairing rhyme ideas with syllable estimates. That makes it easier to test both the ending sound and the beat of a line.",
+      "Word Helper helps with rhyme and rhythm by pairing rhyme ideas with syllable estimates. That makes it easier to test both the ending sound and the beat count of a line at the same time — important for poems, lyrics, captions, and spoken word.",
     sections: [
       {
         heading: "Perfect rhymes, near rhymes, and similar endings",
-        text: "Perfect rhymes are closer sound matches. Near rhymes give more flexible choices. Similar endings are useful for brainstorming but should be checked aloud.",
+        text: "Perfect rhymes share identical ending sounds from the vowel onwards: light and night, dream and stream. They create strong sonic closure and work well in chorus lines or final couplets. Near rhymes — also called slant rhymes or half rhymes — share some sound without matching exactly: love and move, hope and slope. They are widely used in modern lyrics because they sound natural rather than forced. Similar ending spellings are a brainstorming starting point, but they should always be checked aloud because English spelling and pronunciation often differ.",
       },
       {
-        heading: "Syllable rhythm",
-        text: "Syllable counts help you compare the beat of poem lines, lyric drafts, and speeches.",
+        heading: "Why syllable count and rhyme work together",
+        text: "A rhyme that adds the wrong number of syllables can break a meter that was working. If a poem line runs at 10 syllables and the only available perfect rhyme is a 3-syllable word that pushes the count to 12, the rhythm collapses even though the sound was right. Use the Syllable Counter alongside Rhyme Finder to catch this early: test the rhyme candidate in the full line, count the beats, and adjust.",
       },
       {
-        heading: "Song and lyric use cases",
-        text: "Near rhymes often make lyrics sound more natural because they leave space for meaning, tone, and phrasing.",
+        heading: "Near rhymes in songs and rap",
+        text: "Near rhymes dominate modern songwriting for practical reasons. English has a limited number of common perfect rhymes for many words. Forcing a perfect rhyme often means choosing a word that fits the sound but not the meaning or the emotional register of the line. Near rhymes give the writer flexibility: the listener feels the rhyme without the word feeling artificial. The Rhyme Finder returns near-rhyme suggestions alongside perfect matches so you can compare both types quickly.",
+      },
+      {
+        heading: "Classroom and educational use",
+        text: "Rhyme and syllable tools are useful in classroom settings for teaching poetry meter, practicing pronunciation, helping students hear the stress patterns in English words, and supporting creative writing across age groups. The tools include honest disclaimers about pronunciation variation and accent differences so educators can use them as starting points for discussion rather than definitive answers.",
       },
     ],
-    links: ["/tools/rhyme-finder/", "/tools/syllable-counter/"],
+    links: [
+      "/tools/rhyme-finder/",
+      "/tools/syllable-counter/",
+      "/guides/perfect-rhymes-vs-near-rhymes/",
+      "/guides/why-syllable-counts-can-vary/",
+      "/guides/use-word-helper-for-poetry-and-lyrics/",
+      "/learn-english/how-rhyme-works/",
+      "/learn-english/how-syllables-work/",
+    ],
     faqs: [
       {
-        q: "Should I choose a perfect rhyme every time?",
-        a: "No. A near rhyme that fits the sentence can be stronger than a forced perfect rhyme.",
+        q: "What words rhyme with night?",
+        a: "Perfect rhymes for night include light, right, sight, fight, tight, bright, flight, slight, and might. Near rhymes include words like write, bite, and bite.",
       },
       {
-        q: "Why should I count syllables with rhymes?",
-        a: "A rhyme may sound right but still make a line too long or too short. Syllable counts help catch that early.",
+        q: "Should I always choose a perfect rhyme?",
+        a: "No. A near rhyme that fits the sentence's meaning and tone is often stronger than a forced perfect rhyme that sounds correct but breaks the logic of the line.",
       },
       {
-        q: "Do spelling endings always rhyme?",
-        a: "No. English spelling is not a pronunciation guarantee, so similar endings should be read aloud.",
+        q: "Why should I count syllables alongside rhymes?",
+        a: "A rhyme that adds too many or too few syllables can break the meter of a poem or song. Checking syllable count ensures the rhyme works for both sound and rhythm.",
+      },
+      {
+        q: "Do similar spelling endings always rhyme?",
+        a: "No. English spelling does not always match pronunciation. Words like 'love' and 'prove' look like they should rhyme but do not. Always read candidate rhymes aloud before using them.",
+      },
+      {
+        q: "How many syllables does a haiku line have?",
+        a: "Traditional English haiku follows a 5–7–5 syllable pattern. The Syllable Counter tool can estimate syllables for individual lines to help you hit those targets.",
       },
     ],
   },
@@ -574,24 +594,32 @@ export const hubs = [
     href: "/vocabulary/",
     icon: "vocabulary",
     title: "Vocabulary Learning Hub",
-    h1: "Vocabulary Learning Hub",
-    metaTitle: "Vocabulary Tools - Prefixes, Suffixes, and Word Families",
+    h1: "Vocabulary — Build, Explore, and Practice English Words",
+    metaTitle: "Vocabulary Tools — Word Families, Prefixes, Suffixes, and Practice | Word Helper",
     metaDescription:
-      "Build vocabulary with prefix families, suffix families, spelling patterns, word building, and classroom-friendly word discovery.",
+      "Build English vocabulary with word family exploration, prefix and suffix tools, curated word lists, learning guides, and vocabulary quizzes. Useful for learners, students, and teachers.",
     answer:
-      "Word Helper supports vocabulary learning by showing word families, starting patterns, ending patterns, and words that can be built from letters.",
+      "Word Helper supports vocabulary learning through connected tools: word family pages in Word Explorer, prefix and suffix pattern tools, hand-curated word lists with meanings and examples, eight practical learning guides, and vocabulary quizzes. Every component is designed to move a word from recognition into active use.",
     sections: [
       {
-        heading: "Prefix and suffix families",
-        text: "Prefixes and suffixes help learners see how words are built. The tools match letters exactly while explaining when meaning may differ.",
+        heading: "Word families: learn one root, gain five words",
+        text: "Every word page in Word Explorer includes a word family section showing noun, verb, adjective, and adverb forms with their parts of speech. Learning that 'achieve' connects to 'achievement', 'achievable', 'achiever', and 'overachieve' gives you access to five words for the work of learning one. Use Word Explorer pages as the starting point for family-based vocabulary learning, then move to the prefix and suffix tools to explore related patterns further.",
       },
       {
-        heading: "Word building",
-        text: "Unscramble and anagram tools help students notice how the same letters can form different valid words.",
+        heading: "Prefix and suffix patterns",
+        text: "The Prefix Finder and Suffix Finder let you explore word-starting and word-ending patterns. Prefixes like un-, re-, pre-, dis-, mis-, and over- appear in hundreds of common words. Suffixes like -tion, -ness, -ful, -less, -able, and -ment signal the grammatical role of a word. Studying these patterns helps learners understand unfamiliar words, make educated guesses from context, and improve spelling accuracy.",
       },
       {
-        heading: "Classroom use",
-        text: "Teachers can use pattern lists for spelling practice, vocabulary warmups, and quick examples.",
+        heading: "Curated word lists for focused learning",
+        text: "Word Lists are hand-curated collections of words grouped by theme: common English vocabulary, positive words, academic English, strong action verbs, and descriptive adjectives. Each entry includes the word, its part of speech, a plain-English meaning, and an example sentence. Thematic word learning is more durable than random list memorisation because each word sits in a mental framework that makes recall faster.",
+      },
+      {
+        heading: "Practice quizzes and spaced review",
+        text: "The Practice section contains vocabulary quizzes built from Word Explorer definitions. You see a definition and choose the correct word from four options — no accounts, no pressure, instant feedback. Use the quizzes as a spaced review tool: look up a word in Word Explorer, read its full page, then test yourself in Practice to confirm that the word has moved into active memory.",
+      },
+      {
+        heading: "Learning guides for vocabulary strategy",
+        text: "The Learn English section includes eight practical guides covering how to build your vocabulary, how word roots work, how syllables affect pronunciation, how to use context clues, common spelling patterns, word families, and memory techniques. These guides are not generic advice — they include specific strategies, worked examples, and links to the relevant Word Helper tools.",
       },
     ],
     links: [
@@ -599,19 +627,34 @@ export const hubs = [
       "/tools/suffix-finder/",
       "/tools/word-unscramble/",
       "/tools/anagram-solver/",
+      "/word-explorer/",
+      "/word-lists/",
+      "/learn-english/",
+      "/practice/",
+      "/learn-english/how-to-build-your-vocabulary/",
+      "/learn-english/understanding-word-roots-prefixes-suffixes/",
+      "/learn-english/understanding-word-families/",
     ],
     faqs: [
       {
-        q: "Can prefixes and suffixes build vocabulary?",
-        a: "Yes. They help learners connect spelling, meaning, and word formation across related words.",
+        q: "How can prefixes and suffixes help vocabulary learning?",
+        a: "Knowing 20 common prefixes and 15 common suffixes gives you a decoding key for thousands of unfamiliar words. Learners who understand that un- means 'not' and -less means 'without' can make reasonable guesses about words they have never seen before.",
       },
       {
-        q: "Are all prefix matches meaningful prefixes?",
-        a: "No. This site matches letters exactly, so it explains the difference between spelling patterns and meaning units.",
+        q: "Are all prefix matches in the Prefix Finder real grammar prefixes?",
+        a: "No. The tool matches starting letters exactly. Some matches are meaningful prefix patterns; others only share the same spelling. Word Helper explains this on every prefix page so learners are not misled.",
       },
       {
-        q: "Can students use Word Helper for practice?",
-        a: "Yes. The tools are useful for classroom examples, spelling practice, and vocabulary exploration.",
+        q: "How many words should I study per day?",
+        a: "Five to ten new words per day in context is a manageable target. Quality matters more than quantity. A word understood deeply and tested actively is worth more than twenty words seen passively on a list.",
+      },
+      {
+        q: "Can students use Word Helper in class?",
+        a: "Yes. Tools are useful for vocabulary warmups, spelling pattern exploration, and word family discovery. Word lists work well for classroom discussion, and the quizzes can be used for low-pressure vocabulary checks.",
+      },
+      {
+        q: "How is Word Helper different from a standard dictionary?",
+        a: "Word Explorer pages include pronunciation, syllable breakdowns, word families, etymology, memory tips, and example sentences — all written originally for Word Helper. The tools add interactive capabilities that a static dictionary cannot: live letter unscrambling, rhyme suggestion, syllable counting, and pattern-based word search.",
       },
     ],
   },
@@ -619,39 +662,58 @@ export const hubs = [
     href: "/spelling-patterns/",
     icon: "patterns",
     title: "Spelling Patterns Hub",
-    h1: "Spelling Patterns Hub",
-    metaTitle: "Spelling Pattern Tools - Words Starting With and Ending With",
+    h1: "Spelling Patterns — Words by Start, End, and Letter Pattern",
+    metaTitle: "Spelling Patterns — Words by Prefix, Suffix, and Letter Pattern | Word Helper",
     metaDescription:
-      "Explore words by starting letters, ending letters, common prefixes, common suffixes, and pattern-based word discovery.",
+      "Explore English spelling patterns with Prefix Finder and Suffix Finder. Browse words by starting letters, ending letters, common prefixes, and common suffixes. Useful for learners, teachers, and word game players.",
     answer:
-      "Word Helper makes spelling patterns easier to inspect by grouping words that start or end with the same letters.",
+      "Word Helper makes English spelling patterns accessible by grouping words that share starting or ending letters. Prefix Finder and Suffix Finder draw from a 327,000-word database to show what words follow each pattern — useful for spelling study, word game clues, vocabulary exploration, and classroom practice.",
     sections: [
       {
-        heading: "Words starting with",
-        text: "Use the Prefix Finder when you know the beginning of a word or want to study a common starting pattern.",
+        heading: "Words that start with a pattern",
+        text: "Use Prefix Finder when you know the beginning of a word but not the full answer, or when you want to study a common starting pattern. Enter two or more letters and see all words that begin with that exact sequence. Shorter prefixes return broader lists; adding more letters narrows to specific families. The tool is useful for word games where a board gives you the first letter or letters of a required word.",
       },
       {
-        heading: "Words ending with",
-        text: "Use the Suffix Finder when you know the ending of a word or want to compare spelling endings like -ing, -tion, -less, and -able.",
+        heading: "Words that end with a pattern",
+        text: "Use Suffix Finder when you know a word's ending or want to compare words with the same spelling ending. Common endings like -ing, -tion, -ness, -less, -able, and -ible each signal something about a word's grammatical role. Exploring words that end with -tion helps learners recognise the /shun/ sound in noun forms and understand when to choose -sion over -tion.",
       },
       {
-        heading: "Pattern-based discovery",
-        text: "Pattern lists are useful for spelling practice, word games, and vocabulary study because they turn a vague clue into a smaller list.",
+        heading: "Spelling patterns versus grammar rules",
+        text: "Spelling patterns and grammar rules overlap but are not the same. A word that ends in -ing may be a present participle, a gerund, or simply a word that happens to end with those letters. Word Helper labels its matching as letter-based throughout, so learners understand the difference between a spelling pattern observation and a grammar claim.",
+      },
+      {
+        heading: "Common English spelling patterns to know",
+        text: "The most consistent patterns include: the silent-e rule (hop becomes hope; kit becomes kite), consonant doubling before a vowel suffix (run becomes running), vowel digraphs (ea in beach, oa in boat), the ie vs ei split, and common noun endings (-tion, -sion, -ness, -ment). The Learn English guide on common spelling patterns covers each of these with rules, examples, and the exceptions worth memorising.",
       },
     ],
-    links: ["/tools/prefix-finder/", "/tools/suffix-finder/"],
+    links: [
+      "/tools/prefix-finder/",
+      "/tools/suffix-finder/",
+      "/vocabulary/",
+      "/guides/prefixes-and-suffixes-build-vocabulary/",
+      "/learn-english/common-spelling-patterns/",
+      "/learn-english/understanding-word-roots-prefixes-suffixes/",
+    ],
     faqs: [
       {
-        q: "What is a spelling pattern?",
-        a: "A spelling pattern is a repeated letter arrangement, such as words that start with re- or end with -tion.",
+        q: "What is a spelling pattern in English?",
+        a: "A spelling pattern is a repeated letter arrangement that appears across many words, such as words that start with pre- or end with -tion. These patterns are useful for learning, spelling, and word-game play.",
       },
       {
         q: "Can a spelling pattern differ from a grammar suffix?",
-        a: "Yes. A word can share ending letters without using those letters as a grammatical suffix.",
+        a: "Yes. A word can share ending letters without using those letters as a grammatical suffix. For example, 'ring' ends in -ing but is not a present participle — it is a noun. Word Helper makes this distinction clear.",
       },
       {
-        q: "Which tools are best for spelling patterns?",
-        a: "Use Prefix Finder for starting letters and Suffix Finder for ending letters.",
+        q: "Which tools are best for spelling pattern practice?",
+        a: "Use Prefix Finder for starting-letter patterns and Suffix Finder for ending-letter patterns. Both support length filters so you can focus on words of a specific size.",
+      },
+      {
+        q: "How can spelling patterns help with word games?",
+        a: "When a game clue gives you the start or end of a word, pattern tools turn a vague hint into a focused list of candidates that fit the known letters.",
+      },
+      {
+        q: "Are there guides for learning spelling patterns?",
+        a: "Yes. The Learn English guide on common spelling patterns covers the silent-e rule, vowel digraphs, consonant doubling, ie vs ei, and common word endings with examples and the key exceptions.",
       },
     ],
   },
@@ -659,35 +721,55 @@ export const hubs = [
     href: "/guides/",
     icon: "guides",
     title: "Word Helper Guides",
-    h1: "Word Helper Guides",
-    metaTitle: "Word Helper Guides - Practical Word Tool Tutorials",
+    h1: "Word Helper Guides — Practical Word Tool Tutorials",
+    metaTitle: "Word Helper Guides — Practical Tutorials for Word Tools and English | Word Helper",
     metaDescription:
-      "Read practical guides for unscrambling letters, anagrams, rhymes, syllables, prefixes, suffixes, word games, and poetry.",
+      "Read practical guides for unscrambling letters, solving anagrams, choosing rhymes, counting syllables, understanding prefixes and suffixes, and using Word Helper tools for games, poetry, and writing.",
     answer:
-      "Word Helper guides explain how to use word tools in real situations, from game letters and anagram clues to rhyme choices and syllable rhythm.",
+      "Word Helper guides explain how to use word tools in real situations — from game letters and anagram clues to rhyme choices and syllable rhythm. Each guide answers a specific practical question, gives worked examples, and links to the relevant tools.",
     sections: [
       {
-        heading: "Short guides for real tasks",
-        text: "Each guide answers a practical question, gives examples, and points to the related Word Helper tools.",
+        heading: "Tool guides: when and how to use each tool",
+        text: "Each tool guide explains the right situation for using that tool, shows what good and bad inputs look like, explains how to read results, and points out where the tool's limits apply. The guides for word unscrambling, anagram solving, and word game strategy are written for players who want fast, accurate results — not a generic 'enter letters and press search' walkthrough.",
       },
       {
-        heading: "No filler approach",
-        text: "The guides are written to support the tools and users, not to pad pages with repeated search phrases.",
+        heading: "Craft guides: rhyme, syllables, and writing",
+        text: "The rhyme and syllable guides explain how to choose between perfect and near rhymes, why syllable counts vary, how to use Word Helper for poem lines and lyrics, and how to test whether a rhyme works in context. These guides are intended for writers — poets, songwriters, students, and content creators — who want to understand the craft decisions behind word choice.",
+      },
+      {
+        heading: "No filler — only practical answers",
+        text: "Every guide in this section is written to answer a specific question that a real user has. No guide is longer than it needs to be. No guide repeats information from the tool page it links to. If a guide does not answer a useful question with useful examples and specific tool steps, it is not published.",
       },
     ],
-    links: [],
+    links: [
+      "/guides/how-to-unscramble-letters/",
+      "/guides/exact-anagram-vs-partial-anagram/",
+      "/guides/perfect-rhymes-vs-near-rhymes/",
+      "/guides/why-syllable-counts-can-vary/",
+      "/guides/prefixes-and-suffixes-build-vocabulary/",
+      "/guides/use-word-helper-for-word-games/",
+      "/guides/use-word-helper-for-poetry-and-lyrics/",
+      "/tools/word-unscramble/",
+      "/tools/anagram-solver/",
+      "/tools/rhyme-finder/",
+      "/tools/syllable-counter/",
+    ],
     faqs: [
       {
-        q: "Are the guides tool tutorials?",
-        a: "Yes. They explain how to choose a tool, read results, and handle limitations.",
+        q: "What do the Word Helper guides cover?",
+        a: "The guides cover how to unscramble letters without guessing, the difference between exact and partial anagrams, how to choose between perfect and near rhymes, why syllable counts can vary, how prefixes and suffixes build vocabulary, word game strategies, and how to use Word Helper for poetry and lyrics.",
+      },
+      {
+        q: "Are the guides tool tutorials or general writing advice?",
+        a: "Both. Tool guides explain how to get the best results from a specific Word Helper tool. Craft guides explain the underlying language concepts — rhyme types, syllable stress, prefix meaning — with the Word Helper tools integrated as practical aids.",
       },
       {
         q: "Do the guides replace the tools?",
-        a: "No. They help you understand when and how to use each tool.",
+        a: "No. The guides help you understand when to use each tool, how to interpret results, and how to handle edge cases. They are meant to be read once, then used as a reference when a result seems unexpected.",
       },
       {
-        q: "Will more guides be added?",
-        a: "Yes, but only when a guide can answer a real question with useful examples.",
+        q: "Are more guides planned?",
+        a: "Yes, but only when a guide can answer a real question with useful, specific examples and tool steps. Quality guides that help real users get better results are added on a rolling basis.",
       },
     ],
   },
@@ -731,106 +813,170 @@ export const guides = [
   },
   {
     href: "/guides/exact-anagram-vs-partial-anagram/",
-    title: "Exact Anagram vs Partial Anagram",
+    title: "Exact Anagram vs Partial Anagram: What Is the Difference?",
     h1: "Exact Anagram vs Partial Anagram: What Is the Difference?",
-    metaTitle: "Exact Anagram vs Partial Anagram - What Is the Difference?",
+    metaTitle: "Exact Anagram vs Partial Anagram — Definition, Examples, and When to Use Each",
     metaDescription:
-      "Understand exact and partial anagram modes with examples, limitations, and links to the Anagram Solver.",
+      "Understand the difference between exact and partial anagrams. Includes worked examples, when to switch modes, how Word Helper handles punctuation and spaces, and tips for games and puzzles.",
     answer:
-      "An exact anagram uses every letter once. A partial anagram uses some of the letters to make smaller valid words.",
+      "An exact anagram rearranges every letter of a word or phrase exactly once to make a new valid word or phrase. A partial anagram uses some but not necessarily all of the letters to find smaller valid words. Exact mode is correct for classic anagram clues; partial mode is useful when a longer set of letters contains playable or hidden words.",
     body: [
       {
-        heading: "Exact anagrams",
-        text: "In exact mode, listen can become silent, enlist, or tinsel because every letter is used exactly once.",
+        heading: "What makes an anagram exact?",
+        text: "An exact anagram uses every single letter from the input exactly once — no letter is left over and no letter is used twice. The word 'listen' is a perfect example: rearranging its six letters gives 'silent', 'enlist', 'tinsel', and 'inlets' — all six-letter words using L, I, S, T, E, N in a different order. If you change 'listen' to 'listens' (adding an S), the exact anagrams change entirely. Even one extra letter makes the previous results invalid in exact mode.",
       },
       {
-        heading: "Partial anagrams",
-        text: "Partial mode is useful when a longer phrase contains smaller playable or useful words.",
+        heading: "What makes an anagram partial?",
+        text: "A partial anagram uses some of the available letters, not all of them. If you enter 'dormitory', partial mode will find 'dirty', 'dorm', 'trod', 'drip', and many other shorter words hidden inside the longer set of letters. These words use a subset of the letters in 'dormitory' but do not need to use every one. Partial mode is essentially the same as broad word unscrambling — it finds all words buildable from the input letters rather than requiring full usage.",
       },
       {
-        heading: "When to switch modes",
-        text: "If exact mode finds nothing, partial mode can still reveal smaller words that fit a game or clue.",
+        heading: "When to use exact mode",
+        text: "Use exact mode when a clue, puzzle, or game expects every letter to be rearranged into another valid word or phrase. Cryptic crossword clues often work this way: 'Rearrange STONE to find a musical sound' leads you to 'TONES' as the exact anagram. Exact mode is also useful for name anagrams, phrase puzzles, and word games where the whole-word constraint is part of the challenge.",
+      },
+      {
+        heading: "When to use partial mode",
+        text: "Use partial mode when you have a long phrase or word and want to find the playable or useful words hidden inside it. If a word game gives you a seven-letter rack, partial mode shows all valid 3-, 4-, 5-, 6-, and 7-letter words you could play from those letters. Partial mode is also helpful when exact mode returns no results — if the input cannot be rearranged into one complete valid word, partial mode will still show smaller words that are valid.",
+      },
+      {
+        heading: "How Word Helper handles spaces and punctuation",
+        text: "Word Helper's Anagram Solver removes spaces and punctuation before comparing letters. This means you can paste a short phrase and the tool will treat all the letters together. 'A gentleman' becomes AGENTLEMAN and the solver looks for anagrams or sub-words from all ten letters. This is how classic phrase anagrams work: 'Election results' rearranges into 'Lies — let's recount'. The tool strips punctuation and spaces, then applies the mode you chose.",
+      },
+      {
+        heading: "Comparing exact and partial: a worked example",
+        text: "Take the word 'stone'. In exact mode, the Anagram Solver finds 'tones', 'notes', 'onset', and 'seton' — four-letter or five-letter words using S, T, O, N, E exactly once. In partial mode, you also get 'tone', 'note', 'nose', 'tons', 'ones', 'net', 'ten', 'set', and dozens more — any valid word that can be built from some of those five letters. Exact gives you a focused list of precise rearrangements; partial gives you a broad inventory of buildable words.",
       },
     ],
-    links: ["/tools/anagram-solver/", "/tools/word-unscramble/"],
+    links: ["/tools/anagram-solver/", "/tools/word-unscramble/", "/word-games/", "/guides/how-to-unscramble-letters/"],
     faqs: [
       {
-        q: "Does punctuation count in anagrams?",
-        a: "Word Helper removes punctuation before comparing letters.",
+        q: "What is the difference between exact and partial anagram mode?",
+        a: "Exact mode uses every letter exactly once and finds only words that are true rearrangements of the full input. Partial mode uses some of the letters and finds all valid words that can be built from a subset. Use exact for classic anagram clues; use partial for broad word-game letter searches.",
       },
       {
-        q: "Can a partial anagram use all letters?",
-        a: "It can, but it does not require every letter the way exact mode does.",
+        q: "Does Word Helper remove spaces and punctuation from anagram inputs?",
+        a: "Yes. The Anagram Solver strips spaces and punctuation before matching letters. This lets you enter phrases as well as single words.",
+      },
+      {
+        q: "What are famous examples of exact anagrams?",
+        a: "Classic examples include: listen/silent, astronomer/moon starer, conversation/voices rant on, dormitory/dirty room, and schoolmaster/the classroom. These all use every letter exactly once.",
+      },
+      {
+        q: "Can a partial anagram use all the letters?",
+        a: "Yes. A partial anagram can use all the letters if a matching word happens to need them all, but it is not required to do so. The constraint is 'at most this many of each letter', not 'exactly this many'.",
+      },
+      {
+        q: "Why does exact mode sometimes return no results?",
+        a: "Exact mode requires that every letter be used once to form a valid dictionary word. Many letter combinations — especially short or unusual ones — have no exact anagrams. Switching to partial mode usually finds smaller words, even when exact mode is empty.",
       },
     ],
   },
   {
     href: "/guides/perfect-rhymes-vs-near-rhymes/",
-    title: "Perfect Rhymes vs Near Rhymes",
-    h1: "Perfect Rhymes vs Near Rhymes: How Writers Choose Better Rhymes",
-    metaTitle: "Perfect Rhymes vs Near Rhymes - Choosing Better Rhymes",
+    title: "Perfect Rhymes vs Near Rhymes: How Writers Choose Better Rhymes",
+    h1: "Perfect Rhymes vs Near Rhymes: Choosing Better Rhymes for Poems and Lyrics",
+    metaTitle: "Perfect Rhymes vs Near Rhymes — How Writers Choose Better Rhymes",
     metaDescription:
-      "Learn how perfect rhymes, near rhymes, and similar endings work for poems, lyrics, captions, and creative writing.",
+      "Understand the difference between perfect rhymes and near rhymes. Learn when to use each, how near rhymes improve lyrics, and how to use the Rhyme Finder to explore both types.",
     answer:
-      "Perfect rhymes match closely in sound, while near rhymes share enough sound to feel connected without matching exactly.",
+      "A perfect rhyme matches the final vowel sound and all sounds after it exactly: light and night, dream and stream. A near rhyme — also called a slant rhyme or half rhyme — shares enough ending sound to feel connected but does not match precisely: love and move, home and storm. Near rhymes are widely used in modern lyrics because they sound natural rather than forced, giving writers more flexibility without breaking the rhythm.",
     body: [
       {
-        heading: "Perfect rhymes",
-        text: "Perfect rhymes are useful when a line needs a clear sound match, such as light and night.",
+        heading: "What makes a rhyme perfect?",
+        text: "A perfect rhyme — also called an exact rhyme or true rhyme — shares an identical ending sound from the stressed vowel onwards. 'Light' and 'night' both end with the sound /aɪt/. 'Dream' and 'stream' both end with /iːm/. The beginning sounds of the words (the onset) are different, but everything from the vowel to the end is the same. Perfect rhymes create a strong, satisfying sense of closure. They are the standard in nursery rhymes, traditional ballads, and song choruses where sonic resolution is intentional.",
       },
       {
-        heading: "Near rhymes",
-        text: "Near rhymes can make lyrics and captions feel less forced because they offer more natural word choices.",
+        heading: "What makes a rhyme near?",
+        text: "A near rhyme — also called a slant rhyme, half rhyme, or off rhyme — shares some ending sound without matching exactly. 'Love' and 'move' end with similar but not identical vowel sounds (/ʌv/ vs. /uːv/). 'Hope' and 'stop' share an ending consonant but the vowels differ. 'Worm' and 'form' sound related but do not technically rhyme. Near rhymes create a sense of sonic connection without the finality of a perfect match. This slightly unresolved feeling is often exactly what a lyric needs — it keeps the listener engaged rather than settling everything too neatly.",
       },
       {
-        heading: "Similar endings",
-        text: "Similar spelling endings are helpful for brainstorming, but they should be checked aloud.",
+        heading: "Why near rhymes dominate modern lyrics",
+        text: "English has a limited number of perfect rhymes for many common words. 'Orange', 'purple', 'silver', and 'month' have no common perfect rhymes at all. Forcing a perfect rhyme often means choosing a word that sounds right but breaks the meaning or natural flow of the line. Near rhymes solve this: a word that feels phonetically close is often more natural and expressive than the nearest perfect rhyme that fits the sound but not the sense. Many of the most celebrated song lyrics — from Bob Dylan to Kendrick Lamar — use near rhymes throughout.",
+      },
+      {
+        heading: "Similar endings versus actual rhymes",
+        text: "A third category — similar endings or eye rhymes — involves words that look like they should rhyme based on spelling but do not sound alike in speech. 'Love' and 'prove' end in -ove but are pronounced differently. 'Word' and 'sword' end in -ord but sound different. Eye rhymes appear in older English poetry written before spelling was standardised, and occasionally in modern verse as a deliberate visual or ironic choice. Word Helper's Rhyme Finder includes similar ending suggestions as a brainstorming aid, but these should always be verified by reading aloud.",
+      },
+      {
+        heading: "How to choose: a practical framework",
+        text: "Start by finding your target word's perfect rhymes — these are the gold standard and should be tried first if they fit the meaning. If no perfect rhyme fits the line without distorting the meaning or sounding forced, explore near rhymes for options that feel natural when spoken. When you have a candidate, read the full line aloud: if it sounds connected and the meaning holds, the rhyme works regardless of whether it is perfect or near. The goal of rhyme is to serve the writing, not to demonstrate technical correctness.",
       },
     ],
-    links: ["/tools/rhyme-finder/", "/tools/syllable-counter/", "/rhyming-words/"],
+    links: ["/tools/rhyme-finder/", "/tools/syllable-counter/", "/rhyming-words/", "/learn-english/how-rhyme-works/", "/guides/use-word-helper-for-poetry-and-lyrics/"],
     faqs: [
       {
-        q: "Are near rhymes wrong?",
-        a: "No. They are common in songs, rap lines, and modern poetry.",
+        q: "What is the difference between a perfect rhyme and a near rhyme?",
+        a: "A perfect rhyme has an identical ending sound from the stressed vowel onwards: light/night, dream/stream. A near rhyme shares enough sound to feel connected but does not match exactly: love/move, hope/stop. Perfect rhymes are stronger sonically; near rhymes are often more natural in context.",
       },
       {
-        q: "Should I trust spelling alone?",
-        a: "No. Read the line aloud because spelling and pronunciation often differ.",
+        q: "Are near rhymes acceptable in poetry?",
+        a: "Yes, absolutely. Near rhymes — also called slant rhymes or half rhymes — are standard in modern poetry and lyrics. Emily Dickinson used slant rhyme throughout her work as a deliberate artistic choice. Most contemporary songwriters use near rhymes to avoid the forced, sing-song quality that can result from forcing perfect rhymes.",
+      },
+      {
+        q: "What words have no perfect rhymes in English?",
+        a: "Classic examples of words with no common perfect rhymes include: orange, purple, silver, month, and penguin. This is why near rhymes are especially important — forcing a perfect rhyme for these words often results in awkward or obscure choices.",
+      },
+      {
+        q: "How does the Word Helper Rhyme Finder handle near rhymes?",
+        a: "The Rhyme Finder returns results in groups: perfect rhymes first, then near rhymes, then similar endings. This lets you see the full range of options and choose based on meaning and context rather than just sound.",
+      },
+      {
+        q: "Should I always read rhyme candidates aloud before using them?",
+        a: "Yes. Rhyme is fundamentally about sound, not spelling. A candidate that looks like a rhyme may not sound like one, and a candidate that does not look related may sound surprisingly natural. Reading the full line aloud with the candidate word is the most reliable test.",
       },
     ],
   },
   {
     href: "/guides/why-syllable-counts-can-vary/",
     title: "Why Syllable Counts Can Vary by Accent",
-    h1: "Why Syllable Counts Can Vary by Accent",
-    metaTitle: "Why Syllable Counts Can Vary by Accent",
+    h1: "Why Syllable Counts Can Vary — Accent, Dialect, and Poetic Meter",
+    metaTitle: "Why Syllable Counts Can Vary — Accent, Dialect, and Poetic Usage Explained",
     metaDescription:
-      "Learn why syllable counts can differ by accent, dialect, speech rhythm, and poetic usage.",
+      "Learn why syllable counts differ by accent, dialect, speech speed, and poetry. Includes examples of variable words, how to handle them in practice, and how to use the Syllable Counter tool effectively.",
     answer:
-      "Syllable counts can vary because people pronounce words differently across accents, dialects, speech speeds, and poetic contexts.",
+      "Syllable counts can vary because spoken English differs significantly by accent, dialect, region, and speech speed. The same word may be one syllable in one accent and two in another. Poetry adds further variation because poets can stretch or compress syllables to fit meter. A syllable counter gives you a practical estimate, not a guaranteed pronunciation authority — the final count should always be confirmed by reading the line aloud.",
     body: [
       {
-        heading: "Pronunciation changes the count",
-        text: "Some speakers compress vowel sounds while others pronounce them separately.",
+        heading: "Why accent and dialect change the count",
+        text: "English is spoken across dozens of distinct accent groups, and many of them pronounce the same word differently. In some American accents, 'caramel' is two syllables (CAR-ml); in others it is three (CAR-a-mel). In Received Pronunciation British English, 'schedule' is three syllables (SHED-yool); in General American it is also three (SKED-jool), but the vowels differ. 'Poem' is two syllables in most accents (POH-em) but can compress to one in fast casual speech. These differences are features of accent, not errors — and they mean that any estimate of syllable count is accent-dependent.",
       },
       {
-        heading: "Poetry can bend ordinary speech",
-        text: "Poets may stretch or compress words to fit meter, so a practical estimate is only a starting point.",
+        heading: "How speech speed and connected speech affect counts",
+        text: "At normal conversational speed, English speakers routinely compress syllables through a process called elision. 'Every' collapses from three syllables to two in natural speech (EV-ry). 'Temperature' often becomes three syllables (TEMP-ra-ture) even though it has four in careful speech (TEMP-er-a-ture). 'Comfortable' is four syllables carefully pronounced (COM-fort-a-ble) but often two or three in relaxed speech. A syllable counter working from letter patterns cannot model this kind of natural speech compression — it counts the full, careful pronunciation. This means counts may be slightly higher than what a native speaker would produce in natural conversation.",
       },
       {
-        heading: "Use estimates carefully",
-        text: "A syllable counter is useful for drafting, but final rhythm should be tested aloud.",
+        heading: "How poetry bends syllable counts",
+        text: "Poets have long used two techniques that change syllable counts from their standard spoken form. Elision in poetry deliberately removes a syllable for metrical purposes — 'over' becomes 'o'er', 'ever' becomes 'e'er'. Expansion stretches a word to add a syllable for rhythm — 'power' becomes 'pow-er' (two syllables) when a line needs an extra beat. Both techniques were common in classical English verse and appear in Shakespeare, Milton, and Keats. When using a syllable counter for poetry, treat the result as a starting point for the line — the poem's meter often requires deliberate adjustment.",
+      },
+      {
+        heading: "Words where counts commonly vary",
+        text: "Several English words are frequently counted differently depending on accent, context, or speaker: 'interest' (2 or 3 syllables), 'different' (2 or 3), 'chocolate' (2 or 3), 'business' (2 or 3), 'family' (2 or 3), 'evening' (2 or 3), 'prisoner' (2 or 3), 'suffering' (2 or 3), and 'realise/realize' (3 or 4). For poetry, each of these may be used as either count depending on the meter the poet is writing in. The Word Helper Syllable Counter will produce one estimate for each word; for variable words like these, checking both counts in the context of your line is the safest approach.",
+      },
+      {
+        heading: "How to use the Syllable Counter effectively",
+        text: "Use the Syllable Counter as a fast first estimate for any word or sentence. Paste your full line or stanza to see the total beat count. The word-by-word breakdown shows where beats are distributed across the line — this is especially useful for identifying which word is making a line feel too long or too heavy. For any word where the count seems off, say the word aloud at normal speech speed, count your chin drops (each drop is one syllable), and use that as your working count. The tool is a drafting aid; your ear makes the final decision.",
       },
     ],
-    links: ["/tools/syllable-counter/", "/tools/rhyme-finder/", "/rhyming-words/"],
+    links: ["/tools/syllable-counter/", "/tools/rhyme-finder/", "/rhyming-words/", "/learn-english/how-syllables-work/", "/guides/use-word-helper-for-poetry-and-lyrics/"],
     faqs: [
       {
-        q: "Is there always one correct syllable count?",
-        a: "Not always. Pronunciation can change the count.",
+        q: "Why does the Syllable Counter give a different count than I expect?",
+        a: "The tool estimates syllables based on vowel groups and common patterns. Your accent, speech speed, or the specific context of the word may result in a different spoken count. For words with variable pronunciation — like 'interest', 'different', or 'chocolate' — both counts can be correct depending on the speaker.",
       },
       {
-        q: "Can Word Helper estimate paragraphs?",
-        a: "Yes. It can estimate words, sentences, total syllables, and average syllables per word.",
+        q: "How many syllables does 'comfortable' have?",
+        a: "Careful pronunciation gives four syllables: COM-fort-a-ble. Relaxed natural speech often compresses this to three (COMF-ter-ble) or even two in very fast speech. For poetry, either count can be valid depending on the meter of the line.",
+      },
+      {
+        q: "Can Word Helper count syllables in a full poem or paragraph?",
+        a: "Yes. The Syllable Counter can estimate syllables for any amount of text — a word, a line, a stanza, or a full paragraph. The summary shows total syllables, word count, sentence count, and average syllables per word.",
+      },
+      {
+        q: "Is there always one correct syllable count for a word?",
+        a: "Not always. Accent, dialect, speech speed, and poetic usage can all affect the spoken syllable count. The Syllable Counter gives a standard estimate, but the correct count for your purpose — especially in poetry or song — depends on how the word is actually spoken in that context.",
+      },
+      {
+        q: "How do poets adjust syllable counts for meter?",
+        a: "Poets use elision (dropping a syllable: 'o'er' for 'over') and expansion (stretching a syllable: reading 'power' as two syllables). Both techniques were standard in classical English verse and remain available in modern poetry. A syllable counter gives the default count; the poet then adjusts based on the meter.",
       },
     ],
   },
@@ -872,35 +1018,59 @@ export const guides = [
   {
     href: "/guides/use-word-helper-for-word-games/",
     title: "How to Use Word Helper for Word Games",
-    h1: "How to Use Word Helper for Word Games",
-    metaTitle: "How to Use Word Helper for Word Games",
+    h1: "How to Use Word Helper for Word Games — A Practical Strategy Guide",
+    metaTitle: "How to Use Word Helper for Word Games — Strategy and Tool Guide",
     metaDescription:
-      "Use Word Helper for scrambled letters, anagrams, starts-with clues, ends-with clues, and word length strategies.",
+      "A practical guide to using Word Helper for word games: scrambled letters, anagram clues, starts-with patterns, ends-with clues, wildcards, and word length strategy.",
     answer:
-      "For word games, start with the letters you have, then narrow results with length, starts-with, ends-with, and contains filters.",
+      "For word games, start with the Word Unscramble tool using all available letters, then narrow results using length, starts-with, ends-with, and contains filters based on board clues. Use the Anagram Solver for exact rearrangement clues. Use wildcards for blank tiles or unknown letters. Always confirm final answers against your game's accepted word list before playing.",
     body: [
       {
-        heading: "Start broad",
-        text: "Run the available letters first so you can see the full set of buildable words.",
+        heading: "Step 1 — Enter all available letters first",
+        text: "The first move in any word game session on Word Helper is to enter all the letters you have into the Word Unscramble tool and run a broad search with no filters. This gives you the complete set of valid words that can be built from your rack or tile set. Scan the results grouped by word length — longer words usually score higher, so review the longest group first. This full picture is your starting inventory before any board constraints are applied.",
       },
       {
-        heading: "Add board clues",
-        text: "Use pattern filters when the board gives you fixed letters or a required word length.",
+        heading: "Step 2 — Add board constraints as filters",
+        text: "After the broad search, apply filters that reflect what the game board tells you. If the board has a fixed starting letter, use the starts-with filter. If you know the word must end with a specific letter, use ends-with. If a letter must appear somewhere in the middle, use contains. If the game specifies a word length, use the minimum and maximum length filters to remove words that do not fit. Each filter reduces the result set to a focused list of candidates that match both your letters and the board's requirements.",
       },
       {
-        heading: "Check the game dictionary",
-        text: "Different games accept different word lists, so confirm a final answer in the game before playing.",
+        heading: "Step 3 — Use wildcards for blank tiles",
+        text: "Most word games include blank tiles or wild tiles that can represent any letter. In Word Helper, enter ? or * in the position of an unknown or blank tile. The tool treats the wildcard as a flexible letter that can fill missing gaps in otherwise valid words. For example, entering t?me returns 'time', 'tame', 'tome', and other words where the wildcard fills the second position. This makes blank tile strategy much easier because you can see every word the blank could complete.",
+      },
+      {
+        heading: "Step 4 — Switch to Anagram Solver for clue-based puzzles",
+        text: "Some word games and all cryptic crossword anagram clues expect every letter to be rearranged into one complete valid word. For these, use the Anagram Solver in exact mode. Exact mode only returns words that use every letter exactly once — it is stricter than Word Unscramble and correct for this type of clue. If exact mode returns nothing, switch to partial mode to see smaller words hidden in the letters, or return to Word Unscramble with the full set of letters.",
+      },
+      {
+        heading: "Step 5 — Verify results against the game's dictionary",
+        text: "Word Helper uses the public-domain ENABLE word list, which is a large, comprehensive English word source. However, different games use different official dictionaries: Scrabble uses TWL or Collins SOWPODS; Wordle uses a specific curated list; crossword games use their own databases. A word that appears in Word Helper results may not be accepted in every game. Always confirm a final answer in the game before playing — treat Word Helper results as a shortlist of candidates to check, not a guaranteed approved list.",
+      },
+      {
+        heading: "Prefix and suffix tools for partial-information clues",
+        text: "When a clue or board position gives you the first letters of a word without the rest, use the Prefix Finder. Enter the known starting letters and browse all words beginning with that pattern. Similarly, when you know the ending of a word, use the Suffix Finder. Both tools support length filters so you can narrow to words of the exact size required. For games where you gradually reveal letters — like Wordle — these tools help you generate plausible candidates from the letters you have confirmed.",
       },
     ],
-    links: ["/tools/word-unscramble/", "/tools/anagram-solver/", "/word-games/"],
+    links: ["/tools/word-unscramble/", "/tools/anagram-solver/", "/tools/prefix-finder/", "/tools/suffix-finder/", "/word-games/", "/guides/how-to-unscramble-letters/", "/guides/exact-anagram-vs-partial-anagram/"],
     faqs: [
       {
-        q: "Which tool is fastest for game letters?",
-        a: "Word Unscramble is the best starting point for available letters.",
+        q: "Which Word Helper tool should I use for word game letters?",
+        a: "Start with Word Unscramble for a broad inventory of buildable words. Use filters to narrow by length, starts-with, ends-with, or contains. Switch to Anagram Solver exact mode when a clue requires every letter to be used once. Use Prefix or Suffix Finder when you know part of the answer.",
       },
       {
-        q: "Can I search known endings?",
-        a: "Yes. Use the Suffix Finder or the ends-with filter.",
+        q: "How do I use a blank tile or wildcard with Word Helper?",
+        a: "Enter ? or * in the position of the blank tile or unknown letter in the Word Unscramble search. The tool treats the wildcard as a flexible letter that can match any letter needed to complete a valid word.",
+      },
+      {
+        q: "Are Word Helper results accepted in Scrabble?",
+        a: "Word Helper uses the ENABLE word list, not the official Scrabble dictionaries (TWL or Collins SOWPODS). Results may overlap significantly but are not guaranteed to match. Always verify a word in your game's accepted dictionary before playing it competitively.",
+      },
+      {
+        q: "What is the best strategy for getting high-scoring words in letter games?",
+        a: "Run a broad unscramble search first, then review the longest word group — longer words typically score more. Check whether any long words align with bonus squares on the board. Use filters to find words that combine your high-value letters with whatever letters are already on the board.",
+      },
+      {
+        q: "Can I search for words that contain a specific letter at a specific position?",
+        a: "Yes. Use the 'contains' filter to specify a letter that must appear somewhere in the word. For a specific position, combine the starts-with and ends-with filters with a length filter to narrow candidates to words of the right size with the right letters at the ends.",
       },
     ],
   },
@@ -946,30 +1116,68 @@ export const legalPages = [
     href: "/about/",
     title: "About Word Helper",
     h1: "About Word Helper",
-    metaTitle: "About Word Helper - Free Word Tools for Writing, Learning, and Games",
+    metaTitle: "About Word Helper — Word Intelligence Platform",
     metaDescription:
-      "Learn about Word Helper, a free word tools platform for word games, writing, vocabulary, rhymes, syllables, prefixes, and suffixes.",
-    body: [
-      "Word Helper is a free educational word-tools website available at https://wordhelper.online. It is built for moments when you have letters, sounds, or word patterns in your head and need clean results quickly — without ads cluttering the interface or vague results that waste your time.",
-      "The site provides six focused tools: Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, and Suffix Finder. Each tool has its own logic, result layout, and honest explanation of how it works and where it has limits.",
-      "Word Helper is useful for word-game players who need to find valid words from scrambled letter racks, writers who want rhyme options or rhythm checks for poems and lyrics, students and teachers looking for vocabulary and spelling patterns, and anyone who wants a quick word answer without a cluttered or deceptive tool.",
-      "The tools use letter-frequency matching for unscramble and anagram results, spelling-based and curated matching for rhymes, vowel-group estimation for syllable counts, and exact starts-with or ends-with matching for prefix and suffix searches. Every result area includes a plain explanation of the method and its limitations.",
-      "Word Helper does not claim that every result is the final authority for every game dictionary, accent, classroom rule, or style guide. Syllable counts can vary by accent. Rhyme quality depends on how a word is pronounced. The site labels these limits clearly so users can apply their own judgment.",
-      "The site is maintained as an independent educational resource. Tool accuracy, page content, and user experience are reviewed and improved based on real feedback. If you notice an error, a missing word, a confusing result, or a content issue, contact Word Helper at hello@wordhelper.online.",
-      "Word Helper is funded in part by advertising through Google AdSense. Ad placements are chosen to support the site without interfering with tool use or result areas.",
+      "Learn about Word Helper: what it is, how Word Lab, Word Explorer, Learn English, Word Lists, and Practice work, and how content is created.",
+    bodyHtml: [
+      `<h2>What Word Helper is</h2>
+      <p>Word Helper is a free word intelligence platform at <a href="https://wordhelper.online">wordhelper.online</a>. It is built for every kind of word task — solving scrambled letters, finding rhymes, counting syllables, exploring word meanings, building vocabulary, and learning language patterns. Every section connects back to the same comprehensive dictionary foundation.</p>`,
+      `<h2>Word Lab — six interactive Word Experiences</h2>
+      <p>Word Lab gives you six focused tools for specific word tasks. Each one has a clear input, honest results, and a plain explanation of what the tool can and cannot do.</p>
+      <ul>
+        <li><strong><a href="/tools/word-unscramble/">Word Unscramble</a></strong> — finds all valid words that can be built from the letters you enter, using letter-frequency matching so only genuinely buildable words appear.</li>
+        <li><strong><a href="/tools/anagram-solver/">Anagram Solver</a></strong> — finds exact anagrams that use every letter once, or partial anagrams (smaller words hidden inside a larger set of letters).</li>
+        <li><strong><a href="/tools/rhyme-finder/">Rhyme Finder</a></strong> — returns rhyme ideas grouped as perfect rhymes, near rhymes, and similar-ending words.</li>
+        <li><strong><a href="/tools/syllable-counter/">Syllable Counter</a></strong> — estimates the spoken syllable count for any word, sentence, or paragraph, with a word-by-word breakdown.</li>
+        <li><strong><a href="/tools/prefix-finder/">Prefix Finder</a></strong> — finds words that begin with the exact letters you type, for vocabulary study, spelling patterns, and word-game use.</li>
+        <li><strong><a href="/tools/suffix-finder/">Suffix Finder</a></strong> — finds words that end with the exact letters you type, for grammar study, spelling endings, and creative writing.</li>
+      </ul>`,
+      `<h2>Word Explorer — dictionary-grade word pages</h2>
+      <p>Word Explorer is Word Helper's dictionary section. Each published word page includes a full definition, pronunciation guide, syllable breakdown, part of speech, synonyms, antonyms, word family, etymology, example sentences, and a memory tip. Everything is written originally for Word Helper — no content is copied from any other dictionary.</p>
+      <p>The dictionary covers a wide range of English words. Words are published as full pages only when they meet a quality standard that includes original definition, pronunciation, examples, and word family. More pages are added regularly as words pass quality review.</p>`,
+      `<h2>Learn English, Word Lists, and Practice</h2>
+      <p><a href="/learn-english/">Learn English</a> provides plain-language vocabulary guides covering topics like building vocabulary, understanding word roots, how syllables work, how rhyme works, spelling patterns, and memory techniques.</p>
+      <p><a href="/word-lists/">Word Lists</a> are hand-curated collections of words organised by theme — common English words, positive vocabulary, academic words, words for writers, strong action verbs, and descriptive adjectives. Every word in a list includes its meaning and an example sentence.</p>
+      <p><a href="/practice/">Practice</a> contains vocabulary quizzes built from Word Explorer definitions. You see a definition and choose the correct word from four options. No account, no sign-up, no score pressure — just a quick vocabulary check.</p>`,
+      `<h2>Who Word Helper is for</h2>
+      <p>Word Helper is useful for word-game players who need valid words from scrambled letters, writers who want rhyme options or rhythm checks, students and teachers looking for vocabulary and spelling patterns, English learners building their word knowledge, and anyone who wants a focused word answer without a cluttered or misleading tool.</p>`,
+      `<h2>Honest limits</h2>
+      <p>Word Helper does not claim authority over every game dictionary, classroom rule, or style guide. Syllable counts are estimates — they can vary by accent, dialect, and speech speed. Rhyme results depend on pronunciation data availability. Dictionary pages are growing; not every English word has a full page yet. The site labels these limits clearly on every relevant page so you can make your own judgment about the results.</p>`,
+      `<h2>Reporting errors and contacting us</h2>
+      <p>The site is maintained as an independent educational resource. If you notice an error, a confusing result, a missing word, or any content concern, <a href="/contact/">contact Word Helper at hello@wordhelper.online</a>. Content corrections and tool accuracy issues are reviewed and fixed as quickly as possible.</p>`,
     ],
   },
   {
     href: "/contact/",
     title: "Contact Word Helper",
     h1: "Contact Word Helper",
-    metaTitle: "Contact Word Helper",
+    metaTitle: "Contact Word Helper — Questions, Corrections, and Feedback",
     metaDescription:
-      "Contact Word Helper for questions, corrections, feedback, or website-related requests.",
-    body: [
-      "For questions, corrections, feedback, or website-related requests, contact Word Helper at hello@wordhelper.online.",
-      "Please include the page URL and a short description if you are reporting a tool result, spelling issue, accessibility concern, or content correction.",
-      "Word Helper is maintained as an educational word-tools website. We review feedback to improve tool accuracy, page clarity, and the overall user experience.",
+      "Contact Word Helper for tool questions, word corrections, accessibility feedback, or content improvement suggestions. We respond within a few business days.",
+    bodyHtml: [
+      `<h2>How to reach us</h2>
+      <p>Send an email to <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>. We respond to all messages personally — no automated replies, no support tickets. Here are the most common reasons people contact us:</p>
+      <ul>
+        <li><strong>Tool result questions or corrections</strong> — if a word is missing, a result seems wrong, or a filter is not working as expected</li>
+        <li><strong>Missing word reports</strong> — if a word you searched for is not in the dictionary or is missing pronunciation, examples, or synonyms</li>
+        <li><strong>Accessibility feedback</strong> — if any part of the site is difficult to use with a screen reader, keyboard, or other assistive technology</li>
+        <li><strong>Content corrections or factual errors</strong> — if a definition, etymology, syllable count, or pronunciation guide contains an error</li>
+        <li><strong>General feedback or improvement suggestions</strong> — if you have ideas for tools, word lists, guides, or features that would make Word Helper more useful</li>
+        <li><strong>Copyright or content concerns</strong> — if you believe any Word Helper content may overlap with copyrighted material you hold or represent</li>
+        <li><strong>Partnership or collaboration inquiries</strong> — if you represent an educational organisation, publisher, or technology company interested in working with Word Helper</li>
+      </ul>`,
+      `<h2>What to include in your message</h2>
+      <p>For tool-related reports, please include the page URL and the specific input you used. For example: <em>&ldquo;I searched for 'tca' on the Word Unscramble page and expected to see 'cat' but it did not appear in the results.&rdquo;</em> The more specific your description, the faster we can reproduce the issue and fix it.</p>
+      <p>For definition or content corrections, include the word page URL, the section you believe contains an error, and a brief explanation of what you think is incorrect and why. We take content accuracy seriously and investigate every report.</p>
+      <p>For accessibility issues, describe what you were trying to do, what assistive technology or browser you were using, and what happened instead of what you expected. Accessibility reports are treated as a high priority.</p>`,
+      `<h2>Response time</h2>
+      <p>Word Helper is maintained as an independent educational platform. We aim to read and respond to all feedback within two to five business days. Tool corrections and content fixes are prioritized and addressed as quickly as possible — confirmed errors are usually fixed within 24 hours of verification.</p>
+      <p>We do not guarantee a response to every message, but we read every one and use the feedback to improve the site. If your issue requires a longer investigation, we will acknowledge your message while we look into it.</p>`,
+      `<h2>What we do with your message</h2>
+      <p>Your email address and message content are used only to respond to your request and, where relevant, to improve the website. We do not sell, share, or publish contact information. We do not add you to any mailing list without explicit permission. Contact data is retained only as long as needed to address your inquiry and is then deleted.</p>
+      <p>For more detail about how Word Helper handles personal data, see the <a href="/privacy-policy/">Privacy Policy</a>.</p>`,
+      `<h2>Other ways to explore Word Helper</h2>
+      <p>If you have a question about how a specific tool works, the <a href="/guides/">Word Helper Guides</a> cover how to get the best results from each tool. If you are looking for information about how content is created or reviewed, the <a href="/editorial-policy/">Editorial Policy</a> explains our standards. If you have a question about advertising, see the <a href="/affiliate-disclosure/">Affiliate Disclosure</a>.</p>`,
     ],
   },
   {
@@ -994,15 +1202,27 @@ export const legalPages = [
     href: "/terms/",
     title: "Terms and Conditions",
     h1: "Terms and Conditions",
-    metaTitle: "Terms and Conditions - Word Helper",
+    metaTitle: "Terms and Conditions — Word Helper",
     metaDescription:
-      "Read the Word Helper Terms and Conditions for use of free educational word tools on wordhelper.online.",
-    body: [
-      "These Terms and Conditions apply to Word Helper at https://wordhelper.online.",
-      "Word Helper provides free educational word tools for writing, learning, solving, and creative word exploration. You are responsible for how you use the results.",
-      "Tool results are provided for convenience and may vary by dictionary, word game, pronunciation, accent, dialect, or classroom rule.",
-      "Do not misuse this website, attempt to interfere with its operation, or rely on it for legal, medical, financial, or other professional advice.",
-      "If you have questions about these terms, contact us at hello@wordhelper.online.",
+      "Read the Word Helper Terms and Conditions for use of free educational word tools, word explorer pages, learn guides, word lists, and practice quizzes on wordhelper.online.",
+    bodyHtml: [
+      `<h2>Acceptance of terms</h2>
+      <p>These Terms and Conditions govern your use of Word Helper at <a href="https://wordhelper.online">wordhelper.online</a>. By using any part of this website — including the Word Lab tools, Word Explorer dictionary pages, Learn English guides, Word Lists, or Practice quizzes — you agree to these terms. If you do not agree, do not use the website.</p>`,
+      `<h2>What Word Helper provides</h2>
+      <p>Word Helper provides free educational word tools for writing support, vocabulary learning, word game play, spelling pattern discovery, and creative word exploration. The tools include Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, and Suffix Finder. The site also includes dictionary-quality word pages, curated word lists, guided learning articles, and vocabulary quizzes.</p>
+      <p>All tools, word pages, guides, lists, and quizzes are provided free of charge with no account or registration required. The site may display advertising served by third-party providers including Google AdSense.</p>`,
+      `<h2>Accuracy and limitations of results</h2>
+      <p>Tool results are provided for convenience and educational support. They may vary depending on the word game dictionary, pronunciation standard, accent, dialect, regional usage, or classroom rule being applied. Word Helper does not guarantee that any result will be accepted in any specific game, contest, publication, classroom, or professional context.</p>
+      <p>Syllable counts are estimates. Rhyme suggestions include brainstorming aids that should be verified by reading aloud. Unscramble and anagram results come from the public-domain ENABLE word list, which may not match every game's official word list. These limitations are disclosed on each relevant page.</p>`,
+      `<h2>Permitted use</h2>
+      <p>You may use Word Helper for personal, educational, creative, and non-commercial purposes. You may share links to Word Helper pages. You may use tool results and word content for your own learning, writing, and word game play.</p>
+      <p>You may not copy, republish, redistribute, scrape, or reproduce Word Helper's original definitions, examples, guides, or other editorial content for any commercial purpose without written permission. You may not attempt to reverse engineer, scrape at scale, overload, or interfere with the operation of this website.</p>`,
+      `<h2>No professional advice</h2>
+      <p>Word Helper is an educational word-tools platform. Nothing on this site constitutes legal, medical, financial, linguistic authority, or other professional advice. Do not rely on Word Helper results for professional, academic, publishing, legal, or medical purposes without independent verification.</p>`,
+      `<h2>Third-party services</h2>
+      <p>Word Helper uses Google AdSense for advertising and may use web analytics services to understand how the site is used. These services are governed by their own terms and privacy policies. Word Helper has no responsibility for the practices of third-party services.</p>`,
+      `<h2>Changes to these terms</h2>
+      <p>Word Helper reserves the right to update these Terms and Conditions at any time. Continued use of the website after any change constitutes your acceptance of the updated terms. If you have questions about these terms, contact us at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>`,
     ],
   },
   {
@@ -1012,11 +1232,19 @@ export const legalPages = [
     metaTitle: "Disclaimer - Word Helper",
     metaDescription:
       "Read the Word Helper disclaimer about word lists, syllable estimates, rhyme suggestions, and educational use.",
-    body: [
-      "Word Helper provides educational word tools and practical estimates. It is not a guaranteed authority for every dictionary, word game, school assignment, pronunciation, accent, or writing context.",
-      "Unscramble, anagram, prefix, and suffix results depend on the available word list. Rhyme results may include spelling-based fallback suggestions. Syllable counts can vary by accent, dialect, and poetic usage.",
-      "Use Word Helper as a helpful drafting and discovery aid, then apply your own judgment or the rule set required by your game, class, editor, or publication.",
-      "If you have questions about this disclaimer, contact us at hello@wordhelper.online.",
+    bodyHtml: [
+      `<h2>Educational purpose</h2>
+      <p>Word Helper is an educational platform intended to support learning, creativity, and word exploration. All tools, word pages, guides, and practice sessions are provided for educational purposes. Word Helper is not a legal, medical, financial, or professional authority on language.</p>`,
+      `<h2>Word meanings vary by context</h2>
+      <p>English word meanings are not fixed. The same word may carry different meanings in different contexts, fields, time periods, or regions. Definitions on Word Helper reflect common general meanings and are written for learning purposes. They do not cover every technical, legal, medical, or domain-specific use of a word. For specialized meanings in professional contexts, consult authoritative sources in the relevant field.</p>`,
+      `<h2>Pronunciation and syllable counts vary by accent</h2>
+      <p>Pronunciation guides and syllable counts on Word Helper are practical estimates, not phonetically guaranteed transcriptions. Spoken English varies significantly by accent, dialect, region, and speech speed. A syllable count that is common in one accent may differ in another. Pronunciation is shown as a guide to help learners, not as the sole correct form. Always check pronunciation aloud in the context where it matters.</p>`,
+      `<h2>Word tool results depend on source word lists</h2>
+      <p>Word Unscramble, Anagram Solver, Prefix Finder, and Suffix Finder results come from the public-domain ENABLE word list. A word that appears in results is valid in this list but may not be accepted by every game dictionary, classroom rule, or publication style guide. Word Helper does not guarantee that any result will be accepted in a specific game, class, or editorial context.</p>`,
+      `<h2>Rhyme results are brainstorming aids</h2>
+      <p>Rhyme suggestions from Word Helper include perfect rhymes, near rhymes, and spelling-based similar endings. Similar-ending words do not always sound like rhymes because English spelling and pronunciation do not always match. Rhyme results should be read aloud and evaluated for meaning, sound, and audience before use in published writing, lyrics, or spoken performance.</p>`,
+      `<h2>No warranty</h2>
+      <p>Word Helper is provided as-is for educational and informational purposes. The accuracy of any specific result is not guaranteed. Use Word Helper as a drafting and discovery aid, then apply your own judgment or the specific rules required by your game, class, editor, publisher, or professional context. If you have questions, contact us at hello@wordhelper.online.</p>`,
     ],
   },
   {
@@ -1026,11 +1254,21 @@ export const legalPages = [
     metaTitle: "Editorial Policy - Word Helper",
     metaDescription:
       "Learn how Word Helper writes, reviews, and maintains educational word-tool content.",
-    body: [
-      "Word Helper content is written to support real word tasks: finding words from letters, comparing rhymes, counting syllables, studying spelling patterns, and learning vocabulary.",
-      "Pages should be specific, useful, and honest about tool limits. We avoid fake reviews, fake ratings, exaggerated authority claims, and filler written only for search engines.",
-      "Visible FAQ content should match any FAQ schema. Tool explanations should reflect the actual logic used by the page.",
-      "Corrections and feedback can be sent to hello@wordhelper.online.",
+    bodyHtml: [
+      `<h2>How word content is created</h2>
+      <p>Every definition, example sentence, usage note, memory tip, and etymology in Word Explorer is written originally for Word Helper. No content is copied, paraphrased closely, or adapted from Oxford, Cambridge, Merriam-Webster, Collins, or any other proprietary dictionary. The ENABLE word list (public domain) provides the headword foundation. All textual content explaining those words is original.</p>`,
+      `<h2>How data sources are handled</h2>
+      <p>Word Helper uses the public-domain ENABLE word list as its dictionary backbone. This list covers valid English words and is used solely as a word inventory — its presence does not imply any editorial quality claim about individual words. Tool results (unscramble, anagram, prefix, suffix) are drawn from this list with letter-frequency logic. Rhyme and syllable tools use pattern-matching logic. All source usage is documented and legally verified before deployment.</p>`,
+      `<h2>How corrections are reviewed</h2>
+      <p>Content corrections can be submitted by email to hello@wordhelper.online. Reports of factual errors, definition inaccuracies, broken tool results, or misleading content are treated as high priority. Corrections are reviewed, verified, and applied to the source files. Updated pages are rebuilt and redeployed as quickly as possible. We do not wait for a scheduled update cycle to fix confirmed errors.</p>`,
+      `<h2>How copyrighted content is avoided</h2>
+      <p>All editorial content on Word Helper is created without referencing proprietary dictionary text. Writers are instructed not to consult Oxford, Cambridge, Merriam-Webster, or similar sources when drafting definitions or examples. No paraphrasing of copyrighted definitions is acceptable. If a correction report identifies content that may be too similar to a copyrighted source, that content is removed immediately pending a full original rewrite.</p>`,
+      `<h2>Quality standards for published word pages</h2>
+      <p>A word page is published in Word Explorer only when it meets all of the following: it has an original full definition, at least two original example sentences, a pronunciation guide, a syllable breakdown, a confirmed part of speech, at least three synonyms and three antonyms, a word family section, an etymology note, and a memory tip. Pages that do not meet these criteria are held as drafts and not shown in the sitemap or indexed by search engines.</p>`,
+      `<h2>FAQ and schema accuracy</h2>
+      <p>Every FAQ visible on a Word Helper page is reflected accurately in the page's FAQ schema. Schema is not added for content that is not visible to the user. Tool explanations in schemas reflect the actual logic used by the tool on that page.</p>`,
+      `<h2>How to report a content issue</h2>
+      <p>Send a description of the issue to hello@wordhelper.online, including the URL of the page and as much detail as possible about the error. All reports are read and responded to within a few business days.</p>`,
     ],
   },
   {
@@ -1048,6 +1286,29 @@ export const legalPages = [
       "You can control, disable, or delete cookies through your browser settings. Clearing localStorage will reset your theme preference, recent tools list, and recent inputs. Disabling third-party cookies will affect ad personalization but will not affect the core word-tool functionality of this site.",
       "To opt out of Google personalized advertising, visit https://adssettings.google.com. For more information about Google's data practices, see the Google Privacy Policy at https://policies.google.com/privacy.",
       "If you have questions about this policy, contact us at hello@wordhelper.online.",
+    ],
+  },
+  {
+    href: "/affiliate-disclosure/",
+    title: "Affiliate Disclosure",
+    h1: "Affiliate Disclosure",
+    metaTitle: "Affiliate Disclosure — Word Helper",
+    metaDescription:
+      "Read the Word Helper affiliate disclosure: how advertising works on this site, how potential affiliate relationships would be disclosed, and how Word Helper earns to stay free.",
+    bodyHtml: [
+      `<h2>About Word Helper's independence</h2>
+      <p>Word Helper is an independent educational word-tools platform. The site is built and maintained as a free resource for word-game players, writers, students, teachers, and English learners. All tool pages, dictionary pages, learning guides, word lists, and quizzes are created independently with no influence from advertisers, sponsors, or external commercial partners.</p>`,
+      `<h2>How Word Helper is supported</h2>
+      <p>Word Helper displays advertising through Google AdSense and similar advertising networks. These advertisements are served automatically by Google and its advertising partners based on your browsing context. Revenue from advertising helps cover the costs of hosting, development, and maintaining the content on this site.</p>
+      <p>Advertisements on Word Helper are clearly separated from editorial content. The placement of an advertisement near a word page, tool page, or guide does not represent an endorsement by Word Helper of any product or service advertised.</p>`,
+      `<h2>Affiliate links</h2>
+      <p>At this time, Word Helper does not use affiliate links as a core part of the site experience. If affiliate links, sponsored recommendations, sponsored word lists, or paid placements are added in the future, each instance will be clearly labeled with a disclosure such as "affiliate link", "sponsored", or "advertisement" placed near the relevant link or content.</p>
+      <p>Any future affiliate relationships will be subject to these conditions: they will not influence which words, tools, guides, or educational content appear on the site; they will not affect the accuracy or completeness of tool results; and they will not be used in a way that misleads users about the nature of the relationship.</p>`,
+      `<h2>Editorial independence</h2>
+      <p>All editorial decisions on Word Helper — which words to include, how definitions are written, which guides are published, and how tools work — are made based on educational usefulness and quality standards. Advertising revenue, affiliate compensation, and commercial relationships do not influence these decisions.</p>
+      <p>Word Helper's Editorial Policy explains in detail how content is created, reviewed, and corrected. If you believe any content on this site has been commercially influenced in a way that is not disclosed, please contact us at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>`,
+      `<h2>Questions about commercial relationships</h2>
+      <p>If you have questions about how Word Helper is supported, what advertising is shown, or any commercial relationship that may affect this site, contact us at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>. We are committed to being transparent about how this free educational platform sustains itself.</p>`,
     ],
   },
 ];

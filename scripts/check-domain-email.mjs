@@ -20,11 +20,16 @@ const badEmailPatterns = [
   ["contact", "@", "your", "domain", ".com"].join(""),
   ["hello", "@", "example", ".com"].join(""),
 ];
+const localOnlyTooling = new Set([
+  "scripts/check-domain-email.mjs",
+  "scripts/dev-server.mjs",
+  "scripts/keep-local-server.mjs",
+]);
 
 async function walk(dir) {
   const { readdir } = await import("node:fs/promises");
   for (const entry of await readdir(dir, { withFileTypes: true })) {
-    if (["node_modules", ".git"].includes(entry.name)) continue;
+    if (["node_modules", ".git", ".claude"].includes(entry.name)) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       await walk(full);
@@ -41,13 +46,13 @@ for (const file of files) {
   const text = await readFile(file, "utf8").catch(() => "");
   const rel = path.relative(root, file);
   for (const pattern of [...badDomainPatterns, ...badEmailPatterns]) {
+    if (localOnlyTooling.has(rel) && pattern === "127.0.0.1") continue;
     if (text.includes(pattern)) issues.push(`${rel}: ${pattern}`);
   }
   if (
     text.includes("localhost") &&
     !rel.startsWith("scripts/") &&
-    rel !== "README.md" &&
-    !rel.startsWith("dist/")
+    rel !== "README.md"
   ) {
     issues.push(`${rel}: localhost`);
   }

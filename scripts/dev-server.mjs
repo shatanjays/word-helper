@@ -6,10 +6,13 @@ import path from "node:path";
 
 const root = process.cwd();
 const distDir = path.join(root, "dist");
+const defaultPort = 3006;
+const hasPortArg = process.argv.includes("--port");
+const strictPort = process.argv.includes("--strict-port") || process.env.STRICT_PORT === "1";
 const requestedPort = Number(
-  process.argv.includes("--port")
+  hasPortArg
     ? process.argv[process.argv.indexOf("--port") + 1]
-    : process.env.PORT || 3000,
+    : process.env.PORT || defaultPort,
 );
 
 if (!existsSync(path.join(distDir, "index.html"))) {
@@ -71,8 +74,13 @@ async function respond(request, response) {
 function listenOn(port) {
   const server = createServer(respond);
   server.on("error", (error) => {
-    if (error.code === "EADDRINUSE") {
+    if (error.code === "EADDRINUSE" && !strictPort) {
       listenOn(port + 1);
+      return;
+    }
+    if (error.code === "EADDRINUSE") {
+      console.error(`Port ${port} is already in use. Stop that process or choose another port.`);
+      process.exitCode = 1;
       return;
     }
     console.error(error);
@@ -83,4 +91,4 @@ function listenOn(port) {
   });
 }
 
-listenOn(Number.isFinite(requestedPort) ? requestedPort : 3000);
+listenOn(Number.isFinite(requestedPort) ? requestedPort : defaultPort);

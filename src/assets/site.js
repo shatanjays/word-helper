@@ -197,12 +197,12 @@
   };
 
   const toolMeta = {
-    "word-unscramble": { title: "Word Unscramble", href: "/tools/word-unscramble/", intro: "Find words from scrambled letters." },
-    "anagram-solver": { title: "Anagram Solver", href: "/tools/anagram-solver/", intro: "Solve exact and partial anagrams." },
-    "rhyme-finder": { title: "Rhyme Finder", href: "/tools/rhyme-finder/", intro: "Find perfect and near rhymes." },
-    "syllable-counter": { title: "Syllable Counter", href: "/tools/syllable-counter/", intro: "Count syllables word by word." },
-    "prefix-finder": { title: "Prefix Finder", href: "/tools/prefix-finder/", intro: "Find words starting with a pattern." },
-    "suffix-finder": { title: "Suffix Finder", href: "/tools/suffix-finder/", intro: "Find words ending with a pattern." },
+    "word-unscramble": { title: "Word Unscramble", href: "/tools/word-unscramble/", intro: "Find words from scrambled letters.", keywords: ["unscramble", "letters", "scrabble", "word game", "build"] },
+    "anagram-solver": { title: "Anagram Solver", href: "/tools/anagram-solver/", intro: "Solve exact and partial anagrams.", keywords: ["anagram", "rearrange", "phrase", "letters"] },
+    "rhyme-finder": { title: "Rhyme Finder", href: "/tools/rhyme-finder/", intro: "Find perfect and near rhymes.", keywords: ["rhyme", "rhyming", "poem", "lyrics", "sound"] },
+    "syllable-counter": { title: "Syllable Counter", href: "/tools/syllable-counter/", intro: "Count syllables word by word.", keywords: ["syllable", "rhythm", "meter", "poem", "count"] },
+    "prefix-finder": { title: "Prefix Finder", href: "/tools/prefix-finder/", intro: "Find words starting with a pattern.", keywords: ["prefix", "starts", "beginning", "start"] },
+    "suffix-finder": { title: "Suffix Finder", href: "/tools/suffix-finder/", intro: "Find words ending with a pattern.", keywords: ["suffix", "ends", "ending", "tion", "ing"] },
   };
 
   function initTheme() {
@@ -256,21 +256,78 @@
     }
   }
 
+  function getFavorites() {
+    try {
+      return JSON.parse(localStorage.getItem("wh-favorites") || "[]");
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function setFavorites(list) {
+    try {
+      localStorage.setItem("wh-favorites", JSON.stringify(list));
+    } catch (_) {}
+  }
+
+  function initFavoriteButton() {
+    const btn = document.querySelector(".favorite-tool-btn");
+    if (!btn) return;
+    const toolId = btn.dataset.toolId;
+    if (!toolId) return;
+
+    function refreshBtn() {
+      const favs = getFavorites();
+      const saved = favs.includes(toolId);
+      btn.setAttribute("aria-pressed", String(saved));
+      btn.title = saved ? "Remove from saved tools" : "Save this tool";
+      btn.querySelector(".fav-label").textContent = saved ? "Saved" : "Save tool";
+      btn.querySelector(".fav-icon-add").hidden = saved;
+      btn.querySelector(".fav-icon-saved").hidden = !saved;
+    }
+
+    refreshBtn();
+    btn.addEventListener("click", () => {
+      const favs = getFavorites();
+      const idx = favs.indexOf(toolId);
+      if (idx >= 0) {
+        favs.splice(idx, 1);
+      } else {
+        favs.unshift(toolId);
+      }
+      setFavorites(favs.slice(0, 6));
+      refreshBtn();
+    });
+  }
+
   function initRecentTools() {
     const section = document.getElementById("recent-tools-section");
     const list = document.getElementById("recent-tools-list");
     if (!section || !list) return;
     try {
+      const favs = getFavorites();
       const recent = JSON.parse(localStorage.getItem("wh-recent-tools") || "[]");
-      if (!recent.length) return;
-      const html = recent
+
+      const favCards = favs
         .slice(0, 3)
+        .map((id) => {
+          const meta = toolMeta[id];
+          if (!meta) return "";
+          return `<a class="resource-card" href="${meta.href}"><strong>${meta.title}</strong><span>${meta.intro}</span><small class="recent-tool-badge saved-badge">Saved</small></a>`;
+        })
+        .filter(Boolean);
+
+      const recentCards = recent
+        .filter((id) => !favs.includes(id))
+        .slice(0, 3 - favCards.length)
         .map((id) => {
           const meta = toolMeta[id];
           if (!meta) return "";
           return `<a class="resource-card" href="${meta.href}"><strong>${meta.title}</strong><span>${meta.intro}</span><small class="recent-tool-badge">Recently used</small></a>`;
         })
-        .join("");
+        .filter(Boolean);
+
+      const html = [...favCards, ...recentCards].join("");
       if (html) {
         list.innerHTML = html;
         section.hidden = false;
@@ -324,6 +381,24 @@
       }));
   }
 
+  function groupBySort(words, sort = "length-desc") {
+    if (sort === "length-asc") return groupByLength(words, false);
+    if (sort === "alpha") {
+      const sorted = [...words].sort((a, b) => a.localeCompare(b));
+      const groups = new Map();
+      for (const word of sorted) {
+        const key = word[0].toUpperCase();
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(word);
+      }
+      return Array.from(groups.entries()).map(([letter, list]) => ({
+        title: `${letter} words`,
+        words: list,
+      }));
+    }
+    return groupByLength(words, true);
+  }
+
   async function copyText(text) {
     if (!text) return false;
     try {
@@ -345,12 +420,14 @@
     const results = shell.querySelector(".results");
     const copyAll = shell.querySelector(".copy-all");
     const hint = shell.querySelector(".bookmark-hint");
+    const quickJump = shell.querySelector(".quick-jump");
     if (!messageBox || !results) return;
     messageBox.textContent = message;
     messageBox.className = `tool-message ${kind}`;
     messageBox.hidden = false;
     results.innerHTML = "";
     if (hint) hint.hidden = true;
+    if (quickJump) quickJump.hidden = true;
     setCopyButton(copyAll, false, "");
   }
 
@@ -367,6 +444,7 @@
     const results = shell.querySelector(".results");
     const copyAll = shell.querySelector(".copy-all");
     const hint = shell.querySelector(".bookmark-hint");
+    const quickJump = shell.querySelector(".quick-jump");
     const allWords = groups.flatMap((group) => group.words);
     messageBox.hidden = true;
     results.innerHTML = `${meta ? `<p class="result-meta">${escapeHtml(meta)}</p>` : ""}
@@ -385,10 +463,11 @@
       : allWords.join(", ");
     setCopyButton(copyAll, allWords.length > 0, copyText);
     if (hint && allWords.length > 0) hint.hidden = false;
+    if (quickJump && allWords.length > 0) quickJump.hidden = false;
   }
 
   function wordChip(word) {
-    return `<span class="word-chip">${escapeHtml(word)}<button type="button" data-copy-one="${escapeHtml(
+    return `<span class="word-chip"><span class="word-chip-main"><strong>${escapeHtml(word)}</strong><small>${word.length} letters</small></span><button type="button" data-copy-one="${escapeHtml(
       word,
     )}" aria-label="Copy ${escapeHtml(word)}">Copy</button></span>`;
   }
@@ -571,6 +650,7 @@
     const contains = lettersOnly(form.elements.contains.value);
     const min = getNumber(form, "min", 2);
     const max = getNumber(form, "max", raw.length);
+    const sort = form.elements.sort?.value || "length-desc";
     const inputFreq = frequency(letters);
     const results = WORD_ENTRIES.filter((entry) => {
       const word = entry.word;
@@ -598,7 +678,7 @@
     const meta = `${results.length} buildable word${results.length === 1 ? "" : "s"}${filters.length ? `, ${filters.join(", ")}` : ""}.`;
     trackToolUsage("word-unscramble");
     saveRecentInput("word-unscramble", raw);
-    renderWordGroups(shell, groupByLength(results, true), meta, {
+    renderWordGroups(shell, groupBySort(results, sort), meta, {
       title: "Word Unscramble",
       input: `Input: ${raw}`,
     });
@@ -677,10 +757,16 @@
 
   function getRhymeGroups(word) {
     if (knownRhymes[word]) {
+      const perfect = knownRhymes[word].perfect.filter(inWordsOrKnown);
+      const near = knownRhymes[word].near.filter(inWordsOrKnown);
+      const similar = knownRhymes[word].similar.filter(inWordsOrKnown);
+      const multi = similar.filter((candidate) => candidate.length > word.length + 2);
+      const slant = similar.filter((candidate) => !multi.includes(candidate));
       return [
-        { title: "Perfect Rhymes", words: knownRhymes[word].perfect.filter(inWordsOrKnown) },
-        { title: "Near Rhymes", words: knownRhymes[word].near.filter(inWordsOrKnown) },
-        { title: "Similar Endings", words: knownRhymes[word].similar.filter(inWordsOrKnown) },
+        { title: "Perfect Rhymes", words: perfect },
+        { title: "Near Rhymes", words: near },
+        { title: "Slant Rhymes and Similar Endings", words: slant },
+        { title: "Multi-syllable Rhyme Ideas", words: multi },
       ].filter((group) => group.words.length);
     }
     const key = rhymeKey(word);
@@ -689,10 +775,12 @@
     const perfect = WORDS.filter((candidate) => candidate !== word && rhymeKey(candidate) === key).slice(0, 40);
     const near = WORDS.filter((candidate) => candidate !== word && !perfect.includes(candidate) && candidate.endsWith(last2)).slice(0, 40);
     const similar = WORDS.filter((candidate) => candidate !== word && !perfect.includes(candidate) && !near.includes(candidate) && candidate.endsWith(last3)).slice(0, 40);
+    const multi = WORDS.filter((candidate) => candidate !== word && !perfect.includes(candidate) && !near.includes(candidate) && !similar.includes(candidate) && candidate.length > word.length + 2 && candidate.endsWith(last3)).slice(0, 30);
     return [
       { title: "Perfect Rhymes", words: perfect },
       { title: "Near Rhymes", words: near },
-      { title: "Similar Endings", words: similar },
+      { title: "Slant Rhymes and Similar Endings", words: similar },
+      { title: "Multi-syllable Rhyme Ideas", words: multi },
     ].filter((group) => group.words.length);
   }
 
@@ -728,6 +816,7 @@
     const breakdown = words.map((word) => ({
       word,
       count: countSyllables(word),
+      division: estimateSyllableDivision(word),
     }));
     const total = breakdown.reduce((sum, item) => sum + item.count, 0);
     const sentenceMatches = text.match(/[^.!?]*[.!?]+/g) || [];
@@ -747,18 +836,20 @@
       <section class="result-group">
         <h3>Word-by-word breakdown <small>${breakdown.length} word${breakdown.length === 1 ? "" : "s"}</small></h3>
         <table class="syllable-table">
-          <thead><tr><th>Word</th><th>Syllables</th></tr></thead>
+          <thead><tr><th>Word</th><th>Division</th><th>Syllables</th></tr></thead>
           <tbody>${breakdown
-            .map((item) => `<tr><td>${escapeHtml(item.word)}</td><td>${item.count}</td></tr>`)
+            .map((item) => `<tr><td>${escapeHtml(item.word)}</td><td>${escapeHtml(item.division)}</td><td>${item.count}</td></tr>`)
             .join("")}</tbody>
         </table>
       </section>
       <p class="result-meta">Syllable counts can vary by accent, pronunciation, dialect, and poetic usage. This tool gives a practical estimate, not a guaranteed pronunciation authority.</p>`;
     const copyTextValue = `Word Helper — Syllable Counter\nInput: ${text.slice(0, 60)}${text.length > 60 ? "…" : ""}\n\nTotal Syllables: ${total}\nWords: ${words.length}\nSentences: ${sentenceCount}\nAvg Syllables Per Word: ${average}\n\nWord-by-word:\n${breakdown
-      .map((item) => `${item.word}: ${item.count}`)
+      .map((item) => `${item.word}: ${item.division} (${item.count})`)
       .join("\n")}`;
     setCopyButton(copyAll, true, copyTextValue);
     if (hint) hint.hidden = false;
+    const quickJumpSyl = shell.querySelector(".quick-jump");
+    if (quickJumpSyl) quickJumpSyl.hidden = false;
     trackToolUsage("syllable-counter");
     saveRecentInput("syllable-counter", text.slice(0, 80));
   }
@@ -781,6 +872,39 @@
     return Math.max(1, count);
   }
 
+  function estimateSyllableDivision(rawWord) {
+    const original = String(rawWord || "");
+    const word = original.toLowerCase().replace(/[^a-z]/g, "");
+    if (!word) return original;
+    const count = countSyllables(word);
+    if (count <= 1 || word.length <= count + 1) return original;
+    const vowels = "aeiouy";
+    const parts = [];
+    let current = "";
+    let vowelSeen = false;
+    for (let index = 0; index < word.length; index += 1) {
+      const char = word[index];
+      const next = word[index + 1] || "";
+      const nextNext = word[index + 2] || "";
+      current += char;
+      if (vowels.includes(char)) vowelSeen = true;
+      if (
+        vowelSeen &&
+        next &&
+        !vowels.includes(next) &&
+        vowels.includes(nextNext) &&
+        parts.length < count - 1 &&
+        current.length > 1
+      ) {
+        parts.push(current);
+        current = "";
+        vowelSeen = false;
+      }
+    }
+    if (current) parts.push(current);
+    return parts.length > 1 ? parts.join("-") : original;
+  }
+
   function runPrefix(shell, form) {
     const prefix = lettersOnly(form.elements.prefix.value.trim());
     if (!prefix) {
@@ -793,6 +917,7 @@
     }
     const min = getNumber(form, "min", Math.max(2, prefix.length));
     const max = getNumber(form, "max", 14);
+    const sort = form.elements.sort?.value || "alpha";
     const results = WORDS.filter((word) => word.startsWith(prefix) && word.length >= min && word.length <= max);
     if (!results.length) {
       renderMessage(shell, "No words found with that prefix. Try a shorter prefix such as \"pre\" instead of a full word beginning.", "empty");
@@ -801,7 +926,7 @@
     const meta = `${results.length} word${results.length === 1 ? "" : "s"} starting with "${prefix}". Matching is letter-based.`;
     trackToolUsage("prefix-finder");
     saveRecentInput("prefix-finder", prefix);
-    renderWordGroups(shell, groupByLength(results, false), meta, {
+    renderWordGroups(shell, groupBySort(results, sort), meta, {
       title: "Prefix Finder",
       input: `Prefix: ${prefix}`,
     });
@@ -819,6 +944,7 @@
     }
     const min = getNumber(form, "min", Math.max(2, suffix.length));
     const max = getNumber(form, "max", 14);
+    const sort = form.elements.sort?.value || "alpha";
     const results = WORDS.filter((word) => word.endsWith(suffix) && word.length >= min && word.length <= max);
     if (!results.length) {
       renderMessage(shell, "No words found with that suffix. Try removing extra letters or searching a shorter ending like \"ing\" instead of \"playing\".", "empty");
@@ -827,16 +953,887 @@
     const meta = `${results.length} word${results.length === 1 ? "" : "s"} ending with "${suffix}". Matching is letter-based.`;
     trackToolUsage("suffix-finder");
     saveRecentInput("suffix-finder", suffix);
-    renderWordGroups(shell, groupByLength(results, false), meta, {
+    renderWordGroups(shell, groupBySort(results, sort), meta, {
       title: "Suffix Finder",
       input: `Suffix: ${suffix}`,
     });
+  }
+
+  function initGlobalSearch() {
+    const forms = document.querySelectorAll(".global-search");
+    if (!forms.length) return;
+    const searchIndex = Array.isArray(window.WORD_HELPER_SEARCH_INDEX) ? window.WORD_HELPER_SEARCH_INDEX : [];
+    const wordPages = Array.isArray(window.WORD_HELPER_WORDS) ? window.WORD_HELPER_WORDS : [];
+    const wordSet = new Set(wordPages.map((w) => String(w).toLowerCase()));
+    const tools = Object.values(toolMeta);
+    const toolKeywords = {
+      unscramble: "/tools/word-unscramble/",
+      "word game": "/word-games/",
+      game: "/word-games/",
+      anagram: "/tools/anagram-solver/",
+      rhyme: "/tools/rhyme-finder/",
+      rhymes: "/tools/rhyme-finder/",
+      syllable: "/tools/syllable-counter/",
+      syllables: "/tools/syllable-counter/",
+      prefix: "/tools/prefix-finder/",
+      "starts with": "/tools/prefix-finder/",
+      suffix: "/tools/suffix-finder/",
+      "ends with": "/tools/suffix-finder/",
+    };
+
+    function routeForQuery(raw) {
+      const q = String(raw || "").trim().toLowerCase();
+      if (!q) return "";
+      if (wordSet.has(q)) return "/word/" + encodeURIComponent(q) + "/";
+      for (const [key, href] of Object.entries(toolKeywords)) {
+        if (q.includes(key)) {
+          const cleaned = q
+            .replace(key, "")
+            .replace(/\b(with|for|words|word|letters|letter|in|ending|starting)\b/g, "")
+            .trim();
+          return cleaned && href.startsWith("/tools/") ? href + "?q=" + encodeURIComponent(cleaned) : href;
+        }
+      }
+      return "/search/?q=" + encodeURIComponent(raw.trim());
+    }
+
+    function scoreItem(item, q, parts) {
+      const title = String(item.title || "").toLowerCase();
+      const text = item.searchText || `${item.title || ""} ${item.description || ""}`.toLowerCase();
+      let score = 0;
+      if (title === q) score += 80;
+      if (title.startsWith(q)) score += 45;
+      if (title.includes(q)) score += 25;
+      if (text.includes(q)) score += 15;
+      for (const part of parts) {
+        if (title.includes(part)) score += 8;
+        if (text.includes(part)) score += 3;
+      }
+      return score;
+    }
+
+    function searchItems(raw) {
+      const q = String(raw || "").trim().toLowerCase();
+      if (!q) return [];
+      const parts = q.split(/\s+/).filter((part) => part.length > 1);
+      const contentMatches = searchIndex
+        .map((item) => ({ ...item, score: scoreItem(item, q, parts) }))
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
+        .slice(0, 10)
+        .map((item) => ({ kind: item.type || "Page", title: item.title, intro: item.description, href: item.href }));
+      const wordMatches = wordPages
+        .filter((word) => {
+          const lower = String(word).toLowerCase();
+          return lower.startsWith(q) || (q.length > 2 && lower.includes(q));
+        })
+        .slice(0, 8)
+        .map((word) => ({
+          kind: "Word",
+          title: word,
+          intro: "Open definition, examples, synonyms, syllables, and word tools.",
+          href: "/word/" + encodeURIComponent(String(word).toLowerCase()) + "/",
+        }));
+      return [...contentMatches, ...wordMatches].slice(0, 12);
+    }
+
+    function hideSuggestions(form) {
+      const suggestions = form.querySelector(".search-suggestions");
+      if (!suggestions) return;
+      suggestions.hidden = true;
+      suggestions.innerHTML = "";
+    }
+
+    function suggestionRow(item) {
+      return `<a href="${escapeHtml(item.href)}" class="suggestion-row">
+        <span>${escapeHtml(item.kind)}</span>
+        <strong>${escapeHtml(item.title)}</strong>
+        <small>${escapeHtml(item.intro)}</small>
+      </a>`;
+    }
+
+    function renderSuggestions(form) {
+      const input = form.querySelector("input[name='q']");
+      const suggestions = form.querySelector(".search-suggestions");
+      if (!suggestions || !input) return;
+      const q = input.value.trim();
+      if (!q) {
+        hideSuggestions(form);
+        return;
+      }
+      const fallback = {
+        kind: "Search",
+        title: `Search for "${q}"`,
+        intro: "Open a full search results page.",
+        href: "/search/?q=" + encodeURIComponent(q),
+      };
+      const toolMatches = tools
+        .filter((tool) => {
+          const haystack = [tool.title, tool.intro, ...(tool.keywords || [])].join(" ").toLowerCase();
+          return haystack.includes(q.toLowerCase());
+        })
+        .slice(0, 3)
+        .map((tool) => ({ kind: "Tool", title: tool.title, intro: tool.intro, href: tool.href }));
+      const html = [...toolMatches, ...searchItems(q), fallback].slice(0, 7).map(suggestionRow).join("");
+      suggestions.innerHTML = html;
+      suggestions.hidden = !html;
+    }
+
+    function renderSearchResults() {
+      const resultsEl = document.getElementById("search-results");
+      const summaryEl = document.getElementById("search-results-summary");
+      const pageInput = document.querySelector(".search-page-form input[name='q']");
+      if (!resultsEl || !summaryEl || !pageInput) return;
+      const q = new URLSearchParams(location.search).get("q") || pageInput.value || "";
+      pageInput.value = q;
+      const matches = searchItems(q);
+      if (!q.trim()) return;
+      if (!matches.length) {
+        summaryEl.textContent = `No direct matches for "${q}". Try a shorter word, a tool name, or a pattern like "ending ing".`;
+        resultsEl.innerHTML = `<div class="empty-state"><h3>No results found</h3><p>Try removing extra words, searching a shorter prefix or suffix, or opening the Word Unscramble tool for letter inputs.</p><a class="button secondary" href="/tools/word-unscramble/?q=${encodeURIComponent(q)}">Try Word Unscramble</a></div>`;
+        return;
+      }
+      summaryEl.textContent = `${matches.length} result${matches.length === 1 ? "" : "s"} for "${q}".`;
+      resultsEl.innerHTML = matches
+        .map((item) => `<a class="search-result-card" href="${escapeHtml(item.href)}">
+          <span>${escapeHtml(item.kind)}</span>
+          <strong>${escapeHtml(item.title)}</strong>
+          <small>${escapeHtml(item.intro)}</small>
+        </a>`)
+        .join("");
+    }
+
+    forms.forEach((form) => {
+      const input = form.querySelector("input[name='q']");
+      if (!input) return;
+      input.addEventListener("input", () => renderSuggestions(form));
+      input.addEventListener("focus", () => renderSuggestions(form));
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const raw = input.value || "";
+        if (!raw.trim()) return;
+        if (form.classList.contains("search-page-form")) {
+          history.replaceState(null, "", "/search/?q=" + encodeURIComponent(raw.trim()));
+          hideSuggestions(form);
+          renderSearchResults();
+          return;
+        }
+        window.location.href = routeForQuery(raw);
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      forms.forEach((form) => {
+        if (!form.contains(event.target)) hideSuggestions(form);
+      });
+    });
+    document.addEventListener("keydown", (event) => {
+      const tag = document.activeElement?.tagName;
+      const isTyping = tag === "INPUT" || tag === "TEXTAREA" || document.activeElement?.isContentEditable;
+      if (event.key === "/" && !isTyping) {
+        event.preventDefault();
+        const firstInput = forms[0]?.querySelector("input[name='q']");
+        if (firstInput) firstInput.focus();
+      }
+      if (event.key === "Escape") forms.forEach(hideSuggestions);
+    });
+
+    renderSearchResults();
+  }
+
+  // ── Vocabulary Quiz ──────────────────────────────────────────────
+  function initVocabQuiz() {
+    const shell = document.getElementById("quiz-shell");
+    if (!shell) return;
+
+    let words;
+    try {
+      words = JSON.parse(shell.dataset.words || "[]");
+    } catch (_) {
+      return;
+    }
+    if (!words.length) return;
+
+    const shuffled = [...words].sort(() => Math.random() - 0.5);
+    let current = 0;
+    let score = 0;
+    let answered = false;
+    const history = [];
+
+    const elQNum = document.getElementById("quiz-q-num");
+    const elTotal = document.getElementById("quiz-total");
+    const elScore = document.getElementById("quiz-score");
+    const elDef = document.getElementById("quiz-def");
+    const elPos = document.getElementById("quiz-pos");
+    const elChoices = document.getElementById("quiz-choices");
+    const elFeedback = document.getElementById("quiz-feedback");
+    const elNav = document.getElementById("quiz-nav");
+    const elNextBtn = document.getElementById("quiz-next");
+    const elCard = document.getElementById("quiz-card");
+    const elComplete = document.getElementById("quiz-complete");
+    const elFinalScore = document.getElementById("quiz-final-score");
+    const elReview = document.getElementById("quiz-review");
+
+    function getDistractors(correct, all) {
+      const pool = all.filter((w) => w.word !== correct.word);
+      const picked = [];
+      while (picked.length < 3 && pool.length) {
+        const idx = Math.floor(Math.random() * pool.length);
+        picked.push(pool.splice(idx, 1)[0]);
+      }
+      return picked;
+    }
+
+    function showQuestion() {
+      answered = false;
+      const q = shuffled[current];
+      elQNum.textContent = "Question " + (current + 1);
+      elTotal.textContent = shuffled.length;
+      elDef.textContent = q.def || "\u2014";
+      elPos.textContent = q.pos ? "(" + q.pos + ")" : "";
+
+      const choices = [q, ...getDistractors(q, shuffled)].sort(() => Math.random() - 0.5);
+      elChoices.innerHTML = "";
+      choices.forEach(function(choice) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = choice.word;
+        btn.addEventListener("click", function() { handleAnswer(btn, choice.word, q.word); });
+        elChoices.appendChild(btn);
+      });
+
+      elFeedback.hidden = true;
+      elFeedback.className = "quiz-feedback";
+      elNav.hidden = true;
+    }
+
+    function handleAnswer(btn, chosen, correct) {
+      if (answered) return;
+      answered = true;
+      const isCorrect = chosen === correct;
+      if (isCorrect) score++;
+      elScore.textContent = score;
+
+      elChoices.querySelectorAll("button").forEach(function(b) {
+        b.disabled = true;
+        if (b.textContent === correct) b.classList.add("correct");
+        else if (b === btn && !isCorrect) b.classList.add("incorrect");
+      });
+
+      elFeedback.hidden = false;
+      elFeedback.className = "quiz-feedback " + (isCorrect ? "correct" : "incorrect");
+      elFeedback.textContent = isCorrect
+        ? "Correct!"
+        : "The answer was \u201c" + correct + "\u201d.";
+
+      history.push({ word: correct, isCorrect: isCorrect });
+      elNav.hidden = false;
+    }
+
+    function showComplete() {
+      elCard.hidden = true;
+      elNav.hidden = true;
+      elFeedback.hidden = true;
+      elComplete.hidden = false;
+      elFinalScore.textContent = score + " / " + shuffled.length;
+
+      elReview.innerHTML = history
+        .map(function(h) {
+          return '<div class="quiz-review-item"><span class="quiz-review-mark">' +
+            (h.isCorrect ? "\u2713" : "\u2717") +
+            '</span><span>' + h.word + '</span></div>';
+        })
+        .join("");
+    }
+
+    elNextBtn.addEventListener("click", function() {
+      current++;
+      if (current >= shuffled.length) {
+        showComplete();
+      } else {
+        showQuestion();
+      }
+    });
+
+    document.getElementById("quiz-restart").addEventListener("click", function() {
+      current = 0;
+      score = 0;
+      history.length = 0;
+      answered = false;
+      elScore.textContent = 0;
+      elComplete.hidden = true;
+      elCard.hidden = false;
+      elFeedback.hidden = true;
+      elNav.hidden = true;
+      const reshuffled = [...words].sort(() => Math.random() - 0.5);
+      shuffled.length = 0;
+      reshuffled.forEach(function(w) { shuffled.push(w); });
+      showQuestion();
+    });
+
+    showQuestion();
+  }
+
+  // ── Word Explorer Letter Filter ──────────────────────────────────
+  function initWordFilter() {
+    const input = document.getElementById("word-filter");
+    const grid = document.getElementById("word-explorer-grid");
+    const countEl = document.getElementById("word-filter-count");
+    const emptyEl = document.getElementById("word-filter-empty");
+    if (!input || !grid) return;
+
+    const cards = Array.from(grid.querySelectorAll(".word-card"));
+    const total = cards.length;
+
+    input.addEventListener("input", function() {
+      const q = input.value.trim().toLowerCase();
+      let visible = 0;
+      const visibleCards = [];
+      cards.forEach(function(card) {
+        const word = (card.dataset.word || "").toLowerCase();
+        const show = !q || word.includes(q);
+        card.hidden = !show;
+        if (show) {
+          visible++;
+          visibleCards.push(card);
+        }
+      });
+      countEl.textContent = visible.toLocaleString() + " word" + (visible !== 1 ? "s" : "");
+      if (emptyEl) emptyEl.hidden = visible > 0;
+      grid.dispatchEvent(new CustomEvent("wordfilter:updated", {
+        detail: { cards: visibleCards.slice(0, 80) },
+      }));
+    });
+  }
+
+  function initWordListFilter() {
+    const input = document.querySelector(".word-list-filter");
+    if (!input) return;
+    const rows = Array.from(document.querySelectorAll("[data-word-list-row]"));
+    const counter = document.querySelector(".word-list-count");
+    input.addEventListener("input", () => {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      rows.forEach((row) => {
+        const text = row.dataset.filterText || row.textContent.toLowerCase();
+        const visible = !q || text.includes(q);
+        row.hidden = !visible;
+        if (visible) shown += 1;
+      });
+      if (counter) counter.textContent = `${shown} word${shown === 1 ? "" : "s"} shown`;
+    });
+  }
+
+  // ── Dictionary lookup for generated word pages ─────────────────────
+  function uniqueStrings(items) {
+    return Array.from(
+      new Set(
+        items
+          .filter((item) => typeof item === "string")
+          .map((item) => item.trim())
+          .filter(Boolean),
+      ),
+    );
+  }
+
+  function lookupCandidates(word) {
+    const candidates = [word];
+    const add = (candidate) => {
+      if (candidate && candidate.length > 1 && /^[a-z]+$/.test(candidate)) candidates.push(candidate);
+    };
+    if (word.endsWith("ies")) add(word.slice(0, -3) + "y");
+    if (word.endsWith("es")) {
+      add(word.slice(0, -2));
+      add(word.slice(0, -1));
+    }
+    if (word.endsWith("s")) add(word.slice(0, -1));
+    if (word.endsWith("ing")) {
+      const base = word.slice(0, -3);
+      add(base);
+      add(base + "e");
+      if (/(.)\1$/.test(base)) add(base.slice(0, -1));
+    }
+    if (word.endsWith("ed")) {
+      const base = word.slice(0, -2);
+      add(base);
+      add(base + "e");
+      if (/(.)\1$/.test(base)) add(base.slice(0, -1));
+    }
+    return uniqueStrings(candidates);
+  }
+
+  function posClass(pos) {
+    const clean = String(pos || "word").toLowerCase().replace(/[^a-z]/g, "").slice(0, 4) || "word";
+    return "pos-badge pos-" + clean;
+  }
+
+  function normalizeDictionaryEntry(requestedWord, lookupWord, data) {
+    if (!Array.isArray(data)) return null;
+    const entry = data.find((item) => Array.isArray(item.meanings) && item.meanings.length);
+    if (!entry) return null;
+
+    const meanings = entry.meanings || [];
+    const primaryMeaning = meanings.find((meaning) => meaning.definitions?.[0]?.definition) || meanings[0];
+    const primaryDefinition = primaryMeaning?.definitions?.find((item) => item.definition);
+    if (!primaryDefinition?.definition) return null;
+
+    const definitions = meanings.flatMap((meaning) =>
+      (meaning.definitions || []).map((definition) => ({ ...definition, partOfSpeech: meaning.partOfSpeech })),
+    );
+    const examples = uniqueStrings(definitions.map((definition) => definition.example)).slice(0, 3);
+    const synonyms = uniqueStrings(
+      meanings.flatMap((meaning) => [
+        ...(meaning.synonyms || []),
+        ...(meaning.definitions || []).flatMap((definition) => definition.synonyms || []),
+      ]),
+    ).slice(0, 12);
+    const antonyms = uniqueStrings(
+      meanings.flatMap((meaning) => [
+        ...(meaning.antonyms || []),
+        ...(meaning.definitions || []).flatMap((definition) => definition.antonyms || []),
+      ]),
+    ).slice(0, 12);
+
+    const pronunciation =
+      entry.phonetic ||
+      (entry.phonetics || []).find((phonetic) => phonetic.text)?.text ||
+      "";
+    const definition = primaryDefinition.definition;
+    return {
+      requestedWord,
+      lookupWord,
+      partOfSpeech: primaryMeaning.partOfSpeech || primaryDefinition.partOfSpeech || "word",
+      pronunciation,
+      definition,
+      shortDef: definition.length > 150 ? definition.slice(0, 147) + "..." : definition,
+      examples,
+      synonyms,
+      antonyms,
+    };
+  }
+
+  async function fetchJsonWithTimeout(url, timeoutMs) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) return null;
+      return await response.json();
+    } catch (_) {
+      return null;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  async function fetchDictionaryEntry(word, options = {}) {
+    const cacheKey = "word-helper-dictionary:" + word;
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) return JSON.parse(cached);
+    } catch (_) {}
+
+    const baseCandidates = options.directOnly ? [word] : lookupCandidates(word);
+    const maxCandidates = Number(options.maxCandidates) || baseCandidates.length;
+    const candidates = baseCandidates.slice(0, Math.max(1, maxCandidates));
+    const timeoutMs = options.timeoutMs || 8000;
+    for (const candidate of candidates) {
+      const data = await fetchJsonWithTimeout(
+        "https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(candidate),
+        timeoutMs,
+      );
+      const normalized = normalizeDictionaryEntry(word, candidate, data);
+      if (normalized) {
+        try { localStorage.setItem(cacheKey, JSON.stringify(normalized)); } catch (_) {}
+        return normalized;
+      }
+    }
+    return null;
+  }
+
+  function renderDictionaryPills(container, words, emptyText) {
+    if (!container) return;
+    container.innerHTML = words.length
+      ? words.map((word) => `<span class="word-pill">${escapeHtml(word)}</span>`).join("")
+      : `<span class="dictionary-empty">${escapeHtml(emptyText)}</span>`;
+  }
+
+  function renderDictionaryExamples(container, examples) {
+    if (!container) return;
+    container.innerHTML = examples.length
+      ? examples.map((example, index) => `<li><span class="ex-num">${index + 1}</span><p>${escapeHtml(example)}</p></li>`).join("")
+      : '<li class="dictionary-empty">No example sentences are listed for this word yet.</li>';
+  }
+
+  function initDictionaryLookup() {
+    const shell = document.querySelector("[data-dictionary-lookup='true']");
+    if (!shell) return;
+
+    const word = shell.dataset.dictionaryWord;
+    if (!word) return;
+
+    const status = shell.querySelector("[data-word-lookup-status]");
+    const pos = document.querySelector("[data-word-pos]");
+    const factPos = document.querySelectorAll("[data-word-fact-pos]");
+    const pronunciation = document.querySelector("[data-word-pronunciation]");
+    const shortDef = document.querySelector("[data-word-short-def]");
+    const definition = shell.querySelector("[data-word-definition]");
+    const examples = shell.querySelector("[data-word-examples]");
+    const synonyms = shell.querySelector("[data-word-synonyms]");
+    const antonyms = shell.querySelector("[data-word-antonyms]");
+
+    fetchDictionaryEntry(word).then((entry) => {
+      if (!entry) {
+        if (status) status.textContent = "No public dictionary entry was found for this word yet.";
+        renderDictionaryExamples(examples, []);
+        renderDictionaryPills(synonyms, [], "No synonyms are listed yet.");
+        renderDictionaryPills(antonyms, [], "No antonyms are listed yet.");
+        return;
+      }
+
+      if (pos) {
+        pos.textContent = entry.partOfSpeech;
+        pos.className = posClass(entry.partOfSpeech);
+      }
+      factPos.forEach((item) => {
+        item.textContent = entry.partOfSpeech;
+      });
+      if (pronunciation && entry.pronunciation) {
+        pronunciation.textContent = entry.pronunciation;
+        pronunciation.hidden = false;
+      }
+      if (shortDef) shortDef.textContent = entry.shortDef;
+      if (definition) definition.innerHTML = `<p>${escapeHtml(entry.definition)}</p>`;
+      renderDictionaryExamples(examples, entry.examples);
+      renderDictionaryPills(synonyms, entry.synonyms, "No synonyms are listed yet.");
+      renderDictionaryPills(antonyms, entry.antonyms, "No antonyms are listed yet.");
+
+      if (status) {
+        status.textContent = entry.lookupWord === word
+          ? "Dictionary details loaded."
+          : `Dictionary details loaded from the base word "${entry.lookupWord}".`;
+      }
+    });
+  }
+
+  function updateCardPos(card, partOfSpeech) {
+    const badge = card.querySelector("[data-card-pos]");
+    if (!badge) return;
+    const value = partOfSpeech || "unknown";
+    badge.textContent = value;
+    badge.className = posClass(value);
+    card.dataset.cardPosReady = "true";
+  }
+
+  function initCardPartOfSpeechLookup() {
+    const cards = Array.from(document.querySelectorAll("[data-card-pos-lookup='true']"));
+    if (!cards.length) return;
+
+    const queue = [];
+    let active = 0;
+    const maxActive = 8;
+
+    function enqueue(card, priority = false) {
+      if (card.dataset.cardPosReady === "true") return;
+      if (card.dataset.cardPosQueued === "true") {
+        if (priority) {
+          const index = queue.indexOf(card);
+          if (index > 0) {
+            queue.splice(index, 1);
+            queue.unshift(card);
+          }
+        }
+        return;
+      }
+      card.dataset.cardPosQueued = "true";
+      if (priority) queue.unshift(card);
+      else queue.push(card);
+      pump();
+    }
+
+    function pump() {
+      while (active < maxActive && queue.length) {
+        const card = queue.shift();
+        const word = card.dataset.cardWord;
+        if (!word) {
+          updateCardPos(card, "unknown");
+          continue;
+        }
+
+        active++;
+        fetchDictionaryEntry(word, { timeoutMs: 2500, maxCandidates: 6 })
+          .then((entry) => {
+            updateCardPos(card, entry?.partOfSpeech || "unknown");
+          })
+          .catch(() => {
+            updateCardPos(card, "unknown");
+          })
+          .finally(() => {
+            active--;
+            pump();
+          });
+      }
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      cards.slice(0, 80).forEach(enqueue);
+      return;
+    }
+
+    const grid = document.getElementById("word-explorer-grid");
+    if (grid) {
+      grid.addEventListener("wordfilter:updated", (event) => {
+        const visibleCards = Array.isArray(event.detail?.cards) ? event.detail.cards : [];
+        visibleCards.forEach((card) => {
+          if (card.matches("[data-card-pos-lookup='true']")) enqueue(card, true);
+        });
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          enqueue(entry.target);
+        });
+      },
+      { rootMargin: "500px 0px" },
+    );
+
+    cards.forEach((card) => observer.observe(card));
+  }
+
+  function initBackToTop() {
+    const button = document.querySelector(".back-to-top");
+    if (!button) return;
+
+    const update = () => {
+      button.classList.toggle("visible", window.scrollY > 700);
+    };
+
+    button.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+  }
+
+  // ── Word Family Quiz ─────────────────────────────────────────────
+  function initWordFamilyQuiz() {
+    const shell = document.getElementById("wf-shell");
+    if (!shell) return;
+
+    let allQuestions;
+    try { allQuestions = JSON.parse(shell.dataset.questions || "[]"); } catch (_) { return; }
+    if (!allQuestions.length) return;
+
+    const SESSION_SIZE = 20;
+    const allAnswers = allQuestions.map(function(q) { return q.answer; });
+
+    let session = [];
+    let current = 0;
+    let score = 0;
+    let answered = false;
+    const history = [];
+
+    const elQNum = document.getElementById("wf-q-num");
+    const elTotal = document.getElementById("wf-total");
+    const elScore = document.getElementById("wf-score");
+    const elPrompt = document.getElementById("wf-prompt");
+    const elChoices = document.getElementById("wf-choices");
+    const elFeedback = document.getElementById("wf-feedback");
+    const elNav = document.getElementById("wf-nav");
+    const elNextBtn = document.getElementById("wf-next");
+    const elCard = document.getElementById("wf-card");
+    const elComplete = document.getElementById("wf-complete");
+    const elFinalScore = document.getElementById("wf-final-score");
+    const elReview = document.getElementById("wf-review");
+
+    function buildSession() {
+      return [...allQuestions].sort(function() { return Math.random() - 0.5; }).slice(0, Math.min(SESSION_SIZE, allQuestions.length));
+    }
+
+    function getDistractors(correct) {
+      return [...allAnswers].filter(function(a) { return a !== correct; })
+        .sort(function() { return Math.random() - 0.5; }).slice(0, 3);
+    }
+
+    function showQuestion() {
+      answered = false;
+      const q = session[current];
+      elQNum.textContent = "Question " + (current + 1);
+      elTotal.textContent = session.length;
+      elPrompt.textContent = "What is the " + q.targetPos + " form of \u201c" + q.base + "\u201d?";
+
+      const choices = [q.answer, ...getDistractors(q.answer)].sort(function() { return Math.random() - 0.5; });
+      elChoices.innerHTML = "";
+      choices.forEach(function(choice) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = choice;
+        btn.addEventListener("click", function() { handleAnswer(btn, choice, q.answer); });
+        elChoices.appendChild(btn);
+      });
+
+      elFeedback.hidden = true;
+      elFeedback.className = "quiz-feedback";
+      elNav.hidden = true;
+    }
+
+    function handleAnswer(btn, chosen, correct) {
+      if (answered) return;
+      answered = true;
+      const isCorrect = chosen === correct;
+      if (isCorrect) score++;
+      elScore.textContent = score;
+
+      elChoices.querySelectorAll("button").forEach(function(b) {
+        b.disabled = true;
+        if (b.textContent === correct) b.classList.add("correct");
+        else if (b === btn && !isCorrect) b.classList.add("incorrect");
+      });
+
+      elFeedback.hidden = false;
+      elFeedback.className = "quiz-feedback " + (isCorrect ? "correct" : "incorrect");
+      elFeedback.textContent = isCorrect ? "Correct!" : "The answer was \u201c" + correct + "\u201d.";
+      history.push({ label: session[current].base + " \u2192 " + correct, isCorrect: isCorrect });
+      elNav.hidden = false;
+    }
+
+    function showComplete() {
+      elCard.hidden = true;
+      elNav.hidden = true;
+      elFeedback.hidden = true;
+      elComplete.hidden = false;
+      elFinalScore.textContent = score + " / " + session.length;
+      elReview.innerHTML = history.map(function(h) {
+        return '<div class="quiz-review-item"><span class="quiz-review-mark">' +
+          (h.isCorrect ? "\u2713" : "\u2717") + "</span><span>" + h.label + "</span></div>";
+      }).join("");
+    }
+
+    elNextBtn.addEventListener("click", function() {
+      current++;
+      if (current >= session.length) showComplete(); else showQuestion();
+    });
+
+    document.getElementById("wf-restart").addEventListener("click", function() {
+      current = 0; score = 0; history.length = 0; answered = false;
+      elScore.textContent = 0;
+      elComplete.hidden = true; elCard.hidden = false;
+      elFeedback.hidden = true; elNav.hidden = true;
+      session = buildSession();
+      showQuestion();
+    });
+
+    session = buildSession();
+    showQuestion();
+  }
+
+  // ── Synonym Match ────────────────────────────────────────────────
+  function initSynonymMatch() {
+    const shell = document.getElementById("sm-shell");
+    if (!shell) return;
+
+    let allPairs;
+    try { allPairs = JSON.parse(shell.dataset.pairs || "[]"); } catch (_) { return; }
+    if (allPairs.length < 2) return;
+
+    const ROUND_SIZE = Math.min(8, allPairs.length);
+    let round = 1;
+    let matched = 0;
+    let selectedWord = null;
+    let selectedWordEl = null;
+    let roundPairs = [];
+
+    const elRound = document.getElementById("sm-round");
+    const elMatched = document.getElementById("sm-matched");
+    const elWords = document.getElementById("sm-words");
+    const elSynonyms = document.getElementById("sm-synonyms");
+    const elGame = document.getElementById("sm-game");
+    const elComplete = document.getElementById("sm-complete");
+
+    function startRound() {
+      matched = 0; selectedWord = null; selectedWordEl = null;
+      elMatched.textContent = "0";
+      elRound.textContent = round;
+      elComplete.hidden = true;
+      elGame.hidden = false;
+
+      roundPairs = [...allPairs].sort(function() { return Math.random() - 0.5; }).slice(0, ROUND_SIZE);
+      const shuffledSyns = [...roundPairs].sort(function() { return Math.random() - 0.5; });
+
+      elWords.innerHTML = "";
+      roundPairs.forEach(function(pair) {
+        const el = document.createElement("button");
+        el.type = "button"; el.className = "match-item";
+        el.textContent = pair.word; el.dataset.word = pair.word;
+        el.addEventListener("click", function() { handleWordClick(el, pair.word); });
+        elWords.appendChild(el);
+      });
+
+      elSynonyms.innerHTML = "";
+      shuffledSyns.forEach(function(pair) {
+        const el = document.createElement("button");
+        el.type = "button"; el.className = "match-item";
+        el.textContent = pair.synonym; el.dataset.forWord = pair.word;
+        el.addEventListener("click", function() { handleSynonymClick(el, pair.word); });
+        elSynonyms.appendChild(el);
+      });
+    }
+
+    function handleWordClick(el, word) {
+      if (el.classList.contains("matched") || el.disabled) return;
+      if (selectedWordEl) selectedWordEl.classList.remove("selected");
+      selectedWord = word; selectedWordEl = el;
+      el.classList.add("selected");
+    }
+
+    function handleSynonymClick(el, word) {
+      if (!selectedWord || el.classList.contains("matched") || el.disabled) return;
+      if (word === selectedWord) {
+        el.classList.add("matched"); el.disabled = true;
+        elWords.querySelectorAll(".match-item").forEach(function(b) {
+          if (b.dataset.word === selectedWord) { b.classList.remove("selected"); b.classList.add("matched"); b.disabled = true; }
+        });
+        matched++; elMatched.textContent = matched;
+        selectedWord = null; selectedWordEl = null;
+        if (matched >= ROUND_SIZE) {
+          setTimeout(function() { elGame.hidden = true; elComplete.hidden = false; }, 500);
+        }
+      } else {
+        el.classList.add("wrong");
+        if (selectedWordEl) selectedWordEl.classList.add("wrong");
+        setTimeout(function() {
+          el.classList.remove("wrong");
+          if (selectedWordEl) selectedWordEl.classList.remove("wrong");
+        }, 600);
+      }
+    }
+
+    document.getElementById("sm-next-round").addEventListener("click", function() {
+      round++;
+      startRound();
+    });
+
+    startRound();
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     initTheme();
     initNav();
     initRecentTools();
+    initFavoriteButton();
+    initGlobalSearch();
+    initWordFilter();
+    initWordListFilter();
+    initVocabQuiz();
+    initWordFamilyQuiz();
+    initSynonymMatch();
+    initDictionaryLookup();
+    initCardPartOfSpeechLookup();
+    initBackToTop();
     document.querySelectorAll("[data-tool]").forEach(initTool);
   });
 })();
