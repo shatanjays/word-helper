@@ -2176,9 +2176,6 @@ input:focus, textarea:focus, select:focus {
 .footer-bottom a { color: rgba(255,255,255,0.30); }
 .footer-bottom a:hover { color: rgba(255,255,255,0.65); }
 
-.footer-legal-nav { display: flex; gap: 18px; }
-.footer-legal-nav a { display: inline; margin: 0; font-size: 12.5px; }
-
 /* ── Section heading in hub pages ────────────────────────── */
 .section-heading h2 { font-size: clamp(20px, 2.5vw, 30px); }
 
@@ -2319,6 +2316,92 @@ input:focus, textarea:focus, select:focus {
 
 .hero-trust-row span { display: inline-flex; align-items: center; gap: 5px; }
 .hero-trust-row .icon { width: 13px; height: 13px; color: var(--navy); }
+
+/* ── Hero multi-mode command box ─────────────────────────── */
+.hero-command-box { margin-top: 22px; }
+
+.hero-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.hero-mode {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-2);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 650;
+  min-height: 40px;
+  padding: 7px 15px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+
+.hero-mode:hover { border-color: var(--navy-border); color: var(--navy); }
+.hero-mode:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.hero-mode.is-active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+/* CLS-safe: reserve enough height for the longest hint (wraps to ~2 lines on
+   mobile) so switching modes never shifts the layout below the hero. */
+.hero-command-box .search-hint {
+  min-height: 3.4em;
+  margin-top: 12px;
+}
+@media (max-width: 760px) {
+  .hero-command-box .search-hint { min-height: 4em; }
+}
+
+/* ── Tool source / compatibility note ────────────────────── */
+.tool-source-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.tool-source-note .icon { width: 15px; height: 15px; color: var(--navy); flex-shrink: 0; margin-top: 1px; }
+.tool-source-tm { display: block; margin-top: 5px; color: var(--muted); font-size: 11.5px; }
+
+/* ── Editorial byline ────────────────────────────────────── */
+.editorial-byline { margin-top: 16px; }
+.editorial-byline a { color: var(--navy); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--navy-border); }
+.editorial-byline a:hover { border-bottom-color: var(--navy); }
+.editorial-byline time { font-variant-numeric: tabular-nums; }
+
+/* ── Footer bottom note ──────────────────────────────────── */
+.footer-bottom-note { font-size: 12.5px; color: rgba(255,255,255,0.30); margin: 0; }
+.footer-bottom-note a { color: rgba(255,255,255,0.45); text-decoration: none; }
+.footer-bottom-note a:hover { color: #fff; }
+
+/* ── Reserved ad slot (CLS-safe; collapsed until activated) ─ */
+.ad-slot { display: none; }
+.ad-slot[data-ad-active] {
+  display: block;
+  width: 100%;
+  min-height: 280px;
+  margin: 24px auto;
+  max-width: var(--max);
+}
+@media (max-width: 760px) {
+  .ad-slot[data-ad-active] { min-height: 250px; }
+}
 
 /* ── Word of the Day panel ───────────────────────────────── */
 .hero-wotd-panel {

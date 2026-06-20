@@ -20,6 +20,8 @@ const root = process.cwd();
 const distDir = path.join(root, "dist");
 const assetsDir = path.join(distDir, "assets");
 const assetVersion = String(Date.now());
+// Real build/edit date — drives lastReviewed/dateModified trust signals (no fabricated dates).
+const buildDateISO = new Date().toISOString().slice(0, 10);
 const letterBrowseTargets = {
   a: 5000,
   b: 5000,
@@ -74,6 +76,7 @@ function icon(name, className = "icon") {
   const common = `stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
   const icons = {
     logo: `<svg ${attrs}><rect x="4" y="4" width="16" height="16" rx="4" ${common}/><path d="M8 8.5h2l2 7 2-7h2" ${common}/><path d="M7.5 15.5h9" ${common}/></svg>`,
+    info: `<svg ${attrs}><circle cx="12" cy="12" r="9" ${common}/><path d="M12 11v5M12 8h.01" ${common}/></svg>`,
     tools: `<svg ${attrs}><path d="M5 5h6v6H5zM13 5h6v6h-6zM5 13h6v6H5zM13 13h6v6h-6z" ${common}/></svg>`,
     unscramble: `<svg ${attrs}><path d="M5 7h5v5H5zM14 5h5v5h-5zM9 15h5v5H9z" ${common}/><path d="M10 9h4M12 12v3" ${common}/></svg>`,
     anagram: `<svg ${attrs}><path d="M7 7h10M7 17h10M8 7l-3 3 3 3M16 17l3-3-3-3" ${common}/></svg>`,
@@ -269,21 +272,21 @@ function footer() {
       <a href="/search/">Search</a>
     </nav>
     <nav class="footer-nav" aria-label="Company and policies">
-      <p class="footer-nav-title">Trust</p>
+      <p class="footer-nav-title">Trust &amp; policies</p>
       <a href="/about/">About</a>
       <a href="/contact/">Contact</a>
       <a href="/editorial-policy/">Editorial Policy</a>
       <a href="/privacy-policy/">Privacy Policy</a>
       <a href="/terms/">Terms</a>
+      <a href="/disclaimer/">Disclaimer</a>
+      <a href="/cookie-policy/">Cookie Policy</a>
       <a href="/affiliate-disclosure/">Affiliate Disclosure</a>
     </nav>
   </div>
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
-      <p>© ${new Date().getFullYear()} Word Helper. Free to use, always.</p>
-      <nav class="footer-legal-nav" aria-label="Legal">
-        ${legalNav.map((item) => `<a href="${item.href}">${escapeHtml(item.label)}</a>`).join("")}
-      </nav>
+      <p>© ${new Date().getFullYear()} Word Helper. Independent educational word-tools project. Free to use, always.</p>
+      <p class="footer-bottom-note">Original content · No account required · <a href="/editorial-policy/">How we work</a></p>
     </div>
   </div>
 </footer>`;
@@ -296,7 +299,29 @@ function baseSchemas() {
       name: site.name,
       url: `${site.url}/`,
       logo: `${site.url}/favicon.svg`,
+      image: `${site.url}/og-image.png`,
       email: site.email,
+      foundingDate: "2025",
+      description:
+        "Word Helper is an independent educational word-tools and dictionary platform offering free word games helpers, rhyming and syllable tools, an original-content dictionary, vocabulary guides, and practice quizzes.",
+      publishingPrinciples: `${site.url}/editorial-policy/`,
+      knowsAbout: [
+        "English vocabulary",
+        "word games",
+        "anagrams",
+        "rhymes",
+        "syllables",
+        "spelling patterns",
+        "etymology",
+        "dictionary definitions",
+      ],
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: site.email,
+        url: `${site.url}/contact/`,
+        availableLanguage: "English",
+      },
     },
     {
       "@type": "WebSite",
@@ -316,7 +341,7 @@ function head(page, extraSchemas = [], noindex = false) {
   const url = absolute(page.href);
   const title = page.metaTitle ?? page.title;
   const desc = page.metaDescription ?? site.description;
-  const ogImage = `${site.url}/og-image.svg`;
+  const ogImage = `${site.url}/og-image.png`;
   const isWordPage = page.href?.startsWith("/word/");
   return `<head>
   <meta charset="utf-8">
@@ -325,7 +350,7 @@ function head(page, extraSchemas = [], noindex = false) {
   <script>try{var t=localStorage.getItem('word-helper-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.dataset.theme='dark';}catch(e){}</script>
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(desc)}">
-  ${noindex ? '<meta name="robots" content="noindex, nofollow">' : ""}
+  ${noindex ? '<meta name="robots" content="noindex, follow">' : ""}
   <link rel="canonical" href="${url}">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
@@ -374,6 +399,14 @@ ${footer()}
 
 function answerBlock(text) {
   return `<section class="answer-block"><div>${icon("result")}</div><p>${escapeHtml(text)}</p></section>`;
+}
+
+// Reserved, CLS-safe ad position. Hidden by default (no empty units shown to
+// users or AdSense reviewers). To activate later: drop the AdSense <ins> inside
+// and add data-ad-active — CSS then reserves a fixed min-height, so no layout
+// shift. No ad network code is included now.
+function adSlot(id, label = "Advertisement") {
+  return `<aside class="ad-slot" data-ad-slot="${escapeHtml(id)}" aria-label="${escapeHtml(label)}"></aside>`;
 }
 
 function cardLink(href, text = "") {
@@ -503,6 +536,15 @@ function reviewedMeta(label = "Editorially reviewed") {
     <span>${icon("check")} ${escapeHtml(label)}</span>
     <span>Updated ${new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
     <span>Independent word tools project</span>
+  </div>`;
+}
+
+// Brand-level editorial byline — real, accountable, no invented individual names.
+function editorialByline() {
+  const shown = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  return `<div class="article-meta editorial-byline">
+    <span>${icon("check")} Reviewed by the <a href="/editorial-policy/">Word Helper Editorial Team</a></span>
+    <span>Updated <time datetime="${buildDateISO}">${shown}</time></span>
   </div>`;
 }
 
@@ -697,24 +739,25 @@ function renderHome(homeWords = words) {
       <p class="eyebrow hero-eyebrow">${icon("spark")} English word reference for players, writers &amp; learners</p>
       <h1>Define. Explore. Play with words.</h1>
       <p class="hero-lede">Look up any English word for its definition, pronunciation, synonyms, etymology, and syllable count — or use the word tools for games, rhymes, and vocabulary building.</p>
-      <form class="global-search command-search" data-word-pages='${JSON.stringify(words.map((w) => w.word))}' aria-label="Word search">
+      <form class="global-search command-search hero-command-box" data-multimode="true" data-word-pages='${JSON.stringify(words.map((w) => w.word))}' aria-label="Search a word or run a word tool">
+        <div class="hero-modes" role="tablist" aria-label="Choose what to do with your input">
+          <button type="button" class="hero-mode is-active" role="tab" aria-selected="true" data-mode="define" data-route="/word/" data-param="path" data-submit="Look up" data-placeholder="Look up a word — e.g. ephemeral, resilient…" data-hint="Definition, pronunciation, synonyms, etymology &amp; syllables for any English word.">Define</button>
+          <button type="button" class="hero-mode" role="tab" aria-selected="false" tabindex="-1" data-mode="unscramble" data-route="/tools/word-unscramble/" data-param="q" data-submit="Unscramble" data-placeholder="Enter your letters — e.g. tarpels" data-hint="Find every valid word you can build from the letters you have.">Unscramble</button>
+          <button type="button" class="hero-mode" role="tab" aria-selected="false" tabindex="-1" data-mode="anagram" data-route="/tools/anagram-solver/" data-param="q" data-submit="Solve" data-placeholder="Enter letters or a word — e.g. listen" data-hint="Find exact anagrams and smaller words hidden inside your letters.">Anagram</button>
+          <button type="button" class="hero-mode" role="tab" aria-selected="false" tabindex="-1" data-mode="rhyme" data-route="/tools/rhyme-finder/" data-param="q" data-submit="Find rhymes" data-placeholder="Enter a word to rhyme — e.g. light" data-hint="Perfect rhymes, near rhymes, and similar-ending words.">Rhyme</button>
+          <button type="button" class="hero-mode" role="tab" aria-selected="false" tabindex="-1" data-mode="syllables" data-route="/tools/syllable-counter/" data-param="q" data-submit="Count" data-placeholder="Enter a word, line, or paragraph" data-hint="Estimate syllable counts with a word-by-word breakdown.">Syllables</button>
+          <button type="button" class="hero-mode" role="tab" aria-selected="false" tabindex="-1" data-mode="prefix" data-route="/tools/prefix-finder/" data-param="q" data-submit="Find" data-placeholder="Enter starting letters — e.g. pre" data-hint="Find words that begin with the exact letters you type.">Prefix</button>
+          <button type="button" class="hero-mode" role="tab" aria-selected="false" tabindex="-1" data-mode="suffix" data-route="/tools/suffix-finder/" data-param="q" data-submit="Find" data-placeholder="Enter ending letters — e.g. ing" data-hint="Find words that end with the exact letters you type.">Suffix</button>
+        </div>
         <div class="global-search-inner">
           <span class="search-icon">${icon("search")}</span>
-          <label class="sr-only" for="global-q">Look up a word</label>
-          <input id="global-q" name="q" type="search" autocomplete="off" spellcheck="false" placeholder="Look up a word — e.g. beautiful, ephemeral, resilient…">
-          <button type="submit" class="button primary">Look up</button>
+          <label class="sr-only" for="global-q">Search a word or enter input for the selected tool</label>
+          <input id="global-q" name="q" type="search" autocomplete="off" spellcheck="false" placeholder="Look up a word — e.g. ephemeral, resilient…">
+          <button type="submit" class="button primary" data-submit-label>Look up</button>
         </div>
         <div class="search-suggestions" id="search-suggestions" hidden></div>
-        <p class="search-hint">Or try a tool: <a class="search-example" href="/tools/word-unscramble/?q=listen">unscramble listen</a> &middot; <a class="search-example" href="/tools/rhyme-finder/?q=light">rhymes for light</a> &middot; <a class="search-example" href="/tools/syllable-counter/?q=beautiful">syllables in beautiful</a></p>
+        <p class="search-hint" data-mode-hint>Definition, pronunciation, synonyms, etymology &amp; syllables for any English word.</p>
       </form>
-      <div class="hero-quick-tools" aria-label="Quick tool access">
-        <a class="hero-tool-btn" href="/tools/word-unscramble/">${icon("unscramble")}<span>Unscramble</span></a>
-        <a class="hero-tool-btn" href="/tools/rhyme-finder/">${icon("rhyme")}<span>Rhyme Finder</span></a>
-        <a class="hero-tool-btn" href="/tools/syllable-counter/">${icon("syllable")}<span>Syllables</span></a>
-        <a class="hero-tool-btn" href="/tools/anagram-solver/">${icon("anagram")}<span>Anagrams</span></a>
-        <a class="hero-tool-btn" href="/tools/prefix-finder/">${icon("prefix")}<span>Prefix</span></a>
-        <a class="hero-tool-btn" href="/tools/suffix-finder/">${icon("suffix")}<span>Suffix</span></a>
-      </div>
       <div class="hero-trust-row">
         <span>${icon("check")} 327k+ word database</span>
         <span>${icon("check")} Original definitions</span>
@@ -765,6 +808,7 @@ function renderHome(homeWords = words) {
       <div class="stat-item"><strong>0</strong><span>sign-ups needed</span></div>
     </div>
   </section>
+  ${adSlot("home-mid")}
   <section class="section">
     <div class="section-heading">
       <p class="eyebrow">Word Lab tools</p>
@@ -899,7 +943,7 @@ function renderHome(homeWords = words) {
         <strong>Word Family Quiz</strong>
         <span>Given a root word, choose the correct related form — tests whether you grasp how word families work.</span>
       </a>
-      <a class="resource-card" href="/practice/synonym-matching/">
+      <a class="resource-card" href="/practice/synonym-match/">
         <span class="card-icon">${icon("rhyme")}</span>
         <strong>Synonym Matching</strong>
         <span>Match a word to its closest synonym. Builds vocabulary breadth and helps with nuance between near-synonyms.</span>
@@ -1053,6 +1097,24 @@ function workedExamples(tool) {
   </section>`;
 }
 
+// Honest, trademark-safe source + compatibility line shown above tool results.
+function toolSourceNote(tool) {
+  const wordListTools = ["word-unscramble", "anagram-solver", "prefix-finder", "suffix-finder"];
+  const gameTools = ["word-unscramble", "anagram-solver"];
+  let source;
+  if (wordListTools.includes(tool.id)) {
+    source = "Results are matched against a 327,000+ word English word list built on the public-domain ENABLE word list plus a supplementary system word list.";
+  } else if (tool.id === "rhyme-finder") {
+    source = "Rhyme results are generated from spelling and pronunciation patterns, not a proprietary rhyming dictionary, so they are suggestions to check by ear.";
+  } else {
+    source = "Syllable counts are estimated from English spelling and vowel-group patterns and can vary by accent, dialect, and speech speed.";
+  }
+  const trademark = gameTools.includes(tool.id)
+    ? ` <span class="tool-source-tm">Scrabble&reg; and Words With Friends&reg; are trademarks of their respective owners. Word Helper is independent and not affiliated with or endorsed by them.</span>`
+    : "";
+  return `<p class="tool-source-note">${icon("info")} <span>${source}${trademark}</span></p>`;
+}
+
 function renderTool(tool) {
   const page = tool;
   const body = `<section class="page-hero tool-hero">
@@ -1061,6 +1123,7 @@ function renderTool(tool) {
     <h1>${escapeHtml(tool.h1)}</h1>
     <p>${escapeHtml(tool.intro)}</p>
     ${answerBlock(tool.answer)}
+    ${editorialByline()}
   </section>
   <section class="tool-shell" data-tool="${tool.id}" data-tool-title="${escapeHtml(tool.title)}" aria-labelledby="${tool.id}-form-title">
     <div class="tool-panel">
@@ -1104,6 +1167,7 @@ function renderTool(tool) {
       </div>
     </div>
     <section class="result-panel" aria-live="polite">
+      ${toolSourceNote(tool)}
       <div class="result-heading">
         <div>
           <p class="eyebrow">Results</p>
@@ -1126,6 +1190,7 @@ function renderTool(tool) {
       </div>
     </section>
   </section>
+  ${adSlot("tool-mid")}
   ${toolReferencePanel(tool)}
   ${workedExamples(tool)}
   <section class="section split">
@@ -1160,6 +1225,9 @@ function renderTool(tool) {
       name: tool.title,
       url: absolute(tool.href),
       description: tool.metaDescription,
+      dateModified: buildDateISO,
+      lastReviewed: buildDateISO,
+      reviewedBy: { "@type": "Organization", name: `${site.name} Editorial Team`, url: `${site.url}/editorial-policy/` },
     },
     {
       "@type": "SoftwareApplication",
@@ -1402,6 +1470,26 @@ function renderWordFactPanel(wordData) {
     </section>`;
 }
 
+// ── Index-eligibility gate (single source of truth) ──────────────────────
+// A word page is index-worthy (sitemap + indexable) only when it clears a real
+// quality bar. Calibrated to the actual data: hand-curated "complete" entries
+// (which carry etymology, word family, memory tip, FAQs) need definition + >=2
+// examples + >=3 synonyms; lighter "core" enriched entries must compensate for
+// missing depth with >=4 synonyms. Everything below stays noindex,follow and is
+// excluded from the sitemap until enriched — protecting against scaled/thin content.
+function isPublishable(w) {
+  if (!w || w.needsDictionaryLookup) return false;
+  const def = String(w.definition || w.shortDef || "").trim();
+  if (def.length < 30) return false;
+  const examples = (w.examples || []).filter(Boolean).length;
+  const synonyms = (w.synonyms || []).filter(Boolean).length;
+  const hasDepth = Boolean(
+    w.etymology || w.wordFamily || w.memoryTip || (Array.isArray(w.faqs) && w.faqs.length),
+  );
+  if (examples < 2) return false;
+  return hasDepth ? synonyms >= 3 : synonyms >= 4;
+}
+
 function renderWordPage(wordData) {
   const page = {
     href: wordData.href,
@@ -1456,6 +1544,7 @@ function renderWordPage(wordData) {
       </div>
       <p class="word-short-def">${escapeHtml(wordData.shortDef)}</p>
     </div>
+    ${editorialByline()}
   </section>
   <div class="word-body">
     ${renderWordFactPanel(wordData)}
@@ -1499,6 +1588,7 @@ function renderWordPage(wordData) {
         <p>${escapeHtml(wordData.memoryTip)}</p>
       </div>
     </section>
+    ${adSlot("word-mid")}
     <section class="word-section">
       <h2 class="word-section-title">Explore this word in Word Lab</h2>
       <div class="card-grid related-grid">${relatedToolLinks}</div>
@@ -1523,12 +1613,16 @@ function renderWordPage(wordData) {
       name: page.metaTitle,
       url: absolute(wordData.href),
       description: wordData.metaDescription,
+      dateModified: buildDateISO,
+      lastReviewed: buildDateISO,
+      reviewedBy: { "@type": "Organization", name: `${site.name} Editorial Team`, url: `${site.url}/editorial-policy/` },
     },
     breadcrumbSchema(page),
     faqSchema(wordData.faqs),
   ];
 
-  return { href: wordData.href, html: layout(page, body, schemas) };
+  const noindex = !isPublishable(wordData);
+  return { href: wordData.href, html: layout(page, body, schemas, noindex), noindex };
 }
 
 // ── Light Word Page (enriched words — substantive content, AdSense-safe) ─
@@ -1626,6 +1720,7 @@ function renderLightWordPage(w) {
       </div>
       <p class="word-short-def" data-word-short-def>${escapeHtml(w.shortDef || initialDefinition)}</p>
     </div>
+    ${isPublishable(w) ? editorialByline() : ""}
   </section>
   <div class="word-body"${lookupAttrs}>
     ${needsLookup ? '<p class="dictionary-status" data-word-lookup-status>Loading dictionary details…</p>' : ""}
@@ -1664,6 +1759,7 @@ function renderLightWordPage(w) {
       </div>
     </section>
 
+    ${adSlot("word-mid")}
     <section class="word-section word-tools-section">
       <h2 class="word-section-title">Word Lab tools for "${escapeHtml(w.word)}"</h2>
       <p>Use Word Helper's interactive tools to explore ${escapeHtml(label)} further — find rhymes, count syllables, unscramble the letters, or find words with the same start or end.</p>
@@ -1704,6 +1800,7 @@ function renderLightWordPage(w) {
   </div>
   ${faqList(genFaqs)}`;
 
+  const indexable = isPublishable(w);
   const schemas = [
     {
       "@type": "DefinedTerm",
@@ -1716,12 +1813,107 @@ function renderLightWordPage(w) {
         url: `${site.url}/word-explorer/`,
       },
     },
+    {
+      "@type": "WebPage",
+      name: page.metaTitle,
+      url: absolute(w.href),
+      description: page.metaDescription,
+      dateModified: buildDateISO,
+      // Only claim editorial review where the visible "Reviewed by" byline is shown
+      // (indexable pages). Avoids a schema/visible mismatch on thin auto-pages.
+      ...(indexable
+        ? {
+            lastReviewed: buildDateISO,
+            reviewedBy: { "@type": "Organization", name: `${site.name} Editorial Team`, url: `${site.url}/editorial-policy/` },
+          }
+        : {}),
+    },
     breadcrumbSchema(page),
     faqSchema(genFaqs),
   ];
 
-  // Stub pages (no real definition) are noindexed — they are useful for tools but not for SEO
-  return { href: w.href, html: layout(page, body, schemas, needsLookup) };
+  // Index gate: pages below the quality bar are noindex,follow and excluded from the sitemap.
+  const noindex = !indexable;
+  return { href: w.href, html: layout(page, body, schemas, noindex), noindex };
+}
+
+// ── Catch-all word lookup template ───────────────────────────────────────
+// Served (via _redirects rewrite "/word/* /word-lookup/ 200") for any word that
+// has no static page — i.e. the ~107k A–Z browse words. One noindexed template
+// resolves them all via live public-dictionary lookup, so browse links never
+// 404 and no thin static pages are generated. Client reads the slug from the URL.
+function renderWordLookup() {
+  const page = {
+    href: "/word-lookup/",
+    title: "Word Lookup",
+    metaTitle: "Word Lookup — Definitions, Syllables & Word Tools | Word Helper",
+    metaDescription:
+      "Look up any English word for its definition, part of speech, pronunciation, syllables, synonyms, and antonyms, with quick links to Word Helper's word tools.",
+  };
+
+  const body = `<section class="page-hero word-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/word-explorer/">Word Explorer</a><span>/</span><span aria-current="page" data-word-crumb>Word</span></nav>
+    <div class="word-hero-inner">
+      <div class="word-identity">
+        <span class="pos-badge pos-word" data-word-pos>word</span>
+        <h1 class="word-title" data-word-title>Word lookup</h1>
+        <div class="word-phonetics">
+          <span class="pronunciation" data-word-pronunciation hidden></span>
+          <span class="syllable-break" data-word-syllable-break></span>
+          <span class="syllable-count" data-word-syllable-count></span>
+        </div>
+      </div>
+      <p class="word-short-def" data-word-short-def>Loading dictionary details…</p>
+    </div>
+  </section>
+  <div class="word-body" data-dictionary-lookup="true" data-dictionary-from-path="true">
+    <p class="dictionary-status" data-word-lookup-status>Loading dictionary details…</p>
+
+    <section class="word-section">
+      <h2 class="word-section-title">Definition</h2>
+      <div class="definition-block" data-word-definition><p>Looking up this word in the public-domain dictionary…</p></div>
+    </section>
+
+    <section class="word-section" data-word-examples-section>
+      <h2 class="word-section-title">Example sentences</h2>
+      <ol class="example-list" data-word-examples></ol>
+    </section>
+
+    <section class="word-section" data-word-relations-section>
+      <div class="synonym-antonym-grid">
+        <div>
+          <h2 class="word-section-title">Synonyms</h2>
+          <div class="word-pill-cloud" data-word-synonyms></div>
+        </div>
+        <div>
+          <h2 class="word-section-title">Antonyms</h2>
+          <div class="word-pill-cloud" data-word-antonyms></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="word-section word-tools-section">
+      <h2 class="word-section-title">Explore this word in Word Lab</h2>
+      <div class="word-action-row" data-word-tool-links>
+        <a class="button secondary" href="/tools/rhyme-finder/" data-tool-link="/tools/rhyme-finder/">Find rhymes</a>
+        <a class="button secondary" href="/tools/syllable-counter/" data-tool-link="/tools/syllable-counter/">Count syllables</a>
+        <a class="button secondary" href="/tools/word-unscramble/" data-tool-link="/tools/word-unscramble/">Unscramble letters</a>
+        <a class="button secondary" href="/tools/anagram-solver/" data-tool-link="/tools/anagram-solver/">Solve anagrams</a>
+      </div>
+    </section>
+
+    <section class="word-section">
+      <div class="card-grid related-grid">
+        ${cardLink("/word-explorer/")}
+        ${cardLink("/word-lab/")}
+        ${cardLink("/word-lists/")}
+      </div>
+    </section>
+  </div>`;
+
+  const schemas = [breadcrumbSchema(page)];
+  // Dynamic, client-rendered content — always noindex, excluded from sitemap.
+  return { href: "/word-lookup/", html: layout(page, body, schemas, true), noindex: true };
 }
 
 function renderWordExplorerIndex(allWords = words) {
@@ -2982,7 +3174,7 @@ async function writeRoute(route) {
 function sitemap(routes) {
   const now = new Date().toISOString();
   const entries = routes
-    .filter((route) => route.href !== "/404/")
+    .filter((route) => route.href !== "/404/" && !route.noindex)
     .map(
       (route) => `<url>
   <loc>${absolute(route.href)}</loc>
@@ -3056,7 +3248,15 @@ function deployHeaders() {
 }
 
 function deployRedirects() {
-  return `/* /404.html 404
+  // Catch-all word lookup: any /word/<slug>/ that has NO static page is rewritten
+  // (200, not a redirect) to the single noindexed lookup template, which resolves
+  // the word client-side. Existing static word pages take precedence over this
+  // splat on Cloudflare Pages, so the 2,215 real word pages are unaffected.
+  // NOTE: a hard 301 from the *.pages.dev preview host to the apex cannot be
+  // expressed here (_redirects matches paths, not hostnames) — see Human Action
+  // Item to add a Cloudflare Redirect Rule once the apex domain is attached.
+  return `/word/* /word-lookup/ 200
+/* /404.html 404
 `;
 }
 
@@ -3089,7 +3289,7 @@ async function main() {
 
   const routes = [];
   async function emit(route) {
-    routes.push({ href: route.href });
+    routes.push({ href: route.href, noindex: route.noindex === true });
     await writeRoute(route);
   }
 
@@ -3102,6 +3302,7 @@ async function main() {
   }
   for (const word of words) await emit(renderWordPage(word));
   for (const word of enrichedWords) await emit(renderLightWordPage(word));
+  await emit(renderWordLookup());
   await emit(renderLearnHub());
   for (const lesson of lessons) await emit(renderLesson(lesson));
   await emit(renderWordListsHub());
@@ -3134,7 +3335,9 @@ async function main() {
     `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`,
   );
   await writeFile(path.join(distDir, "favicon.svg"), favicon());
-  await writeFile(path.join(distDir, "og-image.svg"), ogImage());
+  // Raster OG image (1200x630 PNG) — committed asset, copied verbatim so it works
+  // on every build host (it is pre-rendered; no SVG->PNG step needed at build time).
+  await copyFile(path.join(root, "src/assets/og-image.png"), path.join(distDir, "og-image.png"));
   await writeFile(path.join(distDir, "apple-touch-icon.svg"), appleTouchIcon());
   await writeFile(path.join(distDir, "_headers"), deployHeaders());
   await writeFile(path.join(distDir, "_redirects"), deployRedirects());

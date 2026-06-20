@@ -959,6 +959,54 @@
     });
   }
 
+  function initHeroModes() {
+    const box = document.querySelector(".hero-command-box[data-multimode='true']");
+    if (!box) return;
+    const modes = Array.from(box.querySelectorAll(".hero-mode"));
+    const input = box.querySelector("input[name='q']");
+    const submitLabel = box.querySelector("[data-submit-label]");
+    const hint = box.querySelector("[data-mode-hint]");
+    if (!modes.length || !input) return;
+
+    function activate(mode, focusInput) {
+      modes.forEach((m) => {
+        const on = m === mode;
+        m.classList.toggle("is-active", on);
+        m.setAttribute("aria-selected", on ? "true" : "false");
+        m.tabIndex = on ? 0 : -1;
+      });
+      const ph = mode.getAttribute("data-placeholder");
+      if (ph) input.setAttribute("placeholder", ph);
+      if (submitLabel) submitLabel.textContent = mode.getAttribute("data-submit") || "Go";
+      if (hint) hint.innerHTML = mode.getAttribute("data-hint") || "";
+      if (focusInput) input.focus();
+    }
+
+    modes.forEach((mode, i) => {
+      mode.addEventListener("click", () => activate(mode, true));
+      mode.addEventListener("keydown", (event) => {
+        let next = -1;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (i + 1) % modes.length;
+        else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (i - 1 + modes.length) % modes.length;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = modes.length - 1;
+        if (next >= 0) {
+          event.preventDefault();
+          modes[next].focus();
+          activate(modes[next], false);
+        }
+      });
+    });
+
+    // Keyboard-first: focus the input on load for pointer/desktop users only
+    // (avoid forcing the on-screen keyboard up on touch devices).
+    try {
+      if (!window.matchMedia || !window.matchMedia("(pointer: coarse)").matches) {
+        input.focus({ preventScroll: true });
+      }
+    } catch (_) {}
+  }
+
   function initGlobalSearch() {
     const forms = document.querySelectorAll(".global-search");
     if (!forms.length) return;
@@ -1116,6 +1164,19 @@
           history.replaceState(null, "", "/search/?q=" + encodeURIComponent(raw.trim()));
           hideSuggestions(form);
           renderSearchResults();
+          return;
+        }
+        // Multi-mode hero command box: route by the selected mode.
+        const activeMode = form.querySelector(".hero-mode.is-active");
+        if (activeMode) {
+          const route = activeMode.getAttribute("data-route");
+          const param = activeMode.getAttribute("data-param");
+          const value = raw.trim();
+          if (param === "path") {
+            window.location.href = route + encodeURIComponent(value.toLowerCase().replace(/\s+/g, "-")) + "/";
+          } else {
+            window.location.href = route + "?" + param + "=" + encodeURIComponent(value);
+          }
           return;
         }
         window.location.href = routeForQuery(raw);
@@ -1465,12 +1526,50 @@
       : '<li class="dictionary-empty">No example sentences are listed for this word yet.</li>';
   }
 
+  function resolveWordFromLocation() {
+    try {
+      var params = new URLSearchParams(location.search);
+      var q = (params.get("w") || params.get("q") || "").trim();
+      if (q) return q.toLowerCase();
+      var m = location.pathname.match(/\/word\/([^/]+)\/?$/);
+      if (m) return decodeURIComponent(m[1]).toLowerCase();
+    } catch (_) {}
+    return "";
+  }
+
   function initDictionaryLookup() {
     const shell = document.querySelector("[data-dictionary-lookup='true']");
     if (!shell) return;
 
-    const word = shell.dataset.dictionaryWord;
-    if (!word) return;
+    let word = shell.dataset.dictionaryWord;
+
+    // Catch-all template: derive the word from the URL and fill page chrome.
+    if (!word && shell.dataset.dictionaryFromPath) {
+      word = resolveWordFromLocation();
+      if (word) {
+        const label = word.charAt(0).toUpperCase() + word.slice(1);
+        document.title = label + " — Definition, Syllables & Word Tools | Word Helper";
+        const titleEl = document.querySelector("[data-word-title]");
+        if (titleEl) titleEl.textContent = word;
+        const crumb = document.querySelector("[data-word-crumb]");
+        if (crumb) crumb.textContent = label;
+        const sylCount = countSyllables(word);
+        const breakEl = document.querySelector("[data-word-syllable-break]");
+        if (breakEl) breakEl.textContent = estimateSyllableDivision(word);
+        const countEl = document.querySelector("[data-word-syllable-count]");
+        if (countEl) countEl.textContent = sylCount + (sylCount === 1 ? " syllable" : " syllables");
+        document.querySelectorAll("[data-tool-link]").forEach((a) => {
+          const base = a.getAttribute("data-tool-link");
+          a.setAttribute("href", base + "?q=" + encodeURIComponent(word));
+        });
+      }
+    }
+
+    if (!word) {
+      const s = shell.querySelector("[data-word-lookup-status]");
+      if (s) s.textContent = "Type a word in the search box above to look it up.";
+      return;
+    }
 
     const status = shell.querySelector("[data-word-lookup-status]");
     const pos = document.querySelector("[data-word-pos]");
@@ -1825,6 +1924,7 @@
     initNav();
     initRecentTools();
     initFavoriteButton();
+    initHeroModes();
     initGlobalSearch();
     initWordFilter();
     initWordListFilter();

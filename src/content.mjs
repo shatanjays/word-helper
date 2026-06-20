@@ -1263,8 +1263,13 @@ export const legalPages = [
       <p>Content corrections can be submitted by email to hello@wordhelper.online. Reports of factual errors, definition inaccuracies, broken tool results, or misleading content are treated as high priority. Corrections are reviewed, verified, and applied to the source files. Updated pages are rebuilt and redeployed as quickly as possible. We do not wait for a scheduled update cycle to fix confirmed errors.</p>`,
       `<h2>How copyrighted content is avoided</h2>
       <p>All editorial content on Word Helper is created without referencing proprietary dictionary text. Writers are instructed not to consult Oxford, Cambridge, Merriam-Webster, or similar sources when drafting definitions or examples. No paraphrasing of copyrighted definitions is acceptable. If a correction report identifies content that may be too similar to a copyrighted source, that content is removed immediately pending a full original rewrite.</p>`,
-      `<h2>Quality standards for published word pages</h2>
-      <p>A word page is published in Word Explorer only when it meets all of the following: it has an original full definition, at least two original example sentences, a pronunciation guide, a syllable breakdown, a confirmed part of speech, at least three synonyms and three antonyms, a word family section, an etymology note, and a memory tip. Pages that do not meet these criteria are held as drafts and not shown in the sitemap or indexed by search engines.</p>`,
+      `<h2>Quality standards for indexed word pages</h2>
+      <p>Word Helper publishes word pages in two clearly defined tiers, and only pages that meet a real quality bar are listed in the sitemap and indexed by search engines:</p>
+      <ul>
+        <li><strong>Complete entries</strong> carry the full treatment: an original definition, a pronunciation guide, a syllable breakdown, a confirmed part of speech, example sentences, synonyms and antonyms, a word family section, an etymology note, and a memory tip.</li>
+        <li><strong>Core entries</strong> are lighter but still substantive: an original definition, a pronunciation and syllable breakdown, a part of speech, at least two example sentences, and at least four synonyms. Additional fields such as etymology, antonyms, word family, and memory tips are added over time, at which point the entry is promoted toward a complete entry.</li>
+      </ul>
+      <p>Pages that do not yet meet the core bar are not indexed: they carry a <code>noindex</code> tag and are excluded from the sitemap until they are enriched. They may remain reachable through A–Z browsing so the tools stay useful, but they are deliberately kept out of search results to avoid publishing thin or incomplete content.</p>`,
       `<h2>FAQ and schema accuracy</h2>
       <p>Every FAQ visible on a Word Helper page is reflected accurately in the page's FAQ schema. Schema is not added for content that is not visible to the user. Tool explanations in schemas reflect the actual logic used by the tool on that page.</p>`,
       `<h2>How to report a content issue</h2>
