@@ -2271,10 +2271,10 @@ input:focus, textarea:focus, select:focus {
 /* ── Hero dictionary (new 2-col layout) ─────────────────── */
 .hero-dictionary {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
-  gap: 56px;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  gap: 32px;
   align-items: start;
-  padding: 72px 0 52px;
+  padding: 72px 0 48px;
 }
 
 /* Quick tool buttons below search */
@@ -2334,16 +2334,16 @@ input:focus, textarea:focus, select:focus {
   color: var(--text-2);
   font-family: var(--font-sans);
   font-size: 13.5px;
-  font-weight: 650;
+  font-weight: 600;
   min-height: 40px;
   padding: 7px 15px;
   border-radius: 999px;
   cursor: pointer;
-  transition: all var(--dur) var(--ease);
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 
 .hero-mode:hover { border-color: var(--navy-border); color: var(--navy); }
-.hero-mode:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.hero-mode:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 
 .hero-mode.is-active {
   background: var(--navy);
@@ -2687,6 +2687,7 @@ input:focus, textarea:focus, select:focus {
   .vibe-board-grid { grid-template-columns: 1fr; }
   .hero-quick-tools { gap: 6px; }
   .hero-tool-btn { font-size: 12.5px; height: 34px; }
+  .hero-mode { min-height: 44px; padding: 9px 16px; }
   .page-next-links { grid-template-columns: 1fr 1fr; }
 
   .tool-panel-heading, .result-heading { flex-direction: column; align-items: stretch; }
