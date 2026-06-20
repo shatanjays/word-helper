@@ -71,6 +71,20 @@ function absolute(href = "/") {
   return `${site.url}${clean}`;
 }
 
+// Words that have a real static page (populated in main() before any render).
+const publishedWordSet = new Set();
+
+// Link to a word: the real static page if it exists, otherwise the single
+// noindexed client-side lookup template (so browse/synonym links never 404).
+// NOTE: we deliberately do NOT use a "/word/* 200" rewrite — on Cloudflare Pages
+// a splat rewrite overrides existing static pages, which would clobber the 2,215
+// real word pages. Query-param routing to the lookup template avoids that.
+function wordHref(word = "") {
+  const slug = String(word).toLowerCase().trim().replace(/\s+/g, "-");
+  if (publishedWordSet.has(slug)) return `/word/${encodeURIComponent(slug)}/`;
+  return `/word-lookup/?w=${encodeURIComponent(slug)}`;
+}
+
 function icon(name, className = "icon") {
   const attrs = `class="${className}" aria-hidden="true" viewBox="0 0 24 24" fill="none"`;
   const common = `stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
@@ -780,7 +794,7 @@ function renderHome(homeWords = words) {
         <div class="wotd-synonyms">
           <span class="wotd-syn-label">Synonyms</span>
           <div class="wotd-syn-pills">
-            ${(wotd.synonyms || []).slice(0, 4).map(s => `<a class="word-pill" href="/word/${encodeURIComponent(s.toLowerCase())}/">${escapeHtml(s)}</a>`).join("")}
+            ${(wotd.synonyms || []).slice(0, 4).map(s => `<a class="word-pill" href="${wordHref(s)}">${escapeHtml(s)}</a>`).join("")}
           </div>
         </div>
         <a class="button primary wotd-cta" href="${wotd.href}">See full entry ${icon("arrow")}</a>
@@ -1426,7 +1440,8 @@ function renderWordCard(w, extraAttrs = "") {
 
 function renderBrowseCard(w) {
   const word = w.word || "";
-  const href = w.href || `/word/${encodeURIComponent(word)}/`;
+  // Browse stubs have no static page → wordHref routes them to the lookup template.
+  const href = wordHref(word);
   const syllables = Number(w.syllables) || estimateSyllables(word);
   const pos = w.partOfSpeech && w.partOfSpeech !== "word" ? w.partOfSpeech.slice(0, 3) : "";
   return `<a class="word-card browse-card" href="${href}" data-word="${escapeHtml(word)}"><strong>${escapeHtml(word)}</strong><span>${pos ? `<em>${escapeHtml(pos)}</em>` : ""}<small>${syllables}syl</small></span></a>`;
@@ -1499,11 +1514,11 @@ function renderWordPage(wordData) {
   };
 
   const synonymPills = wordData.synonyms
-    .map((w) => `<a class="word-pill" href="/word/${encodeURIComponent(w)}/">${escapeHtml(w)}</a>`)
+    .map((w) => `<a class="word-pill" href="${wordHref(w)}">${escapeHtml(w)}</a>`)
     .join("");
 
   const antonymPills = wordData.antonyms
-    .map((w) => `<a class="word-pill" href="/word/${encodeURIComponent(w)}/">${escapeHtml(w)}</a>`)
+    .map((w) => `<a class="word-pill" href="${wordHref(w)}">${escapeHtml(w)}</a>`)
     .join("");
 
   const wordFamilyItems = wordData.wordFamily
@@ -1649,10 +1664,10 @@ function renderLightWordPage(w) {
   const synonymList = (w.synonyms || []).filter(Boolean);
   const antonymList = (w.antonyms || []).filter(Boolean);
   const synonymPills = synonymList
-    .map((s) => `<a class="word-pill" href="/word/${encodeURIComponent(s.toLowerCase().replace(/\s+/g, "-"))}/">${escapeHtml(s)}</a>`)
+    .map((s) => `<a class="word-pill" href="${wordHref(s)}">${escapeHtml(s)}</a>`)
     .join("");
   const antonymPills = antonymList
-    .map((s) => `<a class="word-pill" href="/word/${encodeURIComponent(s.toLowerCase().replace(/\s+/g, "-"))}/">${escapeHtml(s)}</a>`)
+    .map((s) => `<a class="word-pill" href="${wordHref(s)}">${escapeHtml(s)}</a>`)
     .join("");
 
   // Examples
@@ -3248,15 +3263,14 @@ function deployHeaders() {
 }
 
 function deployRedirects() {
-  // Catch-all word lookup: any /word/<slug>/ that has NO static page is rewritten
-  // (200, not a redirect) to the single noindexed lookup template, which resolves
-  // the word client-side. Existing static word pages take precedence over this
-  // splat on Cloudflare Pages, so the 2,215 real word pages are unaffected.
-  // NOTE: a hard 301 from the *.pages.dev preview host to the apex cannot be
-  // expressed here (_redirects matches paths, not hostnames) — see Human Action
-  // Item to add a Cloudflare Redirect Rule once the apex domain is attached.
-  return `/word/* /word-lookup/ 200
-/* /404.html 404
+  // NOTE: we intentionally do NOT add a "/word/* /word-lookup/ 200" splat — on
+  // Cloudflare Pages a 200 rewrite OVERRIDES existing static assets, which would
+  // clobber the 2,215 real word pages. Instead, links to words without a static
+  // page point directly at "/word-lookup/?w=<slug>" via wordHref().
+  // Also: a hard 301 from the *.pages.dev preview host to the apex cannot be
+  // expressed here (_redirects matches paths, not hostnames) — see the Human
+  // Action Item to add a Cloudflare Redirect Rule once the apex is attached.
+  return `/* /404.html 404
 `;
 }
 
@@ -3278,6 +3292,9 @@ async function main() {
   }
 
   const publishedWordPages = [...words, ...enrichedWords];
+  // Record which words have a real static page so wordHref() can route the rest
+  // to the noindexed lookup template instead of producing 404 links.
+  for (const w of publishedWordPages) publishedWordSet.add(String(w.word).toLowerCase());
   // Build browse words from words.txt to fill each letter page up to letterBrowseTargets.
   const letterBrowseWords = await buildLetterBrowseWords(publishedWordPages);
   console.log(`Loaded ${letterBrowseWords.length} letter-browse words from words.txt`);

@@ -3,9 +3,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "trailingSlash": true,
-  "rewrites": [
-    { "source": "/word/:slug*", "destination": "/word-lookup/" }
-  ],
   "headers": [
     {
       "source": "/(.*)",
