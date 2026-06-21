@@ -39,6 +39,30 @@ Each entry is a real pitfall hit on this repo, converted into a permanent rule.
   only (e.g. the `/word/*` catch-all). The apex `<link rel=canonical>` is the primary SEO
   signal and is already correct regardless of host.
 
+## 7. Every form/control must be styled — unstyled forms leak native UI
+- **Mistake:** The header `.header-search` form had **zero CSS**, so the browser rendered
+  a native `<button>Search</button>` that floated out of the header and an oversized
+  unstyled icon — read on a live screenshot as a "detached floating button + ghost artifact."
+- **Rule:** Never ship a form/interactive component without explicit styles. When adding
+  markup in `build.mjs`, add its CSS in the same change. Grep the stylesheet for the new
+  class before calling it done.
+
+## 8. Dark theme = lightness ladder + visible borders, never pale shadows
+- **Rule:** On dark, separate surfaces with a stepped lightness ladder (page `#0e1524` <
+  secondary `#151d30` < card `#1b2438` < elevated `#222c43`) plus visible borders
+  (`#2c3650`) and a faint `inset 0 1px 0 rgba(255,255,255,0.05)` top highlight. The light
+  theme's pale shadows (opacity ≤0.10) vanish on dark — do not rely on them for separation.
+- **Rule:** On dark, a bright accent CTA (`#5e93d6`) needs **dark ink text** (`#0e1524`,
+  5.75:1) — white fails AA (3.17:1). The active tab is a *tinted* state (`--navy-soft` bg +
+  accent text), never a solid fill, so it stays distinct from the primary CTA.
+
+## 9. Theme default is light, deterministic, no-flash
+- **Rule:** First visit always renders **light**, regardless of OS `prefers-color-scheme`.
+  The inline `<head>` script sets `data-theme` to `dark` only if `localStorage` says so, else
+  `light` — before CSS paint (zero flash). Never reintroduce a `prefers-color-scheme` auto
+  switch in the init script, `initTheme()`, or as an `@media` block in CSS; it would override
+  the light default. The toggle persists the choice and swaps the moon/sun icon + theme-color.
+
 ## 6. Static assets win over `_redirects` splats on Pages
 - **Note (relied upon):** `/word/* /word-lookup/ 200` does NOT clobber the real
   `/word/<slug>/index.html` files — Cloudflare Pages serves existing static assets before

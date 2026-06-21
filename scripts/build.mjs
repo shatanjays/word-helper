@@ -114,6 +114,7 @@ function icon(name, className = "icon") {
     clear: `<svg ${attrs}><path d="M6 6l12 12M18 6 6 18" ${common}/></svg>`,
     example: `<svg ${attrs}><path d="M12 5v14M5 12h14" ${common}/></svg>`,
     theme: `<svg ${attrs}><path d="M12 3a7 7 0 1 0 7 7 5 5 0 0 1-7-7z" ${common}/></svg>`,
+    sun: `<svg ${attrs}><circle cx="12" cy="12" r="4" ${common}/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19" ${common}/></svg>`,
     legal: `<svg ${attrs}><path d="M7 4h7l3 3v13H7z" ${common}/><path d="M14 4v4h4M9 12h6M9 16h6" ${common}/></svg>`,
     result: `<svg ${attrs}><path d="M5 7h14M5 12h14M5 17h9" ${common}/></svg>`,
     spark: `<svg ${attrs}><path d="M12 3l1.7 5.1L19 10l-5.3 1.9L12 17l-1.7-5.1L5 10l5.3-1.9z" ${common}/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8zM5 16l.8 2.2L8 19l-2.2.8L5 22l-.8-2.2L2 19l2.2-.8z" ${common}/></svg>`,
@@ -242,9 +243,10 @@ function header(page = {}) {
       <input id="header-q" name="q" type="search" autocomplete="off" placeholder="Search words or tools">
       <button type="submit">Search</button>
     </form>
-    <button class="theme-toggle" type="button" aria-label="Switch color theme" title="Switch color theme">${icon(
-      "theme",
-    )}</button>
+    <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme">
+      <span class="theme-icon-moon" data-icon-moon>${icon("theme")}</span>
+      <span class="theme-icon-sun" data-icon-sun hidden>${icon("sun")}</span>
+    </button>
   </div>
 </header>`;
 }
@@ -361,7 +363,7 @@ function head(page, extraSchemas = [], noindex = false) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <script>try{var t=localStorage.getItem('word-helper-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.dataset.theme='dark';}catch(e){}</script>
+  <script>try{var t=localStorage.getItem('word-helper-theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light';}catch(e){document.documentElement.dataset.theme='light';}</script>
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(desc)}">
   ${noindex ? '<meta name="robots" content="noindex, follow">' : ""}
@@ -370,7 +372,7 @@ function head(page, extraSchemas = [], noindex = false) {
   <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="${site.name}">
   <meta property="og:title" content="${escapeHtml(title)}">
@@ -384,8 +386,7 @@ function head(page, extraSchemas = [], noindex = false) {
   <meta name="twitter:title" content="${escapeHtml(title)}">
   <meta name="twitter:description" content="${escapeHtml(desc)}">
   <meta name="twitter:image" content="${ogImage}">
-  <meta name="theme-color" content="#12151c" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#ffffff" data-dynamic>
   ${isWordPage ? '<link rel="preconnect" href="https://api.dictionaryapi.dev">' : ""}
   <link rel="stylesheet" href="/assets/site.css?v=${assetVersion}">
   ${schemaScript([...baseSchemas(), ...extraSchemas])}
@@ -748,11 +749,11 @@ function renderHome(homeWords = words) {
     .filter(w => w && w.word !== wotd.word)
     .slice(0, 6);
 
-  const body = `<section class="hero hero-dictionary" id="word-command">
+  const body = `<section class="hero hero-search" id="word-command">
     <div class="hero-copy">
-      <p class="eyebrow hero-eyebrow">${icon("spark")} English word reference for players, writers &amp; learners</p>
-      <h1>Define. Explore. Play with words.</h1>
-      <p class="hero-lede">Look up any English word for its definition, pronunciation, synonyms, etymology, and syllable count — or use the word tools for games, rhymes, and vocabulary building.</p>
+      <p class="eyebrow hero-eyebrow">${icon("spark")} The free English dictionary &amp; word tools</p>
+      <h1>Look up any English word.</h1>
+      <p class="hero-lede">Definitions, pronunciation, synonyms, etymology, and syllables — plus tools for word games, rhymes, and building vocabulary. Free, and no account needed.</p>
       <form class="global-search command-search hero-command-box" data-multimode="true" data-word-pages='${JSON.stringify(words.map((w) => w.word))}' aria-label="Search a word or run a word tool">
         <div class="hero-modes" role="tablist" aria-label="Choose what to do with your input">
           <button type="button" class="hero-mode is-active" role="tab" aria-selected="true" data-mode="define" data-route="/word/" data-param="path" data-submit="Look up" data-placeholder="Look up a word — e.g. ephemeral, resilient…" data-hint="Definition, pronunciation, synonyms, etymology &amp; syllables for any English word.">Define</button>
@@ -778,7 +779,13 @@ function renderHome(homeWords = words) {
         <span>${icon("check")} No account needed</span>
       </div>
     </div>
-    <aside class="hero-wotd-panel" aria-label="Word of the day">
+  </section>
+  <section class="section wotd-section" aria-labelledby="wotd-heading">
+    <div class="section-heading">
+      <p class="eyebrow">${icon("spark")} Word of the Day</p>
+      <h2 id="wotd-heading">Today's word to learn</h2>
+    </div>
+    <div class="wotd-layout">
       <div class="wotd-card">
         <div class="wotd-header">
           <span class="wotd-label">Word of the Day</span>
@@ -804,7 +811,7 @@ function renderHome(homeWords = words) {
         <a class="wotd-explore-link" href="/practice/vocabulary-quiz/">${icon("practice")}<div><strong>Vocabulary Quiz</strong><small>Test your knowledge</small></div></a>
         <a class="wotd-explore-link" href="/word-lists/">${icon("wordlists")}<div><strong>Word Lists</strong><small>Curated collections</small></div></a>
       </div>
-    </aside>
+    </div>
   </section>
   <div id="recent-tools-section" class="section recent-section" hidden aria-live="polite">
     <div class="section-heading">
@@ -3212,7 +3219,7 @@ ${entries}
 
 function favicon() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#10A37F"/>
+  <rect width="64" height="64" rx="16" fill="#1a73e8"/>
   <path d="M18 18h8l6 24 6-24h8" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M16 44h32" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
 </svg>`;
@@ -3221,12 +3228,12 @@ function favicon() {
 function ogImage() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <rect width="1200" height="630" fill="#212121"/>
-  <rect x="60" y="200" width="84" height="84" rx="18" fill="#10A37F"/>
+  <rect x="60" y="200" width="84" height="84" rx="18" fill="#1a73e8"/>
   <path d="M76 226h16l12 40 12-40h16" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M73 266h50" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
   <text x="168" y="256" font-family="Arial,sans-serif" font-size="56" font-weight="700" fill="#ECECEC">Word Helper</text>
   <text x="60" y="348" font-family="Arial,sans-serif" font-size="28" fill="#A3A3A3">English Word Intelligence Platform</text>
-  <rect x="60" y="400" width="180" height="44" rx="8" fill="#10A37F"/>
+  <rect x="60" y="400" width="180" height="44" rx="8" fill="#1a73e8"/>
   <text x="150" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#fff" text-anchor="middle">Word Unscramble</text>
   <rect x="256" y="400" width="160" height="44" rx="8" fill="#2F2F2F" stroke="#3F3F3F" stroke-width="1"/>
   <text x="336" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#CFCFCF" text-anchor="middle">Anagram Solver</text>
@@ -3240,7 +3247,7 @@ function ogImage() {
 
 function appleTouchIcon() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
-  <rect width="180" height="180" rx="38" fill="#10A37F"/>
+  <rect width="180" height="180" rx="38" fill="#1a73e8"/>
   <path d="M46 52h26l22 76 22-76h26" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M40 132h100" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round"/>
 </svg>`;

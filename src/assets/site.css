@@ -8,125 +8,169 @@
 :root {
   color-scheme: light;
 
-  /* Backgrounds */
-  --bg:           #faf9f7;      /* warm off-white, like dictionary paper */
-  --bg-secondary: #f3f1ee;
-  --bg-ink:       #1a2035;      /* near-black for dark sections */
+  /* Backgrounds — clean, bright, cool (global reference, not warm paper) */
+  --bg:           #ffffff;
+  --bg-secondary: #f5f7fb;      /* very light cool grey */
+  --bg-ink:       #0d1320;      /* deep cool for inverted sections */
   --card:         #ffffff;
-  --elevated:     #f8f7f5;
+  --elevated:     #f7f9fc;
 
-  /* Ink palette */
-  --text:         #111827;      /* near-black */
-  --text-2:       #374151;
-  --muted:        #6b7280;
-  --soft:         #9ca3af;
-  --faint:        #d1d5db;
+  /* Ink palette — cool neutrals */
+  --text:         #1f2733;
+  --text-2:       #3f4756;
+  --muted:        #5f6776;
+  --soft:         #8b94a3;
+  --faint:        #d9dee7;
 
-  /* Borders */
-  --border:       #e5e3de;
-  --border-mid:   #d3cfc8;
-  --border-strong:#b5b0a7;
+  /* Borders — cool hairlines */
+  --border:       #e5e9f0;
+  --border-mid:   #d3d9e3;
+  --border-strong:#b4bdcb;
 
-  /* Navy — primary brand / accent */
-  --navy:         #1e3a5f;
-  --navy-deep:    #13243d;
-  --navy-mid:     #3d6494;
-  --navy-pale:    #dde8f4;
-  --navy-soft:    rgba(30, 58, 95, 0.08);
-  --navy-border:  rgba(30, 58, 95, 0.22);
+  /* Accent — ONE confident global blue. (--navy kept as the var name so every
+     existing reference re-skins to blue in one move.) */
+  --navy:         #1a73e8;
+  --navy-deep:    #1763cc;
+  --navy-mid:     #4a90e2;
+  --navy-pale:    #e8f0fe;
+  --navy-soft:    rgba(26, 115, 232, 0.08);
+  --navy-border:  rgba(26, 115, 232, 0.26);
 
-  /* Semantic accent (keep green for interactive states) */
-  --accent:       #1e3a5f;
-  --accent-hover: #13243d;
-  --accent-soft:  rgba(30, 58, 95, 0.07);
-  --accent-border:rgba(30, 58, 95, 0.20);
+  --accent:       #1a73e8;
+  --accent-hover: #1763cc;
+  --accent-soft:  rgba(26, 115, 232, 0.08);
+  --accent-border:rgba(26, 115, 232, 0.24);
 
-  /* Part-of-speech colours */
-  --pos-noun-bg:  rgba(234, 179, 8, 0.10);
+  /* Part-of-speech colours (functional only) */
+  --pos-noun-bg:  rgba(234, 179, 8, 0.12);
   --pos-noun-fg:  #92400e;
-  --pos-verb-bg:  rgba(16, 185, 129, 0.10);
+  --pos-verb-bg:  rgba(16, 185, 129, 0.12);
   --pos-verb-fg:  #065f46;
-  --pos-adj-bg:   rgba(59, 130, 246, 0.10);
-  --pos-adj-fg:   #1e40af;
-  --pos-adv-bg:   rgba(139, 92, 246, 0.10);
+  --pos-adj-bg:   rgba(26, 115, 232, 0.12);
+  --pos-adj-fg:   #1857b8;
+  --pos-adv-bg:   rgba(139, 92, 246, 0.12);
   --pos-adv-fg:   #5b21b6;
-  --pos-other-bg: #f3f1ee;
-  --pos-other-fg: #6b7280;
+  --pos-other-bg: #eef1f6;
+  --pos-other-fg: #5f6776;
 
-  /* Shadows — understated, like print */
-  --shadow-xs:  0 1px 2px rgba(17,24,39,0.04);
-  --shadow-sm:  0 1px 4px rgba(17,24,39,0.06), 0 2px 8px rgba(17,24,39,0.04);
-  --shadow:     0 4px 16px rgba(17,24,39,0.08), 0 1px 4px rgba(17,24,39,0.04);
-  --shadow-md:  0 8px 28px rgba(17,24,39,0.10), 0 2px 6px rgba(17,24,39,0.05);
+  /* Shadows — soft, cool, Google-ish (separation is mostly whitespace + hairline) */
+  --shadow-xs:  0 1px 2px rgba(31,39,51,0.06);
+  --shadow-sm:  0 1px 3px rgba(31,39,51,0.10), 0 1px 2px rgba(31,39,51,0.05);
+  --shadow:     0 2px 10px rgba(31,39,51,0.10), 0 1px 3px rgba(31,39,51,0.06);
+  --shadow-md:  0 8px 28px rgba(31,39,51,0.14), 0 2px 6px rgba(31,39,51,0.06);
 
-  /* Shape */
+  /* Shape — slightly rounder for the friendly global feel */
   --radius-xs:  4px;
-  --radius-sm:  6px;
-  --radius:     8px;
-  --radius-lg:  12px;
-  --radius-xl:  16px;
+  --radius-sm:  8px;
+  --radius:     10px;
+  --radius-lg:  14px;
+  --radius-xl:  18px;
+  --radius-pill:999px;
 
   /* Layout */
-  --max:        1180px;
-  --text-max:   740px;    /* max width for reading text */
-  --focus:      rgba(30, 58, 95, 0.42);
+  --max:        1120px;
+  --text-max:   720px;
+  --focus:      rgba(26, 115, 232, 0.45);
 
-  /* Typography */
-  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --font-sans:  "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* Typography — crisp sans for everything; serif is system fallback only */
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-sans:  "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono:  ui-monospace, "SFMono-Regular", monospace;
 
   /* Motion */
-  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --dur:  150ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur:  160ms;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --bg:           #12151c;
-  --bg-secondary: #191d27;
-  --bg-ink:       #0a0d14;
-  --card:         #1c2030;
-  --elevated:     #21263a;
+  /* Surface elevation ladder — clean cool-dark, each step visibly lighter */
+  --bg:           #0d1320;
+  --bg-secondary: #121a29;
+  --bg-ink:       #080c14;
+  --card:         #161d2b;
+  --elevated:     #1d2638;
 
-  --text:         #f0efec;
-  --text-2:       #c9c5bc;
-  --muted:        #8b8680;
-  --soft:         #5c5750;
-  --faint:        #3a3730;
+  /* Ink — cool near-white */
+  --text:         #e8edf4;
+  --text-2:       #b3bccb;
+  --muted:        #7e8a9c;
+  --soft:         #5f6a7d;
+  --faint:        #3a4660;
 
-  --border:       #2e3348;
-  --border-mid:   #3d4460;
-  --border-strong:#4e5678;
+  /* Borders — visible on dark */
+  --border:       #283449;
+  --border-mid:   #36435b;
+  --border-strong:#495877;
 
-  --navy:         #6ba3d6;
-  --navy-deep:    #8fbde0;
-  --navy-mid:     #4a84bb;
-  --navy-pale:    #1a2e44;
-  --navy-soft:    rgba(107, 163, 214, 0.10);
-  --navy-border:  rgba(107, 163, 214, 0.24);
+  /* Accent — bright global blue so CTAs pop */
+  --navy:         #5e9bf0;
+  --navy-deep:    #7aabf3;   /* hover BRIGHTENS on dark */
+  --navy-mid:     #7aa3da;
+  --navy-pale:    #16243c;
+  --navy-soft:    rgba(94, 155, 240, 0.14);
+  --navy-border:  rgba(94, 155, 240, 0.40);
 
-  --accent:       #6ba3d6;
-  --accent-hover: #8fbde0;
-  --accent-soft:  rgba(107, 163, 214, 0.10);
-  --accent-border:rgba(107, 163, 214, 0.24);
+  --accent:       #5e9bf0;
+  --accent-hover: #7aabf3;
+  --accent-soft:  rgba(94, 155, 240, 0.14);
+  --accent-border:rgba(94, 155, 240, 0.40);
 
-  --pos-noun-bg:  rgba(234, 179, 8, 0.14);
+  --focus:        rgba(94, 155, 240, 0.55);
+
+  /* Part-of-speech tints — raised opacity + brighter fg for dark legibility */
+  --pos-noun-bg:  rgba(234, 179, 8, 0.16);
   --pos-noun-fg:  #fcd34d;
-  --pos-verb-bg:  rgba(52, 211, 153, 0.13);
-  --pos-verb-fg:  #34d399;
-  --pos-adj-bg:   rgba(96, 165, 250, 0.13);
-  --pos-adj-fg:   #60a5fa;
-  --pos-adv-bg:   rgba(167, 139, 250, 0.13);
-  --pos-adv-fg:   #a78bfa;
-  --pos-other-bg: #21263a;
-  --pos-other-fg: #8b8680;
+  --pos-verb-bg:  rgba(16, 185, 129, 0.16);
+  --pos-verb-fg:  #6ee7b7;
+  --pos-adj-bg:   rgba(94, 155, 240, 0.18);
+  --pos-adj-fg:   #93c5fd;
+  --pos-adv-bg:   rgba(139, 92, 246, 0.16);
+  --pos-adv-fg:   #c4b5fd;
+  --pos-other-bg: #1d2638;
+  --pos-other-fg: #7e8a9c;
 
-  --shadow-xs:  0 1px 3px rgba(0,0,0,0.20);
-  --shadow-sm:  0 2px 8px rgba(0,0,0,0.24);
-  --shadow:     0 6px 20px rgba(0,0,0,0.28);
-  --shadow-md:  0 12px 36px rgba(0,0,0,0.32);
+  /* Shadows barely register on dark — separation is the ladder + borders; reserve
+     real shadows for deep float (popovers/modals). */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.30);
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.32);
+  --shadow:     0 8px 24px rgba(0,0,0,0.40);
+  --shadow-md:  0 16px 40px rgba(0,0,0,0.46);
+}
+
+/* ── Dark theme component overrides ──────────────────────────
+   Light theme is unchanged. These only adjust dark so the CTA pops, the active
+   tab reads as a tinted state (not a solid fill like the CTA), and cards gain a
+   faint "lit from above" highlight. */
+
+/* Primary/solid-accent controls: dark ink on the bright accent fill passes
+   WCAG AA (5.75:1) where white would fail (3.17:1). */
+:root[data-theme="dark"] .button.primary,
+:root[data-theme="dark"] .header-search button,
+:root[data-theme="dark"] .quiz-nav button,
+:root[data-theme="dark"] .wotd-cta,
+:root[data-theme="dark"] .az-link-active,
+:root[data-theme="dark"] .az-link-active:hover {
+  color: #0d1320;
+}
+
+/* Active pill/tab = tinted state, visually distinct from the solid primary CTA. */
+:root[data-theme="dark"] .hero-mode.is-active {
+  background: var(--navy-soft);
+  color: var(--navy);
+  border-color: var(--navy-border);
+}
+
+/* Faint top highlight so cards read as lit surfaces, not flat slabs. */
+:root[data-theme="dark"] .resource-card,
+:root[data-theme="dark"] .word-card,
+:root[data-theme="dark"] .wotd-card,
+:root[data-theme="dark"] .stat-item,
+:root[data-theme="dark"] .tool-panel,
+:root[data-theme="dark"] .result-panel,
+:root[data-theme="dark"] .intent-card {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 /* ── Reset ───────────────────────────────────────────────── */
@@ -195,7 +239,7 @@ img, svg { max-width: 100%; }
 /* ── Typography ──────────────────────────────────────────── */
 h1, h2, h3, h4, h5 {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   color: var(--text);
   font-weight: 600;
   line-height: 1.15;
@@ -286,7 +330,7 @@ p:last-child { margin-bottom: 0; }
 
 .brand strong {
   display: block;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   color: var(--text);
@@ -343,6 +387,71 @@ p:last-child { margin-bottom: 0; }
 }
 
 .theme-toggle:hover { border-color: var(--border-mid); }
+.theme-toggle span { display: inline-grid; place-items: center; color: inherit; }
+.theme-toggle [hidden] { display: none; }
+
+/* Header search — a single contained field + submit unit.
+   (Root-cause fix: this form previously had NO styles, so the browser rendered a
+   native submit button that floated out of the header, plus an oversized unstyled
+   icon. All values are tokens, so it adapts to light/dark automatically.) */
+.header-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: clamp(170px, 16vw, 240px);
+  height: 42px;
+  padding: 0 6px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.header-search:focus-within {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px var(--navy-soft);
+}
+
+.header-search > span {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+
+.header-search > span .icon { width: 18px; height: 18px; }
+
+.header-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+.header-search input:focus { outline: none; }
+.header-search input::placeholder { color: var(--soft); }
+
+.header-search button {
+  flex-shrink: 0;
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease);
+}
+
+.header-search button:hover { background: var(--navy-deep); }
 
 .nav-toggle {
   display: none;
@@ -354,6 +463,25 @@ p:last-child { margin-bottom: 0; }
   width: 16px; height: 1.5px;
   border-radius: 99px;
   background: var(--text);
+}
+
+/* Header collapses to a hamburger below desktop — the full 8-item nav plus the
+   search field is too wide for tablet widths, which is what pushed elements out
+   of the header. Below 1024px: brand + hamburger + theme toggle only. */
+@media (max-width: 1024px) {
+  .header-inner { grid-template-columns: 1fr auto auto; }
+  .nav-toggle { display: inline-grid; }
+  .header-search { display: none; }
+  .site-nav {
+    grid-column: 1 / -1;
+    display: none;
+    justify-content: stretch;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+    padding-top: 8px;
+  }
+  .site-nav.open { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+  .site-nav a { justify-content: center; background: var(--card); border: 1px solid var(--border); }
 }
 
 /* ── Buttons ─────────────────────────────────────────────── */
@@ -820,7 +948,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .summary-card span { display: block; color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-.summary-card strong { display: block; margin-top: 8px; font-size: 28px; font-weight: 700; color: var(--navy); font-family: var(--font-serif); }
+.summary-card strong { display: block; margin-top: 8px; font-size: 28px; font-weight: 700; color: var(--navy); font-family: var(--font-sans); }
 
 .syllable-table { width: 100%; border-collapse: collapse; }
 .syllable-table th, .syllable-table td { border-bottom: 1px solid var(--border); padding: 10px 12px; text-align: left; font-size: 14px; }
@@ -1012,44 +1140,45 @@ input:focus, textarea:focus, select:focus {
 .global-search-inner {
   display: flex;
   align-items: center;
-  gap: 8px;
-  border: 1.5px solid var(--border-mid);
-  border-radius: var(--radius);
+  gap: 6px;
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-pill);
   background: var(--card);
-  padding: 7px 8px;
+  padding: 6px 6px 6px 18px;
   box-shadow: var(--shadow-sm);
   transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 
+.global-search-inner:hover { box-shadow: var(--shadow); }
+
 .global-search-inner:focus-within {
   border-color: var(--navy);
-  box-shadow: 0 0 0 3px var(--navy-soft), var(--shadow-sm);
+  box-shadow: 0 0 0 4px var(--navy-soft), var(--shadow);
 }
 
 .search-icon {
   display: inline-grid;
-  width: 36px; height: 36px;
   place-items: center;
-  border-radius: var(--radius-sm);
-  background: var(--navy-soft);
-  color: var(--navy);
+  color: var(--muted);
   flex-shrink: 0;
 }
+.search-icon .icon { width: 22px; height: 22px; }
 
 .global-search-inner input {
   flex: 1;
   min-width: 0;
-  height: 44px;
+  height: 48px;
   border: 0;
   background: transparent;
   margin: 0;
-  padding: 0 6px;
-  font-size: 15px;
+  padding: 0 8px;
+  font-size: 17px;
+  color: var(--text);
   box-shadow: none;
 }
 
-.global-search-inner input:focus { border: 0; box-shadow: none; }
-.global-search-inner .button.primary { height: 44px; padding: 0 16px; flex-shrink: 0; border-radius: var(--radius-sm); }
+.global-search-inner input:focus { border: 0; box-shadow: none; outline: none; }
+.global-search-inner .button.primary { height: 48px; padding: 0 24px; flex-shrink: 0; border-radius: var(--radius-pill); font-size: 15px; }
 
 .search-hint { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
 .search-example { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
@@ -1125,7 +1254,7 @@ input:focus, textarea:focus, select:focus {
 .word-card-syllables { color: var(--soft); font-size: 11px; font-weight: 650; font-family: var(--font-mono); }
 
 .word-card-word {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 22px;
   font-weight: 700;
   color: var(--text);
@@ -1160,11 +1289,11 @@ input:focus, textarea:focus, select:focus {
 
 /* The word title — large, authoritative, serif */
 .word-title {
-  font-family: var(--font-serif);
-  font-size: clamp(52px, 9vw, 96px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 0.96;
+  font-family: var(--font-sans);
+  font-size: clamp(48px, 8vw, 84px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
   color: var(--text);
 }
 
@@ -1177,7 +1306,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .pronunciation {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 18px;
   color: var(--text-2);
   font-style: italic;
@@ -1209,7 +1338,7 @@ input:focus, textarea:focus, select:focus {
 
 .word-short-def {
   max-width: 660px;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 19px;
   color: var(--text-2);
   line-height: 1.65;
@@ -1245,7 +1374,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .word-fact span { color: var(--muted); font-size: 10.5px; font-weight: 750; letter-spacing: 0.05em; text-transform: uppercase; }
-.word-fact strong { color: var(--text); font-family: var(--font-serif); font-size: 20px; font-weight: 700; line-height: 1.15; text-transform: capitalize; }
+.word-fact strong { color: var(--text); font-family: var(--font-sans); font-size: 20px; font-weight: 700; line-height: 1.15; text-transform: capitalize; }
 .word-fact a { color: inherit; }
 .word-fact a:hover { color: var(--navy); }
 
@@ -1263,7 +1392,7 @@ input:focus, textarea:focus, select:focus {
 .word-section:last-child { border-bottom: none; }
 
 .word-section-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 22px;
   font-weight: 600;
   color: var(--text);
@@ -1283,7 +1412,7 @@ input:focus, textarea:focus, select:focus {
 
 .definition-block p {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 17px;
   color: var(--text-2);
   line-height: 1.78;
@@ -1340,7 +1469,7 @@ input:focus, textarea:focus, select:focus {
 
 .example-list p {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 15.5px;
   font-style: italic;
   color: var(--text-2);
@@ -1391,7 +1520,7 @@ input:focus, textarea:focus, select:focus {
   background: var(--card);
 }
 
-.word-family-item strong { font-family: var(--font-serif); font-size: 16px; font-weight: 700; color: var(--text); }
+.word-family-item strong { font-family: var(--font-sans); font-size: 16px; font-weight: 700; color: var(--text); }
 
 .pos-mini {
   font-family: var(--font-sans);
@@ -1534,7 +1663,7 @@ input:focus, textarea:focus, select:focus {
   text-align: center;
 }
 
-.stat-item strong { font-family: var(--font-serif); font-size: 32px; font-weight: 700; color: var(--navy); line-height: 1; }
+.stat-item strong { font-family: var(--font-sans); font-size: 32px; font-weight: 700; color: var(--navy); line-height: 1; }
 .stat-item span { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
 
 /* ── A-Z navigation ──────────────────────────────────────── */
@@ -1545,7 +1674,7 @@ input:focus, textarea:focus, select:focus {
   align-items: center;
   justify-content: center;
   width: 36px; height: 36px;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 700;
   border: 1px solid var(--border);
@@ -1683,7 +1812,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .lesson-card:hover { border-color: var(--navy-border); box-shadow: var(--shadow); transform: translateY(-2px); }
-.lesson-card-title { font-family: var(--font-serif); font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.lesson-card-title { font-family: var(--font-sans); font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.3; }
 .lesson-card-intro { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
 
 /* ── Practice / Quiz ─────────────────────────────────────── */
@@ -1711,7 +1840,7 @@ input:focus, textarea:focus, select:focus {
 .quiz-card { min-height: 200px; }
 
 .quiz-definition {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 19px;
   font-weight: 400;
   color: var(--text);
@@ -1731,7 +1860,7 @@ input:focus, textarea:focus, select:focus {
   padding: 12px 16px;
   font-size: 15px;
   font-weight: 600;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   background: var(--bg-secondary);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
@@ -1772,7 +1901,7 @@ input:focus, textarea:focus, select:focus {
   padding: 12px 16px;
   font-size: 15px;
   font-weight: 600;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   background: var(--bg-secondary);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
@@ -1816,7 +1945,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .home-az-link:hover { border-color: var(--navy-border); background: var(--navy-soft); transform: translateY(-2px); }
-.home-az-link strong { font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
+.home-az-link strong { font-family: var(--font-sans); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
 
 /* ── Intent / use-case cards ─────────────────────────────── */
 .intent-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
@@ -1954,7 +2083,7 @@ input:focus, textarea:focus, select:focus {
 
 .hero-tool-strip a:hover { border-color: var(--navy-border); box-shadow: var(--shadow); transform: translateY(-2px); }
 .hero-tool-strip span { color: var(--navy); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; }
-.hero-tool-strip strong { color: var(--text); font-family: var(--font-serif); font-size: 26px; line-height: 1; font-weight: 700; }
+.hero-tool-strip strong { color: var(--text); font-family: var(--font-sans); font-size: 26px; line-height: 1; font-weight: 700; }
 .hero-tool-strip small { color: var(--muted); font-size: 11.5px; line-height: 1.4; }
 
 /* Workspace (hero right panel) */
@@ -1993,7 +2122,7 @@ input:focus, textarea:focus, select:focus {
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--bg-secondary);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 22px;
   font-weight: 700;
   color: var(--text);
@@ -2003,7 +2132,7 @@ input:focus, textarea:focus, select:focus {
 
 .hero-word-display {
   display: block;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 38px;
   font-weight: 700;
   color: var(--navy);
@@ -2026,7 +2155,7 @@ input:focus, textarea:focus, select:focus {
 
 .vibe-mini-card:hover { border-color: var(--navy-border); }
 .vibe-mini-card span { font-size: 10px; font-weight: 750; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
-.vibe-mini-card strong { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--text); line-height: 1; }
+.vibe-mini-card strong { font-family: var(--font-sans); font-size: 20px; font-weight: 700; color: var(--text); line-height: 1; }
 .vibe-mini-card small { font-size: 11.5px; color: var(--muted); }
 
 .vibe-lane {
@@ -2140,7 +2269,7 @@ input:focus, textarea:focus, select:focus {
   color: #fff;
   font-size: 17px;
   font-weight: 700;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .footer-brand .brand-mark { background: rgba(255,255,255,0.12); }
@@ -2199,7 +2328,7 @@ input:focus, textarea:focus, select:focus {
 .suggested-searches a:hover { border-color: var(--navy-border); color: var(--navy); background: var(--navy-soft); }
 
 /* ── Word usage note ─────────────────────────────────────── */
-.word-usage-note { font-family: var(--font-serif); font-size: 16px; color: var(--text-2); line-height: 1.7; max-width: 800px; padding: 0; }
+.word-usage-note { font-family: var(--font-sans); font-size: 16px; color: var(--text-2); line-height: 1.7; max-width: 800px; padding: 0; }
 .word-extended-def { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 15px; color: var(--muted); }
 
 /* ── Search results ──────────────────────────────────────── */
@@ -2231,7 +2360,7 @@ input:focus, textarea:focus, select:focus {
 .browse-card:hover { border-color: var(--navy-border); background: var(--navy-soft); }
 
 .browse-card strong {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 15px;
   font-weight: 600;
   color: var(--text);
@@ -2268,13 +2397,36 @@ input:focus, textarea:focus, select:focus {
   gap: 5px;
 }
 
-/* ── Hero dictionary (new 2-col layout) ─────────────────── */
-.hero-dictionary {
+/* ── Hero: search-first, centered (clean global look) ───── */
+.hero-search {
+  display: block;
+  text-align: center;
+  padding: 88px 0 60px;
+}
+
+.hero-search .hero-copy { max-width: 760px; margin: 0 auto; }
+.hero-search .hero-eyebrow { margin: 0 auto; }
+
+.hero-search h1 {
+  margin-top: 18px;
+  font-size: clamp(38px, 6vw, 60px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+.hero-search .hero-lede { max-width: 620px; margin: 18px auto 0; }
+.hero-search .command-search { margin: 32px auto 0; }
+.hero-search .hero-modes { justify-content: center; }
+.hero-search .search-hint { text-align: center; }
+.hero-search .hero-trust-row { justify-content: center; margin-top: 22px; }
+
+/* Word of the Day section (relocated below the hero) */
+.wotd-section .wotd-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
-  gap: 32px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: 24px;
   align-items: start;
-  padding: 72px 0 48px;
 }
 
 /* Quick tool buttons below search */
@@ -2437,11 +2589,11 @@ input:focus, textarea:focus, select:focus {
 
 .wotd-word {
   display: block;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: clamp(34px, 5vw, 48px);
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 1.05;
   text-decoration: none;
   margin-bottom: 6px;
@@ -2457,7 +2609,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .wotd-phonetics .pronunciation {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-style: italic;
   font-size: 15px;
   color: var(--muted);
@@ -2471,7 +2623,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .wotd-def {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 15.5px;
   line-height: 1.65;
   color: var(--text-2);
@@ -2495,7 +2647,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .wotd-etymology p {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-style: italic;
   font-size: 13.5px;
   line-height: 1.55;
@@ -2631,8 +2783,8 @@ input:focus, textarea:focus, select:focus {
   .hero, .tool-shell, .split { grid-template-columns: 1fr; }
   .hero { padding-top: 48px; }
   .hero-command { grid-template-columns: 1fr; padding: 56px 0 40px; }
-  .hero-dictionary { grid-template-columns: 1fr; padding: 56px 0 40px; gap: 36px; }
-  .hero-wotd-panel { position: static; }
+  .hero-search { padding: 52px 0 36px; }
+  .wotd-section .wotd-layout { grid-template-columns: 1fr; }
   .page-next-inner { grid-template-columns: 1fr; gap: 24px; }
   .card-grid, .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .intent-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -2645,23 +2797,10 @@ input:focus, textarea:focus, select:focus {
 
 /* ── Responsive — mobile ─────────────────────────────────── */
 @media (max-width: 760px) {
-  .header-inner { grid-template-columns: 1fr auto auto; padding: 8px 16px; }
-  .nav-toggle { display: inline-grid; }
-
-  .site-nav {
-    grid-column: 1 / -1;
-    display: none;
-    justify-content: stretch;
-    border-top: 1px solid var(--border);
-    padding-top: 8px;
-  }
-
-  .site-nav.open {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .site-nav a { justify-content: center; background: var(--card); border: 1px solid var(--border); }
+  /* Header nav collapse is handled at <=1024px; phones just tighten padding and
+     drop the dropdown to two columns. */
+  .header-inner { padding: 8px 16px; }
+  .site-nav.open { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .hero, .page-hero, .section, .tool-shell, .article-page, .footer-inner, .legal-content {
     width: min(100% - 28px, var(--max));

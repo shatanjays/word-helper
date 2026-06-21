@@ -1,28 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1e3a5f"/>
-      <stop offset="1" stop-color="#13243d"/>
-    </linearGradient>
-  </defs>
-  <!-- full square background (only the centre 630 band is exported) -->
-  <rect width="1200" height="1200" fill="url(#bg)"/>
+  <rect width="1200" height="1200" fill="#ffffff"/>
   <!-- OG design lives in the centred band y=285..915 -->
   <g transform="translate(0,285)">
-    <rect x="48" y="36" width="1104" height="558" rx="28" fill="#faf9f7"/>
-    <!-- brand mark -->
-    <g transform="translate(96,84)">
-      <rect x="0" y="0" width="76" height="76" rx="18" fill="#1e3a5f"/>
-      <path d="M20 22h9l9 32 9-32h9" fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M18 60h40" fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+    <!-- thin top accent bar -->
+    <rect x="96" y="40" width="64" height="6" rx="3" fill="#1a73e8"/>
+    <!-- brand -->
+    <g transform="translate(96,72)">
+      <rect x="0" y="0" width="64" height="64" rx="16" fill="#1a73e8"/>
+      <path d="M16 18h8l8 28 8-28h8" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M15 50h34" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
     </g>
-    <text x="190" y="138" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="700" fill="#1e3a5f">Word Helper</text>
+    <text x="176" y="115" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#1f2733">Word Helper</text>
     <!-- headline -->
-    <text x="96" y="268" font-family="Georgia, 'Times New Roman', serif" font-size="74" font-weight="700" fill="#111827">Define. Explore.</text>
-    <text x="96" y="356" font-family="Georgia, 'Times New Roman', serif" font-size="74" font-weight="700" fill="#111827">Play with words.</text>
-    <!-- tagline -->
-    <text x="100" y="430" font-family="Arial, sans-serif" font-size="27" fill="#374151">Free word tools, dictionary, rhymes, syllables &amp; vocabulary</text>
-    <!-- footer url -->
-    <text x="100" y="492" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#1e3a5f">wordhelper.online</text>
+    <text x="94" y="232" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800" letter-spacing="-2" fill="#1f2733">Look up any</text>
+    <text x="94" y="320" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800" letter-spacing="-2" fill="#1f2733">English word.</text>
+    <!-- search pill graphic -->
+    <g transform="translate(96,372)">
+      <rect x="0" y="0" width="1008" height="84" rx="42" fill="#ffffff" stroke="#d3d9e3" stroke-width="2"/>
+      <circle cx="52" cy="42" r="13" fill="none" stroke="#5f6776" stroke-width="4"/>
+      <path d="M62 52l12 12" stroke="#5f6776" stroke-width="4" stroke-linecap="round"/>
+      <text x="92" y="52" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#8b94a3">ephemeral, resilient, serendipity…</text>
+      <rect x="846" y="14" width="148" height="56" rx="28" fill="#1a73e8"/>
+      <text x="920" y="51" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">Look up</text>
+    </g>
+    <!-- tagline + url -->
+    <text x="96" y="520" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#5f6776">Free dictionary · synonyms · rhymes · syllables · word games</text>
+    <text x="96" y="566" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#1a73e8">wordhelper.online</text>
   </g>
 </svg>
