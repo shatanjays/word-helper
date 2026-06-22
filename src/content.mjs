@@ -3,7 +3,7 @@ export const site = {
   url: "https://wordhelper.online",
   email: "hello@wordhelper.online",
   description:
-    "Word Helper is a premium word tools platform for solving word games, finding rhymes, counting syllables, exploring spelling patterns, and building vocabulary.",
+    "Word Helper — English word tools & vocabulary reference. A comprehensive English dictionary with tools for word games, writing, rhymes, syllables, and vocabulary.",
 };
 
 export const toolNav = [
@@ -1191,7 +1191,7 @@ export const legalPages = [
       "Word Helper is available at https://wordhelper.online. This Privacy Policy explains how this website handles information in a practical, plain-language way.",
       "Tool inputs are processed in your browser. The interactive word tools run entirely in your browser and do not send your input text to a server. Do not enter private, sensitive, regulated, or confidential text if you do not want it handled by a public website interface.",
       "Word Helper uses local browser storage (localStorage) to remember your color theme preference, recently used tools, and recent tool inputs. This data stays on your device and is not transmitted to any server.",
-      "Word Helper uses Google AdSense to display advertisements. Google AdSense may use cookies and similar technologies to serve ads based on your prior visits to this website and other sites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to this site and other sites on the internet. You may opt out of personalized advertising by visiting Google's Ads Settings at https://adssettings.google.com.",
+      "Word Helper may use advertising services, including Google AdSense, to display advertisements. Google AdSense may use cookies and similar technologies to serve ads based on your prior visits to this website and other sites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to this site and other sites on the internet. You may opt out of personalized advertising by visiting Google's Ads Settings at https://adssettings.google.com.",
       "Word Helper may use web analytics services to understand how the site is used. Analytics tools may set cookies or use similar tracking technologies to collect anonymous usage data such as page views, device type, and general location.",
       "If you contact Word Helper at hello@wordhelper.online, your email address and message are used to respond to your request and improve the website. We do not sell or share contact information with third parties.",
       "Third-party ad servers or ad networks may use technologies such as cookies, JavaScript, or web beacons to measure ad effectiveness and personalize ad content. Word Helper has no access to or control over cookies used by third-party advertisers.",
@@ -1220,7 +1220,7 @@ export const legalPages = [
       `<h2>No professional advice</h2>
       <p>Word Helper is an educational word-tools platform. Nothing on this site constitutes legal, medical, financial, linguistic authority, or other professional advice. Do not rely on Word Helper results for professional, academic, publishing, legal, or medical purposes without independent verification.</p>`,
       `<h2>Third-party services</h2>
-      <p>Word Helper uses Google AdSense for advertising and may use web analytics services to understand how the site is used. These services are governed by their own terms and privacy policies. Word Helper has no responsibility for the practices of third-party services.</p>`,
+      <p>Word Helper may use advertising services, including Google AdSense, and may use web analytics services to understand how the site is used. These services are governed by their own terms and privacy policies. Word Helper has no responsibility for the practices of third-party services.</p>`,
       `<h2>Changes to these terms</h2>
       <p>Word Helper reserves the right to update these Terms and Conditions at any time. Continued use of the website after any change constitutes your acceptance of the updated terms. If you have questions about these terms, contact us at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>`,
     ],

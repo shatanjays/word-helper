@@ -20,6 +20,15 @@ const root = process.cwd();
 const distDir = path.join(root, "dist");
 const assetsDir = path.join(distDir, "assets");
 const assetVersion = String(Date.now());
+
+// ── Canonicalization & indexing env (migration-safe) ─────────────────────
+// Single source of truth for the canonical host and the deploy environment.
+// Going live later = set HOST_CANONICAL (if different) and flip SITE_ENV=production.
+const HOST_CANONICAL = (process.env.HOST_CANONICAL || "https://wordhelper.online").replace(/\/+$/, "");
+const SITE_ENV = (process.env.SITE_ENV || "staging").toLowerCase();
+const IS_PRODUCTION = SITE_ENV === "production";
+// All canonical / og / sitemap / robots URLs derive from this one constant.
+site.url = HOST_CANONICAL;
 // Real build/edit date — drives lastReviewed/dateModified trust signals (no fabricated dates).
 const buildDateISO = new Date().toISOString().slice(0, 10);
 const letterBrowseTargets = {
@@ -224,7 +233,7 @@ function header(page = {}) {
   <div class="header-inner">
     <a class="brand" href="/" aria-label="Word Helper home">
       <span class="brand-mark">${icon("logo")}</span>
-      <span><strong>Word Helper</strong><small>Global English dictionary</small></span>
+      <span><strong>Word Helper</strong><small>English word tools &amp; vocabulary reference</small></span>
     </a>
     <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false">
       <span class="sr-only">Toggle navigation</span>
@@ -257,7 +266,7 @@ function footer() {
   <div class="footer-inner">
     <div class="footer-brand-col">
       <a class="footer-brand" href="/">${icon("logo")}<span>Word Helper</span></a>
-      <p class="footer-tagline">A comprehensive, global English dictionary and word toolkit — explore words, build vocabulary, and solve any word challenge, wherever you are.</p>
+      <p class="footer-tagline">Word Helper — English word tools &amp; vocabulary reference. A comprehensive English dictionary with tools for word games, writing, and vocabulary.</p>
       <a class="footer-email" href="mailto:${site.email}">${site.email}</a>
     </div>
     <nav class="footer-nav" aria-label="Word tools">
@@ -367,7 +376,11 @@ function head(page, extraSchemas = [], noindex = false) {
   <script>try{var t=localStorage.getItem('word-helper-theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light';}catch(e){document.documentElement.dataset.theme='light';}</script>
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(desc)}">
-  ${noindex ? '<meta name="robots" content="noindex, follow">' : ""}
+  ${(() => {
+    // Staging: block indexing site-wide. Production: per-page gate (thin pages noindex,follow).
+    const r = !IS_PRODUCTION ? "noindex, nofollow" : (noindex ? "noindex, follow" : "");
+    return r ? `<meta name="robots" content="${r}">` : "";
+  })()}
   <link rel="canonical" href="${url}">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
@@ -984,31 +997,10 @@ function renderHome(homeWords = words) {
     </div>
   </section>
   ${faqList(faqs)}`;
+  // Organization + WebSite (with SearchAction) come from baseSchemas() once, in head().
+  // Homepage adds only the page-specific WebPage + FAQPage (no duplicate Org/WebSite,
+  // no self-referential sameAs).
   const schemas = [
-    {
-      "@type": "WebSite",
-      name: site.name,
-      url: `${site.url}/`,
-      description: site.description,
-    },
-    {
-      "@type": "Organization",
-      name: site.name,
-      url: `${site.url}/`,
-      logo: {
-        "@type": "ImageObject",
-        url: `${site.url}/favicon.svg`,
-      },
-      contactPoint: {
-        "@type": "ContactPoint",
-        contactType: "customer support",
-        email: site.email,
-      },
-      sameAs: [
-        `${site.url}/`,
-        `${site.url}/about/`,
-      ],
-    },
     {
       "@type": "WebPage",
       name: page.title,
@@ -3229,6 +3221,29 @@ ${entries}
 </urlset>`;
 }
 
+// WS7 — chunked sub-sitemap (a plain urlset for one type) + the sitemap index.
+function sitemapUrlset(list) {
+  const now = new Date().toISOString();
+  const entries = list
+    .map((route) => `<url><loc>${absolute(route.href)}</loc><lastmod>${now}</lastmod></url>`)
+    .join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${entries}
+</urlset>`;
+}
+
+function sitemapIndexXml(files) {
+  const now = new Date().toISOString();
+  const entries = files
+    .map((f) => `<sitemap><loc>${site.url}/${f}</loc><lastmod>${now}</lastmod></sitemap>`)
+    .join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${entries}
+</sitemapindex>`;
+}
+
 function favicon() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="16" fill="#1a73e8"/>
@@ -3265,20 +3280,61 @@ function appleTouchIcon() {
 </svg>`;
 }
 
-function deployHeaders() {
-  return `/*
+// WS8 — llms.txt: a concise, host-aware description for AI crawlers.
+function llmsTxt() {
+  const toolLines = tools.map((t) => `- [${t.title}](${site.url}${t.href}): ${t.intro}`).join("\n");
+  return `# Word Helper
+
+> ${site.name} — English word tools & vocabulary reference. A comprehensive English
+> dictionary and word toolkit: definitions, pronunciation, etymology, synonyms,
+> syllables, rhymes, and word-game helpers. Maintained and reviewed by the Word
+> Helper editorial team.
+
+## Primary sections
+- [Word Explorer (dictionary)](${site.url}/word-explorer/): in-depth word pages with definition, pronunciation, syllables, synonyms, antonyms, word family, etymology, and examples.
+- [Word Lab (tools)](${site.url}/word-lab/): interactive word tools.
+- [Learn English](${site.url}/learn-english/): vocabulary and language guides.
+- [Word Lists](${site.url}/word-lists/): curated, themed vocabulary collections.
+- [Practice](${site.url}/practice/): vocabulary quizzes.
+
+## Tools
+${toolLines}
+
+## Editorial standards
+Definitions, examples, and usage notes are researched and written in-house by the
+Word Helper editorial team to a consistent house standard. Word-game acceptance,
+pronunciation, and syllable counts can vary by dictionary, accent, and dialect; the
+relevant pages state these limits. Corrections: ${site.email}.
+
+## Contact
+- Email: ${site.email}
+- About: ${site.url}/about/
+- Editorial policy: ${site.url}/editorial-policy/
+`;
+}
+
+function deployHeaders(htmlSegments = []) {
+  // Cloudflare Pages CONCATENATES same-named headers across overlapping rules
+  // (verified live). So Cache-Control is set on DISJOINT path sets only:
+  //  - HTML routes (/, /<segment>/*) → must-revalidate
+  //  - /assets/* and the root icons → immutable
+  // The /* block carries ONLY non-cache headers, so it never doubles Cache-Control.
+  const securityBlock = `/*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Cache-Control: public, max-age=0, must-revalidate
+  ${IS_PRODUCTION ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only"}: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.dictionaryapi.dev https://*.google-analytics.com https://*.googlesyndication.com; frame-src https://*.googlesyndication.com https://*.doubleclick.net; base-uri 'self'; form-action 'self'${IS_PRODUCTION ? "\n  Strict-Transport-Security: max-age=63072000" : "\n  X-Robots-Tag: noindex, nofollow"}`;
 
-/assets/*
-  Cache-Control: public, max-age=31536000, immutable
+  const htmlCacheBlocks = ["/", ...htmlSegments.map((s) => `/${s}/*`)]
+    .map((p) => `${p}\n  Cache-Control: public, max-age=0, must-revalidate`)
+    .join("\n\n");
 
-/*.svg
-  Cache-Control: public, max-age=86400
-`;
+  const immutableBlocks = ["/assets/*", "/favicon.svg", "/apple-touch-icon.svg", "/og-image.png"]
+    .map((p) => `${p}\n  Cache-Control: public, max-age=31536000, immutable`)
+    .join("\n\n");
+
+  return `${securityBlock}\n\n${htmlCacheBlocks}\n\n${immutableBlocks}\n`;
 }
 
 function deployRedirects() {
@@ -3365,19 +3421,50 @@ async function main() {
     path.join(assetsDir, "search-data.js"),
     `window.WORD_HELPER_SEARCH_INDEX=${JSON.stringify(buildSearchIndex())};\n`,
   );
-  await writeFile(path.join(distDir, "sitemap.xml"), sitemap(routes));
+  // ── Sitemaps (WS7): chunked sub-sitemaps by type + a sitemap index ──
+  const indexable = routes.filter((r) => r.href !== "/404/" && !r.noindex);
+  const chunkDefs = [
+    { name: "sitemap-words.xml", match: (h) => h.startsWith("/word/") },
+    { name: "sitemap-tools.xml", match: (h) => h.startsWith("/tools/") || h === "/word-lab/" },
+    { name: "sitemap-guides.xml", match: (h) => h.startsWith("/learn-english/") || h.startsWith("/guides/") },
+    { name: "sitemap-pages.xml", match: () => true },
+  ];
+  const claimed = new Set();
+  const chunkFiles = [];
+  for (const def of chunkDefs) {
+    const list = indexable.filter((r) => !claimed.has(r.href) && def.match(r.href));
+    list.forEach((r) => claimed.add(r.href));
+    if (list.length) {
+      await writeFile(path.join(distDir, def.name), sitemapUrlset(list));
+      chunkFiles.push(def.name);
+    }
+  }
+  await writeFile(path.join(distDir, "sitemap_index.xml"), sitemapIndexXml(chunkFiles));
+  await writeFile(path.join(distDir, "sitemap.xml"), sitemap(routes)); // flat back-compat
+
+  // ── robots.txt (WS1): staging blocks all crawl; production allows + points at the index ──
   await writeFile(
     path.join(distDir, "robots.txt"),
-    `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`,
+    IS_PRODUCTION
+      ? `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap_index.xml\n`
+      : `User-agent: *\nDisallow: /\n`,
   );
+
+  // ── llms.txt (WS8) ──
+  await writeFile(path.join(distDir, "llms.txt"), llmsTxt());
+
   await writeFile(path.join(distDir, "favicon.svg"), favicon());
   // Raster OG image (1200x630 PNG) — committed asset, copied verbatim so it works
   // on every build host (it is pre-rendered; no SVG->PNG step needed at build time).
   await copyFile(path.join(root, "src/assets/og-image.png"), path.join(distDir, "og-image.png"));
   await writeFile(path.join(distDir, "apple-touch-icon.svg"), appleTouchIcon());
-  await writeFile(path.join(distDir, "_headers"), deployHeaders());
+
+  // ── _headers (WS2): cache rules on disjoint path sets (no concatenation) ──
+  const htmlSegments = [...new Set(routes.map((r) => r.href.split("/")[1]).filter(Boolean))]
+    .filter((s) => s !== "assets");
+  await writeFile(path.join(distDir, "_headers"), deployHeaders(htmlSegments));
   await writeFile(path.join(distDir, "_redirects"), deployRedirects());
-  console.log(`Built ${routes.length} pages with ${wordData.length} words.`);
+  console.log(`Built ${routes.length} pages (${SITE_ENV}, host ${site.url}) with ${wordData.length} words.`);
 }
 
 main().catch((error) => {
