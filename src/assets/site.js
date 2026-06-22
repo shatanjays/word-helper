@@ -246,12 +246,74 @@
   }
 
   function initNav() {
+    const header = document.querySelector("[data-header]");
+
+    // Sticky-header shadow on scroll
+    if (header) {
+      const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 4);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    // Mobile slide-down panel
     const toggle = document.querySelector(".nav-toggle");
-    const nav = document.querySelector("#site-nav");
-    if (!toggle || !nav) return;
-    toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", String(open));
+    const panel = document.querySelector("#mobile-nav");
+    function closeMobile() {
+      if (!toggle || !panel) return;
+      panel.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Open menu");
+    }
+    if (toggle && panel) {
+      toggle.addEventListener("click", () => {
+        const open = panel.hidden;
+        panel.hidden = !open;
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      });
+      panel.addEventListener("click", (event) => { if (event.target.closest("a")) closeMobile(); });
+    }
+
+    // Desktop dropdown menus — hover is handled in CSS; this adds click + keyboard.
+    const triggers = Array.from(document.querySelectorAll(".nav-trigger"));
+    function closeMenus(except) {
+      triggers.forEach((t) => {
+        const item = t.closest(".nav-item");
+        if (item && item !== except) {
+          item.classList.remove("is-open");
+          t.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+    triggers.forEach((trigger) => {
+      const item = trigger.closest(".nav-item");
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        const willOpen = !item.classList.contains("is-open");
+        closeMenus(item);
+        item.classList.toggle("is-open", willOpen);
+        trigger.setAttribute("aria-expanded", String(willOpen));
+        if (willOpen) {
+          const first = item.querySelector('.nav-menu a, .nav-menu [role="menuitem"]');
+          if (first) setTimeout(() => first.focus(), 0);
+        }
+      });
+    });
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".nav-item.has-menu")) closeMenus(null);
+    });
+
+    // Keyboard: Escape closes menus + mobile panel; "/" focuses the header search.
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") { closeMenus(null); closeMobile(); }
+      if (event.key === "/") {
+        const active = document.activeElement || {};
+        const typing = active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable;
+        if (!typing) {
+          const el = document.getElementById("header-q");
+          if (el) { event.preventDefault(); el.focus(); }
+        }
+      }
     });
   }
 

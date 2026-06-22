@@ -139,6 +139,7 @@ function icon(name, className = "icon") {
     result: `<svg ${attrs}><path d="M5 7h14M5 12h14M5 17h9" ${common}/></svg>`,
     spark: `<svg ${attrs}><path d="M12 3l1.7 5.1L19 10l-5.3 1.9L12 17l-1.7-5.1L5 10l5.3-1.9z" ${common}/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8zM5 16l.8 2.2L8 19l-2.2.8L5 22l-.8-2.2L2 19l2.2-.8z" ${common}/></svg>`,
     arrow: `<svg ${attrs}><path d="M5 12h14M13 6l6 6-6 6" ${common}/></svg>`,
+    chevron: `<svg ${attrs}><path d="M6 9l6 6 6-6" ${common}/></svg>`,
     check: `<svg ${attrs}><path d="M20 6L9 17l-5-5" ${common}/></svg>`,
     layers: `<svg ${attrs}><path d="M12 3l8 4-8 4-8-4z" ${common}/><path d="M4 12l8 4 8-4M4 17l8 4 8-4" ${common}/></svg>`,
     pulse: `<svg ${attrs}><path d="M4 12h3l2-6 4 12 2-6h5" ${common}/></svg>`,
@@ -236,37 +237,111 @@ function activeMainItem(pageHref = "/", itemHref = "/") {
   return pageHref === itemHref || pageHref.startsWith(itemHref);
 }
 
+const TOOL_NAV_DESC = {
+  "word-unscramble": "Make words from your letters",
+  "anagram-solver": "Exact & partial anagrams",
+  "rhyme-finder": "Perfect, near & slant rhymes",
+  "syllable-counter": "Count beats in any text",
+  "prefix-finder": "Words that start with…",
+  "suffix-finder": "Words that end with…",
+};
+
 function header(page = {}) {
   const currentHref = page.href || "/";
-  return `<header class="site-header">
+  const inGroup = (prefixes) => prefixes.some((p) => currentHref === p || currentHref.startsWith(p));
+  const toolsActive = inGroup(["/tools/", "/word-lab/"]);
+  const exploreActive = inGroup(["/word-explorer/", "/word-lists/", "/word-games/", "/rhyming-words/", "/word/", "/word-lookup/"]);
+  const learnActive = inGroup(["/guides/", "/learn-english/", "/vocabulary/", "/spelling-patterns/", "/writing-tools/", "/practice/"]);
+  const aboutActive = inGroup(["/about/"]);
+
+  const exploreLinks = [
+    ["/word-explorer/", "Word Explorer", "Browse A–Z dictionary pages"],
+    ["/word-lists/", "Word Lists", "Curated vocabulary collections"],
+    ["/word-games/", "Word Games", "Helpers for every word game"],
+    ["/rhyming-words/", "Rhyming Words", "Rhymes, near-rhymes & endings"],
+  ];
+  const learnLinks = [
+    ["/guides/", "Guides", "How the tools and words work"],
+    ["/vocabulary/", "Vocabulary", "Build and retain new words"],
+    ["/spelling-patterns/", "Spelling Patterns", "Common rules and patterns"],
+    ["/writing-tools/", "Writing Tools", "Rhyme, rhythm & word choice"],
+    ["/practice/", "Practice", "Quizzes to test yourself"],
+  ];
+  const menuLinks = (items) => items
+    .map(([href, title, desc]) => `<a class="nav-menu-link" href="${href}" role="menuitem"><strong>${escapeHtml(title)}</strong><small>${escapeHtml(desc)}</small></a>`)
+    .join("");
+  const toolMega = tools
+    .map((t) => `<a class="nav-mega-card" href="${t.href}" role="menuitem">
+          <span class="nav-mega-icon">${icon(t.icon)}</span>
+          <span class="nav-mega-text"><strong>${escapeHtml(t.title)}</strong><small>${escapeHtml(TOOL_NAV_DESC[t.id] || "")}</small></span>
+        </a>`)
+    .join("");
+
+  const dropdown = (label, active, hasMenu, inner) => `<li class="nav-item${hasMenu ? " has-menu" : ""}">
+        <button type="button" class="nav-link nav-trigger${active ? " is-current" : ""}" aria-expanded="false" aria-haspopup="true">${label} <span class="nav-caret">${icon("chevron")}</span></button>
+        ${inner}
+      </li>`;
+
+  return `<header class="site-header" data-header>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="header-inner">
     <a class="brand" href="/" aria-label="Word Helper home">
       <span class="brand-mark">${icon("logo")}</span>
-      <span><strong>Word Helper</strong><small>English word tools &amp; vocabulary reference</small></span>
+      <span class="brand-text"><strong>Word Helper</strong><small>English dictionary &amp; word tools</small></span>
     </a>
-    <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false">
-      <span class="sr-only">Toggle navigation</span>
-      <span></span><span></span><span></span>
-    </button>
-    <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-      ${mainNav
-        .map(
-          (item) =>
-            `<a href="${item.href}"${activeMainItem(currentHref, item.href) ? ' class="active" aria-current="page"' : ""}>${escapeHtml(item.label)}</a>`,
-        )
-        .join("")}
+
+    <nav class="site-nav" aria-label="Primary">
+      <ul class="nav-list">
+        ${dropdown("Tools", toolsActive, true, `<div class="nav-menu nav-mega" role="menu" aria-label="Word tools">
+          <div class="nav-mega-grid">${toolMega}</div>
+          <a class="nav-menu-foot" href="/word-lab/" role="menuitem">See all word tools <span>${icon("arrow")}</span></a>
+        </div>`)}
+        ${dropdown("Explore", exploreActive, true, `<div class="nav-menu" role="menu" aria-label="Explore">${menuLinks(exploreLinks)}</div>`)}
+        ${dropdown("Learn", learnActive, true, `<div class="nav-menu" role="menu" aria-label="Learn">${menuLinks(learnLinks)}</div>`)}
+        <li class="nav-item"><a class="nav-link${aboutActive ? " is-current" : ""}" href="/about/">About</a></li>
+      </ul>
     </nav>
-    <form class="header-search" action="/search/" role="search" aria-label="Site search">
-      <label class="sr-only" for="header-q">Search Word Helper</label>
-      <span>${icon("search")}</span>
-      <input id="header-q" name="q" type="search" autocomplete="off" placeholder="Search words or tools">
-      <button type="submit">Search</button>
-    </form>
-    <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme">
-      <span class="theme-icon-moon" data-icon-moon>${icon("theme")}</span>
-      <span class="theme-icon-sun" data-icon-sun hidden>${icon("sun")}</span>
-    </button>
+
+    <div class="header-actions">
+      <form class="header-search" action="/search/" role="search" aria-label="Site search">
+        <span class="header-search-icon">${icon("search")}</span>
+        <label class="sr-only" for="header-q">Search Word Helper</label>
+        <input id="header-q" name="q" type="search" autocomplete="off" placeholder="Search words…">
+        <kbd class="header-search-kbd" aria-hidden="true">/</kbd>
+        <button type="submit" class="sr-only">Search</button>
+      </form>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme">
+        <span class="theme-icon-moon" data-icon-moon>${icon("theme")}</span>
+        <span class="theme-icon-sun" data-icon-sun hidden>${icon("sun")}</span>
+      </button>
+      <button class="nav-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open menu">
+        <span class="sr-only">Menu</span><span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" hidden>
+    <div class="mobile-nav-inner">
+      <form class="header-search header-search-mobile" action="/search/" role="search" aria-label="Site search">
+        <span class="header-search-icon">${icon("search")}</span>
+        <label class="sr-only" for="m-q">Search Word Helper</label>
+        <input id="m-q" name="q" type="search" autocomplete="off" placeholder="Search words or tools…">
+        <button type="submit" class="button primary">Go</button>
+      </form>
+      <details class="mobile-group"${toolsActive ? " open" : ""}>
+        <summary>Tools <span class="nav-caret">${icon("chevron")}</span></summary>
+        <div class="mobile-group-links">${tools.map((t) => `<a href="${t.href}">${escapeHtml(t.title)}</a>`).join("")}<a class="mobile-group-all" href="/word-lab/">All word tools</a></div>
+      </details>
+      <details class="mobile-group"${exploreActive ? " open" : ""}>
+        <summary>Explore <span class="nav-caret">${icon("chevron")}</span></summary>
+        <div class="mobile-group-links">${exploreLinks.map(([h, t]) => `<a href="${h}">${escapeHtml(t)}</a>`).join("")}</div>
+      </details>
+      <details class="mobile-group"${learnActive ? " open" : ""}>
+        <summary>Learn <span class="nav-caret">${icon("chevron")}</span></summary>
+        <div class="mobile-group-links">${learnLinks.map(([h, t]) => `<a href="${h}">${escapeHtml(t)}</a>`).join("")}</div>
+      </details>
+      <a class="mobile-nav-link${aboutActive ? " is-current" : ""}" href="/about/">About</a>
+    </div>
   </div>
 </header>`;
 }
