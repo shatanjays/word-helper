@@ -85,41 +85,41 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* Surface ladder — deep, rich near-black with a faint blue undertone (premium
-     high-end SaaS dark). Each step is a refined, low-chroma lift. */
-  --bg:           #080b12;
-  --bg-secondary: #0d111b;
-  --bg-ink:       #05070b;
-  --card:         #131824;
-  --elevated:     #1b2230;
+  /* Surface ladder — warm obsidian (espresso near-black with a faint amber
+     undertone), like a leather-bound reference. Refined low-chroma lifts. */
+  --bg:           #0c0a07;
+  --bg-secondary: #14110b;
+  --bg-ink:       #070503;
+  --card:         #1a160e;
+  --elevated:     #221c12;
 
-  /* Ink — clean cool near-white */
-  --text:         #f0f3f8;
-  --text-2:       #b4bdcc;
-  --muted:        #7a8598;
-  --soft:         #586277;
-  --faint:        #333c4f;
+  /* Ink — warm off-white (paper-on-leather), not clinical grey */
+  --text:         #f4f0e6;
+  --text-2:       #cdc6b5;
+  --muted:        #9a917d;
+  --soft:         #6f6856;
+  --faint:        #443e30;
 
-  /* Borders — subtle and elegant (the edge-light highlight does the rest) */
-  --border:       #222a3a;
-  --border-mid:   #2e3850;
-  --border-strong:#43506b;
+  /* Borders — warm, subtle (the gilt edge-light does the rest) */
+  --border:       #2c2618;
+  --border-mid:   #3b3422;
+  --border-strong:#574d34;
 
-  /* Accent — vivid global blue, used sparingly against the deep base so it reads
-     as a precious highlight. */
-  --navy:         #5e9bf0;
-  --navy-deep:    #80b2f6;   /* hover BRIGHTENS on dark */
-  --navy-mid:     #7aa3da;
-  --navy-pale:    #111d30;
-  --navy-soft:    rgba(94, 155, 240, 0.12);
-  --navy-border:  rgba(94, 155, 240, 0.36);
+  /* Accent — champagne gold. Muted and refined (gilt, not gaudy), used sparingly
+     against the deep base so it reads like gold leaf. */
+  --navy:         #d0ad6a;
+  --navy-deep:    #e3c488;   /* hover BRIGHTENS on dark */
+  --navy-mid:     #b8995c;
+  --navy-pale:    #2a2113;
+  --navy-soft:    rgba(208, 173, 106, 0.12);
+  --navy-border:  rgba(208, 173, 106, 0.34);
 
-  --accent:       #5e9bf0;
-  --accent-hover: #80b2f6;
-  --accent-soft:  rgba(94, 155, 240, 0.12);
-  --accent-border:rgba(94, 155, 240, 0.36);
+  --accent:       #d0ad6a;
+  --accent-hover: #e3c488;
+  --accent-soft:  rgba(208, 173, 106, 0.12);
+  --accent-border:rgba(208, 173, 106, 0.34);
 
-  --focus:        rgba(94, 155, 240, 0.55);
+  --focus:        rgba(208, 173, 106, 0.55);
 
   /* Part-of-speech tints — raised opacity + brighter fg for dark legibility */
   --pos-noun-bg:  rgba(234, 179, 8, 0.16);
@@ -154,16 +154,19 @@
 :root[data-theme="dark"] .az-link-active,
 :root[data-theme="dark"] .az-link-active:hover,
 :root[data-theme="dark"] .explorer-pager-link.is-active {
-  color: #08111e;
+  color: #1a1408;
 }
 
-/* Premium CTA: a soft accent glow + a hairline top highlight so the button reads
-   like a lit, precious object rather than a flat fill. */
+/* Gold brand chip reads as a dark glyph on gold leaf. */
+:root[data-theme="dark"] .brand-mark { color: #1a1408; box-shadow: 0 1px 3px rgba(208, 173, 106, 0.3); }
+
+/* Premium CTA: a soft gold glow + a hairline top highlight so the button reads
+   like a lit, gilded object rather than a flat fill. */
 :root[data-theme="dark"] .button.primary {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 8px 22px -10px rgba(94, 155, 240, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 248, 230, 0.28), 0 8px 22px -10px rgba(208, 173, 106, 0.6);
 }
 :root[data-theme="dark"] .button.primary:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 12px 30px -8px rgba(94, 155, 240, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 248, 230, 0.34), 0 12px 30px -8px rgba(208, 173, 106, 0.78);
 }
 
 /* Active pill/tab = tinted state, visually distinct from the solid primary CTA. */
@@ -206,14 +209,14 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* A faint accent aurora behind the search-first hero. */
+/* A faint golden aurora behind the search-first hero. */
 :root[data-theme="dark"] .hero-search { position: relative; isolation: isolate; }
 :root[data-theme="dark"] .hero-search::before {
   content: "";
   position: absolute;
   top: -40px; left: 50%; transform: translateX(-50%);
   width: min(900px, 100%); height: 420px; z-index: -1;
-  background: radial-gradient(55% 100% at 50% 0%, rgba(94, 155, 240, 0.12), rgba(94, 155, 240, 0) 70%);
+  background: radial-gradient(55% 100% at 50% 0%, rgba(208, 173, 106, 0.12), rgba(208, 173, 106, 0) 70%);
   pointer-events: none;
 }
 
