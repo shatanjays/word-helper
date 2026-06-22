@@ -85,25 +85,25 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* Surface ladder — warm charcoal (Anthropic / Claude dark aesthetic): a soft,
-     professional dark with a faint brown undertone, never blue-black. */
-  --bg:           #1a1916;
-  --bg-secondary: #211f1b;
-  --bg-ink:       #131210;
-  --card:         #242220;
-  --elevated:     #2e2b26;
+  /* Surface ladder — matched to the Claude desktop app: a medium, warm neutral-
+     grey dark (not brown-black, not blue-black), with the app's elevation steps. */
+  --bg:           #1e1e1c;
+  --bg-secondary: #242421;
+  --bg-ink:       #161614;
+  --card:         #2a2a27;
+  --elevated:     #333330;
 
-  /* Ink — warm off-white (the Claude "cloud" reading tone) */
-  --text:         #f5f3ec;
-  --text-2:       #c6c1b4;
-  --muted:        #a39c8b;
-  --soft:         #6e6859;
-  --faint:        #46413a;
+  /* Ink — the app's warm ivory reading tone */
+  --text:         #f5f4ee;
+  --text-2:       #c4c2b8;
+  --muted:        #a09e94;
+  --soft:         #6e6c63;
+  --faint:        #46453e;
 
-  /* Borders — warm and subtle */
-  --border:       #34312a;
-  --border-mid:   #423e35;
-  --border-strong:#5a5446;
+  /* Borders — warm and subtle, as in the app */
+  --border:       #393833;
+  --border-mid:   #47463f;
+  --border-strong:#5a594f;
 
   /* Accent — Claude terracotta/coral. Warm, confident, professional. */
   --navy:         #d97757;
@@ -129,8 +129,8 @@
   --pos-adj-fg:   #93c5fd;
   --pos-adv-bg:   rgba(139, 92, 246, 0.16);
   --pos-adv-fg:   #c4b5fd;
-  --pos-other-bg: #2e2b26;
-  --pos-other-fg: #a39c8b;
+  --pos-other-bg: #333330;
+  --pos-other-fg: #a09e94;
 
   /* Deeper shadows for the deeper base — real depth on float surfaces. */
   --shadow-xs:  0 1px 2px rgba(0,0,0,0.40);
