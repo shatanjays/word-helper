@@ -85,37 +85,39 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* Surface elevation ladder — clean cool-dark, each step visibly lighter */
-  --bg:           #0d1320;
-  --bg-secondary: #121a29;
-  --bg-ink:       #080c14;
-  --card:         #161d2b;
-  --elevated:     #1d2638;
+  /* Surface ladder — deep, rich near-black with a faint blue undertone (premium
+     high-end SaaS dark). Each step is a refined, low-chroma lift. */
+  --bg:           #080b12;
+  --bg-secondary: #0d111b;
+  --bg-ink:       #05070b;
+  --card:         #131824;
+  --elevated:     #1b2230;
 
-  /* Ink — cool near-white */
-  --text:         #e8edf4;
-  --text-2:       #b3bccb;
-  --muted:        #7e8a9c;
-  --soft:         #5f6a7d;
-  --faint:        #3a4660;
+  /* Ink — clean cool near-white */
+  --text:         #f0f3f8;
+  --text-2:       #b4bdcc;
+  --muted:        #7a8598;
+  --soft:         #586277;
+  --faint:        #333c4f;
 
-  /* Borders — visible on dark */
-  --border:       #283449;
-  --border-mid:   #36435b;
-  --border-strong:#495877;
+  /* Borders — subtle and elegant (the edge-light highlight does the rest) */
+  --border:       #222a3a;
+  --border-mid:   #2e3850;
+  --border-strong:#43506b;
 
-  /* Accent — bright global blue so CTAs pop */
+  /* Accent — vivid global blue, used sparingly against the deep base so it reads
+     as a precious highlight. */
   --navy:         #5e9bf0;
-  --navy-deep:    #7aabf3;   /* hover BRIGHTENS on dark */
+  --navy-deep:    #80b2f6;   /* hover BRIGHTENS on dark */
   --navy-mid:     #7aa3da;
-  --navy-pale:    #16243c;
-  --navy-soft:    rgba(94, 155, 240, 0.14);
-  --navy-border:  rgba(94, 155, 240, 0.40);
+  --navy-pale:    #111d30;
+  --navy-soft:    rgba(94, 155, 240, 0.12);
+  --navy-border:  rgba(94, 155, 240, 0.36);
 
   --accent:       #5e9bf0;
-  --accent-hover: #7aabf3;
-  --accent-soft:  rgba(94, 155, 240, 0.14);
-  --accent-border:rgba(94, 155, 240, 0.40);
+  --accent-hover: #80b2f6;
+  --accent-soft:  rgba(94, 155, 240, 0.12);
+  --accent-border:rgba(94, 155, 240, 0.36);
 
   --focus:        rgba(94, 155, 240, 0.55);
 
@@ -128,15 +130,14 @@
   --pos-adj-fg:   #93c5fd;
   --pos-adv-bg:   rgba(139, 92, 246, 0.16);
   --pos-adv-fg:   #c4b5fd;
-  --pos-other-bg: #1d2638;
-  --pos-other-fg: #7e8a9c;
+  --pos-other-bg: #1b2230;
+  --pos-other-fg: #7a8598;
 
-  /* Shadows barely register on dark — separation is the ladder + borders; reserve
-     real shadows for deep float (popovers/modals). */
-  --shadow-xs:  0 1px 2px rgba(0,0,0,0.30);
-  --shadow-sm:  0 2px 8px rgba(0,0,0,0.32);
-  --shadow:     0 8px 24px rgba(0,0,0,0.40);
-  --shadow-md:  0 16px 40px rgba(0,0,0,0.46);
+  /* Deeper shadows for the deeper base — real depth on float surfaces. */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.40);
+  --shadow-sm:  0 2px 10px rgba(0,0,0,0.45);
+  --shadow:     0 10px 30px rgba(0,0,0,0.55);
+  --shadow-md:  0 22px 50px rgba(0,0,0,0.62);
 }
 
 /* ── Dark theme component overrides ──────────────────────────
@@ -145,7 +146,7 @@
    faint "lit from above" highlight. */
 
 /* Primary/solid-accent controls: dark ink on the bright accent fill passes
-   WCAG AA (5.75:1) where white would fail (3.17:1). */
+   WCAG AA where white would fail. */
 :root[data-theme="dark"] .button.primary,
 :root[data-theme="dark"] .header-search button,
 :root[data-theme="dark"] .quiz-nav button,
@@ -153,7 +154,16 @@
 :root[data-theme="dark"] .az-link-active,
 :root[data-theme="dark"] .az-link-active:hover,
 :root[data-theme="dark"] .explorer-pager-link.is-active {
-  color: #0d1320;
+  color: #08111e;
+}
+
+/* Premium CTA: a soft accent glow + a hairline top highlight so the button reads
+   like a lit, precious object rather than a flat fill. */
+:root[data-theme="dark"] .button.primary {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 8px 22px -10px rgba(94, 155, 240, 0.6);
+}
+:root[data-theme="dark"] .button.primary:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 12px 30px -8px rgba(94, 155, 240, 0.75);
 }
 
 /* Active pill/tab = tinted state, visually distinct from the solid primary CTA. */
@@ -163,15 +173,48 @@
   border-color: var(--navy-border);
 }
 
-/* Faint top highlight so cards read as lit surfaces, not flat slabs. */
+/* Edge-light: a fine top highlight + soft depth so surfaces feel lifted and
+   layered (the core of the "expensive" look). */
 :root[data-theme="dark"] .resource-card,
 :root[data-theme="dark"] .word-card,
 :root[data-theme="dark"] .wotd-card,
 :root[data-theme="dark"] .stat-item,
 :root[data-theme="dark"] .tool-panel,
 :root[data-theme="dark"] .result-panel,
-:root[data-theme="dark"] .intent-card {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+:root[data-theme="dark"] .intent-card,
+:root[data-theme="dark"] .editorial-standards-card,
+:root[data-theme="dark"] .static-example-card,
+:root[data-theme="dark"] .toc-card,
+:root[data-theme="dark"] .answer-block {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Subtle vertical sheen on the most prominent feature cards. */
+:root[data-theme="dark"] .wotd-card,
+:root[data-theme="dark"] .editorial-standards-card {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0));
+}
+
+/* Dropdown menus float with depth + a top highlight. */
+:root[data-theme="dark"] .nav-menu {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), var(--shadow-md);
+}
+
+/* Header: a touch more frost + a hairline highlight once lifted. */
+:root[data-theme="dark"] .site-header { background: color-mix(in srgb, var(--bg) 80%, transparent); }
+:root[data-theme="dark"] .site-header.is-scrolled {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* A faint accent aurora behind the search-first hero. */
+:root[data-theme="dark"] .hero-search { position: relative; isolation: isolate; }
+:root[data-theme="dark"] .hero-search::before {
+  content: "";
+  position: absolute;
+  top: -40px; left: 50%; transform: translateX(-50%);
+  width: min(900px, 100%); height: 420px; z-index: -1;
+  background: radial-gradient(55% 100% at 50% 0%, rgba(94, 155, 240, 0.12), rgba(94, 155, 240, 0) 70%);
+  pointer-events: none;
 }
 
 /* ── Reset ───────────────────────────────────────────────── */
