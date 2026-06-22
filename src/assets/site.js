@@ -1032,12 +1032,38 @@
     } catch (_) {}
   }
 
+  // Lazy-load the heavy dictionary + search index only when a search box is
+  // actually used (they are NOT injected on most pages — see build layout()).
+  let searchDataPromise = null;
+  function ensureSearchData() {
+    if (window.WORD_HELPER_SEARCH_INDEX && window.WORD_HELPER_WORDS) return Promise.resolve();
+    if (!searchDataPromise) {
+      searchDataPromise = Promise.all(
+        ["/assets/word-data.js", "/assets/search-data.js"].map((src) => new Promise((resolve) => {
+          if (document.querySelector('script[data-lazy="' + src + '"]')) return resolve();
+          const s = document.createElement("script");
+          s.src = src; s.async = true; s.dataset.lazy = src;
+          s.onload = resolve; s.onerror = resolve;
+          document.head.appendChild(s);
+        })),
+      );
+    }
+    return searchDataPromise;
+  }
+
   function initGlobalSearch() {
     const forms = document.querySelectorAll(".global-search");
     if (!forms.length) return;
-    const searchIndex = Array.isArray(window.WORD_HELPER_SEARCH_INDEX) ? window.WORD_HELPER_SEARCH_INDEX : [];
-    const wordPages = Array.isArray(window.WORD_HELPER_WORDS) ? window.WORD_HELPER_WORDS : [];
-    const wordSet = new Set(wordPages.map((w) => String(w).toLowerCase()));
+    let searchIndex = Array.isArray(window.WORD_HELPER_SEARCH_INDEX) ? window.WORD_HELPER_SEARCH_INDEX : [];
+    let wordPages = Array.isArray(window.WORD_HELPER_WORDS) ? window.WORD_HELPER_WORDS : [];
+    let wordSet = new Set(wordPages.map((w) => String(w).toLowerCase()));
+    function refreshData() {
+      if (Array.isArray(window.WORD_HELPER_SEARCH_INDEX)) searchIndex = window.WORD_HELPER_SEARCH_INDEX;
+      if (Array.isArray(window.WORD_HELPER_WORDS)) {
+        wordPages = window.WORD_HELPER_WORDS;
+        wordSet = new Set(wordPages.map((w) => String(w).toLowerCase()));
+      }
+    }
     const tools = Object.values(toolMeta);
     const toolKeywords = {
       unscramble: "/tools/word-unscramble/",
@@ -1179,8 +1205,12 @@
     forms.forEach((form) => {
       const input = form.querySelector("input[name='q']");
       if (!input) return;
-      input.addEventListener("input", () => renderSuggestions(form));
-      input.addEventListener("focus", () => renderSuggestions(form));
+      input.addEventListener("focus", () => {
+        ensureSearchData().then(() => { refreshData(); renderSuggestions(form); });
+      });
+      input.addEventListener("input", () => {
+        ensureSearchData().then(() => { refreshData(); renderSuggestions(form); });
+      });
       form.addEventListener("submit", (event) => {
         event.preventDefault();
         const raw = input.value || "";

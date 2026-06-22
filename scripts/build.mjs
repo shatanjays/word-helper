@@ -94,6 +94,16 @@ function wordHref(word = "") {
   return `/word-lookup/?w=${encodeURIComponent(slug)}`;
 }
 
+// A synonym/antonym chip: links only when the word has a real published page
+// (keeps internal links clean — no ?w= parameter URLs anywhere in the crawl).
+function wordPill(word = "") {
+  const label = String(word);
+  const slug = label.toLowerCase().trim().replace(/\s+/g, "-");
+  return publishedWordSet.has(slug)
+    ? `<a class="word-pill" href="/word/${encodeURIComponent(slug)}/">${escapeHtml(label)}</a>`
+    : `<span class="word-pill word-pill-flat">${escapeHtml(label)}</span>`;
+}
+
 function icon(name, className = "icon") {
   const attrs = `class="${className}" aria-hidden="true" viewBox="0 0 24 24" fill="none"`;
   const common = `stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
@@ -382,6 +392,8 @@ function head(page, extraSchemas = [], noindex = false) {
     return r ? `<meta name="robots" content="${r}">` : "";
   })()}
   <link rel="canonical" href="${url}">
+  ${page.relPrev ? `<link rel="prev" href="${page.relPrev}">` : ""}
+  ${page.relNext ? `<link rel="next" href="${page.relNext}">` : ""}
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -419,9 +431,16 @@ ${pageNextRail(page)}
 </main>
 ${footer()}
 <button class="back-to-top" type="button" aria-label="Back to top" title="Back to top">${icon("arrow")}</button>
-<script src="/assets/word-data.js?v=${assetVersion}"></script>
-<script src="/assets/search-data.js?v=${assetVersion}"></script>
-<script src="/assets/site.js?v=${assetVersion}" defer></script>
+${(() => {
+  // WS5 — JS diet: the dictionary + search index (~270 KB) load eagerly only on
+  // pages that need them at render time (interactive tools, lookup, search results).
+  // Everywhere else the header/hero search lazy-loads them on first focus (site.js).
+  const href = page.href || "/";
+  const heavyData = href.startsWith("/tools/") || href === "/search/" || href === "/word-lookup/";
+  return heavyData
+    ? `<script src="/assets/word-data.js?v=${assetVersion}"></script>\n<script src="/assets/search-data.js?v=${assetVersion}"></script>\n`
+    : "";
+})()}<script src="/assets/site.js?v=${assetVersion}" defer></script>
 </body>
 </html>`;
 }
@@ -826,7 +845,7 @@ function renderHome(homeWords = words) {
         <div class="wotd-synonyms">
           <span class="wotd-syn-label">Synonyms</span>
           <div class="wotd-syn-pills">
-            ${(wotd.synonyms || []).slice(0, 4).map(s => `<a class="word-pill" href="${wordHref(s)}">${escapeHtml(s)}</a>`).join("")}
+            ${(wotd.synonyms || []).slice(0, 4).map(s => wordPill(s)).join("")}
           </div>
         </div>
         <a class="button primary wotd-cta" href="${wotd.href}">See full entry ${icon("arrow")}</a>
@@ -852,6 +871,24 @@ function renderHome(homeWords = words) {
       <div class="stat-item"><strong>6</strong><span>word tools</span></div>
       <div class="stat-item"><strong>8</strong><span>vocabulary guides</span></div>
       <div class="stat-item"><strong>${icon("check")}</strong><span>editorially reviewed</span></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="editorial-standards-card">
+      <div class="editorial-standards-head">
+        <span class="card-icon">${icon("check")}</span>
+        <div>
+          <p class="eyebrow">Data &amp; editorial standards</p>
+          <h2>How Word Helper is built</h2>
+        </div>
+      </div>
+      <div class="editorial-standards-grid">
+        <div><strong>Validated word source</strong><p>Tool results are matched against a 327,000+ word English list built on the public-domain ENABLE word list plus a supplementary system list.</p></div>
+        <div><strong>Reviewed definitions</strong><p>Definitions, examples, and word notes are researched and written in-house by the Word Helper editorial team to a consistent house standard.</p></div>
+        <div><strong>Corrections welcomed</strong><p>Reported errors are reviewed and corrected, and word pages are expanded and updated as the dictionary grows.</p></div>
+        <div><strong>Clear, stated limits</strong><p>Word-game acceptance varies by official dictionary and ruleset; syllable and rhyme results follow standard English and can vary by accent.</p></div>
+      </div>
+      <a class="button secondary" href="/editorial-policy/">Read the editorial policy ${icon("arrow")}</a>
     </div>
   </section>
   ${adSlot("home-mid")}
@@ -1140,6 +1177,35 @@ function toolSourceNote(tool) {
   return `<p class="tool-source-note">${icon("info")} <span>${source}${trademark}</span></p>`;
 }
 
+// WS9 — permanent, crawl-visible sample OUTPUT (works with JS disabled), separate
+// from the live results area. Hand-verified, accurate grouped results per tool.
+const TOOL_STATIC_EXAMPLES = {
+  "word-unscramble": { input: "tca", groups: [["3 letters", "act, cat"], ["2 letters", "at"]] },
+  "anagram-solver": { input: "listen", groups: [["Exact anagrams", "silent, enlist, inlets, tinsel"], ["Hidden words", "line, lent, list, nest, tile, isle"]] },
+  "rhyme-finder": { input: "light", groups: [["Perfect rhymes", "bright, night, sight, might, flight"], ["Near rhymes", "quiet, pilot"], ["Multi-syllable", "delight, tonight, alight"]] },
+  "syllable-counter": { input: "beautiful → beau·ti·ful (3)", groups: [["1 syllable", "cat · dog · house"], ["2 syllables", "wa·ter · gar·den"], ["3 syllables", "beau·ti·ful · in·ter·net"]] },
+  "prefix-finder": { input: "pre", groups: [["Words starting with pre", "predict, prepare, present, prevent, preview, prefix"]] },
+  "suffix-finder": { input: "ing", groups: [["Words ending with ing", "running, singing, building, morning, evening, reading"]] },
+};
+
+function toolStaticExample(tool) {
+  const ex = TOOL_STATIC_EXAMPLES[tool.id];
+  if (!ex) return "";
+  return `<section class="section tool-example-static" aria-labelledby="${tool.id}-example-title">
+    <div class="section-heading">
+      <p class="eyebrow">Example output</p>
+      <h2 id="${tool.id}-example-title">What the results look like</h2>
+      <p>A sample result for <code>${escapeHtml(ex.input)}</code>, grouped the way the tool groups them — so you know the format before running your own.</p>
+    </div>
+    <div class="static-example-card">
+      ${ex.groups.map(([label, list]) => `<div class="static-example-group">
+        <span class="static-example-label">${escapeHtml(label)}</span>
+        <p class="static-example-words">${escapeHtml(list)}</p>
+      </div>`).join("")}
+    </div>
+  </section>`;
+}
+
 function renderTool(tool) {
   const page = tool;
   const body = `<section class="page-hero tool-hero">
@@ -1215,6 +1281,7 @@ function renderTool(tool) {
       </div>
     </section>
   </section>
+  ${toolStaticExample(tool)}
   ${adSlot("tool-mid")}
   ${toolReferencePanel(tool)}
   ${workedExamples(tool)}
@@ -1525,11 +1592,11 @@ function renderWordPage(wordData) {
   };
 
   const synonymPills = wordData.synonyms
-    .map((w) => `<a class="word-pill" href="${wordHref(w)}">${escapeHtml(w)}</a>`)
+    .map((w) => wordPill(w))
     .join("");
 
   const antonymPills = wordData.antonyms
-    .map((w) => `<a class="word-pill" href="${wordHref(w)}">${escapeHtml(w)}</a>`)
+    .map((w) => wordPill(w))
     .join("");
 
   const wordFamilyItems = wordData.wordFamily
@@ -1675,10 +1742,10 @@ function renderLightWordPage(w) {
   const synonymList = (w.synonyms || []).filter(Boolean);
   const antonymList = (w.antonyms || []).filter(Boolean);
   const synonymPills = synonymList
-    .map((s) => `<a class="word-pill" href="${wordHref(s)}">${escapeHtml(s)}</a>`)
+    .map((s) => wordPill(s))
     .join("");
   const antonymPills = antonymList
-    .map((s) => `<a class="word-pill" href="${wordHref(s)}">${escapeHtml(s)}</a>`)
+    .map((s) => wordPill(s))
     .join("");
 
   // Examples
@@ -2886,27 +2953,15 @@ function renderSynonymMatch() {
 }
 
 // ── Word Explorer A-Z Letter Page ─────────────────────────────────
+const EXPLORER_PER_PAGE = 250;
+
+// Returns an ARRAY of routes (paginated). The explorer lists only words that have
+// a real static /word/ page — never ?w= lookup stubs — with crawlable rel prev/next.
 function renderWordExplorerLetter(letter, letterWords, allLetterSet) {
-  // Sort alphabetically
-  const sorted = [...letterWords].sort((a, b) => a.word.localeCompare(b.word));
+  const published = [...letterWords]
+    .filter((w) => w.shortDef && !w.needsDictionaryLookup)
+    .sort((a, b) => a.word.localeCompare(b.word));
 
-  const page = {
-    href: `/word-explorer/${letter}/`,
-    title: `${sorted.length.toLocaleString()} Words Starting with ${letter.toUpperCase()} — Word Explorer`,
-    metaTitle: `English Words Starting with ${letter.toUpperCase()} (${sorted.length.toLocaleString()} words) | Word Helper`,
-    metaDescription: `Browse ${sorted.length.toLocaleString()} English words starting with ${letter.toUpperCase()} on Word Helper. Each word page includes definition, pronunciation, synonyms, and examples.`,
-  };
-
-  // Render: full word cards for enriched/curated entries, compact browse cards for stubs
-  const fullCardCount = sorted.filter(w => w.shortDef && !w.needsDictionaryLookup).length;
-  const cards = sorted.map((w) => w.shortDef && !w.needsDictionaryLookup
-    ? renderWordCard(w, `data-word="${escapeHtml(w.word)}"`)
-    : renderBrowseCard(w)
-  ).join("");
-  // browse-mode (dense grid) when fewer than 50 full word cards (so mostly stubs)
-  const gridClass = fullCardCount >= 50 ? "word-explorer-grid" : "word-explorer-grid browse-mode";
-
-  // azLinks: mark letters that have any pages (curated or enriched)
   const letterSet = allLetterSet || new Set(words.map((w) => w.word[0]));
   const azLinks = "abcdefghijklmnopqrstuvwxyz".split("").map((l) => {
     return letterSet.has(l)
@@ -2914,39 +2969,80 @@ function renderWordExplorerLetter(letter, letterWords, allLetterSet) {
       : `<span class="az-link az-link-empty">${l.toUpperCase()}</span>`;
   }).join("");
 
-  const body = `<section class="page-hero">
+  const total = published.length;
+  const totalPages = Math.max(1, Math.ceil(total / EXPLORER_PER_PAGE));
+  const L = letter.toUpperCase();
+  const pageHref = (n) => (n <= 1 ? `/word-explorer/${letter}/` : `/word-explorer/${letter}/${n}/`);
+
+  const routes = [];
+  for (let n = 1; n <= totalPages; n++) {
+    const slice = published.slice((n - 1) * EXPLORER_PER_PAGE, n * EXPLORER_PER_PAGE);
+    const pageLabel = totalPages > 1 ? ` (page ${n} of ${totalPages})` : "";
+    const page = {
+      href: pageHref(n),
+      title: `Words Starting with ${L}${pageLabel} — Word Explorer`,
+      metaTitle: `English Words Starting with ${L}${pageLabel} | Word Helper`,
+      metaDescription: `Browse word pages starting with ${L} on Word Helper — each with definition, pronunciation, syllables, synonyms, and examples.`,
+      relPrev: n > 1 ? absolute(pageHref(n - 1)) : null,
+      relNext: n < totalPages ? absolute(pageHref(n + 1)) : null,
+    };
+
+    const cards = slice.map((w) => renderWordCard(w, `data-word="${escapeHtml(w.word)}"`)).join("");
+    const pager = totalPages > 1 ? renderExplorerPager(letter, n, totalPages, pageHref) : "";
+    const rangeNote = total > 0
+      ? `Showing ${((n - 1) * EXPLORER_PER_PAGE + 1).toLocaleString()}–${Math.min(n * EXPLORER_PER_PAGE, total).toLocaleString()} of ${total.toLocaleString()} word pages.`
+      : `Word pages starting with ${L} are being added — meanwhile, search any ${L} word from the box above.`;
+
+    const body = `<section class="page-hero">
     ${breadcrumb(page)}
     <p class="eyebrow">Word Explorer</p>
-    <h1>Words Starting with "${letter.toUpperCase()}"</h1>
-    <p class="hero-lede">Browse ${sorted.length.toLocaleString()} words starting with "${letter.toUpperCase()}" — each linking to a page with definition, pronunciation, synonyms, and examples. Use the filter to find any word instantly.</p>
+    <h1>Words Starting with "${L}"</h1>
+    <p class="hero-lede">In-depth word pages starting with "${L}" — each with definition, pronunciation, syllables, synonyms, and examples.</p>
   </section>
   <section class="section">
     <nav class="az-nav" aria-label="Browse by letter">${azLinks}</nav>
   </section>
   <section class="section">
     <div class="section-heading">
-      <p class="eyebrow">Letter ${letter.toUpperCase()}</p>
-      <h2>Word pages — ${letter.toUpperCase()}</h2>
+      <p class="eyebrow">Letter ${L}</p>
+      <h2>Word pages — ${L}</h2>
+      <p>${rangeNote}</p>
     </div>
-    <div class="word-filter-bar">
-      <input id="word-filter" class="word-filter-input" type="search" placeholder="Filter words starting with ${letter.toUpperCase()}…" aria-label="Filter words">
-      <span id="word-filter-count" class="word-filter-count">${sorted.length.toLocaleString()} words</span>
+    ${total > 0 ? `<div class="word-filter-bar">
+      <input id="word-filter" class="word-filter-input" type="search" placeholder="Filter words on this page…" aria-label="Filter words">
+      <span id="word-filter-count" class="word-filter-count">${slice.length.toLocaleString()} words</span>
     </div>
-    <div id="word-explorer-grid" class="${gridClass}">${cards}</div>
-    <p id="word-filter-empty" class="word-filter-empty" hidden>No words match your search.</p>
+    <div id="word-explorer-grid" class="word-explorer-grid">${cards}</div>
+    <p id="word-filter-empty" class="word-filter-empty" hidden>No words match your search.</p>` : ""}
+    ${pager}
   </section>`;
 
-  const schemas = [
-    {
-      "@type": "CollectionPage",
-      name: page.metaTitle,
-      url: absolute(page.href),
-      description: page.metaDescription,
-    },
-    breadcrumbSchema(page),
-  ];
+    const schemas = [
+      { "@type": "CollectionPage", name: page.metaTitle, url: absolute(page.href), description: page.metaDescription },
+      breadcrumbSchema(page),
+    ];
+    routes.push({ href: page.href, html: layout(page, body, schemas) });
+  }
+  return routes;
+}
 
-  return { href: page.href, html: layout(page, body, schemas) };
+function renderExplorerPager(letter, current, totalPages, pageHref) {
+  const L = letter.toUpperCase();
+  const link = (n, label, cls = "") =>
+    `<a class="explorer-pager-link${cls}" href="${pageHref(n)}"${n === current ? ' aria-current="page"' : ""}>${label}</a>`;
+  const parts = [];
+  parts.push(current > 1 ? link(current - 1, "‹ Prev", " explorer-pager-edge") : `<span class="explorer-pager-link is-disabled">‹ Prev</span>`);
+  // windowed page numbers
+  const windowed = new Set([1, totalPages, current, current - 1, current + 1, current - 2, current + 2]);
+  let last = 0;
+  for (let n = 1; n <= totalPages; n++) {
+    if (!windowed.has(n)) continue;
+    if (n - last > 1) parts.push(`<span class="explorer-pager-gap">…</span>`);
+    parts.push(link(n, String(n), n === current ? " is-active" : ""));
+    last = n;
+  }
+  parts.push(current < totalPages ? link(current + 1, "Next ›", " explorer-pager-edge") : `<span class="explorer-pager-link is-disabled">Next ›</span>`);
+  return `<nav class="explorer-pager" aria-label="Word pages for ${L}, pagination">${parts.join("")}</nav>`;
 }
 
 function renderNotFound() {
@@ -3385,12 +3481,22 @@ async function main() {
     await writeRoute(route);
   }
 
-  await emit(renderHome(allBrowseWords));
+  // WS3/WS4 — the explorer lists ONLY real static /word/ pages (no ?w= stubs),
+  // paginated. Emit a page for every letter (empty-state where none yet) so the
+  // A–Z navigation never 404s; az-nav greys letters with no pages.
+  const publishedLetterSet = new Set(publishedWordPages.map((w) => w.word[0]));
+  const allLetters = "abcdefghijklmnopqrstuvwxyz".split("");
+  await emit(renderHome(publishedWordPages));
   await emit(renderSearchPage());
   await emit(renderWordLab());
-  await emit(renderWordExplorerIndex(allBrowseWords));
-  for (const l of azLetters) {
-    await emit(renderWordExplorerLetter(l, allBrowseWords.filter((w) => w.word.startsWith(l)), letterSet));
+  await emit(renderWordExplorerIndex(publishedWordPages));
+  for (const l of allLetters) {
+    const letterRoutes = renderWordExplorerLetter(
+      l,
+      publishedWordPages.filter((w) => w.word.startsWith(l)),
+      publishedLetterSet,
+    );
+    for (const route of letterRoutes) await emit(route);
   }
   for (const word of words) await emit(renderWordPage(word));
   for (const word of enrichedWords) await emit(renderLightWordPage(word));

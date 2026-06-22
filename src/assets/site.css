@@ -151,7 +151,8 @@
 :root[data-theme="dark"] .quiz-nav button,
 :root[data-theme="dark"] .wotd-cta,
 :root[data-theme="dark"] .az-link-active,
-:root[data-theme="dark"] .az-link-active:hover {
+:root[data-theme="dark"] .az-link-active:hover,
+:root[data-theme="dark"] .explorer-pager-link.is-active {
   color: #0d1320;
 }
 
@@ -1502,6 +1503,10 @@ input:focus, textarea:focus, select:focus {
 
 .word-pill:hover { border-color: var(--navy-border); color: var(--navy); background: var(--navy-soft); }
 
+/* Non-link synonym/antonym chip (word has no published page yet) */
+.word-pill-flat { background: var(--bg-secondary); color: var(--muted); cursor: default; }
+.word-pill-flat:hover { border-color: var(--border); color: var(--muted); background: var(--bg-secondary); }
+
 /* Word family */
 .word-family-grid {
   display: grid;
@@ -1668,6 +1673,20 @@ input:focus, textarea:focus, select:focus {
 
 /* ── A-Z navigation ──────────────────────────────────────── */
 .az-nav { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+
+/* Word Explorer pagination */
+.explorer-pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin-top: 32px; }
+.explorer-pager-link {
+  display: inline-grid; place-items: center; min-width: 40px; height: 40px; padding: 0 13px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--card); color: var(--text-2);
+  font-size: 14px; font-weight: 600; text-decoration: none;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.explorer-pager-link:hover { border-color: var(--navy-border); background: var(--navy-soft); color: var(--navy); }
+.explorer-pager-link.is-active { background: var(--navy); border-color: var(--navy); color: #fff; pointer-events: none; }
+.explorer-pager-link.is-disabled { opacity: 0.4; pointer-events: none; }
+.explorer-pager-gap { color: var(--muted); padding: 0 2px; }
 
 .az-link {
   display: inline-flex;
@@ -2530,6 +2549,49 @@ input:focus, textarea:focus, select:focus {
 }
 
 /* ── Tool source / compatibility note ────────────────────── */
+/* WS10 — Data & editorial standards card */
+.editorial-standards-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+}
+.editorial-standards-head { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.editorial-standards-head .card-icon { width: 44px; height: 44px; }
+.editorial-standards-head h2 { margin: 2px 0 0; font-size: clamp(20px, 2.4vw, 26px); }
+.editorial-standards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px 28px;
+  margin-bottom: 24px;
+}
+.editorial-standards-grid strong { display: block; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.editorial-standards-grid p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-2); }
+
+/* WS9 — static example output card */
+.static-example-card {
+  display: grid;
+  gap: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  overflow: hidden;
+}
+.static-example-group {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding: 16px 20px;
+}
+.static-example-group + .static-example-group { border-top: 1px solid var(--border); }
+.static-example-label { font-size: 12.5px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.04em; }
+.static-example-words { margin: 0; font-size: 16px; color: var(--text); font-weight: 500; }
+@media (max-width: 600px) {
+  .static-example-group { grid-template-columns: 1fr; gap: 4px; }
+}
+
 .tool-source-note {
   display: flex;
   align-items: flex-start;
