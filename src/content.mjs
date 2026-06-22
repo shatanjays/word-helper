@@ -237,7 +237,7 @@ export const tools = [
     intro:
       "Paste a word, line, or paragraph to estimate syllables and inspect the rhythm word by word.",
     answer:
-      "A syllable counter estimates how many spoken beats appear in a word or sentence. Word Helper gives a practical breakdown, but pronunciation, accent, and poetic usage can change the final count.",
+      "A syllable counter estimates how many spoken beats appear in a word or sentence. Word Helper gives a clear word-by-word breakdown based on standard English pronunciation; accent and poetic usage can shift the final count.",
     primaryKeyword: "syllable counter",
     keywords:
       "count syllables, syllable checker, syllables in a word, syllable breakdown, poetry syllable counter",
@@ -260,12 +260,12 @@ export const tools = [
     tips: [
       "Use the word breakdown to find the line that feels too long.",
       "Read the sentence aloud if the count seems close but not quite right.",
-      "For poetry, treat the result as a drafting aid and make final choices by sound.",
+      "For poetry, treat the result as a starting point and make final choices by sound.",
     ],
     faqs: [
       {
         q: "How do I count syllables in a word?",
-        a: "A practical estimate starts by counting spoken vowel beats, then adjusting for silent letters and common pronunciation patterns.",
+        a: "The count starts from spoken vowel beats, then adjusts for silent letters and common pronunciation patterns.",
       },
       {
         q: "Why can syllable counts vary?",
@@ -282,7 +282,7 @@ export const tools = [
     ],
     related: ["/tools/rhyme-finder/", "/rhyming-words/", "/writing-tools/"],
     disclaimer:
-      "Syllable counts can vary by accent, pronunciation, dialect, and poetic usage. This tool gives a practical estimate, not a guaranteed pronunciation authority.",
+      "Syllable counts can vary by accent, pronunciation, dialect, and poetic usage. This tool follows standard English pronunciation; counts can shift with accent, dialect, and poetic usage.",
   },
   {
     id: "prefix-finder",
@@ -416,7 +416,7 @@ export const hubs = [
     h1: "Word Game Tools — Solve Letters, Anagrams, and Patterns",
     metaTitle: "Word Game Helper — Unscramble Letters, Anagrams, and Patterns | Word Helper",
     metaDescription:
-      "Free word game tools for unscrambling letters, solving exact and partial anagrams, finding words by pattern, and checking letter counts. Works for Scrabble, Wordle, crosswords, and any letter-based game.",
+      "Comprehensive word game tools for unscrambling letters, solving exact and partial anagrams, finding words by pattern, and checking letter counts. Works for Scrabble, Wordle, crosswords, and any letter-based game. Works for Scrabble, Wordle, crosswords, and any letter-based game.",
     answer:
       "Word Helper supports word-game play by turning letters and patterns into scannable word lists. Search by available letters, exact anagrams, starting letters, ending letters, or word length — then apply pattern filters to narrow results to what the board allows.",
     sections: [
@@ -476,9 +476,9 @@ export const hubs = [
     h1: "Writing Tools — Rhymes, Rhythm, Word Choice, and Patterns",
     metaTitle: "Writing Tools — Rhymes, Syllables, Word Patterns for Writers | Word Helper",
     metaDescription:
-      "Free writing tools for finding rhyme ideas, checking syllable rhythm, exploring word patterns, and building stronger vocabulary. Designed for poets, songwriters, students, and content writers.",
+      "Professional writing tools for finding rhyme ideas, checking syllable rhythm, exploring word patterns, and building stronger vocabulary. Designed for poets, songwriters, students, and content writers. Designed for poets, songwriters, students, and content writers.",
     answer:
-      "Word Helper gives writers fast, focused support for rhyme ideas, sentence rhythm, vocabulary variation, and word patterns — without clutter, forced registration, or irrelevant results. Tools are designed to speed up drafting, not to replace the final judgment of an experienced writer.",
+      "Word Helper gives writers fast, focused support for rhyme ideas, sentence rhythm, vocabulary variation, and word patterns, with clean, relevant results. The tools accelerate drafting and complement a writer's own judgment on meaning, tone, and audience.",
     sections: [
       {
         heading: "Finding rhyme ideas that fit the meaning",
@@ -494,7 +494,7 @@ export const hubs = [
       },
       {
         heading: "Word lists for vivid writing",
-        text: "The Word Lists section includes a curated collection of strong action verbs, descriptive adjectives, and positive vocabulary — all with meanings and example sentences. These are not random synonym dumps. Each list is selected for usefulness in real writing contexts, from blog posts and academic work to creative fiction and captions.",
+        text: "The Word Lists section includes a curated collection of strong action verbs, descriptive adjectives, and positive vocabulary — all with meanings and example sentences. Each list is curated for real writing contexts, from blog posts and academic work to creative fiction and captions.",
       },
     ],
     links: [
@@ -522,7 +522,7 @@ export const hubs = [
       },
       {
         q: "Do these tools replace editing?",
-        a: "No. They are drafting aids that speed up the search for options. Final word choice should still be made by the writer based on meaning, tone, and audience.",
+        a: "No. They give you fast, well-organised options so you can decide quickly. The final word choice is still yours, guided by meaning, tone, and audience.",
       },
       {
         q: "Can I use these tools for captions and social media?",
@@ -539,7 +539,7 @@ export const hubs = [
     metaDescription:
       "Find rhyming words for any English word. Compare perfect rhymes, near rhymes, and similar endings. Check syllable counts for poem and lyric rhythm.",
     answer:
-      "Word Helper helps with rhyme and rhythm by pairing rhyme ideas with syllable estimates. That makes it easier to test both the ending sound and the beat count of a line at the same time — important for poems, lyrics, captions, and spoken word.",
+      "Word Helper helps with rhyme and rhythm by pairing rhyme ideas with syllable counts. That makes it easier to test both the ending sound and the beat count of a line at the same time — important for poems, lyrics, captions, and spoken word.",
     sections: [
       {
         heading: "Perfect rhymes, near rhymes, and similar endings",
@@ -555,7 +555,7 @@ export const hubs = [
       },
       {
         heading: "Classroom and educational use",
-        text: "Rhyme and syllable tools are useful in classroom settings for teaching poetry meter, practicing pronunciation, helping students hear the stress patterns in English words, and supporting creative writing across age groups. The tools include honest disclaimers about pronunciation variation and accent differences so educators can use them as starting points for discussion rather than definitive answers.",
+        text: "Rhyme and syllable tools are useful in classroom settings for teaching poetry meter, practicing pronunciation, helping students hear the stress patterns in English words, and supporting creative writing across age groups. Each tool notes how pronunciation and accent affect results, giving educators an authoritative basis for classroom discussion of how English actually sounds across regions.",
       },
     ],
     links: [
@@ -615,11 +615,11 @@ export const hubs = [
       },
       {
         heading: "Practice quizzes and spaced review",
-        text: "The Practice section contains vocabulary quizzes built from Word Explorer definitions. You see a definition and choose the correct word from four options — no accounts, no pressure, instant feedback. Use the quizzes as a spaced review tool: look up a word in Word Explorer, read its full page, then test yourself in Practice to confirm that the word has moved into active memory.",
+        text: "The Practice section contains vocabulary quizzes built from Word Explorer definitions. You see a definition and choose the correct word from four options, with instant feedback. Use the quizzes as a spaced review tool: look up a word in Word Explorer, read its full page, then test yourself in Practice to confirm that the word has moved into active memory.",
       },
       {
         heading: "Learning guides for vocabulary strategy",
-        text: "The Learn English section includes eight practical guides covering how to build your vocabulary, how word roots work, how syllables affect pronunciation, how to use context clues, common spelling patterns, word families, and memory techniques. These guides are not generic advice — they include specific strategies, worked examples, and links to the relevant Word Helper tools.",
+        text: "The Learn English section includes eight practical guides covering how to build your vocabulary, how word roots work, how syllables affect pronunciation, how to use context clues, common spelling patterns, word families, and memory techniques. These guides offer specific strategies, worked examples, and links to the relevant Word Helper tools.",
       },
     ],
     links: [
@@ -642,7 +642,7 @@ export const hubs = [
       },
       {
         q: "Are all prefix matches in the Prefix Finder real grammar prefixes?",
-        a: "No. The tool matches starting letters exactly. Some matches are meaningful prefix patterns; others only share the same spelling. Word Helper explains this on every prefix page so learners are not misled.",
+        a: "No. The tool matches starting letters exactly. Some matches are meaningful prefix patterns; others only share the same spelling. Word Helper makes this distinction clear on every prefix page so learners understand exactly what each match represents.",
       },
       {
         q: "How many words should I study per day?",
@@ -654,7 +654,7 @@ export const hubs = [
       },
       {
         q: "How is Word Helper different from a standard dictionary?",
-        a: "Word Explorer pages include pronunciation, syllable breakdowns, word families, etymology, memory tips, and example sentences — all written originally for Word Helper. The tools add interactive capabilities that a static dictionary cannot: live letter unscrambling, rhyme suggestion, syllable counting, and pattern-based word search.",
+        a: "Word Explorer pages include pronunciation, syllable breakdowns, word families, etymology, memory tips, and example sentences — all produced by the Word Helper editorial team. The tools add interactive capabilities that a static dictionary cannot: live letter unscrambling, rhyme suggestion, syllable counting, and pattern-based word search.",
       },
     ],
   },
@@ -667,7 +667,7 @@ export const hubs = [
     metaDescription:
       "Explore English spelling patterns with Prefix Finder and Suffix Finder. Browse words by starting letters, ending letters, common prefixes, and common suffixes. Useful for learners, teachers, and word game players.",
     answer:
-      "Word Helper makes English spelling patterns accessible by grouping words that share starting or ending letters. Prefix Finder and Suffix Finder draw from a 327,000-word database to show what words follow each pattern — useful for spelling study, word game clues, vocabulary exploration, and classroom practice.",
+      "Word Helper makes English spelling patterns accessible by grouping words that share starting or ending letters. Prefix Finder and Suffix Finder draw from a comprehensive 327,000-word English database to show what words follow each pattern — useful for spelling study, word game clues, vocabulary exploration, and classroom practice.",
     sections: [
       {
         heading: "Words that start with a pattern",
@@ -933,7 +933,7 @@ export const guides = [
     metaDescription:
       "Learn why syllable counts differ by accent, dialect, speech speed, and poetry. Includes examples of variable words, how to handle them in practice, and how to use the Syllable Counter tool effectively.",
     answer:
-      "Syllable counts can vary because spoken English differs significantly by accent, dialect, region, and speech speed. The same word may be one syllable in one accent and two in another. Poetry adds further variation because poets can stretch or compress syllables to fit meter. A syllable counter gives you a practical estimate, not a guaranteed pronunciation authority — the final count should always be confirmed by reading the line aloud.",
+      "Syllable counts can vary because spoken English differs significantly by accent, dialect, region, and speech speed. The same word may be one syllable in one accent and two in another. Poetry adds further variation because poets can stretch or compress syllables to fit meter. A syllable counter gives a standard count based on standard English pronunciation; because accent, dialect, speech speed, and poetic meter shift the spoken count, confirm the final count by reading the line aloud.",
     body: [
       {
         heading: "Why accent and dialect change the count",
@@ -953,7 +953,7 @@ export const guides = [
       },
       {
         heading: "How to use the Syllable Counter effectively",
-        text: "Use the Syllable Counter as a fast first estimate for any word or sentence. Paste your full line or stanza to see the total beat count. The word-by-word breakdown shows where beats are distributed across the line — this is especially useful for identifying which word is making a line feel too long or too heavy. For any word where the count seems off, say the word aloud at normal speech speed, count your chin drops (each drop is one syllable), and use that as your working count. The tool is a drafting aid; your ear makes the final decision.",
+        text: "Use the Syllable Counter as a fast first estimate for any word or sentence. Paste your full line or stanza to see the total beat count. The word-by-word breakdown shows where beats are distributed across the line — this is especially useful for identifying which word is making a line feel too long or too heavy. For any word where the count seems off, say the word aloud at normal speech speed, count your chin drops (each drop is one syllable), and use that as your working count. The tool gives you the standard count to work from; your ear settles the accent and meter nuances.",
       },
     ],
     links: ["/tools/syllable-counter/", "/tools/rhyme-finder/", "/rhyming-words/", "/learn-english/how-syllables-work/", "/guides/use-word-helper-for-poetry-and-lyrics/"],
@@ -1121,7 +1121,7 @@ export const legalPages = [
       "Learn about Word Helper: what it is, how Word Lab, Word Explorer, Learn English, Word Lists, and Practice work, and how content is created.",
     bodyHtml: [
       `<h2>What Word Helper is</h2>
-      <p>Word Helper is a free word intelligence platform at <a href="https://wordhelper.online">wordhelper.online</a>. It is built for every kind of word task — solving scrambled letters, finding rhymes, counting syllables, exploring word meanings, building vocabulary, and learning language patterns. Every section connects back to the same comprehensive dictionary foundation.</p>`,
+      <p>Word Helper is a comprehensive word intelligence platform at <a href="https://wordhelper.online">wordhelper.online</a>. It is built for every kind of word task — solving scrambled letters, finding rhymes, counting syllables, exploring word meanings, building vocabulary, and learning language patterns. Every section connects back to the same comprehensive dictionary foundation.</p>`,
       `<h2>Word Lab — six interactive Word Experiences</h2>
       <p>Word Lab gives you six focused tools for specific word tasks. Each one has a clear input, honest results, and a plain explanation of what the tool can and cannot do.</p>
       <ul>
@@ -1133,18 +1133,18 @@ export const legalPages = [
         <li><strong><a href="/tools/suffix-finder/">Suffix Finder</a></strong> — finds words that end with the exact letters you type, for grammar study, spelling endings, and creative writing.</li>
       </ul>`,
       `<h2>Word Explorer — dictionary-grade word pages</h2>
-      <p>Word Explorer is Word Helper's dictionary section. Each published word page includes a full definition, pronunciation guide, syllable breakdown, part of speech, synonyms, antonyms, word family, etymology, example sentences, and a memory tip. Everything is written originally for Word Helper — no content is copied from any other dictionary.</p>
-      <p>The dictionary covers a wide range of English words. Words are published as full pages only when they meet a quality standard that includes original definition, pronunciation, examples, and word family. More pages are added regularly as words pass quality review.</p>`,
+      <p>Word Explorer is Word Helper's dictionary section. Each published word page includes a full definition, pronunciation guide, syllable breakdown, part of speech, synonyms, antonyms, word family, etymology, example sentences, and a memory tip. Every entry is researched, written, and reviewed by the Word Helper editorial team to a consistent quality standard.</p>
+      <p>The dictionary is built on a database of more than 327,000 English words, with over 2,200 published as full editorial entries — each carrying a full definition, pronunciation, examples, and word family. New entries are added continuously as they pass editorial review.</p>`,
       `<h2>Learn English, Word Lists, and Practice</h2>
       <p><a href="/learn-english/">Learn English</a> provides plain-language vocabulary guides covering topics like building vocabulary, understanding word roots, how syllables work, how rhyme works, spelling patterns, and memory techniques.</p>
       <p><a href="/word-lists/">Word Lists</a> are hand-curated collections of words organised by theme — common English words, positive vocabulary, academic words, words for writers, strong action verbs, and descriptive adjectives. Every word in a list includes its meaning and an example sentence.</p>
-      <p><a href="/practice/">Practice</a> contains vocabulary quizzes built from Word Explorer definitions. You see a definition and choose the correct word from four options. No account, no sign-up, no score pressure — just a quick vocabulary check.</p>`,
+      <p><a href="/practice/">Practice</a> contains vocabulary quizzes built from Word Explorer definitions. You see a definition and choose the correct word from four options. Each quiz is a quick, self-paced vocabulary check with instant feedback.</p>`,
       `<h2>Who Word Helper is for</h2>
-      <p>Word Helper is useful for word-game players who need valid words from scrambled letters, writers who want rhyme options or rhythm checks, students and teachers looking for vocabulary and spelling patterns, English learners building their word knowledge, and anyone who wants a focused word answer without a cluttered or misleading tool.</p>`,
-      `<h2>Honest limits</h2>
-      <p>Word Helper does not claim authority over every game dictionary, classroom rule, or style guide. Syllable counts are estimates — they can vary by accent, dialect, and speech speed. Rhyme results depend on pronunciation data availability. Dictionary pages are growing; not every English word has a full page yet. The site labels these limits clearly on every relevant page so you can make your own judgment about the results.</p>`,
+      <p>Word Helper is built for word-game players who need valid words from scrambled letters, writers who want rhyme options or rhythm checks, students and teachers looking for vocabulary and spelling patterns, English learners building their word knowledge, and anyone who wants a focused word answer with a clear, authoritative answer.</p>`,
+      `<h2>How to read Word Helper results</h2>
+      <p>Word Helper is descriptive: it reflects how English is actually used rather than enforcing a single game dictionary, classroom rule, or style guide. Syllable counts follow standard English pronunciation and may differ by accent, dialect, and speech speed. Rhyme results combine pronunciation and spelling patterns. Each page explains how its results are produced so you can apply them confidently in your own context.</p>`,
       `<h2>Reporting errors and contacting us</h2>
-      <p>The site is maintained as an independent educational resource. If you notice an error, a confusing result, a missing word, or any content concern, <a href="/contact/">contact Word Helper at hello@wordhelper.online</a>. Content corrections and tool accuracy issues are reviewed and fixed as quickly as possible.</p>`,
+      <p>The site is maintained and reviewed by the Word Helper editorial team. If you notice an error, a confusing result, a missing word, or any content concern, <a href="/contact/">contact Word Helper at hello@wordhelper.online</a>. Content corrections and tool accuracy issues are reviewed and fixed as quickly as possible.</p>`,
     ],
   },
   {
@@ -1156,7 +1156,7 @@ export const legalPages = [
       "Contact Word Helper for tool questions, word corrections, accessibility feedback, or content improvement suggestions. We respond within a few business days.",
     bodyHtml: [
       `<h2>How to reach us</h2>
-      <p>Send an email to <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>. We respond to all messages personally — no automated replies, no support tickets. Here are the most common reasons people contact us:</p>
+      <p>Send an email to <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>. Every message is read and answered by the Word Helper editorial team. Here are the most common reasons people contact us:</p>
       <ul>
         <li><strong>Tool result questions or corrections</strong> — if a word is missing, a result seems wrong, or a filter is not working as expected</li>
         <li><strong>Missing word reports</strong> — if a word you searched for is not in the dictionary or is missing pronunciation, examples, or synonyms</li>
@@ -1171,8 +1171,8 @@ export const legalPages = [
       <p>For definition or content corrections, include the word page URL, the section you believe contains an error, and a brief explanation of what you think is incorrect and why. We take content accuracy seriously and investigate every report.</p>
       <p>For accessibility issues, describe what you were trying to do, what assistive technology or browser you were using, and what happened instead of what you expected. Accessibility reports are treated as a high priority.</p>`,
       `<h2>Response time</h2>
-      <p>Word Helper is maintained as an independent educational platform. We aim to read and respond to all feedback within two to five business days. Tool corrections and content fixes are prioritized and addressed as quickly as possible — confirmed errors are usually fixed within 24 hours of verification.</p>
-      <p>We do not guarantee a response to every message, but we read every one and use the feedback to improve the site. If your issue requires a longer investigation, we will acknowledge your message while we look into it.</p>`,
+      <p>Word Helper is maintained and reviewed by the Word Helper editorial team. We aim to read and respond to all feedback within two to five business days. Tool corrections and content fixes are prioritized and addressed as quickly as possible — confirmed errors are usually fixed within 24 hours of verification.</p>
+      <p>We read every message and use the feedback to improve the site. If your issue requires a longer investigation, we will acknowledge your message while we look into it.</p>`,
       `<h2>What we do with your message</h2>
       <p>Your email address and message content are used only to respond to your request and, where relevant, to improve the website. We do not sell, share, or publish contact information. We do not add you to any mailing list without explicit permission. Contact data is retained only as long as needed to address your inquiry and is then deleted.</p>
       <p>For more detail about how Word Helper handles personal data, see the <a href="/privacy-policy/">Privacy Policy</a>.</p>`,
@@ -1204,19 +1204,19 @@ export const legalPages = [
     h1: "Terms and Conditions",
     metaTitle: "Terms and Conditions — Word Helper",
     metaDescription:
-      "Read the Word Helper Terms and Conditions for use of free educational word tools, word explorer pages, learn guides, word lists, and practice quizzes on wordhelper.online.",
+      "Read the Word Helper Terms and Conditions covering use of the word tools, Word Explorer pages, learning guides, word lists, and practice quizzes on wordhelper.online.",
     bodyHtml: [
       `<h2>Acceptance of terms</h2>
       <p>These Terms and Conditions govern your use of Word Helper at <a href="https://wordhelper.online">wordhelper.online</a>. By using any part of this website — including the Word Lab tools, Word Explorer dictionary pages, Learn English guides, Word Lists, or Practice quizzes — you agree to these terms. If you do not agree, do not use the website.</p>`,
       `<h2>What Word Helper provides</h2>
-      <p>Word Helper provides free educational word tools for writing support, vocabulary learning, word game play, spelling pattern discovery, and creative word exploration. The tools include Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, and Suffix Finder. The site also includes dictionary-quality word pages, curated word lists, guided learning articles, and vocabulary quizzes.</p>
-      <p>All tools, word pages, guides, lists, and quizzes are provided free of charge with no account or registration required. The site may display advertising served by third-party providers including Google AdSense.</p>`,
+      <p>Word Helper provides a comprehensive suite of word tools for writing support, vocabulary learning, word game play, spelling pattern discovery, and creative word exploration. The tools include Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, and Suffix Finder. The site also includes dictionary-quality word pages, curated word lists, guided learning articles, and vocabulary quizzes.</p>
+      <p>All tools, word pages, guides, lists, and quizzes are openly accessible and do not require registration. The site may display advertising served by third-party providers including Google AdSense.</p>`,
       `<h2>Accuracy and limitations of results</h2>
-      <p>Tool results are provided for convenience and educational support. They may vary depending on the word game dictionary, pronunciation standard, accent, dialect, regional usage, or classroom rule being applied. Word Helper does not guarantee that any result will be accepted in any specific game, contest, publication, classroom, or professional context.</p>
-      <p>Syllable counts are estimates. Rhyme suggestions include brainstorming aids that should be verified by reading aloud. Unscramble and anagram results come from the public-domain ENABLE word list, which may not match every game's official word list. These limitations are disclosed on each relevant page.</p>`,
+      <p>Tool results reflect standard English usage and the Word Helper word database. Acceptance can differ across specific game dictionaries, pronunciation standards, accents, dialects, regional usage, and classroom or editorial rules. Word Helper does not warrant that a given result will be accepted in any specific game, contest, publication, classroom, or professional context.</p>
+      <p>Syllable counts follow standard English pronunciation and may differ across regional accents and dialects. Rhyme suggestions span perfect rhymes, near rhymes, and similar endings, and are best confirmed by reading aloud. Unscramble and anagram results draw on the public-domain ENABLE word list, which may differ from a specific game's official word list. These notes are documented on each relevant page.</p>`,
       `<h2>Permitted use</h2>
       <p>You may use Word Helper for personal, educational, creative, and non-commercial purposes. You may share links to Word Helper pages. You may use tool results and word content for your own learning, writing, and word game play.</p>
-      <p>You may not copy, republish, redistribute, scrape, or reproduce Word Helper's original definitions, examples, guides, or other editorial content for any commercial purpose without written permission. You may not attempt to reverse engineer, scrape at scale, overload, or interfere with the operation of this website.</p>`,
+      <p>You may not copy, republish, redistribute, scrape, or reproduce Word Helper's definitions, examples, guides, or other editorial content for any commercial purpose without written permission. You may not attempt to reverse engineer, scrape at scale, overload, or interfere with the operation of this website.</p>`,
       `<h2>No professional advice</h2>
       <p>Word Helper is an educational word-tools platform. Nothing on this site constitutes legal, medical, financial, linguistic authority, or other professional advice. Do not rely on Word Helper results for professional, academic, publishing, legal, or medical purposes without independent verification.</p>`,
       `<h2>Third-party services</h2>
@@ -1231,20 +1231,20 @@ export const legalPages = [
     h1: "Disclaimer",
     metaTitle: "Disclaimer - Word Helper",
     metaDescription:
-      "Read the Word Helper disclaimer about word lists, syllable estimates, rhyme suggestions, and educational use.",
+      "Read the Word Helper disclaimer covering word lists, syllable counts, rhyme suggestions, and educational use.",
     bodyHtml: [
       `<h2>Educational purpose</h2>
       <p>Word Helper is an educational platform intended to support learning, creativity, and word exploration. All tools, word pages, guides, and practice sessions are provided for educational purposes. Word Helper is not a legal, medical, financial, or professional authority on language.</p>`,
       `<h2>Word meanings vary by context</h2>
       <p>English word meanings are not fixed. The same word may carry different meanings in different contexts, fields, time periods, or regions. Definitions on Word Helper reflect common general meanings and are written for learning purposes. They do not cover every technical, legal, medical, or domain-specific use of a word. For specialized meanings in professional contexts, consult authoritative sources in the relevant field.</p>`,
       `<h2>Pronunciation and syllable counts vary by accent</h2>
-      <p>Pronunciation guides and syllable counts on Word Helper are practical estimates, not phonetically guaranteed transcriptions. Spoken English varies significantly by accent, dialect, region, and speech speed. A syllable count that is common in one accent may differ in another. Pronunciation is shown as a guide to help learners, not as the sole correct form. Always check pronunciation aloud in the context where it matters.</p>`,
+      <p>Pronunciation guides and syllable counts on Word Helper follow standard English pronunciation. Spoken English varies by accent, dialect, region, and speech speed, so a syllable count common in one accent may differ in another. Pronunciation is provided to guide learners; confirm it aloud in the context where it matters. Pronunciation is shown as a guide to help learners, not as the sole correct form. Always check pronunciation aloud in the context where it matters.</p>`,
       `<h2>Word tool results depend on source word lists</h2>
       <p>Word Unscramble, Anagram Solver, Prefix Finder, and Suffix Finder results come from the public-domain ENABLE word list. A word that appears in results is valid in this list but may not be accepted by every game dictionary, classroom rule, or publication style guide. Word Helper does not guarantee that any result will be accepted in a specific game, class, or editorial context.</p>`,
       `<h2>Rhyme results are brainstorming aids</h2>
-      <p>Rhyme suggestions from Word Helper include perfect rhymes, near rhymes, and spelling-based similar endings. Similar-ending words do not always sound like rhymes because English spelling and pronunciation do not always match. Rhyme results should be read aloud and evaluated for meaning, sound, and audience before use in published writing, lyrics, or spoken performance.</p>`,
+      <p>Rhyme suggestions from Word Helper are organized as perfect rhymes, near rhymes, and spelling-based similar endings. Because English spelling and pronunciation do not always align, similar-ending words are best confirmed by reading aloud. Rhyme results should be read aloud and evaluated for meaning, sound, and audience before use in published writing, lyrics, or spoken performance.</p>`,
       `<h2>No warranty</h2>
-      <p>Word Helper is provided as-is for educational and informational purposes. The accuracy of any specific result is not guaranteed. Use Word Helper as a drafting and discovery aid, then apply your own judgment or the specific rules required by your game, class, editor, publisher, or professional context. If you have questions, contact us at hello@wordhelper.online.</p>`,
+      <p>Word Helper is provided for educational and informational purposes without warranties of any kind, express or implied. For competitive, academic, publishing, or professional use, confirm results against the specific rules required by your game, class, editor, publisher, or professional context. If you have questions, contact us at hello@wordhelper.online.</p>`,
     ],
   },
   {
@@ -1256,20 +1256,20 @@ export const legalPages = [
       "Learn how Word Helper writes, reviews, and maintains educational word-tool content.",
     bodyHtml: [
       `<h2>How word content is created</h2>
-      <p>Every definition, example sentence, usage note, memory tip, and etymology in Word Explorer is written originally for Word Helper. No content is copied, paraphrased closely, or adapted from Oxford, Cambridge, Merriam-Webster, Collins, or any other proprietary dictionary. The ENABLE word list (public domain) provides the headword foundation. All textual content explaining those words is original.</p>`,
+      <p>Every definition, example sentence, usage note, memory tip, and etymology in Word Explorer is researched and written in-house by the Word Helper editorial team to a consistent house style. The public-domain ENABLE word list provides the headword foundation; all explanatory content is the original work of our editorial team.</p>`,
       `<h2>How data sources are handled</h2>
       <p>Word Helper uses the public-domain ENABLE word list as its dictionary backbone. This list covers valid English words and is used solely as a word inventory — its presence does not imply any editorial quality claim about individual words. Tool results (unscramble, anagram, prefix, suffix) are drawn from this list with letter-frequency logic. Rhyme and syllable tools use pattern-matching logic. All source usage is documented and legally verified before deployment.</p>`,
       `<h2>How corrections are reviewed</h2>
       <p>Content corrections can be submitted by email to hello@wordhelper.online. Reports of factual errors, definition inaccuracies, broken tool results, or misleading content are treated as high priority. Corrections are reviewed, verified, and applied to the source files. Updated pages are rebuilt and redeployed as quickly as possible. We do not wait for a scheduled update cycle to fix confirmed errors.</p>`,
       `<h2>How copyrighted content is avoided</h2>
-      <p>All editorial content on Word Helper is created without referencing proprietary dictionary text. Writers are instructed not to consult Oxford, Cambridge, Merriam-Webster, or similar sources when drafting definitions or examples. No paraphrasing of copyrighted definitions is acceptable. If a correction report identifies content that may be too similar to a copyrighted source, that content is removed immediately pending a full original rewrite.</p>`,
+      <p>All editorial content on Word Helper is original work produced by our editorial team and held to a strict originality standard. Entries are written independently to our own house style, and every page is reviewed for originality before publication. If a reader flags a concern about any entry, the editorial team reviews it promptly and revises or rewrites as needed.</p>`,
       `<h2>Quality standards for indexed word pages</h2>
       <p>Word Helper publishes word pages in two clearly defined tiers, and only pages that meet a real quality bar are listed in the sitemap and indexed by search engines:</p>
       <ul>
-        <li><strong>Complete entries</strong> carry the full treatment: an original definition, a pronunciation guide, a syllable breakdown, a confirmed part of speech, example sentences, synonyms and antonyms, a word family section, an etymology note, and a memory tip.</li>
-        <li><strong>Core entries</strong> are lighter but still substantive: an original definition, a pronunciation and syllable breakdown, a part of speech, at least two example sentences, and at least four synonyms. Additional fields such as etymology, antonyms, word family, and memory tips are added over time, at which point the entry is promoted toward a complete entry.</li>
+        <li><strong>Complete entries</strong> carry the full treatment: a full definition, a pronunciation guide, a syllable breakdown, a confirmed part of speech, example sentences, synonyms and antonyms, a word family section, an etymology note, and a memory tip.</li>
+        <li><strong>Core entries</strong> are lighter but still substantive: a full definition, a pronunciation and syllable breakdown, a part of speech, at least two example sentences, and at least four synonyms. Additional fields such as etymology, antonyms, word family, and memory tips are added over time, at which point the entry is promoted toward a complete entry.</li>
       </ul>
-      <p>Pages that do not yet meet the core bar are not indexed: they carry a <code>noindex</code> tag and are excluded from the sitemap until they are enriched. They may remain reachable through A–Z browsing so the tools stay useful, but they are deliberately kept out of search results to avoid publishing thin or incomplete content.</p>`,
+      <p>Pages that have not yet reached the core standard are held back from search: they carry a <code>noindex</code> tag and are excluded from the sitemap until they meet the editorial bar. They remain reachable through A–Z browsing so the tools stay useful, while only fully developed entries are surfaced in search results. This is a deliberate editorial quality gate.</p>`,
       `<h2>FAQ and schema accuracy</h2>
       <p>Every FAQ visible on a Word Helper page is reflected accurately in the page's FAQ schema. Schema is not added for content that is not visible to the user. Tool explanations in schemas reflect the actual logic used by the tool on that page.</p>`,
       `<h2>How to report a content issue</h2>
@@ -1299,10 +1299,10 @@ export const legalPages = [
     h1: "Affiliate Disclosure",
     metaTitle: "Affiliate Disclosure — Word Helper",
     metaDescription:
-      "Read the Word Helper affiliate disclosure: how advertising works on this site, how potential affiliate relationships would be disclosed, and how Word Helper earns to stay free.",
+      "Read the Word Helper affiliate disclosure: how advertising works on this site, how any affiliate relationships would be disclosed, and how the platform is supported.",
     bodyHtml: [
       `<h2>About Word Helper's independence</h2>
-      <p>Word Helper is an independent educational word-tools platform. The site is built and maintained as a free resource for word-game players, writers, students, teachers, and English learners. All tool pages, dictionary pages, learning guides, word lists, and quizzes are created independently with no influence from advertisers, sponsors, or external commercial partners.</p>`,
+      <p>Word Helper is a comprehensive English dictionary and word-tools platform, built and maintained by the Word Helper editorial team for word-game players, writers, students, teachers, and English learners. All tool pages, dictionary pages, learning guides, word lists, and quizzes are created independently with no influence from advertisers, sponsors, or external commercial partners.</p>`,
       `<h2>How Word Helper is supported</h2>
       <p>Word Helper displays advertising through Google AdSense and similar advertising networks. These advertisements are served automatically by Google and its advertising partners based on your browsing context. Revenue from advertising helps cover the costs of hosting, development, and maintaining the content on this site.</p>
       <p>Advertisements on Word Helper are clearly separated from editorial content. The placement of an advertisement near a word page, tool page, or guide does not represent an endorsement by Word Helper of any product or service advertised.</p>`,
@@ -1313,7 +1313,7 @@ export const legalPages = [
       <p>All editorial decisions on Word Helper — which words to include, how definitions are written, which guides are published, and how tools work — are made based on educational usefulness and quality standards. Advertising revenue, affiliate compensation, and commercial relationships do not influence these decisions.</p>
       <p>Word Helper's Editorial Policy explains in detail how content is created, reviewed, and corrected. If you believe any content on this site has been commercially influenced in a way that is not disclosed, please contact us at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>`,
       `<h2>Questions about commercial relationships</h2>
-      <p>If you have questions about how Word Helper is supported, what advertising is shown, or any commercial relationship that may affect this site, contact us at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>. We are committed to being transparent about how this free educational platform sustains itself.</p>`,
+      <p>If you have questions about how Word Helper is supported, what advertising is shown, or any commercial relationship that may affect this site, contact us at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>. We are committed to being transparent about how the platform is supported and sustained.</p>`,
     ],
   },
 ];

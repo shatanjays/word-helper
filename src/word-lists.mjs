@@ -1,6 +1,6 @@
 /**
  * Word Helper — Curated Word Lists
- * Original content. Not copied from any dictionary.
+ * Curated word lists written and reviewed by the Word Helper editorial team.
  */
 
 export const wordListsHubData = {

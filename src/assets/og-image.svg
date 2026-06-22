@@ -34,7 +34,7 @@
       <text x="920" y="51" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">Look up</text>
     </g>
     <!-- tagline + url -->
-    <text x="96" y="520" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#5f6776">A free, global English dictionary · synonyms · rhymes · word games</text>
+    <text x="96" y="520" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#5f6776">A comprehensive global English dictionary · synonyms · rhymes · word games</text>
     <text x="96" y="566" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#1a73e8">wordhelper.online</text>
   </g>
 </svg>
