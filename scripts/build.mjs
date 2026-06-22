@@ -91,6 +91,7 @@ function icon(name, className = "icon") {
   const icons = {
     logo: `<svg ${attrs}><rect x="4" y="4" width="16" height="16" rx="4" ${common}/><path d="M8 8.5h2l2 7 2-7h2" ${common}/><path d="M7.5 15.5h9" ${common}/></svg>`,
     info: `<svg ${attrs}><circle cx="12" cy="12" r="9" ${common}/><path d="M12 11v5M12 8h.01" ${common}/></svg>`,
+    globe: `<svg ${attrs}><circle cx="12" cy="12" r="9" ${common}/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" ${common}/></svg>`,
     tools: `<svg ${attrs}><path d="M5 5h6v6H5zM13 5h6v6h-6zM5 13h6v6H5zM13 13h6v6h-6z" ${common}/></svg>`,
     unscramble: `<svg ${attrs}><path d="M5 7h5v5H5zM14 5h5v5h-5zM9 15h5v5H9z" ${common}/><path d="M10 9h4M12 12v3" ${common}/></svg>`,
     anagram: `<svg ${attrs}><path d="M7 7h10M7 17h10M8 7l-3 3 3 3M16 17l3-3-3-3" ${common}/></svg>`,
@@ -223,7 +224,7 @@ function header(page = {}) {
   <div class="header-inner">
     <a class="brand" href="/" aria-label="Word Helper home">
       <span class="brand-mark">${icon("logo")}</span>
-      <span><strong>Word Helper</strong><small>Word Intelligence</small></span>
+      <span><strong>Word Helper</strong><small>Global English dictionary</small></span>
     </a>
     <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false">
       <span class="sr-only">Toggle navigation</span>
@@ -256,7 +257,7 @@ function footer() {
   <div class="footer-inner">
     <div class="footer-brand-col">
       <a class="footer-brand" href="/">${icon("logo")}<span>Word Helper</span></a>
-      <p class="footer-tagline">Explore words, build vocabulary, and solve any word challenge.</p>
+      <p class="footer-tagline">A free, global English dictionary and word toolkit — explore words, build vocabulary, and solve any word challenge, wherever you are.</p>
       <a class="footer-email" href="mailto:${site.email}">${site.email}</a>
     </div>
     <nav class="footer-nav" aria-label="Word tools">
@@ -678,9 +679,9 @@ function formatCount(value = 0) {
 function renderHome(homeWords = words) {
   const page = {
     href: "/",
-    title: "Word Helper — Free Word Tools for Players, Writers, and Learners",
-    metaTitle: "Word Helper — Free Word Tools for Games, Writing, and Vocabulary",
-    metaDescription: "Free word tools for unscrambling letters, finding rhymes, counting syllables, solving anagrams, exploring spelling patterns, and building vocabulary. No account required.",
+    title: "Word Helper — Free Global English Dictionary & Word Tools",
+    metaTitle: "Word Helper — Free Global English Dictionary & Word Tools",
+    metaDescription: "A free global English dictionary and word toolkit: look up definitions, pronunciation, synonyms, etymology and syllables, plus tools for word games, rhymes, anagrams, and vocabulary. No account required.",
   };
   const wordPageTotal = homeWords.length;
   const azLinks = "abcdefghijklmnopqrstuvwxyz".split("").map((letter) =>
@@ -750,10 +751,21 @@ function renderHome(homeWords = words) {
     .slice(0, 6);
 
   const body = `<section class="hero hero-search" id="word-command">
+    <div class="hero-globe" aria-hidden="true">
+      <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="100" cy="100" r="92"/>
+        <ellipse cx="100" cy="100" rx="92" ry="36"/>
+        <ellipse cx="100" cy="100" rx="92" ry="68"/>
+        <ellipse cx="100" cy="100" rx="36" ry="92"/>
+        <ellipse cx="100" cy="100" rx="68" ry="92"/>
+        <line x1="8" y1="100" x2="192" y2="100"/>
+        <line x1="100" y1="8" x2="100" y2="192"/>
+      </svg>
+    </div>
     <div class="hero-copy">
-      <p class="eyebrow hero-eyebrow">${icon("spark")} The free English dictionary &amp; word tools</p>
-      <h1>Look up any English word.</h1>
-      <p class="hero-lede">Definitions, pronunciation, synonyms, etymology, and syllables — plus tools for word games, rhymes, and building vocabulary. Free, and no account needed.</p>
+      <p class="eyebrow hero-eyebrow">${icon("globe")} A free, global English dictionary</p>
+      <h1>Look up any word in the world.</h1>
+      <p class="hero-lede">Definitions, pronunciation, synonyms, etymology, and syllables for English speakers everywhere — plus tools for word games, rhymes, and building vocabulary. Free, no account needed.</p>
       <form class="global-search command-search hero-command-box" data-multimode="true" data-word-pages='${JSON.stringify(words.map((w) => w.word))}' aria-label="Search a word or run a word tool">
         <div class="hero-modes" role="tablist" aria-label="Choose what to do with your input">
           <button type="button" class="hero-mode is-active" role="tab" aria-selected="true" data-mode="define" data-route="/word/" data-param="path" data-submit="Look up" data-placeholder="Look up a word — e.g. ephemeral, resilient…" data-hint="Definition, pronunciation, synonyms, etymology &amp; syllables for any English word.">Define</button>

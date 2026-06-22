@@ -2,6 +2,16 @@
   <rect width="1200" height="1200" fill="#ffffff"/>
   <!-- OG design lives in the centred band y=285..915 -->
   <g transform="translate(0,285)">
+    <!-- faint world-globe watermark (global dictionary cue) -->
+    <g transform="translate(880,300)" fill="none" stroke="#1a73e8" stroke-width="2" opacity="0.10">
+      <circle cx="0" cy="0" r="150"/>
+      <ellipse cx="0" cy="0" rx="150" ry="58"/>
+      <ellipse cx="0" cy="0" rx="150" ry="112"/>
+      <ellipse cx="0" cy="0" rx="58" ry="150"/>
+      <ellipse cx="0" cy="0" rx="112" ry="150"/>
+      <line x1="-150" y1="0" x2="150" y2="0"/>
+      <line x1="0" y1="-150" x2="0" y2="150"/>
+    </g>
     <!-- thin top accent bar -->
     <rect x="96" y="40" width="64" height="6" rx="3" fill="#1a73e8"/>
     <!-- brand -->
@@ -12,8 +22,8 @@
     </g>
     <text x="176" y="115" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#1f2733">Word Helper</text>
     <!-- headline -->
-    <text x="94" y="232" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800" letter-spacing="-2" fill="#1f2733">Look up any</text>
-    <text x="94" y="320" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800" letter-spacing="-2" fill="#1f2733">English word.</text>
+    <text x="94" y="232" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800" letter-spacing="-2" fill="#1f2733">Look up any word</text>
+    <text x="94" y="320" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800" letter-spacing="-2" fill="#1f2733">in the world.</text>
     <!-- search pill graphic -->
     <g transform="translate(96,372)">
       <rect x="0" y="0" width="1008" height="84" rx="42" fill="#ffffff" stroke="#d3d9e3" stroke-width="2"/>
@@ -24,7 +34,7 @@
       <text x="920" y="51" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">Look up</text>
     </g>
     <!-- tagline + url -->
-    <text x="96" y="520" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#5f6776">Free dictionary · synonyms · rhymes · syllables · word games</text>
+    <text x="96" y="520" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#5f6776">A free, global English dictionary · synonyms · rhymes · word games</text>
     <text x="96" y="566" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#1a73e8">wordhelper.online</text>
   </g>
 </svg>
