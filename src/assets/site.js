@@ -220,7 +220,7 @@
 
     function sync(theme) {
       const dark = theme === "dark";
-      if (metaTheme) metaTheme.setAttribute("content", dark ? "#0c0a07" : "#ffffff");
+      if (metaTheme) metaTheme.setAttribute("content", dark ? "#1a1916" : "#ffffff");
       toggles.forEach((btn) => {
         btn.setAttribute("aria-pressed", dark ? "true" : "false");
         const label = dark ? "Switch to light theme" : "Switch to dark theme";

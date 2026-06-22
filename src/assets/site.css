@@ -85,41 +85,40 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* Surface ladder — warm obsidian (espresso near-black with a faint amber
-     undertone), like a leather-bound reference. Refined low-chroma lifts. */
-  --bg:           #0c0a07;
-  --bg-secondary: #14110b;
-  --bg-ink:       #070503;
-  --card:         #1a160e;
-  --elevated:     #221c12;
+  /* Surface ladder — warm charcoal (Anthropic / Claude dark aesthetic): a soft,
+     professional dark with a faint brown undertone, never blue-black. */
+  --bg:           #1a1916;
+  --bg-secondary: #211f1b;
+  --bg-ink:       #131210;
+  --card:         #242220;
+  --elevated:     #2e2b26;
 
-  /* Ink — warm off-white (paper-on-leather), not clinical grey */
-  --text:         #f4f0e6;
-  --text-2:       #cdc6b5;
-  --muted:        #9a917d;
-  --soft:         #6f6856;
-  --faint:        #443e30;
+  /* Ink — warm off-white (the Claude "cloud" reading tone) */
+  --text:         #f5f3ec;
+  --text-2:       #c6c1b4;
+  --muted:        #a39c8b;
+  --soft:         #6e6859;
+  --faint:        #46413a;
 
-  /* Borders — warm, subtle (the gilt edge-light does the rest) */
-  --border:       #2c2618;
-  --border-mid:   #3b3422;
-  --border-strong:#574d34;
+  /* Borders — warm and subtle */
+  --border:       #34312a;
+  --border-mid:   #423e35;
+  --border-strong:#5a5446;
 
-  /* Accent — champagne gold. Muted and refined (gilt, not gaudy), used sparingly
-     against the deep base so it reads like gold leaf. */
-  --navy:         #d0ad6a;
-  --navy-deep:    #e3c488;   /* hover BRIGHTENS on dark */
-  --navy-mid:     #b8995c;
-  --navy-pale:    #2a2113;
-  --navy-soft:    rgba(208, 173, 106, 0.12);
-  --navy-border:  rgba(208, 173, 106, 0.34);
+  /* Accent — Claude terracotta/coral. Warm, confident, professional. */
+  --navy:         #d97757;
+  --navy-deep:    #e58d6f;   /* hover BRIGHTENS on dark */
+  --navy-mid:     #c2674a;
+  --navy-pale:    #2a1d16;
+  --navy-soft:    rgba(217, 119, 87, 0.13);
+  --navy-border:  rgba(217, 119, 87, 0.34);
 
-  --accent:       #d0ad6a;
-  --accent-hover: #e3c488;
-  --accent-soft:  rgba(208, 173, 106, 0.12);
-  --accent-border:rgba(208, 173, 106, 0.34);
+  --accent:       #d97757;
+  --accent-hover: #e58d6f;
+  --accent-soft:  rgba(217, 119, 87, 0.13);
+  --accent-border:rgba(217, 119, 87, 0.34);
 
-  --focus:        rgba(208, 173, 106, 0.55);
+  --focus:        rgba(217, 119, 87, 0.52);
 
   /* Part-of-speech tints — raised opacity + brighter fg for dark legibility */
   --pos-noun-bg:  rgba(234, 179, 8, 0.16);
@@ -130,8 +129,8 @@
   --pos-adj-fg:   #93c5fd;
   --pos-adv-bg:   rgba(139, 92, 246, 0.16);
   --pos-adv-fg:   #c4b5fd;
-  --pos-other-bg: #1b2230;
-  --pos-other-fg: #7a8598;
+  --pos-other-bg: #2e2b26;
+  --pos-other-fg: #a39c8b;
 
   /* Deeper shadows for the deeper base — real depth on float surfaces. */
   --shadow-xs:  0 1px 2px rgba(0,0,0,0.40);
@@ -154,19 +153,19 @@
 :root[data-theme="dark"] .az-link-active,
 :root[data-theme="dark"] .az-link-active:hover,
 :root[data-theme="dark"] .explorer-pager-link.is-active {
-  color: #1a1408;
+  color: #21110a;
 }
 
-/* Gold brand chip reads as a dark glyph on gold leaf. */
-:root[data-theme="dark"] .brand-mark { color: #1a1408; box-shadow: 0 1px 3px rgba(208, 173, 106, 0.3); }
+/* Terracotta brand chip carries a deep warm glyph. */
+:root[data-theme="dark"] .brand-mark { color: #21110a; box-shadow: 0 1px 3px rgba(217, 119, 87, 0.3); }
 
-/* Premium CTA: a soft gold glow + a hairline top highlight so the button reads
-   like a lit, gilded object rather than a flat fill. */
+/* Premium CTA: a soft terracotta glow + a hairline top highlight so the button
+   reads like a lit object rather than a flat fill. */
 :root[data-theme="dark"] .button.primary {
-  box-shadow: inset 0 1px 0 rgba(255, 248, 230, 0.28), 0 8px 22px -10px rgba(208, 173, 106, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 240, 232, 0.26), 0 8px 22px -10px rgba(217, 119, 87, 0.6);
 }
 :root[data-theme="dark"] .button.primary:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 248, 230, 0.34), 0 12px 30px -8px rgba(208, 173, 106, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 240, 232, 0.32), 0 12px 30px -8px rgba(217, 119, 87, 0.78);
 }
 
 /* Active pill/tab = tinted state, visually distinct from the solid primary CTA. */
@@ -209,14 +208,14 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* A faint golden aurora behind the search-first hero. */
+/* A faint warm aurora behind the search-first hero. */
 :root[data-theme="dark"] .hero-search { position: relative; isolation: isolate; }
 :root[data-theme="dark"] .hero-search::before {
   content: "";
   position: absolute;
   top: -40px; left: 50%; transform: translateX(-50%);
   width: min(900px, 100%); height: 420px; z-index: -1;
-  background: radial-gradient(55% 100% at 50% 0%, rgba(208, 173, 106, 0.12), rgba(208, 173, 106, 0) 70%);
+  background: radial-gradient(55% 100% at 50% 0%, rgba(217, 119, 87, 0.12), rgba(217, 119, 87, 0) 70%);
   pointer-events: none;
 }
 
