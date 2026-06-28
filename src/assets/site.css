@@ -4,6 +4,16 @@
    reference — not a tech app.
    ========================================================== */
 
+/* Self-hosted Inter (variable, latin). Removes the render-blocking Google Fonts
+   request; falls back to system-ui if it fails to load. SIL Open Font License. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/inter.woff2") format("woff2");
+}
+
 /* ── Design Tokens ───────────────────────────────────────── */
 :root {
   color-scheme: light;

@@ -17,8 +17,8 @@ const SECURITY_HEADERS = {
   "Content-Security-Policy":
     "default-src 'self'; " +
     "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagmanager.com https://www.google-analytics.com; " +
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-    "font-src 'self' https://fonts.gstatic.com; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "font-src 'self'; " +
     "img-src 'self' data: https:; " +
     "connect-src 'self' https://api.dictionaryapi.dev https://*.google-analytics.com https://*.googlesyndication.com; " +
     "frame-src https://*.googlesyndication.com https://*.doubleclick.net; " +

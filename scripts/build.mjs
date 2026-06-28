@@ -507,9 +507,7 @@ function head(page, extraSchemas = [], noindex = false) {
   ${page.relNext ? `<link rel="next" href="${page.relNext}">` : ""}
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" href="/assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="${site.name}">
   <meta property="og:title" content="${escapeHtml(title)}">
@@ -688,6 +686,18 @@ function slugify(value = "") {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+}
+
+// Indefinite article for a following word/POS label (vowel-initial → "an").
+function indefinite(word = "") {
+  return /^[aeiou]/i.test(String(word).trim()) ? "an" : "a";
+}
+// Grammatical POS phrase: "a noun" / "an adjective" / "an English word".
+// Uses the first part of a compound label ("noun, verb" → "a noun").
+function posPhrase(pos = "") {
+  if (!pos || pos === "word") return "an English word";
+  const first = String(pos).split(/[,/]/)[0].trim() || "word";
+  return `${indefinite(first)} ${first}`;
 }
 
 function reviewedMeta(label = "Quality-checked") {
@@ -1815,13 +1825,13 @@ function renderLightWordPage(w) {
     .join("");
 
   // Generated word-specific FAQs — valuable SEO content, genuinely useful
-  const posLabel = initialPos === "word" ? "an English word" : `a ${initialPos}`;
+  const posLabel = posPhrase(initialPos);
   const syllableAnswer = syllCount === 1
     ? `${label} has 1 syllable. It is pronounced as a single beat: ${syllBreak}.`
     : `${label} has ${syllCount} syllable${syllCount !== 1 ? "s" : ""}: ${syllBreak}. The word is broken into ${syllCount} spoken beats.`;
   const posAnswer = initialPos === "word"
     ? `${label} is an English word listed in the Word Helper dictionary. Its part of speech can shift with the way it is used in a sentence.`
-    : `${label} is used as a ${initialPos}. ${initialPos.includes("noun") ? "As a noun, it names a thing, idea, or concept." : initialPos.includes("verb") ? "As a verb, it describes an action or state." : initialPos.includes("adjective") ? "As an adjective, it describes or modifies a noun." : initialPos.includes("adverb") ? "As an adverb, it modifies a verb, adjective, or other adverb." : ""}`;
+    : `${label} is used as ${posPhrase(initialPos)}. ${initialPos.includes("noun") ? "As a noun, it names a thing, idea, or concept." : initialPos.includes("verb") ? "As a verb, it describes an action or state." : initialPos.includes("adjective") ? "As an adjective, it describes or modifies a noun." : initialPos.includes("adverb") ? "As an adverb, it modifies a verb, adjective, or other adverb." : ""}`;
   const synonymAnswer = synonymList.length > 0
     ? `Words with similar meanings to ${w.word} include ${synonymList.slice(0, 4).join(", ")}. The best synonym depends on the exact context you are writing or reading in.`
     : `Close synonyms for ${w.word} depend on the sense you need. Use Word Explorer to browse related words, or the Prefix Finder to surface words built on the same root.`;
@@ -3060,7 +3070,9 @@ function renderWordExplorerLetter(letter, letterWords, allLetterSet) {
       href: pageHref(n),
       title: `Words Starting with ${L}${pageLabel} — Word Explorer`,
       metaTitle: `English Words Starting with ${L}${pageLabel} | Word Helper`,
-      metaDescription: `Browse word pages starting with ${L} on Word Helper — each with definition, pronunciation, syllables, synonyms, and examples.`,
+      metaDescription: n === 1
+        ? `Browse word pages starting with ${L} on Word Helper — each with definition, pronunciation, syllables, synonyms, and examples.`
+        : `Page ${n} of ${totalPages} — more word pages starting with ${L} on Word Helper, each with definition, pronunciation, syllables, and examples.`,
       relPrev: n > 1 ? absolute(pageHref(n - 1)) : null,
       relNext: n < totalPages ? absolute(pageHref(n + 1)) : null,
     };
@@ -3826,7 +3838,7 @@ function deployHeaders(htmlSegments = []) {
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  ${IS_PRODUCTION ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only"}: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.dictionaryapi.dev https://*.google-analytics.com https://*.googlesyndication.com; frame-src https://*.googlesyndication.com https://*.doubleclick.net; base-uri 'self'; form-action 'self'${IS_PRODUCTION ? "\n  Strict-Transport-Security: max-age=63072000" : "\n  X-Robots-Tag: noindex, nofollow"}`;
+  ${IS_PRODUCTION ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only"}: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.dictionaryapi.dev https://*.google-analytics.com https://*.googlesyndication.com; frame-src https://*.googlesyndication.com https://*.doubleclick.net; base-uri 'self'; form-action 'self'${IS_PRODUCTION ? "\n  Strict-Transport-Security: max-age=63072000" : "\n  X-Robots-Tag: noindex, nofollow"}`;
 
   const htmlCacheBlocks = ["/", ...htmlSegments.map((s) => `/${s}/*`)]
     .map((p) => `${p}\n  Cache-Control: public, max-age=0, must-revalidate`)
@@ -4040,8 +4052,22 @@ async function main() {
     );
   }
 
-  await copyFile(path.join(root, "src/assets/site.css"), path.join(assetsDir, "site.css"));
-  await copyFile(path.join(root, "src/assets/site.js"), path.join(assetsDir, "site.js"));
+  // Minify CSS/JS with esbuild (cuts parse time + raw size; Brotli still applies on
+  // the wire). Falls back to copying if esbuild is unavailable.
+  try {
+    const { transform } = await import("esbuild");
+    const cssSrc = await readFile(path.join(root, "src/assets/site.css"), "utf8");
+    const jsSrc = await readFile(path.join(root, "src/assets/site.js"), "utf8");
+    await writeFile(path.join(assetsDir, "site.css"), (await transform(cssSrc, { loader: "css", minify: true })).code);
+    await writeFile(path.join(assetsDir, "site.js"), (await transform(jsSrc, { loader: "js", minify: true })).code);
+  } catch (e) {
+    console.warn("esbuild minify unavailable — copying unminified assets:", e.message);
+    await copyFile(path.join(root, "src/assets/site.css"), path.join(assetsDir, "site.css"));
+    await copyFile(path.join(root, "src/assets/site.js"), path.join(assetsDir, "site.js"));
+  }
+  // Self-hosted Inter (variable, latin) — referenced by @font-face in site.css.
+  await mkdir(path.join(assetsDir, "fonts"), { recursive: true });
+  await copyFile(path.join(root, "src/assets/fonts/inter.woff2"), path.join(assetsDir, "fonts", "inter.woff2"));
   const wordData = await buildWordData(completeWordPages.map((w) => w.word));
   await writeFile(
     path.join(assetsDir, "word-data.js"),

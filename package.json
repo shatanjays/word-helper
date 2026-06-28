@@ -15,5 +15,9 @@
     "check:domain": "node scripts/check-domain-email.mjs",
     "check:deploy": "node scripts/check-deploy-output.mjs",
     "verify:deploy": "npm run build:prod && npm run check:domain && npm run check:deploy"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "esbuild": "^0.28.1"
   }
 }

@@ -143,10 +143,25 @@ async function main() {
     }
   }
 
+  // Duplicate <title> / meta description across static pages. (Word pages are
+  // template-unique by headword and live in shards; they are spot-checked live.)
+  const titleCounts = new Map();
+  const descCounts = new Map();
+  for (const [, html] of htmlByRoute) {
+    const tm = html.match(/<title>([^<]*)<\/title>/i);
+    const dm = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
+    if (tm) titleCounts.set(tm[1].trim(), (titleCounts.get(tm[1].trim()) || 0) + 1);
+    if (dm) descCounts.set(dm[1].trim(), (descCounts.get(dm[1].trim()) || 0) + 1);
+  }
+  const dupTitles = [...titleCounts.entries()].filter(([, c]) => c > 1);
+  const dupDescs = [...descCounts.entries()].filter(([, c]) => c > 1);
+
   const result = {
     generatedAt: new Date().toISOString(),
     pages: htmlFiles.length,
     shardedWordPages: shardedSlugs.size,
+    duplicateStaticTitles: dupTitles.length,
+    duplicateStaticMetaDescriptions: dupDescs.length,
     sitemapUrls: sitemapUrls.size,
     noindexInSitemap: noindexInSitemap.length,
     missingFromDist: missingFromDist.length,
@@ -155,6 +170,8 @@ async function main() {
     samples: {
       noindexInSitemap: noindexInSitemap.slice(0, 10),
       missingFromDist: missingFromDist.slice(0, 10),
+      duplicateStaticTitles: dupTitles.slice(0, 6).map(([t, c]) => `${c}× ${t}`),
+      duplicateStaticMetaDescriptions: dupDescs.slice(0, 6).map(([t, c]) => `${c}× ${t.slice(0, 70)}`),
       brokenInternalLinks: [...brokenLinks.entries()].slice(0, 15).map(([h, src]) => `${h}  (on ${src})`),
       internalLinksToNoindexWordPages: [...wordLinksToNoindex.entries()].slice(0, 15).map(([h, src]) => `${h}  (on ${src})`),
     },
@@ -170,6 +187,8 @@ async function main() {
   console.log("=".repeat(48));
   console.log(`Static pages scanned ............ ${result.pages}`);
   console.log(`Word pages in shards ............ ${result.shardedWordPages}`);
+  console.log(`Duplicate static titles ......... ${result.duplicateStaticTitles}   ${result.duplicateStaticTitles ? "⚠" : "✓"}`);
+  console.log(`Duplicate static meta descs ..... ${result.duplicateStaticMetaDescriptions}   ${result.duplicateStaticMetaDescriptions ? "⚠" : "✓"}`);
   console.log(`Sitemap URLs .................... ${result.sitemapUrls}`);
   console.log(`Noindex URLs in sitemap ......... ${result.noindexInSitemap}   ${result.noindexInSitemap ? "✗" : "✓"}`);
   console.log(`Sitemap URLs missing from dist .. ${result.missingFromDist}   ${result.missingFromDist ? "✗" : "✓"}`);

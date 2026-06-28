@@ -1,7 +1,9 @@
 {
-  "generatedAt": "2026-06-28T20:10:54.147Z",
+  "generatedAt": "2026-06-28T20:51:10.231Z",
   "pages": 593,
   "shardedWordPages": 64117,
+  "duplicateStaticTitles": 1,
+  "duplicateStaticMetaDescriptions": 1,
   "sitemapUrls": 64707,
   "noindexInSitemap": 0,
   "missingFromDist": 0,
@@ -10,6 +12,12 @@
   "samples": {
     "noindexInSitemap": [],
     "missingFromDist": [],
+    "duplicateStaticTitles": [
+      "2× Page Not Found — Word Helper"
+    ],
+    "duplicateStaticMetaDescriptions": [
+      "2× The page you were looking for was not found. Browse Word Helper tools,"
+    ],
     "brokenInternalLinks": [],
     "internalLinksToNoindexWordPages": []
   }
