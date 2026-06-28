@@ -82,7 +82,10 @@ export async function onRequest(context) {
   if (!slug) return serve404(env, url);
 
   const cache = caches.default;
-  const cacheKey = new Request(url.toString(), { method: "GET" });
+  // Namespace the edge cache by deployment so a new deploy never serves stale HTML.
+  // (caches.default is colo-level and is NOT cleared by a redeploy on its own.)
+  const ver = (env.CF_PAGES_COMMIT_SHA || "v1").slice(0, 12);
+  const cacheKey = new Request(`${url.origin}${url.pathname}?_d=${ver}`, { method: "GET" });
   const cached = await cache.match(cacheKey);
   if (cached) {
     return request.method === "HEAD"
