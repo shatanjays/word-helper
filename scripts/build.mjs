@@ -43,6 +43,13 @@ const CF_PAGES_BRANCH = process.env.CF_PAGES_BRANCH || "";
 const IS_CF_PAGES_PROD = process.env.CF_PAGES === "1" && CF_PAGES_BRANCH === "main";
 const SITE_ENV = (process.env.SITE_ENV || (IS_CF_PAGES_PROD ? "production" : "staging")).toLowerCase();
 const IS_PRODUCTION = SITE_ENV === "production";
+// DEPLOY_SLIM=1 omits the noindex /word/ thin pages from disk so the bundle fits
+// the Cloudflare Pages/Workers 100k-file cap (paid plan). Those pages are noindex,
+// unlinked, and absent from the sitemap, so a direct hit serves the branded 404
+// (see deployRedirects: "/* /404.html 404" is a true fallback that never shadows a
+// real static asset). Public pages, sitemap, search index, and internal links are
+// all unaffected. Omit the flag for a full build (used to validate every page).
+const DEPLOY_SLIM = process.env.DEPLOY_SLIM === "1";
 // All canonical / og / sitemap / robots URLs derive from this one constant.
 site.url = HOST_CANONICAL;
 // Real build/edit date — drives lastReviewed/dateModified trust signals (no fabricated dates).
@@ -3933,8 +3940,15 @@ async function main() {
   const completeLetterSet = new Set(Object.keys(completeByLetter));
 
   const routes = [];
+  let slimSkipped = 0;
   async function emit(route) {
     routes.push({ href: route.href, noindex: route.noindex === true });
+    // Slim deploy: skip writing the noindex /word/ thin pages to disk (kept in the
+    // routes list for accounting; they are already excluded from the sitemap).
+    if (DEPLOY_SLIM && route.noindex === true && route.href.startsWith("/word/")) {
+      slimSkipped++;
+      return;
+    }
     await writeRoute(route);
   }
 
@@ -4040,7 +4054,11 @@ async function main() {
     .filter((s) => s !== "assets");
   await writeFile(path.join(distDir, "_headers"), deployHeaders(htmlSegments));
   await writeFile(path.join(distDir, "_redirects"), deployRedirects());
+  const filesWritten = routes.length - slimSkipped;
   console.log(`Built ${routes.length} pages (${SITE_ENV}, host ${site.url}) with ${wordData.length} words.`);
+  if (DEPLOY_SLIM) {
+    console.log(`Slim deploy: wrote ${filesWritten} page files; skipped ${slimSkipped} noindex /word/ thin pages (served as branded 404 on direct hit).`);
+  }
 }
 
 main().catch((error) => {
