@@ -1452,7 +1452,10 @@
     showQuestion();
   }
 
-  // ── Word Explorer Letter Filter ──────────────────────────────────
+  // ── Word Explorer / A–Z Browse Filter (text search + chip filters) ──────────
+  // All filtering is client-side and DOES NOT change the URL, so no thin
+  // filter-combination pages are ever created or indexed. Filters operate on the
+  // cards already rendered on this (crawlable) page.
   function initWordFilter() {
     const input = document.getElementById("word-filter");
     const grid = document.getElementById("word-explorer-grid");
@@ -1461,27 +1464,58 @@
     if (!input || !grid) return;
 
     const cards = Array.from(grid.querySelectorAll(".word-card"));
-    const total = cards.length;
+    const filterBar = document.querySelector("[data-browse-filters]");
+    // active chip filters: { pos, class, len, syl } default "all"
+    const active = { pos: "all", class: "all", len: "all", syl: "all" };
 
-    input.addEventListener("input", function() {
+    function cardMatches(card, q) {
+      if (q && !(card.dataset.word || "").toLowerCase().includes(q)) return false;
+      if (active.pos !== "all" && (card.dataset.pos || "") !== active.pos) return false;
+      if (active.len !== "all" && (card.dataset.len || "") !== active.len) return false;
+      if (active.syl !== "all" && (card.dataset.syl || "") !== active.syl) return false;
+      if (active.class !== "all") {
+        const tags = (card.dataset.class || "").split(/\s+/);
+        if (!tags.includes(active.class)) return false;
+      }
+      return true;
+    }
+
+    function apply() {
       const q = input.value.trim().toLowerCase();
       let visible = 0;
       const visibleCards = [];
       cards.forEach(function(card) {
-        const word = (card.dataset.word || "").toLowerCase();
-        const show = !q || word.includes(q);
+        const show = cardMatches(card, q);
         card.hidden = !show;
-        if (show) {
-          visible++;
-          visibleCards.push(card);
-        }
+        if (show) { visible++; visibleCards.push(card); }
       });
-      countEl.textContent = visible.toLocaleString() + " word" + (visible !== 1 ? "s" : "");
+      const filtering = q || active.pos !== "all" || active.class !== "all" || active.len !== "all" || active.syl !== "all";
+      if (filtering) {
+        countEl.textContent = visible.toLocaleString() + " match" + (visible === 1 ? "" : "es") + " on this page";
+      } else {
+        const suffix = countEl.getAttribute("data-count-suffix") || "";
+        countEl.textContent = cards.length.toLocaleString() + suffix;
+      }
       if (emptyEl) emptyEl.hidden = visible > 0;
       grid.dispatchEvent(new CustomEvent("wordfilter:updated", {
         detail: { cards: visibleCards.slice(0, 80) },
       }));
-    });
+    }
+
+    input.addEventListener("input", apply);
+
+    if (filterBar) {
+      filterBar.addEventListener("click", function(e) {
+        const chip = e.target.closest(".filter-chip");
+        if (!chip) return;
+        const group = chip.closest("[data-filter]");
+        if (!group) return;
+        const key = group.getAttribute("data-filter");
+        active[key] = chip.getAttribute("data-val");
+        group.querySelectorAll(".filter-chip").forEach((c) => c.classList.toggle("is-active", c === chip));
+        apply();
+      });
+    }
   }
 
   function initWordListFilter() {

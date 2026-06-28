@@ -1,0 +1,84 @@
+{
+  "generatedAt": "2026-04-25T05:45:35.469Z",
+  "elapsedSeconds": 0.56,
+  "sources": [
+    {
+      "name": "ENABLE Word List",
+      "file": "src/data/words.txt",
+      "license": "Public domain",
+      "rawEntries": 172823,
+      "accepted": 172823,
+      "rejected": 0,
+      "duplicates": 0
+    },
+    {
+      "name": "Curated Rich Entries",
+      "file": "src/words.mjs",
+      "license": "Original — Word Helper",
+      "rawEntries": 25,
+      "overrides": 25,
+      "newEntries": 0
+    }
+  ],
+  "totals": {
+    "totalWords": 172823,
+    "indexableWords": 25,
+    "nonIndexableWords": 172798,
+    "rawEnableOnly": 172798,
+    "withDefinition": 25,
+    "withPronunciation": 25,
+    "withExamples": 25,
+    "withSynonyms": 25
+  },
+  "qualityDistribution": {
+    "score90to100": 25,
+    "score70to89": 0,
+    "score50to69": 0,
+    "score1to49": 172798,
+    "score0": 0
+  },
+  "indexableWordsList": [
+    "achieve",
+    "amazing",
+    "beautiful",
+    "challenge",
+    "change",
+    "courage",
+    "create",
+    "discover",
+    "excellent",
+    "experience",
+    "freedom",
+    "grateful",
+    "happy",
+    "important",
+    "knowledge",
+    "language",
+    "learn",
+    "patience",
+    "powerful",
+    "remember",
+    "simple",
+    "strong",
+    "success",
+    "understand",
+    "wonder"
+  ],
+  "limitations": [
+    "ENABLE list provides word strings only — no definitions, pronunciation, or meanings.",
+    "Definitions, examples, synonyms, and other enriched data are available only for manually curated entries.",
+    "172,798 entries are raw ENABLE-only and will not appear as public word pages until enriched.",
+    "Syllable counts for non-curated entries are estimates (vowel-group approximation), not authoritative.",
+    "No etymology, pronunciation, or semantic data available for ENABLE-only entries yet.",
+    "Future enrichment sources (CMU Pronouncing Dictionary, open WordNet data) should be added to /data/sources/ and imported via dedicated scripts."
+  ],
+  "nextSteps": [
+    "Add CMU Pronouncing Dictionary to /data/sources/ for pronunciation data on ~134K words.",
+    "Add open pronunciation/syllable data for frequency-ranked words.",
+    "Write original definitions for highest-frequency words to promote them to indexable.",
+    "Create /scripts/import-pronunciation.mjs for CMU data pipeline.",
+    "Create /scripts/import-wordnet.mjs for WordNet synset pipeline (if license permits).",
+    "Implement /data/sources/enrichments/*.json for batch definition enrichment.",
+    "Run quality review on enriched entries and update reviewStatus to 'approved'."
+  ]
+}

@@ -1134,7 +1134,7 @@ export const legalPages = [
       </ul>`,
       `<h2>Word Explorer — dictionary-grade word pages</h2>
       <p>Word Explorer is Word Helper's dictionary section. Each published word page includes a full definition, pronunciation guide, syllable breakdown, part of speech, synonyms, antonyms, word family, etymology, example sentences, and a memory tip. Every entry is researched, written, and reviewed by the Word Helper editorial team to a consistent quality standard.</p>
-      <p>The dictionary is built on a database of more than 327,000 English words, with over 2,200 published as full editorial entries — each carrying a full definition, pronunciation, examples, and word family. New entries are added continuously as they pass editorial review.</p>`,
+      <p>The dictionary draws on a database of more than 327,000 English words that powers search and the word tools. Word pages are published only as they pass editorial review — each carrying a full definition, pronunciation, syllables, examples, synonyms, and word family — and the published set grows continuously. Only these complete pages are listed and indexed.</p>`,
       `<h2>Learn English, Word Lists, and Practice</h2>
       <p><a href="/learn-english/">Learn English</a> provides plain-language vocabulary guides covering topics like building vocabulary, understanding word roots, how syllables work, how rhyme works, spelling patterns, and memory techniques.</p>
       <p><a href="/word-lists/">Word Lists</a> are hand-curated collections of words organised by theme — common English words, positive vocabulary, academic words, words for writers, strong action verbs, and descriptive adjectives. Every word in a list includes its meaning and an example sentence.</p>

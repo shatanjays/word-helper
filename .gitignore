@@ -4,3 +4,11 @@ dist/
 .env
 .env.local
 *.log
+
+# Local tooling
+.claude/
+
+# Enrichment pipeline working data (regenerable, large — not source of truth)
+data/cache/
+data/processed/
+src/data/a-words-progress.json

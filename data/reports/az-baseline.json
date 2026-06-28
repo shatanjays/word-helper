@@ -1,0 +1,39 @@
+{
+  "capturedAt": "2026-06-28T06:07:26.728Z",
+  "note": "Pre-enrichment baseline (complete words by letter)",
+  "completeByLetter": {
+    "b": 4,
+    "c": 6,
+    "s": 6,
+    "l": 4,
+    "h": 4,
+    "i": 4,
+    "u": 3,
+    "k": 3,
+    "p": 4,
+    "e": 5,
+    "a": 260,
+    "f": 4,
+    "r": 4,
+    "w": 3,
+    "g": 4,
+    "d": 4,
+    "j": 3,
+    "m": 4,
+    "n": 3,
+    "o": 3,
+    "q": 3,
+    "t": 4,
+    "v": 3,
+    "x": 2,
+    "y": 2,
+    "z": 2
+  },
+  "totals": {
+    "total": 2215,
+    "curated": 96,
+    "enriched": 2119,
+    "complete": 351,
+    "incomplete": 1864
+  }
+}

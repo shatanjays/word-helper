@@ -1,0 +1,53 @@
+WORD DATABASE QUALITY AUDIT
+====================================================
+Gate: all required fields present + score >= 80
+Required fields: word, definition, partOfSpeech, example, syllables, pronunciation, seoTitle, seoDescription
+
+Total word entries .............. 9619
+  curated ...................... 96
+  enriched ..................... 9523
+COMPLETE (score 80+) ............ 4342  (45.1%)
+RECOMMENDED PUBLIC (reco 50+) ... 4310  (44.8%)
+  complete but below reco bar ... 32  (kept as noindex, not listed)
+INCOMPLETE (held back) .......... 5277  (54.9%)
+
+Missing fields (count across all entries):
+  definitions .................. 0
+  example sentences ............ 5277
+  pronunciation ................ 0
+  part of speech ............... 0
+  syllables .................... 0
+  synonyms ..................... 7998
+  antonyms ..................... 9195
+  SEO title .................... 0
+  SEO description .............. 0
+  etymology .................... 9523
+  related words ................ 4917
+
+Completeness score distribution:
+  0-19        0  0.0%
+  20-39       0  0.0%
+  40-59       0  0.0%
+  60-79    5277  54.9%
+  80-100   4342  45.1%
+
+Complete words by letter: A:4251  B:4  C:6  D:4  E:5  F:4  G:4  H:4  I:4  J:3  K:3  L:4  M:4  N:3  O:3  P:4  Q:3  R:4  S:6  T:4  U:3  V:3  W:3  X:2  Y:2  Z:2
+Recommended PUBLIC by letter: A:4219  B:4  C:6  D:4  E:5  F:4  G:4  H:4  I:4  J:3  K:3  L:4  M:4  N:3  O:3  P:4  Q:3  R:4  S:6  T:4  U:3  V:3  W:3  X:2  Y:2  Z:2
+
+One-field-away from publishable: 5277
+  aline              score  77  missing: example
+  actinomorphic      score  77  missing: example
+  advertently        score  77  missing: example
+  aestivate          score  77  missing: example
+  amortise           score  77  missing: example
+  animateness        score  77  missing: example
+  advantageousness   score  77  missing: example
+  ahorseback         score  77  missing: example
+  aire               score  74  missing: example
+  aleutian           score  74  missing: example
+  afoul              score  74  missing: example
+  aboveground        score  74  missing: example
+  aborigine          score  74  missing: example
+  alexia             score  74  missing: example
+  adrenocorticotropic score  74  missing: example
+  …and 5262 more

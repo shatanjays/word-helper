@@ -1,4 +1,4 @@
-import { mkdir, readFile, rm, writeFile, copyFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rm, writeFile, copyFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import {
@@ -20,6 +20,14 @@ import {
   wordCompletenessScore,
   wordMicroMeta,
 } from "../src/word-quality.mjs";
+import {
+  wordRecommendationScore,
+  wordDifficulty,
+  wordUsageLabel,
+  isWordGameWord,
+  wordClassTags,
+  RECOMMENDATION_THRESHOLD,
+} from "../src/word-recommendation.mjs";
 
 const root = process.cwd();
 const distDir = path.join(root, "dist");
@@ -266,7 +274,7 @@ function header(page = {}) {
 
   const exploreLinks = [
     ["/word-explorer/", "Word Explorer", "Dictionary pages with definitions"],
-    ["/words/", "Browse A–Z", "All 327k English words by letter"],
+    ["/words/", "Browse A–Z", "Recommended complete words by letter"],
     ["/word-lists/", "Word Lists", "Curated vocabulary collections"],
     ["/word-games/", "Word Games", "Helpers for every word game"],
     ["/rhyming-words/", "Rhyming Words", "Rhymes, near-rhymes & endings"],
@@ -812,7 +820,7 @@ function renderHome(homeWords = words) {
       href: "/words/",
       icon: "az",
       label: "Browse A-Z",
-      detail: "327k+ English words",
+      detail: "Recommended words by letter",
     },
     {
       href: "/tools/word-unscramble/",
@@ -897,7 +905,7 @@ function renderHome(homeWords = words) {
         <p class="search-hint" data-mode-hint>Definition, pronunciation, synonyms, etymology &amp; syllables for any English word.</p>
       </form>
       <ul class="hero-trust-row">
-        <li>${icon("check")} <span>327k+ words</span></li>
+        <li>${icon("check")} <span>327k searchable words</span></li>
         <li>${icon("check")} <span>Pronunciation &amp; etymology</span></li>
         <li>${icon("check")} <span>Word-game tools</span></li>
         <li>${icon("check")} <span>Reviewed editorial structure</span></li>
@@ -1579,6 +1587,14 @@ function renderWordFactPanel(wordData) {
           <span>Starts with</span>
           <strong><a href="/word-explorer/${firstLetter}/">${firstLetterLabel}</a></strong>
         </div>
+        <div class="word-fact">
+          <span>Level</span>
+          <strong>${escapeHtml(wordDifficulty(wordData))}</strong>
+        </div>
+        <div class="word-fact">
+          <span>Usage</span>
+          <strong>${escapeHtml(wordUsageLabel(wordData))}</strong>
+        </div>
       </div>
       <div class="word-action-row" aria-label="Word tools for ${escapeHtml(word)}">
         <a class="button secondary" href="/word-explorer/${firstLetter}/">Browse ${firstLetterLabel} words</a>
@@ -1598,7 +1614,11 @@ function renderWordFactPanel(wordData) {
 // is excluded from the sitemap, and is never listed or linked publicly until
 // enriched — protecting against thin/scaled content.
 function isPublishable(w) {
-  return isCompleteWordEntry(w);
+  // Indexed ⟺ listed ⟺ linked ⟺ sitemapped: a page is public only when it is
+  // COMPLETE and RECOMMENDED. Curated entries are premium hand-written pages and
+  // are always public once complete.
+  if (!isCompleteWordEntry(w)) return false;
+  return w._curated === true || wordRecommendationScore(w) >= RECOMMENDATION_THRESHOLD;
 }
 
 function renderWordPage(wordData) {
@@ -1817,11 +1837,26 @@ function renderLightWordPage(w) {
     : "";
   const posClass = initialPos.replace(/[^a-z]/g, "").slice(0, 4);
 
+  // Difficulty / usage / relations (rendered only when grounded data exists).
+  const levelLabel = wordDifficulty(w);
+  const usageLabel = wordUsageLabel(w);
+  const relatedList = (w.related || []).filter(Boolean);
+  const rhymeList = (w.rhymes || []).filter(Boolean);
+  const formsList = (w.wordFamily || []).filter((f) => f && (f.word || typeof f === "string"));
+  const relatedPills = relatedList.map((r) => wordPill(r)).join("");
+  const rhymePills = rhymeList.map((r) => wordPill(r)).join("");
+  const formsPills = formsList
+    .map((f) => (typeof f === "string" ? wordPill(f) : `${wordPill(f.word)}${f.pos ? `<span class="word-form-pos">${escapeHtml(f.pos)}</span>` : ""}`))
+    .join("");
+
   const body = `<section class="page-hero word-hero">
     ${breadcrumb(page)}
     <div class="word-hero-inner">
       <div class="word-identity">
-        <span class="pos-badge pos-${posClass}" data-word-pos>${escapeHtml(initialPos)}</span>
+        <div class="word-badge-row">
+          <span class="pos-badge pos-${posClass}" data-word-pos>${escapeHtml(initialPos)}</span>
+          <span class="word-level-chip level-${levelLabel}">${escapeHtml(levelLabel)} · ${escapeHtml(usageLabel)}</span>
+        </div>
         <h1 class="word-title">${escapeHtml(w.word)}</h1>
         <div class="word-phonetics">
           ${w.pronunciation ? `<span class="pronunciation" data-word-pronunciation>${escapeHtml(w.pronunciation)}</span>` : `<span class="pronunciation" data-word-pronunciation hidden></span>`}
@@ -1869,6 +1904,28 @@ function renderLightWordPage(w) {
         </div>
       </div>
     </section>
+
+    ${formsList.length ? `<section class="word-section" data-word-forms-section>
+      <h2 class="word-section-title">Word forms of ${escapeHtml(label)}</h2>
+      <div class="word-pill-cloud word-forms-cloud">${formsPills}</div>
+    </section>` : ""}
+
+    ${relatedList.length ? `<section class="word-section" data-word-related-section>
+      <h2 class="word-section-title">Related words</h2>
+      <p>Words closely connected to ${escapeHtml(label)} in meaning or use:</p>
+      <div class="word-pill-cloud" data-word-related>${relatedPills}</div>
+    </section>` : ""}
+
+    ${w.etymology ? `<section class="word-section" data-word-etymology-section>
+      <h2 class="word-section-title">Origin of ${escapeHtml(label)}</h2>
+      <p class="word-etymology">${escapeHtml(w.etymology)}</p>
+    </section>` : ""}
+
+    ${rhymeList.length ? `<section class="word-section" data-word-rhymes-section>
+      <h2 class="word-section-title">Words that rhyme with ${escapeHtml(label)}</h2>
+      <div class="word-pill-cloud" data-word-rhymes>${rhymePills}</div>
+      <p class="word-rhyme-cta"><a class="button secondary" href="/tools/rhyme-finder/?q=${encodeURIComponent(w.word)}">Find more rhymes for ${escapeHtml(w.word)}</a></p>
+    </section>` : ""}
 
     ${adSlot("word-mid")}
     <section class="word-section word-tools-section">
@@ -1934,7 +1991,7 @@ function renderLightWordPage(w) {
       // (indexable pages). Avoids a schema/visible mismatch on thin auto-pages.
       ...(indexable
         ? {
-            lastReviewed: buildDateISO,
+            lastReviewed: w.lastReviewed || buildDateISO,
             reviewedBy: { "@type": "Organization", name: `${site.name} Editorial Team`, url: `${site.url}/editorial-policy/` },
           }
         : {}),
@@ -2402,14 +2459,21 @@ function renderWordList(list) {
 
   const rows = list.words
     .map(
-      (entry) => `<tr data-word-list-row data-filter-text="${escapeHtml(`${entry.word} ${entry.partOfSpeech} ${entry.meaning} ${entry.example}`.toLowerCase())}">
-        <td>${entry.wordPageHref
-          ? `<a href="${entry.wordPageHref}" class="wl-word-link">${escapeHtml(entry.word)}</a>`
+      (entry) => {
+        // Only link when a real published page exists (publishedWordSet is the
+        // single source of truth). Avoids broken /word/ links to words that were
+        // never enriched, and avoids ?w= lookup URLs in the crawl.
+        const slug = String(entry.word).toLowerCase().trim().replace(/\s+/g, "-");
+        const linkable = publishedWordSet.has(slug);
+        return `<tr data-word-list-row data-filter-text="${escapeHtml(`${entry.word} ${entry.partOfSpeech} ${entry.meaning} ${entry.example}`.toLowerCase())}">
+        <td>${linkable
+          ? `<a href="/word/${encodeURIComponent(slug)}/" class="wl-word-link">${escapeHtml(entry.word)}</a>`
           : `<span>${escapeHtml(entry.word)}</span>`}</td>
         <td><span class="pos-mini">${escapeHtml(entry.partOfSpeech)}</span></td>
         <td>${escapeHtml(entry.meaning)}</td>
         <td class="wl-example">${escapeHtml(entry.example)}</td>
-      </tr>`,
+      </tr>`;
+      },
     )
     .join("");
 
@@ -3137,8 +3201,69 @@ function renderWordsBrowseIndex(completeLetterSet = null, completeCount = 0) {
   return { href: page.href, html: layout(page, body, schemas) };
 }
 
-// Letter browse pages: /words/[letter]/ — shows ALL dataset words for that letter
-const BROWSE_PER_PAGE = 1000;
+// Letter browse pages: /words/[letter]/ — recommended complete words for a letter.
+// 250/page keeps mobile light (compact cards, no heavy JS) while staying crawlable.
+const BROWSE_PER_PAGE = 250;
+const LETTER_TARGET = 5000;
+
+// Card classification helpers (drive filter chips + micro-meta, all server-rendered).
+function browsePosKey(w) {
+  const pos = String(w.partOfSpeech || "").split(",")[0].trim().toLowerCase();
+  return ["noun", "verb", "adjective", "adverb"].includes(pos) ? pos : "other";
+}
+function browseLenKey(w) {
+  const n = String(w.word).length;
+  return n <= 4 ? "short" : n <= 8 ? "medium" : "long";
+}
+function browseSylKey(w) {
+  const s = Number(w.syllables) || 0;
+  return s >= 4 ? "4plus" : String(s || 1);
+}
+// Honest micro-meta: "noun · 3 syllables" (no quality badge — all are complete).
+function browseCardMeta(w) {
+  const pos = browsePosKey(w) === "other"
+    ? String(w.partOfSpeech || "").replace(/\s*,\s*/g, " / ")
+    : String(w.partOfSpeech || "").replace(/\s*,\s*/g, " / ");
+  const syl = Number(w.syllables) || 0;
+  const parts = [];
+  if (pos) parts.push(pos);
+  if (syl > 0) parts.push(`${syl} syllable${syl === 1 ? "" : "s"}`);
+  return parts.join(" · ");
+}
+
+function browseCard(w) {
+  const diff = wordDifficulty(w);
+  const tags = wordClassTags(w).join(" ");
+  const meta = browseCardMeta(w);
+  const chip = diff === "common"
+    ? `<span class="browse-tag tag-common">common</span>`
+    : diff === "advanced"
+      ? `<span class="browse-tag tag-advanced">advanced</span>`
+      : "";
+  return `<a class="word-card browse-card" href="${w.href}" data-word="${escapeHtml(w.word)}" data-pos="${browsePosKey(w)}" data-len="${browseLenKey(w)}" data-syl="${browseSylKey(w)}" data-class="${escapeHtml(tags)}"><strong>${escapeHtml(w.word)}</strong>${meta ? `<span class="browse-card-meta">${escapeHtml(meta)}</span>` : ""}${chip}</a>`;
+}
+
+// A compact themed pill row (Popular / Common / Advanced / Word-game) — adds
+// useful internal links without duplicating the full grid's weight.
+function browsePillRow(items) {
+  return items
+    .map((w) => `<a class="browse-pill" href="${w.href}">${escapeHtml(w.word)}</a>`)
+    .join("");
+}
+
+function browseFilters(L) {
+  const group = (filter, label, opts) =>
+    `<div class="filter-group" role="group" aria-label="${label}" data-filter="${filter}">
+      <span class="filter-label">${label}</span>
+      ${opts.map((o, i) => `<button type="button" class="filter-chip${i === 0 ? " is-active" : ""}" data-val="${o.v}">${o.t}</button>`).join("")}
+    </div>`;
+  return `<div class="browse-filters" data-browse-filters>
+    ${group("pos", "Part of speech", [{ v: "all", t: "All types" }, { v: "noun", t: "Nouns" }, { v: "verb", t: "Verbs" }, { v: "adjective", t: "Adjectives" }, { v: "adverb", t: "Adverbs" }])}
+    ${group("class", "Level", [{ v: "all", t: "All levels" }, { v: "common", t: "Common" }, { v: "advanced", t: "Advanced" }, { v: "wordgame", t: "Word-game" }])}
+    ${group("len", "Word length", [{ v: "all", t: "Any length" }, { v: "short", t: "Short (≤4)" }, { v: "medium", t: "Medium (5–8)" }, { v: "long", t: "Long (9+)" }])}
+    ${group("syl", "Syllables", [{ v: "all", t: "Any syllables" }, { v: "1", t: "1" }, { v: "2", t: "2" }, { v: "3", t: "3" }, { v: "4plus", t: "4+" }])}
+  </div>`;
+}
 
 // Factual context notes for letters with linguistically fewer words.
 // These are honest descriptions — not apologies or filler.
@@ -3155,7 +3280,11 @@ const LETTER_NOTES = {
 
 function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
   const L = letter.toUpperCase();
-  const entries = [...letterWords].sort((a, b) => a.word.localeCompare(b.word));
+  // Recommendation-sorted: the most useful words appear first (and on page 1),
+  // not a random alphabetical dump. Ties broken alphabetically for stability.
+  const entries = [...letterWords].sort(
+    (a, b) => wordRecommendationScore(b) - wordRecommendationScore(a) || a.word.localeCompare(b.word),
+  );
   const total = entries.length;
   const pageHref = (n) => n <= 1 ? `/words/${letter}/` : `/words/${letter}/${n}/`;
 
@@ -3225,22 +3354,44 @@ function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
       relNext: n < totalPages ? absolute(pageHref(n + 1)) : null,
     };
 
-    // Compact, premium cards — word + honest micro-meta ("noun · 3 syllables").
-    // No quality badge: every listed word is already complete.
-    const cards = slice.map((w) => {
-      const meta = wordMicroMeta(w);
-      return `<a class="word-card browse-card" href="${w.href}" data-word="${escapeHtml(w.word)}"><strong>${escapeHtml(w.word)}</strong>${meta ? `<span class="browse-card-meta">${escapeHtml(meta)}</span>` : ""}</a>`;
-    }).join("");
+    // Compact, premium cards — word + honest micro-meta ("noun · 3 syllables") +
+    // a common/advanced chip. Filterable via server-rendered data-* attributes.
+    const cards = slice.map(browseCard).join("");
 
     const rangeStart = ((n - 1) * BROWSE_PER_PAGE + 1).toLocaleString();
     const rangeEnd = Math.min(n * BROWSE_PER_PAGE, total).toLocaleString();
+    // Honest count — every listed word is complete AND recommended.
     const countNote = totalPages > 1
-      ? `${rangeStart}–${rangeEnd} of ${total.toLocaleString()} "${L}" word pages`
-      : `${total.toLocaleString()} "${L}" word page${total === 1 ? "" : "s"}`;
+      ? `Showing ${rangeStart}–${rangeEnd} of ${total.toLocaleString()} recommended "${L}" words`
+      : `${total.toLocaleString()} recommended "${L}" word${total === 1 ? "" : "s"}`;
 
+    // Themed sections (page 1 only) — Popular / Common / Advanced / Word-game.
+    let sectionsHtml = "";
+    if (n === 1 && total >= 24) {
+      const common = entries.filter((w) => wordDifficulty(w) === "common");
+      const advanced = entries.filter((w) => wordDifficulty(w) === "advanced");
+      const game = entries
+        .filter((w) => isWordGameWord(w) && String(w.word).length <= 7)
+        .slice(0, 16);
+      const sec = (eyebrow, title, items, blurb) =>
+        items.length >= 6
+          ? `<section class="section browse-section">
+      <div class="section-heading"><p class="eyebrow">${eyebrow}</p><h2>${title}</h2><p>${blurb}</p></div>
+      <div class="browse-pill-row">${browsePillRow(items.slice(0, 16))}</div>
+    </section>`
+          : "";
+      sectionsHtml = [
+        sec("Popular", `Most useful ${L} words`, entries.slice(0, 16), `The highest-value words starting with ${L} — common, well-defined, and frequently looked up.`),
+        sec("Everyday", `Common ${L} words`, common, `Everyday ${L} vocabulary for reading, writing, and conversation.`),
+        sec("Vocabulary", `Advanced ${L} vocabulary`, advanced, `Stronger ${L} words for exams, essays, and precise writing.`),
+        sec("Word games", `Word-game ${L} words`, game, `Short, high-value ${L} words for Scrabble, anagrams, and puzzles.`),
+      ].join("");
+    }
+
+    const noteLine = n === 1 && LETTER_NOTES[letter] ? ` ${LETTER_NOTES[letter]}` : "";
     const intro = n === 1
-      ? `<p class="hero-lede">Every complete word page that starts with "${L}", sorted alphabetically. Each one opens a full entry with definition, pronunciation, syllables, synonyms, and examples.</p>`
-      : `<p class="hero-lede">Page ${n} of ${totalPages} — complete "${L}" word pages ${rangeStart} to ${rangeEnd}.</p>`;
+      ? `<p class="hero-lede">${total.toLocaleString()} recommended word${total === 1 ? "" : "s"} that start with "${L}", sorted by usefulness. Every card opens a complete entry — definition, pronunciation, syllables, synonyms, and examples.${noteLine}</p>`
+      : `<p class="hero-lede">Page ${n} of ${totalPages} — recommended "${L}" words ${rangeStart} to ${rangeEnd}, each opening a complete entry.</p>`;
 
     const pager = totalPages > 1 ? renderWordsBrowsePager(letter, n, totalPages, pageHref) : "";
 
@@ -3253,13 +3404,16 @@ function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
   <section class="section">
     <nav class="az-nav" aria-label="Browse words by letter">${azLinks}</nav>
   </section>
+  ${sectionsHtml}
   <section class="section">
+    <div class="section-heading"><p class="eyebrow">All ${L} words</p><h2>Browse every recommended "${L}" word</h2></div>
     <div class="word-filter-bar">
-      <input id="word-filter" class="word-filter-input" type="search" placeholder="Filter ${L} words on this page…" aria-label="Filter ${L} words">
-      <span id="word-filter-count" class="word-filter-count">${countNote}</span>
+      <input id="word-filter" class="word-filter-input" type="search" placeholder="Search ${L} words on this page…" aria-label="Search ${L} words">
+      <span id="word-filter-count" class="word-filter-count" data-total="${slice.length}" data-count-suffix=' of ${total.toLocaleString()} recommended "${L}" words'>${countNote}</span>
     </div>
-    <div id="word-explorer-grid" class="word-explorer-grid browse-mode">${cards}</div>
-    <p id="word-filter-empty" class="word-filter-empty" hidden>No words on this page match your filter.</p>
+    ${browseFilters(L)}
+    <div id="word-explorer-grid" class="word-explorer-grid browse-mode" data-browse-grid>${cards}</div>
+    <p id="word-filter-empty" class="word-filter-empty" hidden>No words on this page match your filters.</p>
     ${pager}
   </section>
   ${toolsSection}`;
@@ -3703,35 +3857,74 @@ async function main() {
   await rm(distDir, { recursive: true, force: true });
   await mkdir(assetsDir, { recursive: true });
 
-  // Load API-enriched words (generated by scripts/enrich-a-words.mjs)
-  const enrichedPath = path.join(root, "src/data/a-words-enriched.json");
-  let enrichedWords = [];
-  if (existsSync(enrichedPath)) {
+  // ── Load enriched word data ────────────────────────────────────────────────
+  // Per-letter files src/data/enriched/{letter}-words.json (built by
+  // scripts/enrich-letter.mjs) are the canonical source. The legacy single file
+  // a-words-enriched.json is used only for letters that have no per-letter file
+  // yet, so older data is never silently dropped.
+  const curatedHrefs = new Set(words.map((w) => w.href));
+  const enrichedByHref = new Map();
+  const lettersWithFile = new Set();
+  const enrichedDir = path.join(root, "src/data/enriched");
+  if (existsSync(enrichedDir)) {
+    const files = (await readdir(enrichedDir)).filter((f) => /^[a-z]-words\.json$/.test(f));
+    for (const f of files.sort()) {
+      lettersWithFile.add(f[0]);
+      try {
+        const arr = JSON.parse(await readFile(path.join(enrichedDir, f), "utf8"));
+        for (const w of arr) {
+          if (!w || !w.word || !w.href || curatedHrefs.has(w.href)) continue;
+          enrichedByHref.set(w.href, w);
+        }
+      } catch (_) {}
+    }
+  }
+  const legacyPath = path.join(root, "src/data/a-words-enriched.json");
+  if (existsSync(legacyPath)) {
     try {
-      enrichedWords = JSON.parse(await readFile(enrichedPath, "utf8"));
-      // Remove any that already exist as curated words
-      const curatedHrefs = new Set(words.map((w) => w.href));
-      enrichedWords = enrichedWords.filter((w) => !curatedHrefs.has(w.href));
-      console.log(`Loaded ${enrichedWords.length} enriched words from a-words-enriched.json`);
+      const arr = JSON.parse(await readFile(legacyPath, "utf8"));
+      for (const w of arr) {
+        if (!w || !w.word || !w.href || curatedHrefs.has(w.href)) continue;
+        if (lettersWithFile.has(String(w.word)[0].toLowerCase())) continue; // superseded
+        if (!enrichedByHref.has(w.href)) enrichedByHref.set(w.href, w);
+      }
     } catch (_) {}
   }
 
-  const publishedWordPages = [...words, ...enrichedWords];
-  // ── Public quality gate ────────────────────────────────────────────────────
-  // Only COMPLETE words (src/word-quality.mjs) are listed, linked, badged, and
-  // indexed. Incomplete entries stay in the database — their /word/ page is still
-  // emitted as noindex,follow so existing URLs never 404 — but they never appear
-  // in any A-Z listing, internal link, search suggestion, or the sitemap.
-  const completeWordPages = publishedWordPages.filter(isCompleteWordEntry);
+  // Attach corpus frequency so curated + older entries score correctly.
+  const freqPath = path.join(root, "src/data/word-frequency.json");
+  let freqMap = {};
+  if (existsSync(freqPath)) { try { freqMap = JSON.parse(await readFile(freqPath, "utf8")); } catch (_) {} }
+  const withMeta = (w, curated) => {
+    const out = { ...w, _curated: curated };
+    if (out.frequency == null) {
+      const f = freqMap[String(w.word).toLowerCase()];
+      if (f != null) out.frequency = f;
+    }
+    return out;
+  };
+  const curatedPages = words.map((w) => withMeta(w, true));
+  const enrichedWords = [...enrichedByHref.values()].map((w) => withMeta(w, false));
+  console.log(`Loaded ${enrichedWords.length} enriched words${lettersWithFile.size ? ` from per-letter files [${[...lettersWithFile].sort().join("")}]` : ""}.`);
+
+  const publishedWordPages = [...curatedPages, ...enrichedWords];
+  // ── Public gate: COMPLETE (completeness >= 80) AND RECOMMENDED (>= 50). ──────
+  // Both must pass for a word to be listed, internally linked, indexed, and
+  // sitemapped. Curated entries are hand-written premium pages — always public
+  // when complete. Everything below the bar keeps a noindex,follow /word/ page
+  // (so URLs never 404) but appears nowhere public.
+  const completeWordPages = publishedWordPages
+    .filter(isPublishable)
+    .sort((a, b) => wordRecommendationScore(b) - wordRecommendationScore(a) || a.word.localeCompare(b.word));
   const completePct = publishedWordPages.length
     ? Math.round((completeWordPages.length / publishedWordPages.length) * 100)
     : 0;
-  // publishedWordSet drives wordHref()/wordPill() linking and is intentionally
-  // complete-only, so synonym chips and internal links never point at a thin page.
+  // publishedWordSet drives wordHref()/wordPill() linking — recommended-only, so
+  // synonym chips and internal links never point at a thin or low-value page.
   for (const w of completeWordPages) publishedWordSet.add(String(w.word).toLowerCase());
-  console.log(`Word quality gate: ${completeWordPages.length} complete of ${publishedWordPages.length} entries published publicly (${completePct}%).`);
+  console.log(`Public gate (complete + recommended): ${completeWordPages.length} of ${publishedWordPages.length} entries public (${completePct}%).`);
 
-  // Complete words grouped by first letter — feeds both A-Z listings.
+  // Complete words grouped by first letter — feeds both A-Z listings (reco-sorted).
   const completeByLetter = {};
   for (const w of completeWordPages) {
     const l = w.word[0];
@@ -3773,7 +3966,7 @@ async function main() {
     }
   }
 
-  for (const word of words) await emit(renderWordPage(word));
+  for (const word of curatedPages) await emit(renderWordPage(word));
   for (const word of enrichedWords) await emit(renderLightWordPage(word));
   await emit(renderWordLookup());
   await emit(renderLearnHub());

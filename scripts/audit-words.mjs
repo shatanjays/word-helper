@@ -8,7 +8,7 @@
 //   node scripts/audit-words.mjs           # print report
 //   node scripts/audit-words.mjs --json    # also write data/reports/word-quality-audit.json
 // ─────────────────────────────────────────────────────────────────────────────
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { words } from "../src/words.mjs";
@@ -20,19 +20,41 @@ import {
   REQUIRED_FIELDS,
   PUBLIC_SCORE_THRESHOLD,
 } from "../src/word-quality.mjs";
+import { wordRecommendationScore, RECOMMENDATION_THRESHOLD } from "../src/word-recommendation.mjs";
 
 const root = process.cwd();
 
+async function loadJsonSafe(p, def) {
+  if (!existsSync(p)) return def;
+  try { return JSON.parse(await readFile(p, "utf8")); } catch { return def; }
+}
+
+// Loads enriched words the SAME way the build does: per-letter files first, the
+// legacy single file only for letters without one, with frequency attached.
 async function loadEnriched() {
-  const p = path.join(root, "src/data/a-words-enriched.json");
-  if (!existsSync(p)) return [];
-  try {
-    const data = JSON.parse(await readFile(p, "utf8"));
-    const curatedHrefs = new Set(words.map((w) => w.href));
-    return data.filter((w) => !curatedHrefs.has(w.href));
-  } catch {
-    return [];
+  const curatedHrefs = new Set(words.map((w) => w.href));
+  const byHref = new Map();
+  const dir = path.join(root, "src/data/enriched");
+  if (existsSync(dir)) {
+    for (const f of (await readdir(dir)).filter((f) => /^[a-z]-words\.json$/.test(f)).sort()) {
+      for (const w of await loadJsonSafe(path.join(dir, f), [])) {
+        if (w && w.word && w.href && !curatedHrefs.has(w.href)) byHref.set(w.href, w);
+      }
+    }
   }
+  const lettersWithFile = new Set([...byHref.values()].map((w) => w.word[0]));
+  for (const w of await loadJsonSafe(path.join(root, "src/data/a-words-enriched.json"), [])) {
+    if (w && w.word && w.href && !curatedHrefs.has(w.href) && !lettersWithFile.has(w.word[0]) && !byHref.has(w.href)) {
+      byHref.set(w.href, w);
+    }
+  }
+  const freqMap = await loadJsonSafe(path.join(root, "src/data/word-frequency.json"), {});
+  return [...byHref.values()].map((w) => {
+    if (w.frequency == null && freqMap[String(w.word).toLowerCase()] != null) {
+      return { ...w, frequency: freqMap[String(w.word).toLowerCase()] };
+    }
+    return w;
+  });
 }
 
 function pct(n, total) {
@@ -42,13 +64,18 @@ function pct(n, total) {
 async function main() {
   const enriched = await loadEnriched();
   const all = [
-    ...words.map((w) => ({ ...w, _source: "curated" })),
-    ...enriched.map((w) => ({ ...w, _source: "enriched" })),
+    ...words.map((w) => ({ ...w, _source: "curated", _curated: true })),
+    ...enriched.map((w) => ({ ...w, _source: "enriched", _curated: false })),
   ];
+
+  const isPublic = (w) =>
+    isCompleteWordEntry(w) && (w._curated || wordRecommendationScore(w) >= RECOMMENDATION_THRESHOLD);
 
   const total = all.length;
   const complete = all.filter(isCompleteWordEntry);
   const incomplete = all.filter((w) => !isCompleteWordEntry(w));
+  const recommended = all.filter(isPublic);
+  const completeButLowReco = complete.length - recommended.length;
 
   // Field-presence tallies across the whole database.
   const missing = {
@@ -94,6 +121,11 @@ async function main() {
     const l = (w.word[0] || "?").toLowerCase();
     byLetter[l] = (byLetter[l] || 0) + 1;
   }
+  const publicByLetter = {};
+  for (const w of recommended) {
+    const l = (w.word[0] || "?").toLowerCase();
+    publicByLetter[l] = (publicByLetter[l] || 0) + 1;
+  }
 
   const lines = [];
   lines.push("WORD DATABASE QUALITY AUDIT");
@@ -104,7 +136,9 @@ async function main() {
   lines.push(`Total word entries .............. ${total}`);
   lines.push(`  curated ...................... ${words.length}`);
   lines.push(`  enriched ..................... ${enriched.length}`);
-  lines.push(`COMPLETE (public, score 80+) .... ${complete.length}  (${pct(complete.length, total)})`);
+  lines.push(`COMPLETE (score 80+) ............ ${complete.length}  (${pct(complete.length, total)})`);
+  lines.push(`RECOMMENDED PUBLIC (reco 50+) ... ${recommended.length}  (${pct(recommended.length, total)})`);
+  lines.push(`  complete but below reco bar ... ${completeButLowReco}  (kept as noindex, not listed)`);
   lines.push(`INCOMPLETE (held back) .......... ${incomplete.length}  (${pct(incomplete.length, total)})`);
   lines.push("");
   lines.push("Missing fields (count across all entries):");
@@ -126,6 +160,7 @@ async function main() {
   }
   lines.push("");
   lines.push(`Complete words by letter: ${Object.entries(byLetter).sort().map(([l, n]) => `${l.toUpperCase()}:${n}`).join("  ")}`);
+  lines.push(`Recommended PUBLIC by letter: ${Object.entries(publicByLetter).sort().map(([l, n]) => `${l.toUpperCase()}:${n}`).join("  ")}`);
   lines.push("");
   lines.push(`One-field-away from publishable: ${nearMiss.length}`);
   for (const r of nearMiss.slice(0, 15)) {
@@ -143,7 +178,9 @@ async function main() {
       generatedAt: new Date().toISOString(),
       threshold: PUBLIC_SCORE_THRESHOLD,
       requiredFields: REQUIRED_FIELDS,
-      totals: { total, curated: words.length, enriched: enriched.length, complete: complete.length, incomplete: incomplete.length },
+      recommendationThreshold: RECOMMENDATION_THRESHOLD,
+      totals: { total, curated: words.length, enriched: enriched.length, complete: complete.length, recommendedPublic: recommended.length, completeButLowReco, incomplete: incomplete.length },
+      publicByLetter,
       missing,
       scoreBuckets: buckets,
       completeByLetter: byLetter,
