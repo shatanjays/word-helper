@@ -28,9 +28,13 @@ const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 // entry. We do NOT hide these (they can still be complete), but they should rank
 // below everyday vocabulary on browse pages.
 const OBSCURITY_MARKERS = [
-  "obsolete", "archaic", "rare", "dialect", "dialectal", "nonstandard",
+  "obsolete", "archaic", "dialectal", "nonstandard",
   "alt form", "alternative form", "alternative spelling", "misspelling",
-  "initialism", "abbreviation", "acronym", "genus", "obsolete genus",
+  "initialism",
+  // NOTE: "genus" was removed — it appears in ordinary definitions of common
+  // nouns ("a tree of the genus Malus"), which mislabeled apple/dog/etc. as rare.
+  // "rare"/"dialect"/"abbreviation"/"acronym" were also dropped from the hard
+  // marker list because they match innocuous prose; frequency is the real signal.
 ];
 const SPECIALIST_MARKERS = [
   "chemistry", "biochemistry", "anatomy", "botany", "zoology", "mineralogy",
@@ -245,12 +249,14 @@ export function wordRecommendationScore(w) {
 // common | intermediate | advanced
 export function wordDifficulty(w) {
   const f = frequencyOf(w);
-  if (hasObscurityMarker(w)) return "advanced";
+  // Frequency is the strongest signal — a high-frequency word is common even if its
+  // definition happens to mention a taxonomic or rare sense.
   if (f != null) {
     if (f >= 3) return "common";
     if (f >= 0.2) return "intermediate";
     return "advanced";
   }
+  if (hasObscurityMarker(w)) return "advanced";
   // No frequency: lean on definition clarity + length.
   const len = str(w.word).length;
   if (len <= 6 && definitionQualityScore(w) >= 5) return "common";
@@ -260,6 +266,8 @@ export function wordDifficulty(w) {
 
 // A short, human usage label shown on the page (not a quality badge).
 export function wordUsageLabel(w) {
+  const f = frequencyOf(w);
+  if (f != null && f >= 3) return "everyday"; // common words are never literary/rare
   if (hasSpecialistMarker(w)) return "specialist";
   if (hasObscurityMarker(w)) return "literary / rare";
   const diff = wordDifficulty(w);

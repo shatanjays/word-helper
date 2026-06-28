@@ -46,6 +46,24 @@ async function serve404(env, url) {
   });
 }
 
+// A word with no published page: serve the client-side live-lookup template
+// (noindex, excluded from the sitemap) so real words still resolve via the public
+// dictionary API instead of dead-ending on a 404, and garbage renders a graceful
+// "not found" state with tool suggestions. Keeps normal word exploration usable.
+async function serveLookup(env, url) {
+  const res = await env.ASSETS.fetch(new URL("/word-lookup/", url.origin));
+  if (!res.ok) return serve404(env, url);
+  const body = await res.text();
+  return new Response(body, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "public, max-age=0, must-revalidate",
+      ...SECURITY_HEADERS,
+    },
+  });
+}
+
 export async function onRequest(context) {
   const { request, env } = context;
   if (request.method !== "GET" && request.method !== "HEAD") {
@@ -75,17 +93,17 @@ export async function onRequest(context) {
   // Fetch the shard (static asset; cached internally, never invokes a Function).
   const shardId = shardOf(slug, SHARD_COUNT);
   const shardRes = await env.ASSETS.fetch(new URL(`/_shards/${shardId}.json`, url.origin));
-  if (!shardRes.ok) return serve404(env, url);
+  if (!shardRes.ok) return serveLookup(env, url);
 
   let shard;
   try {
     shard = await shardRes.json();
   } catch {
-    return serve404(env, url);
+    return serveLookup(env, url);
   }
 
   const packed = shard[slug];
-  if (!packed) return serve404(env, url);
+  if (!packed) return serveLookup(env, url);
 
   const html = await gunzipToString(base64ToBytes(packed));
   const headers = {

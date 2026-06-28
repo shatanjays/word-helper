@@ -654,7 +654,7 @@ export const hubs = [
       },
       {
         q: "How is Word Helper different from a standard dictionary?",
-        a: "Word Explorer pages include pronunciation, syllable breakdowns, word families, etymology, memory tips, and example sentences — all produced by the Word Helper editorial team. The tools add interactive capabilities that a static dictionary cannot: live letter unscrambling, rhyme suggestion, syllable counting, and pattern-based word search.",
+        a: "Word Explorer pages bring together pronunciation, syllable breakdowns, word families, synonyms, and example sentences from openly licensed dictionary sources, standardized into one clean format. The tools then add interactive capabilities a static dictionary cannot: live letter unscrambling, rhyme suggestion, syllable counting, and pattern-based word search.",
       },
     ],
   },
@@ -1121,7 +1121,10 @@ export const legalPages = [
       "Learn about Word Helper: the word tools, Word Explorer dictionary pages, Learn English guides, Word Lists, Practice quizzes, and how content is created and reviewed.",
     bodyHtml: [
       `<h2>What Word Helper is</h2>
-      <p>Word Helper is an English word toolkit and vocabulary reference built for every kind of word task — solving scrambled letters, finding rhymes, counting syllables, exploring word meanings, building vocabulary, and learning language patterns. Every section connects to the same word database and editorial standard.</p>`,
+      <p>Word Helper is an English word toolkit and vocabulary reference built for every kind of word task — solving scrambled letters, finding rhymes, counting syllables, exploring word meanings, building vocabulary, and learning language patterns. Every section connects to the same word database and quality standard.</p>`,
+      `<h2>Who runs Word Helper</h2>
+      <p>Word Helper is an independent project focused on making English words easier to look up, understand, and use. It is run independently and is not affiliated with, or endorsed by, any dictionary publisher, word-game company, or advertiser.</p>
+      <p>The site does not employ a large editorial staff or claim academic credentials it does not have. Instead, it is honest about its method: word data is compiled from openly licensed dictionary sources, standardized into one consistent format, screened for quality, and structured for clarity — with a strict gate that decides which pages are complete enough to publish. Full sourcing and license attribution is documented in the <a href="/editorial-policy/">Editorial Policy</a>. Questions and corrections are welcome at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>`,
       `<h2>Word Lab — six interactive Word Experiences</h2>
       <p>Word Lab gives you six focused tools for specific word tasks. Each one has a clear input, honest results, and a plain explanation of what the tool can and cannot do.</p>
       <ul>
@@ -1133,8 +1136,8 @@ export const legalPages = [
         <li><strong><a href="/tools/suffix-finder/">Suffix Finder</a></strong> — finds words that end with the exact letters you type, for grammar study, spelling endings, and creative writing.</li>
       </ul>`,
       `<h2>Word Explorer — dictionary-grade word pages</h2>
-      <p>Word Explorer is Word Helper's dictionary section. Each published word page includes a full definition, pronunciation guide, syllable breakdown, part of speech, synonyms, antonyms, word family, etymology, example sentences, and a memory tip. Every entry is researched, written, and reviewed by the Word Helper editorial team to a consistent quality standard.</p>
-      <p>The dictionary draws on a database of more than 327,000 English words that powers search and the word tools. Word pages are published only as they pass editorial review — each carrying a full definition, pronunciation, syllables, examples, synonyms, and word family — and the published set grows continuously. Only these complete pages are listed and indexed.</p>`,
+      <p>Word Explorer is Word Helper's dictionary section. Each published word page includes a definition, pronunciation guide, syllable breakdown, part of speech, synonyms, antonyms, word family, and example sentences. This data is compiled from openly licensed sources — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a> — then standardized, screened, and structured to a consistent format. See the <a href="/editorial-policy/">Editorial Policy</a> for full sourcing and attribution.</p>
+      <p>The search index and word tools draw on a database of more than 327,000 English words. A word earns a full, indexed page only when it passes Word Helper's quality gate — a complete definition, pronunciation, syllables, examples, and synonyms — and the published set grows continuously. Only these complete pages are listed and indexed.</p>`,
       `<h2>Learn English, Word Lists, and Practice</h2>
       <p><a href="/learn-english/">Learn English</a> provides plain-language vocabulary guides covering topics like building vocabulary, understanding word roots, how syllables work, how rhyme works, spelling patterns, and memory techniques.</p>
       <p><a href="/word-lists/">Word Lists</a> are hand-curated collections of words organised by theme — common English words, positive vocabulary, academic words, words for writers, strong action verbs, and descriptive adjectives. Every word in a list includes its meaning and an example sentence.</p>
@@ -1144,7 +1147,7 @@ export const legalPages = [
       `<h2>How to read Word Helper results</h2>
       <p>Word Helper is descriptive: it reflects how English is actually used rather than enforcing a single game dictionary, classroom rule, or style guide. Syllable counts follow standard English pronunciation and may differ by accent, dialect, and speech speed. Rhyme results combine pronunciation and spelling patterns. Each page explains how its results are produced so you can apply them confidently in your own context.</p>`,
       `<h2>Reporting errors and contacting us</h2>
-      <p>The site is maintained and reviewed by the Word Helper editorial team. If you notice an error, a confusing result, a missing word, or any content concern, <a href="/contact/">contact Word Helper at hello@wordhelper.online</a>. Content corrections and tool accuracy issues are reviewed and fixed as quickly as possible.</p>`,
+      <p>The site is maintained and reviewed by Word Helper. If you notice an error, a confusing result, a missing word, or any content concern, <a href="/contact/">contact Word Helper at hello@wordhelper.online</a>. Content corrections and tool accuracy issues are reviewed and fixed as quickly as possible.</p>`,
     ],
   },
   {
@@ -1156,7 +1159,7 @@ export const legalPages = [
       "Contact Word Helper for tool questions, word corrections, accessibility feedback, or content improvement suggestions. We respond within a few business days.",
     bodyHtml: [
       `<h2>How to reach us</h2>
-      <p>Send an email to <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>. Every message is read and answered by the Word Helper editorial team. Here are the most common reasons people contact us:</p>
+      <p>Send an email to <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>. Every message is read and answered by Word Helper. Here are the most common reasons people contact us:</p>
       <ul>
         <li><strong>Tool result questions or corrections</strong> — if a word is missing, a result seems wrong, or a filter is not working as expected</li>
         <li><strong>Missing word reports</strong> — if a word you searched for is not in the dictionary or is missing pronunciation, examples, or synonyms</li>
@@ -1171,7 +1174,7 @@ export const legalPages = [
       <p>For definition or content corrections, include the word page URL, the section you believe contains an error, and a brief explanation of what you think is incorrect and why. We take content accuracy seriously and investigate every report.</p>
       <p>For accessibility issues, describe what you were trying to do, what assistive technology or browser you were using, and what happened instead of what you expected. Accessibility reports are treated as a high priority.</p>`,
       `<h2>Response time</h2>
-      <p>Word Helper is maintained and reviewed by the Word Helper editorial team. We aim to read and respond to all feedback within two to five business days. Tool corrections and content fixes are prioritized and addressed as quickly as possible — confirmed errors are usually fixed within 24 hours of verification.</p>
+      <p>Word Helper is maintained independently. We aim to read and respond to feedback within a few business days. Tool corrections and content fixes are prioritized and applied as quickly as we can after verifying the issue — we do not wait for a scheduled update cycle.</p>
       <p>We read every message and use the feedback to improve the site. If your issue requires a longer investigation, we will acknowledge your message while we look into it.</p>`,
       `<h2>What we do with your message</h2>
       <p>Your email address and message content are used only to respond to your request and, where relevant, to improve the website. We do not sell, share, or publish contact information. We do not add you to any mailing list without explicit permission. Contact data is retained only as long as needed to address your inquiry and is then deleted.</p>
@@ -1195,6 +1198,8 @@ export const legalPages = [
       "Word Helper may use web analytics services to understand how the site is used. Analytics tools may set cookies or use similar tracking technologies to collect anonymous usage data such as page views, device type, and general location.",
       "If you contact Word Helper at hello@wordhelper.online, your email address and message are used to respond to your request and improve the website. We do not sell or share contact information with third parties.",
       "Third-party ad servers or ad networks may use technologies such as cookies, JavaScript, or web beacons to measure ad effectiveness and personalize ad content. Word Helper has no access to or control over cookies used by third-party advertisers.",
+      "Your choices and regional rights. If you are in the EEA, the UK, or California, you have rights over your personal data, including access, correction, deletion, and the right to opt out of personalized advertising. You can manage Google personalized advertising at https://adssettings.google.com and control or clear cookies through your browser settings. Because Word Helper requires no account and processes tool inputs in your browser, the site does not build a personal profile of you.",
+      "Who is responsible for your data. Word Helper is operated independently. For any privacy question or data request, contact hello@wordhelper.online and we will respond as quickly as we can.",
       "If you have questions about this policy, contact us at hello@wordhelper.online.",
     ],
   },
@@ -1236,7 +1241,9 @@ export const legalPages = [
       `<h2>Educational purpose</h2>
       <p>Word Helper is an educational platform intended to support learning, creativity, and word exploration. All tools, word pages, guides, and practice sessions are provided for educational purposes. Word Helper is not a legal, medical, financial, or professional authority on language.</p>`,
       `<h2>Word meanings vary by context</h2>
-      <p>English word meanings are not fixed. The same word may carry different meanings in different contexts, fields, time periods, or regions. Definitions on Word Helper reflect common general meanings and are written for learning purposes. They do not cover every technical, legal, medical, or domain-specific use of a word. For specialized meanings in professional contexts, consult authoritative sources in the relevant field.</p>`,
+      <p>English word meanings are not fixed. The same word may carry different meanings in different contexts, fields, time periods, or regions. Definitions on Word Helper reflect common general meanings and are provided for learning purposes. They do not cover every technical, legal, medical, or domain-specific use of a word. For specialized meanings in professional contexts, consult authoritative sources in the relevant field.</p>`,
+      `<h2>How definitions and examples are produced</h2>
+      <p>Definitions, pronunciations, syllable counts, and related words on Word Helper are compiled from openly licensed dictionary sources — such as Wiktionary (via the Datamuse API) and the Free Dictionary API — and standardized into a consistent format. Example sentences are drawn from these sources where available, and are otherwise generated and then automatically screened for clarity. Because this process is largely automated, occasional errors or awkward phrasings can occur; please <a href="/contact/">report anything that looks wrong</a> and we will review and correct it. Sourcing and license attribution is documented in the <a href="/editorial-policy/">Editorial Policy</a>.</p>`,
       `<h2>Pronunciation and syllable counts vary by accent</h2>
       <p>Pronunciation guides and syllable counts on Word Helper follow standard English pronunciation. Spoken English varies by accent, dialect, region, and speech speed, so a syllable count common in one accent may differ in another. Pronunciation is provided to guide learners; confirm it aloud in the context where it matters. Pronunciation is shown as a guide to help learners, not as the sole correct form. Always check pronunciation aloud in the context where it matters.</p>`,
       `<h2>Word tool results depend on source word lists</h2>
@@ -1256,13 +1263,20 @@ export const legalPages = [
       "Learn how Word Helper writes, reviews, and maintains educational word-tool content.",
     bodyHtml: [
       `<h2>How word content is created</h2>
-      <p>Every definition, example sentence, usage note, memory tip, and etymology in Word Explorer is researched and written in-house by the Word Helper editorial team to a consistent house style. The public-domain ENABLE word list provides the headword foundation; all explanatory content is the original work of our editorial team.</p>`,
+      <p>Word Helper compiles its word data from open, openly licensed language sources and standardizes it into one consistent format. Definitions, parts of speech, pronunciations, syllable counts, synonyms, antonyms, and related words are drawn from the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary and other open datasets) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>. Example sentences use real dictionary citations where available, and are otherwise generated and then automatically screened for clarity and accuracy before publication.</p>
+      <p>Word Helper's own editorial work is the <strong>selection, standardization, screening, and structuring</strong> of this data — choosing which words and senses to surface, formatting each entry to a consistent template, filtering out low-quality or malformed results, and applying a strict quality gate (below) that decides which pages are complete enough to publish and index. We do not claim to have independently authored every definition; we curate and quality-control openly licensed reference data and present it clearly.</p>`,
       `<h2>How data sources are handled</h2>
       <p>Word Helper uses the public-domain ENABLE word list as its dictionary backbone. This list covers valid English words and is used solely as a word inventory — its presence does not imply any editorial quality claim about individual words. Tool results (unscramble, anagram, prefix, suffix) are drawn from this list with letter-frequency logic. Rhyme and syllable tools use pattern-matching logic. All source usage is documented and legally verified before deployment.</p>`,
       `<h2>How corrections are reviewed</h2>
       <p>Content corrections can be submitted by email to hello@wordhelper.online. Reports of factual errors, definition inaccuracies, broken tool results, or misleading content are treated as high priority. Corrections are reviewed, verified, and applied to the source files. Updated pages are rebuilt and redeployed as quickly as possible. We do not wait for a scheduled update cycle to fix confirmed errors.</p>`,
-      `<h2>How copyrighted content is avoided</h2>
-      <p>All editorial content on Word Helper is original work produced by our editorial team and held to a strict originality standard. Entries are written independently to our own house style, and every page is reviewed for originality before publication. If a reader flags a concern about any entry, the editorial team reviews it promptly and revises or rewrites as needed.</p>`,
+      `<h2>Sources, licensing, and attribution</h2>
+      <p>Word Helper builds on openly licensed reference data and credits its sources:</p>
+      <ul>
+        <li><strong>Headword inventory:</strong> the public-domain <strong>ENABLE</strong> word list (used for the 327,000-word search index and the word-game tools).</li>
+        <li><strong>Definitions &amp; word data:</strong> the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a>, which incorporates content from <strong>Wiktionary</strong>. Wiktionary text is available under the <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="nofollow noopener" target="_blank">Creative Commons Attribution-ShareAlike 3.0 (CC BY-SA 3.0)</a> license; where Word Helper reuses such content it is credited here and shared under the same terms.</li>
+        <li><strong>Supplementary definitions, IPA, and example citations:</strong> the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>.</li>
+      </ul>
+      <p>Word Helper does not scrape or republish content from commercial dictionaries. If you believe any entry overlaps with material you hold rights to, <a href="/contact/">contact us</a> and we will review and revise or remove it promptly.</p>`,
       `<h2>Quality standards for indexed word pages</h2>
       <p>Word Helper publishes word pages in two clearly defined tiers, and only pages that meet a real quality bar are listed in the sitemap and indexed by search engines:</p>
       <ul>
@@ -1302,7 +1316,7 @@ export const legalPages = [
       "Read the Word Helper affiliate disclosure: how advertising works on this site, how any affiliate relationships would be disclosed, and how the platform is supported.",
     bodyHtml: [
       `<h2>About Word Helper's independence</h2>
-      <p>Word Helper is a comprehensive English dictionary and word-tools platform, built and maintained by the Word Helper editorial team for word-game players, writers, students, teachers, and English learners. All tool pages, dictionary pages, learning guides, word lists, and quizzes are created independently with no influence from advertisers, sponsors, or external commercial partners.</p>`,
+      <p>Word Helper is a comprehensive English dictionary and word-tools platform, built and maintained by Word Helper for word-game players, writers, students, teachers, and English learners. All tool pages, dictionary pages, learning guides, word lists, and quizzes are created independently with no influence from advertisers, sponsors, or external commercial partners.</p>`,
       `<h2>How Word Helper is supported</h2>
       <p>Word Helper displays advertising through Google AdSense and similar advertising networks. These advertisements are served automatically by Google and its advertising partners based on your browsing context. Revenue from advertising helps cover the costs of hosting, development, and maintaining the content on this site.</p>
       <p>Advertisements on Word Helper are clearly separated from editorial content. The placement of an advertisement near a word page, tool page, or guide does not represent an endorsement by Word Helper of any product or service advertised.</p>`,

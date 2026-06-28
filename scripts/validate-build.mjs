@@ -108,7 +108,10 @@ async function main() {
   }
 
   // ── 1 + 4: sitemap URLs ──
-  const sitemapFiles = files.filter((f) => /sitemap[^/]*\.xml$/.test(f) && !f.endsWith("sitemap_index.xml"));
+  // Read the chunk sitemaps (sitemap-words-1.xml, sitemap-pages.xml, …) for page
+  // URLs; skip the two index files (sitemap.xml and sitemap_index.xml are
+  // sitemapindex documents that point at the chunks, not page lists).
+  const sitemapFiles = files.filter((f) => /sitemap[^/]*\.xml$/.test(f) && !/sitemap(_index)?\.xml$/.test(f));
   const sitemapUrls = new Set();
   const host = "https://wordhelper.online";
   for (const sf of sitemapFiles) {

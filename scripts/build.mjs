@@ -432,8 +432,8 @@ function footer() {
   </div>
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
-      <p>© ${new Date().getFullYear()} Word Helper. Maintained by the Word Helper editorial team.</p>
-      <p class="footer-bottom-note">Editorially reviewed · Maintained by the Word Helper editorial team · <a href="/editorial-policy/">How we work</a></p>
+      <p>© ${new Date().getFullYear()} Word Helper — an independent word-tools project.</p>
+      <p class="footer-bottom-note">Built from openly-licensed dictionary data · Quality-gated · <a href="/editorial-policy/">How we work &amp; sources</a></p>
     </div>
   </div>
 </footer>`;
@@ -450,7 +450,7 @@ function baseSchemas() {
       email: site.email,
       foundingDate: "2025",
       description:
-        "Word Helper is an English word toolkit with dictionary-quality word pages, six interactive word tools for games and writing, curated vocabulary guides, and practice quizzes. Maintained by the Word Helper editorial team.",
+        "Word Helper is an English word toolkit with dictionary-quality word pages, six interactive word tools for games and writing, curated vocabulary guides, and practice quizzes. Maintained by Word Helper.",
       publishingPrinciples: `${site.url}/editorial-policy/`,
       knowsAbout: [
         "English vocabulary",
@@ -690,11 +690,11 @@ function slugify(value = "") {
     .replace(/^-|-$/g, "");
 }
 
-function reviewedMeta(label = "Editorially reviewed") {
+function reviewedMeta(label = "Quality-checked") {
   return `<div class="article-meta">
     <span>${icon("check")} ${escapeHtml(label)}</span>
     <span>Updated ${new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
-    <span>Maintained by the Word Helper editorial team</span>
+    <span>Maintained by Word Helper</span>
   </div>`;
 }
 
@@ -702,8 +702,8 @@ function reviewedMeta(label = "Editorially reviewed") {
 function editorialByline() {
   const shown = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   return `<div class="article-meta editorial-byline">
-    <span>${icon("check")} Reviewed by the <a href="/editorial-policy/">Word Helper Editorial Team</a></span>
-    <span>Updated <time datetime="${buildDateISO}">${shown}</time></span>
+    <span>${icon("check")} Compiled &amp; quality-checked by <a href="/editorial-policy/">Word Helper</a></span>
+    <span>Last updated <time datetime="${buildDateISO}">${shown}</time></span>
   </div>`;
 }
 
@@ -865,11 +865,11 @@ function renderHome(homeWords = words) {
     },
     {
       q: "What is Word Explorer?",
-      a: "Word Explorer is Word Helper's dictionary section. Each word page includes the definition, pronunciation, syllable breakdown, part of speech, synonyms, antonyms, word family, etymology, example sentences, and memory tips — all written and reviewed by the Word Helper editorial team.",
+      a: "Word Explorer is Word Helper's dictionary section. Each word page includes the definition, pronunciation, syllable breakdown, part of speech, synonyms, antonyms, word family, and example sentences — compiled from openly licensed dictionary sources (Wiktionary via the Datamuse API, plus the Free Dictionary API), then standardized and quality-screened to a consistent format. See the Editorial Policy for full sourcing.",
     },
     {
       q: "How many words does Word Helper cover?",
-      a: "Word Helper's dictionary draws on a database of more than 327,000 English words, with in-depth word pages published only when they meet the editorial team's quality standards — a reviewed definition, pronunciation, examples, synonyms, and word family. New word pages are added regularly.",
+      a: "Word Helper's search index draws on a database of more than 327,000 English words. In-depth word pages are published only when they pass the quality gate — a complete definition, pronunciation, examples, synonyms, and word family — and the published set grows regularly.",
     },
     {
       q: "Which Word Lab tool should I use for scrambled letters?",
@@ -899,7 +899,7 @@ function renderHome(homeWords = words) {
     <div class="hero-copy">
       <p class="eyebrow hero-eyebrow">${icon("globe")} English dictionary &amp; word tools</p>
       <h1>Understand any English word faster.</h1>
-      <p class="hero-lede">Definitions, pronunciation, synonyms, etymology, syllables, rhymes, and word-game tools — organized for clear English learning.</p>
+      <p class="hero-lede">Look up any word for its meaning, pronunciation, and origin — plus fast tools for rhymes, syllables, anagrams, and word games.</p>
       <form class="global-search command-search hero-command-box" data-multimode="true" data-word-pages='${JSON.stringify(words.map((w) => w.word))}' aria-label="Search a word or run a word tool">
         <div class="hero-search-field">
           <div class="global-search-inner">
@@ -922,10 +922,10 @@ function renderHome(homeWords = words) {
         <p class="search-hint" data-mode-hint>Definition, pronunciation, synonyms, etymology &amp; syllables for any English word.</p>
       </form>
       <ul class="hero-trust-row">
-        <li>${icon("check")} <span>327k searchable words</span></li>
-        <li>${icon("check")} <span>Pronunciation &amp; etymology</span></li>
-        <li>${icon("check")} <span>Word-game tools</span></li>
-        <li>${icon("check")} <span>Reviewed editorial structure</span></li>
+        <li>${icon("check")} <span>${formatCount(wordPageTotal)} word pages</span></li>
+        <li>${icon("check")} <span>327k-word search index</span></li>
+        <li>${icon("check")} <span>6 word tools &amp; quizzes</span></li>
+        <li>${icon("check")} <span>Open sources, cited</span></li>
       </ul>
     </div>
   </section>
@@ -992,7 +992,7 @@ function renderHome(homeWords = words) {
     <div class="section-heading">
       <p class="eyebrow">Word Explorer</p>
       <h2>Dictionary-quality word pages</h2>
-      <p>Each page covers meaning, pronunciation, syllables, synonyms, antonyms, word family, etymology, example sentences, and a memory tip — written for learners and reviewed by the Word Helper editorial team.</p>
+      <p>Each page covers meaning, pronunciation, syllables, synonyms, antonyms, word family, and example sentences — compiled from openly licensed dictionary data, then standardized and structured for clarity.</p>
     </div>
     <div class="word-explorer-grid home-word-grid">
       ${featuredWords.map((w) => renderWordCard(w)).join("")}
@@ -1064,18 +1064,18 @@ function renderHome(homeWords = words) {
         <span class="card-icon">${icon("check")}</span>
         <div>
           <p class="eyebrow">How Word Helper is built</p>
-          <h2>A reviewed editorial structure</h2>
+          <h2>Open data, standardized and quality-gated</h2>
         </div>
       </div>
       <dl class="home-stat-strip">
         <div class="home-stat" title="327,000+ words searchable across all tools"><dt>327k+</dt><dd>words in the search index</dd></div>
-        <div class="home-stat" title="${formatCount(wordPageTotal)} words with full editorial pages: definition, pronunciation, examples, synonyms, and etymology"><dt>${formatCount(wordPageTotal)}</dt><dd>reviewed word pages</dd></div>
+        <div class="home-stat" title="${formatCount(wordPageTotal)} words that passed the quality gate with a full page: definition, pronunciation, examples, and synonyms"><dt>${formatCount(wordPageTotal)}</dt><dd>full word pages</dd></div>
         <div class="home-stat"><dt>6</dt><dd>focused word tools</dd></div>
         <div class="home-stat"><dt>8</dt><dd>vocabulary guides</dd></div>
       </dl>
       <div class="editorial-standards-grid">
         <div><strong>Validated word source</strong><p>Tool results are matched against a 327,000+ word English list built on the public-domain ENABLE word list plus a supplementary system list.</p></div>
-        <div><strong>Reviewed definitions</strong><p>Definitions, examples, and word notes are researched and written in-house by the Word Helper editorial team to a consistent house standard.</p></div>
+        <div><strong>Openly licensed sources</strong><p>Definitions, pronunciations, and word data are compiled from open sources (Wiktionary via Datamuse, and the Free Dictionary API), then standardized and quality-screened. Sources are credited in the editorial policy.</p></div>
         <div><strong>Corrections welcomed</strong><p>Reported errors are reviewed and corrected, and word pages are expanded and updated as the dictionary grows.</p></div>
         <div><strong>Clear, stated limits</strong><p>Word-game acceptance varies by official dictionary and ruleset; syllable and rhyme results follow standard English and can vary by accent.</p></div>
       </div>
@@ -1369,7 +1369,7 @@ function renderTool(tool) {
       description: tool.metaDescription,
       dateModified: buildDateISO,
       lastReviewed: buildDateISO,
-      reviewedBy: { "@type": "Organization", name: `${site.name} Editorial Team`, url: `${site.url}/editorial-policy/` },
+      reviewedBy: { "@type": "Organization", name: site.name, url: `${site.url}/editorial-policy/` },
     },
     {
       "@type": "SoftwareApplication",
@@ -1763,7 +1763,7 @@ function renderWordPage(wordData) {
       description: wordData.metaDescription,
       dateModified: buildDateISO,
       lastReviewed: buildDateISO,
-      reviewedBy: { "@type": "Organization", name: `${site.name} Editorial Team`, url: `${site.url}/editorial-policy/` },
+      reviewedBy: { "@type": "Organization", name: site.name, url: `${site.url}/editorial-policy/` },
     },
     breadcrumbSchema(page),
     faqSchema(wordData.faqs),
@@ -1785,6 +1785,12 @@ function renderLightWordPage(w) {
   const initialDefinition =
     w.definition || w.shortDef ||
     `${label} is a valid English word. Use the Word Lab tools below to find rhymes, count syllables, check anagrams, and explore words that start with the same letters.`;
+  // Hero summary appears only when there is a SHORT def that differs from the full
+  // definition shown in the Definition section below — never print the same text twice.
+  const heroSummary =
+    w.shortDef && w.shortDef.trim() && w.shortDef.trim() !== initialDefinition.trim()
+      ? w.shortDef.trim()
+      : "";
 
   const page = {
     href: w.href,
@@ -1820,34 +1826,30 @@ function renderLightWordPage(w) {
     ? `Words with similar meanings to ${w.word} include ${synonymList.slice(0, 4).join(", ")}. The best synonym depends on the exact context you are writing or reading in.`
     : `Close synonyms for ${w.word} depend on the sense you need. Use Word Explorer to browse related words, or the Prefix Finder to surface words built on the same root.`;
 
-  const genFaqs = [
-    {
-      q: `How many syllables does ${w.word} have?`,
-      a: syllableAnswer,
-    },
-    {
-      q: `What part of speech is ${w.word}?`,
-      a: posAnswer,
-    },
-    {
-      q: `What are synonyms for ${w.word}?`,
-      a: synonymAnswer,
-    },
-    {
+  // Data-driven FAQ: only include questions a real, grounded answer exists for —
+  // no filler "how many letters" / "same starting letter" boilerplate. Each entry
+  // doubles as an AEO answer block and feeds the FAQ schema.
+  const genFaqs = [];
+  const primaryMeaning = (w.shortDef || w.definition || "").trim();
+  if (primaryMeaning) {
+    genFaqs.push({
+      q: `What does ${w.word} mean?`,
+      a: `${primaryMeaning}${/[.!?]$/.test(primaryMeaning) ? "" : "."}${initialPos !== "word" ? ` It is ${posLabel}.` : ""}`,
+    });
+  }
+  genFaqs.push({ q: `How many syllables does ${w.word} have?`, a: syllableAnswer });
+  if (initialPos !== "word") {
+    genFaqs.push({ q: `What part of speech is ${w.word}?`, a: posAnswer });
+  }
+  if (synonymList.length > 0) {
+    genFaqs.push({ q: `What are synonyms for ${w.word}?`, a: synonymAnswer });
+  }
+  if ((w.examples || []).length > 0) {
+    genFaqs.push({
       q: `How do you use ${w.word} in a sentence?`,
-      a: (w.examples || []).length > 0
-        ? `Example: "${w.examples[0]}"`
-        : `${label} can be used in sentences where ${posLabel} describing ${(w.shortDef || "this meaning").toLowerCase().slice(0, 80)} is needed. Writing the word in context and reading it aloud is the best way to confirm natural usage.`,
-    },
-    {
-      q: `What words start with the same letter as ${w.word}?`,
-      a: `${label} starts with the letter ${firstLetter}. You can browse all words beginning with ${firstLetter} on the Word Explorer ${firstLetter} page, or use the Prefix Finder tool to search for words that begin with specific starting letters.`,
-    },
-    {
-      q: `How many letters does ${w.word} have?`,
-      a: `${label} has ${wordLen} letter${wordLen !== 1 ? "s" : ""}. It contains ${syllCount} syllable${syllCount !== 1 ? "s" : ""} and starts with the letter ${firstLetter}. In word games, letter count and syllable count can help narrow results when you know the word length.`,
-    },
-  ];
+      a: `Example: "${w.examples[0]}"`,
+    });
+  }
 
   const lookupAttrs = needsLookup
     ? ` data-dictionary-lookup="true" data-dictionary-word="${escapeHtml(w.word)}"`
@@ -1881,7 +1883,7 @@ function renderLightWordPage(w) {
           <span class="syllable-count">${syllCount} syllable${syllCount !== 1 ? "s" : ""}</span>
         </div>
       </div>
-      <p class="word-short-def" data-word-short-def>${escapeHtml(w.shortDef || initialDefinition)}</p>
+      ${(heroSummary || needsLookup) ? `<p class="word-short-def" data-word-short-def>${escapeHtml(heroSummary)}</p>` : ""}
     </div>
     ${isPublishable(w) ? editorialByline() : ""}
   </section>
@@ -1893,7 +1895,6 @@ function renderLightWordPage(w) {
       <h2 class="word-section-title">Definition of ${escapeHtml(label)}</h2>
       <div class="definition-block" data-word-definition>
         <p>${escapeHtml(initialDefinition)}</p>
-        ${w.shortDef && w.definition && w.definition !== w.shortDef ? `<p class="word-extended-def">${escapeHtml(w.definition)}</p>` : ""}
       </div>
     </section>
 
@@ -1909,18 +1910,18 @@ function renderLightWordPage(w) {
       </p>
     </section>`}
 
-    <section class="word-section" data-word-relations-section>
+    ${(synonymPills || antonymPills || needsLookup) ? `<section class="word-section" data-word-relations-section>
       <div class="synonym-antonym-grid">
-        <div>
+        ${(synonymPills || needsLookup) ? `<div>
           <h2 class="word-section-title">Synonyms for ${escapeHtml(label)}</h2>
-          <div class="word-pill-cloud" data-word-synonyms>${synonymPills || `<span class="dictionary-empty">Synonyms vary by sense — browse related words in Word Explorer.</span>`}</div>
-        </div>
-        <div>
+          <div class="word-pill-cloud" data-word-synonyms>${synonymPills}</div>
+        </div>` : ""}
+        ${(antonymPills || needsLookup) ? `<div>
           <h2 class="word-section-title">Antonyms for ${escapeHtml(label)}</h2>
-          <div class="word-pill-cloud" data-word-antonyms>${antonymPills || `<span class="dictionary-empty">This word has no direct opposites; explore contrasting terms in Word Explorer.</span>`}</div>
-        </div>
+          <div class="word-pill-cloud" data-word-antonyms>${antonymPills}</div>
+        </div>` : ""}
       </div>
-    </section>
+    </section>` : ""}
 
     ${formsList.length ? `<section class="word-section" data-word-forms-section>
       <h2 class="word-section-title">Word forms of ${escapeHtml(label)}</h2>
@@ -1946,29 +1947,12 @@ function renderLightWordPage(w) {
 
     ${adSlot("word-mid")}
     <section class="word-section word-tools-section">
-      <h2 class="word-section-title">Word Lab tools for "${escapeHtml(w.word)}"</h2>
-      <p>Use Word Helper's interactive tools to explore ${escapeHtml(label)} further — find rhymes, count syllables, unscramble the letters, or find words with the same start or end.</p>
-      <div class="word-tool-use-cases">
-        <div class="word-tool-use-case">
-          <strong>Rhyme Finder</strong>
-          <p>Find words that rhyme with ${escapeHtml(w.word)} — perfect rhymes, near rhymes, and words with similar endings. Useful for poems, lyrics, and captions.</p>
-          <a class="button secondary" href="/tools/rhyme-finder/?q=${encodeURIComponent(w.word)}">Find rhymes for ${escapeHtml(w.word)}</a>
-        </div>
-        <div class="word-tool-use-case">
-          <strong>Syllable Counter</strong>
-          <p>${label} has ${syllCount} syllable${syllCount !== 1 ? "s" : ""}: ${escapeHtml(syllBreak)}. Paste the word into the Syllable Counter to see the spoken beat breakdown and use it in a longer sentence or poem.</p>
-          <a class="button secondary" href="/tools/syllable-counter/?q=${encodeURIComponent(w.word)}">Count syllables in ${escapeHtml(w.word)}</a>
-        </div>
-        <div class="word-tool-use-case">
-          <strong>Word Unscramble</strong>
-          <p>Enter the letters of ${escapeHtml(w.word)} into Word Unscramble to see all valid words that can be built from the same letters — useful for word games and spelling practice.</p>
-          <a class="button secondary" href="/tools/word-unscramble/?q=${encodeURIComponent(w.word)}">Unscramble ${escapeHtml(w.word)}</a>
-        </div>
-        <div class="word-tool-use-case">
-          <strong>Prefix Finder</strong>
-          <p>Browse more words starting with the letter ${firstLetter} using the Prefix Finder. Useful for exploring word families, spelling patterns, and vocabulary groups.</p>
-          <a class="button secondary" href="/tools/prefix-finder/?q=${encodeURIComponent(firstLetter.toLowerCase())}">Words starting with ${firstLetter}</a>
-        </div>
+      <h2 class="word-section-title">Try ${escapeHtml(label)} in the word tools</h2>
+      <div class="word-action-row">
+        <a class="button secondary" href="/tools/rhyme-finder/?q=${encodeURIComponent(w.word)}">Rhymes for ${escapeHtml(w.word)}</a>
+        <a class="button secondary" href="/tools/syllable-counter/?q=${encodeURIComponent(w.word)}">Count syllables</a>
+        <a class="button secondary" href="/tools/word-unscramble/?q=${encodeURIComponent(w.word)}">Unscramble letters</a>
+        <a class="button secondary" href="/tools/anagram-solver/?q=${encodeURIComponent(w.word)}">Find anagrams</a>
       </div>
     </section>
 
@@ -2004,14 +1988,9 @@ function renderLightWordPage(w) {
       url: absolute(w.href),
       description: page.metaDescription,
       dateModified: buildDateISO,
-      // Only claim editorial review where the visible "Reviewed by" byline is shown
-      // (indexable pages). Avoids a schema/visible mismatch on thin auto-pages.
-      ...(indexable
-        ? {
-            lastReviewed: w.lastReviewed || buildDateISO,
-            reviewedBy: { "@type": "Organization", name: `${site.name} Editorial Team`, url: `${site.url}/editorial-policy/` },
-          }
-        : {}),
+      // No reviewedBy/author schema on auto-compiled pages — the data is sourced
+      // from open dictionaries and quality-gated, not human-authored per entry, so
+      // claiming editorial review here would be a false E-E-A-T signal.
     },
     breadcrumbSchema(page),
     faqSchema(genFaqs),
@@ -2159,12 +2138,12 @@ function renderWordExplorerIndex(allWords = words) {
   <section class="section split">
     <div>
       <p class="eyebrow">About Word Explorer</p>
-      <h2>Original dictionary content</h2>
+      <h2>How word pages are built</h2>
     </div>
     <div class="text-stack">
-      <p>Every definition, example sentence, and usage note in Word Explorer is researched and written in-house by the Word Helper editorial team and held to a consistent house standard.</p>
-      <p>The ENABLE word list (public domain) provides the word coverage foundation. Definitions, pronunciations, and examples are added manually to each word before it becomes a public page.</p>
-      <p>Only words that meet all quality requirements are listed in the sitemap and indexed by search engines. Low-quality entries remain unpublished until fully enriched.</p>
+      <p>Word Explorer compiles its definitions, pronunciations, syllables, parts of speech, and related words from openly licensed dictionary sources — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a> — and standardizes every entry into one consistent format.</p>
+      <p>Example sentences use real dictionary citations where available, and are otherwise generated and automatically screened for clarity and accuracy. The public-domain ENABLE word list provides the headword inventory. Full sourcing and license attribution is on the <a href="/editorial-policy/">Editorial Policy</a> page.</p>
+      <p>Only words that pass the quality gate — a complete definition, pronunciation, syllables, examples, and synonyms — are listed in the sitemap and indexed. Entries that fall short stay unpublished until they meet the bar.</p>
     </div>
   </section>`;
 
@@ -2447,7 +2426,7 @@ function renderWordListsHub() {
     </div>
     <div class="text-stack">
       <p>Learning words in thematic groups is more effective than learning random words in sequence. When words share a context — positive feelings, academic writing, strong verbs — each new word reinforces the others and sits in a mental framework that makes recall easier.</p>
-      <p>Word Helper's word lists are curated by the editorial team, not generated automatically. Every word is chosen because it genuinely belongs and earns its place, and every meaning is written in-house to a consistent standard.</p>
+      <p>Word Helper's word lists are hand-curated, not generated automatically. Every word is chosen because it genuinely belongs on the list, and each entry includes a plain-English meaning and an example sentence.</p>
       <p>Use word lists alongside Word Explorer, Learn English guides, and Practice quizzes for a complete vocabulary learning experience.</p>
     </div>
   </section>`;
@@ -3809,7 +3788,7 @@ function llmsTxt() {
 > ${site.name} — English word tools and vocabulary reference. An English word
 > toolkit with dictionary-quality word pages, six interactive tools for word
 > games and writing, curated vocabulary guides, and practice quizzes. Maintained
-> by the Word Helper editorial team.
+> by Word Helper.
 
 ## Primary sections
 - [Word Explorer (dictionary)](${site.url}/word-explorer/): in-depth word pages with definition, pronunciation, syllables, synonyms, antonyms, word family, etymology, and examples.
@@ -3822,10 +3801,12 @@ function llmsTxt() {
 ${toolLines}
 
 ## Editorial standards
-Definitions, examples, and usage notes are researched and written in-house by the
-Word Helper editorial team to a consistent house standard. Word-game acceptance,
-pronunciation, and syllable counts can vary by dictionary, accent, and dialect; the
-relevant pages state these limits. Corrections: ${site.email}.
+Definitions and word data are compiled from openly licensed sources (Wiktionary via
+the Datamuse API, and the Free Dictionary API), then standardized, quality-screened,
+and structured to a consistent format; example sentences are real where available and
+otherwise generated and screened. Word-game acceptance, pronunciation, and syllable
+counts can vary by dictionary, accent, and dialect; the relevant pages state these
+limits. Sources and license attribution: ${site.url}/editorial-policy/. Corrections: ${site.email}.
 
 ## Contact
 - Email: ${site.email}
@@ -4081,16 +4062,31 @@ async function main() {
   ];
   const claimed = new Set();
   const chunkFiles = [];
+  // Google/Bing hard-cap a single sitemap at 50,000 URLs. Split any oversized
+  // bucket (e.g. /word/ = 64k) into numbered files so every URL is discoverable.
+  const MAX_PER_SITEMAP = 45000;
   for (const def of chunkDefs) {
     const list = indexable.filter((r) => !claimed.has(r.href) && def.match(r.href));
     list.forEach((r) => claimed.add(r.href));
-    if (list.length) {
+    if (!list.length) continue;
+    if (list.length <= MAX_PER_SITEMAP) {
       await writeFile(path.join(distDir, def.name), sitemapUrlset(list));
       chunkFiles.push(def.name);
+    } else {
+      const base = def.name.replace(/\.xml$/, "");
+      for (let i = 0, part = 1; i < list.length; i += MAX_PER_SITEMAP, part++) {
+        const fname = `${base}-${part}.xml`;
+        await writeFile(path.join(distDir, fname), sitemapUrlset(list.slice(i, i + MAX_PER_SITEMAP)));
+        chunkFiles.push(fname);
+      }
     }
   }
-  await writeFile(path.join(distDir, "sitemap_index.xml"), sitemapIndexXml(chunkFiles));
-  await writeFile(path.join(distDir, "sitemap.xml"), sitemap(routes)); // flat back-compat
+  // sitemap_index.xml is the canonical sitemap (robots.txt points here). sitemap.xml
+  // is an alias of the index (small, valid) — never a single 64k-URL urlset, which
+  // would exceed the 50k limit.
+  const sitemapIndexContent = sitemapIndexXml(chunkFiles);
+  await writeFile(path.join(distDir, "sitemap_index.xml"), sitemapIndexContent);
+  await writeFile(path.join(distDir, "sitemap.xml"), sitemapIndexContent);
 
   // ── robots.txt (WS1): staging blocks all crawl; production allows + points at the index ──
   await writeFile(
