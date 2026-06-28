@@ -12,3 +12,4 @@ dist/
 data/cache/
 data/processed/
 src/data/a-words-progress.json
+data/freq/

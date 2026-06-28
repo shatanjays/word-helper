@@ -58,6 +58,25 @@ async function loadJson(p, def) {
   try { return JSON.parse(await readFile(p, "utf8")); } catch { return def; }
 }
 
+// Offline corpus-frequency rank (Norvig count_1w.txt: "word\tcount"). Used to
+// PRE-RANK candidates so the cheap pass fetches the most common words first
+// (fixes the alphabetical-coverage gap and avoids spending API calls on obscure
+// tokens that would never be recommended).
+async function loadFreqRank() {
+  const p = path.join(ROOT, "data/freq/count_1w.txt");
+  const rank = new Map();
+  if (!existsSync(p)) return rank;
+  const lines = (await readFile(p, "utf8")).split(/\r?\n/);
+  for (const line of lines) {
+    const tab = line.indexOf("\t");
+    if (tab <= 0) continue;
+    const w = line.slice(0, tab);
+    const c = Number(line.slice(tab + 1));
+    if (w && Number.isFinite(c)) rank.set(w, c);
+  }
+  return rank;
+}
+
 async function loadCandidates() {
   // 1. existing enriched data for this letter (vetted candidates we want to keep)
   const existingArr = [];
@@ -81,15 +100,26 @@ async function loadCandidates() {
     .filter((w) => /^[a-z]{2,}$/.test(w) && w[0] === LETTER);
   const rawSet = new Set(lines);
 
-  // Priority order for the capped cheap pass: existing → curated → raw inventory.
-  const ordered = [];
-  const seen = new Set();
-  const push = (w) => { if (w && !seen.has(w)) { seen.add(w); ordered.push(w); } };
-  for (const w of existingByWord.keys()) push(w);
-  for (const w of curatedWords) push(w);
-  for (const w of [...rawSet].sort()) push(w);
+  // Collect every unique candidate (existing + curated + raw inventory).
+  const all = new Set([...existingByWord.keys(), ...curatedWords, ...rawSet]);
 
-  return { ordered, existingByWord, curatedWords, rawTotal: rawSet.size };
+  // Pre-rank by offline corpus frequency (desc). Existing/curated entries get a
+  // small floor so they are never buried. Words absent from the frequency list
+  // sort last, by length then alpha (shorter, common-shaped words first).
+  const freqRank = await loadFreqRank();
+  const score = (w) => {
+    let f = freqRank.get(w) || 0;
+    if ((existingByWord.has(w) || curatedWords.has(w)) && f === 0) f = 1; // keep, but below real-freq words
+    return f;
+  };
+  const ordered = [...all].sort((a, b) => {
+    const fa = score(a), fb = score(b);
+    if (fb !== fa) return fb - fa;
+    if (a.length !== b.length) return a.length - b.length;
+    return a.localeCompare(b);
+  });
+
+  return { ordered, existingByWord, curatedWords, rawTotal: rawSet.size, rankedByFreq: freqRank.size > 0 };
 }
 
 async function main() {
@@ -143,12 +173,21 @@ async function main() {
   const entries = finalEntries.filter(Boolean);
 
   // ── Split: have real example vs. need a generated one ──
+  // The GENERATION INPUT is the subset that (a) lacks an example AND (b) would be
+  // RECOMMENDED-public once an example is filled — so we only spend LLM effort on
+  // words that will actually be published (never obscure/junk entries).
+  const placeholderEx = (e) => (e.examples && e.examples.length ? e : { ...e, examples: ["A clear example sentence using " + e.word + "."] });
+  const freqOf = new Map(entries.map((e) => [e.word, e.frequency || 0]));
   const needExample = [];
+  const genInput = [];
   for (const e of entries) {
-    if (!e.examples || e.examples.length === 0) {
-      needExample.push({ word: e.word, partOfSpeech: e.partOfSpeech, definition: e.definition, shortDef: e.shortDef });
+    if (e.examples && e.examples.length) continue;
+    needExample.push({ word: e.word, partOfSpeech: e.partOfSpeech, definition: e.definition, shortDef: e.shortDef });
+    if (wordRecommendationScore(placeholderEx(e)) >= 50) {
+      genInput.push({ word: e.word, pos: e.partOfSpeech, def: (e.shortDef || e.definition || "").slice(0, 180) });
     }
   }
+  genInput.sort((a, b) => (freqOf.get(b.word) || 0) - (freqOf.get(a.word) || 0));
 
   // ── Write outputs ──
   const outFile = path.join(ENRICHED_DIR, `${LETTER}-words.json`);
@@ -164,6 +203,10 @@ async function main() {
     path.join(ROOT, "data/processed", `${LETTER}-needs-example.json`),
     JSON.stringify(needExample, null, 1),
   );
+  await writeFile(
+    path.join(ROOT, "data/processed", `${LETTER}-gen-input.json`),
+    JSON.stringify(genInput),
+  );
 
   // ── Stats ──
   const withRealExample = entries.length - needExample.length;
@@ -178,6 +221,7 @@ async function main() {
     rawInventory: rawTotal, candidatesProcessed: candidates.length,
     completeReadyAfterPassA: ready.length, fullyEnriched: entries.length,
     withRealExample, needGeneratedExample: needExample.length,
+    genInputRecommendable: genInput.length,
     completeNowWithRealExample: completeNow,
     recommendedReadyOncePublished: recommendedReady,
   };
@@ -190,8 +234,9 @@ async function main() {
   console.log(`  need generated example ........ ${needExample.length}`);
   console.log(`  complete now (real example) ... ${completeNow}`);
   console.log(`  recommended-ready once examples filled ... ${recommendedReady}`);
+  console.log(`  gen-input (recommendable, needs example) . ${genInput.length}`);
   console.log(`\nWrote ${outFile}`);
-  console.log(`Wrote needs-example queue: data/processed/${LETTER}-needs-example.json (${needExample.length})`);
+  console.log(`Wrote gen-input: data/processed/${LETTER}-gen-input.json (${genInput.length})`);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

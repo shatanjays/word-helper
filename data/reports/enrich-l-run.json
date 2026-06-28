@@ -1,0 +1,13 @@
+{
+  "letter": "l",
+  "generatedAt": "2026-06-28T12:28:18.518Z",
+  "rawInventory": 9015,
+  "candidatesProcessed": 9000,
+  "completeReadyAfterPassA": 5149,
+  "fullyEnriched": 5149,
+  "withRealExample": 265,
+  "needGeneratedExample": 4884,
+  "genInputRecommendable": 2087,
+  "completeNowWithRealExample": 265,
+  "recommendedReadyOncePublished": 2350
+}

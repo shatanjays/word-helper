@@ -74,23 +74,57 @@ function looksProperOrJunk(w) {
   return false;
 }
 
-// Definition markers that betray a PROPER NOUN (given names, places, peoples,
-// languages, demonyms). These are excluded from the recommended public set —
-// the project intentionally does not surface proper nouns. Conservative by
-// design: matches explicit dictionary phrasings, not incidental capitals.
+// Definition markers that betray a PROPER NOUN (given names, surnames, places,
+// peoples, languages, demonyms). Excluded from the recommended public set — the
+// project intentionally does not surface proper nouns. High precision: geography
+// markers REQUIRE a capitalized place name so generic phrases like "a state of
+// mind" or "a state of balance" are not falsely flagged.
 const PROPER_NOUN_MARKERS = [
   /\bgiven name\b/i, /\bsurname\b/i, /\bfamily name\b/i, /\bpatronymic\b/i, /\bnickname\b/i,
-  /\ba state of\b/i, /\ba province of\b/i, /\ba county\b/i, /\bcapital of\b/i, /\bthe capital\b/i,
-  /\ba (?:city|town|village|river|mountain|lake|sea|island|country|region|district|municipality|commune) (?:in|of)\b/i,
-  /\binhabitant of\b/i, /\bnative of [A-Z]/, /\bethnic group\b/i, /\ban? ethnicity\b/i,
-  /\ba language (?:of|spoken)\b/i, /\ba people (?:of|native)\b/i,
+  /\btoponym/i, /\bunincorporated community\b/i, /\bcensus-designated place\b/i,
+  /\bethnic group\b/i, /\ban? ethnicity\b/i, /\ba language (?:of|spoken)\b/i, /\ba people (?:of|native)\b/i,
+  // geography — must be followed by a Capitalized place (case-sensitive)
+  /\b(?:city|town|village|hamlet|borough|municipality|commune|river|mountain|lake|sea|ocean|island|county|parish|province|prefecture|canton|region|district|country|kingdom|empire) (?:in|of|on|near) [A-Z]/,
+  /\bcapital\b[^.]{0,40}\bof [A-Z]/,
+  /\b(?:state|province|territory) of the (?:United States|Union|U\.S\.|United Kingdom)\b/i,
+  /\b(?:U\.?S\.?|United States) state\b/i,
+  /\b(?:a number of )?places? in (?:the |[A-Z])/,
+  /\b(?:citizens?|inhabitants?|residents?|natives?) of (?:the )?[A-Z]/,
+  /\b(?:United Kingdom|United States|Great Britain)\b/,
   /\(as a (?:region|place|state|city|country)\)/i,
 ];
+// Demonym / nationality / language adjective: a trigger phrase followed by a
+// Capitalized proper noun ("Of or relating to Britain", "relating to Germany").
+// Trigger matched case-insensitively; the capital after it case-sensitively.
+const DEMONYM_TRIGGERS = [
+  "of or relating to ", "relating to ", "pertaining to ", "characteristic of ", "native to ",
+];
+function hasDemonymMarker(d) {
+  const low = d.toLowerCase();
+  for (const tr of DEMONYM_TRIGGERS) {
+    let i = low.indexOf(tr);
+    while (i !== -1) {
+      const after = d[i + tr.length];
+      if (after && after >= "A" && after <= "Z") return true;
+      i = low.indexOf(tr, i + 1);
+    }
+  }
+  return false;
+}
 export function isLikelyProperNoun(w) {
-  const d = definitionText(w);
-  if (!d) return false;
+  // Judge the PRIMARY sense only (shortDef / first sentence). A word whose first
+  // meaning is common (e.g. "brown" = a colour) stays even if a later sense is a
+  // demonym; a word whose first meaning IS a proper noun is excluded.
+  const full = definitionText(w);
+  if (!full) return false;
+  let d = str(w.shortDef);
+  if (d.length < 8) { const m = full.match(/^.*?[.!?](\s|$)/); d = (m ? m[0] : full).trim(); }
   if (/^The [A-Z]/.test(d)) return true;            // "The Adirondacks (as a region)."
-  return PROPER_NOUN_MARKERS.some((r) => r.test(d));
+  // Lowercase only the first char so a sentence-start article/trigger ("A city
+  // in X", "Native of Y") is matchable, while interior place capitals are kept.
+  const dTest = d.charAt(0).toLowerCase() + d.slice(1);
+  if (PROPER_NOUN_MARKERS.some((r) => r.test(dTest))) return true;
+  return hasDemonymMarker(d);
 }
 
 // ── Component scores ─────────────────────────────────────────────────────────

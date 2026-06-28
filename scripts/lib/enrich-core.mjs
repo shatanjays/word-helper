@@ -32,6 +32,12 @@ export const LICENSES = {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// Sentinel returned by fetchJson when the request FAILED transiently (network
+// error, timeout, HTTP 403 WAF block, 429 after retries, 5xx). Distinct from a
+// legitimate `null` (HTTP 404 / empty result). Callers MUST NOT cache this — a
+// failed fetch should be retried on the next run, never persisted as a negative.
+export const FETCH_FAILED = Symbol("fetch-failed");
+
 // ── tiny on-disk cache so re-runs are free and deterministic ──────────────────
 async function cacheRead(kind, key) {
   const p = path.join(CACHE_DIR, kind, `${key}.json`);
@@ -55,18 +61,25 @@ async function fetchJson(url, { timeout = 9000, retries = 2 } = {}) {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       const res = await fetch(url, { signal: AbortSignal.timeout(timeout) });
-      if (res.status === 429) {
-        await sleep(800 * (attempt + 1));
+      // Transient: rate limit (429), CloudFront/WAF abuse block (403), or server
+      // error (5xx). Back off and retry; if retries are exhausted, signal FAILURE
+      // (NOT a cacheable null) so the word is retried on a later run.
+      if (res.status === 429 || res.status === 403 || res.status >= 500) {
+        if (attempt === retries) return FETCH_FAILED;
+        await sleep(1000 * (attempt + 1));
         continue;
       }
+      // 404 / other not-ok with a definite verdict → legitimate "no data" (null,
+      // which callers may cache as a negative result).
       if (!res.ok) return null;
       return await res.json();
     } catch {
-      if (attempt === retries) return null;
-      await sleep(300 * (attempt + 1));
+      // Network error / timeout — transient, do not poison the cache.
+      if (attempt === retries) return FETCH_FAILED;
+      await sleep(400 * (attempt + 1));
     }
   }
-  return null;
+  return FETCH_FAILED;
 }
 
 // ── ARPABET → human-readable respelling + IPA ────────────────────────────────
@@ -175,6 +188,7 @@ async function datamuseMain(word) {
     const data = await fetchJson(
       `https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=dpsrf&max=1`,
     );
+    if (data === FETCH_FAILED) return null; // transient failure — do NOT cache, retry next run
     cached = Array.isArray(data) && data[0] ? data[0] : null;
     await cacheWrite("datamuse", safeKey(word), cached);
   }
@@ -188,6 +202,7 @@ async function datamuseRel(rel, word, max = 8) {
     const data = await fetchJson(
       `https://api.datamuse.com/words?${rel}=${encodeURIComponent(word)}&max=${max}`,
     );
+    if (data === FETCH_FAILED) return []; // transient failure — do NOT cache an empty list
     cached = Array.isArray(data) ? data.map((d) => d.word).filter((w) => /^[a-z][a-z '-]*$/i.test(w)) : [];
     await cacheWrite(kind, safeKey(word), cached);
   }
@@ -199,6 +214,7 @@ async function freeDict(word) {
   let cached = await cacheRead("freedict", safeKey(word));
   if (cached === undefined) {
     const data = await fetchJson(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`, { retries: 1 });
+    if (data === FETCH_FAILED) return null; // transient failure — do NOT cache (404 not-found still caches as null)
     cached = Array.isArray(data) && data[0] ? data[0] : null;
     await cacheWrite("freedict", safeKey(word), cached);
   }
