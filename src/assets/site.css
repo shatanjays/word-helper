@@ -39,25 +39,25 @@
 
   /* Accent — ONE confident global blue. (--navy kept as the var name so every
      existing reference re-skins to blue in one move.) */
-  --navy:         #1a73e8;
-  --navy-deep:    #1763cc;
-  --navy-mid:     #4a90e2;
-  --navy-pale:    #e8f0fe;
-  --navy-soft:    rgba(26, 115, 232, 0.08);
-  --navy-border:  rgba(26, 115, 232, 0.26);
+  --navy:         #2b50c9;
+  --navy-deep:    #213fa0;
+  --navy-mid:     #5a73e0;
+  --navy-pale:    #e9edfb;
+  --navy-soft:    rgba(43, 80, 201, 0.08);
+  --navy-border:  rgba(43, 80, 201, 0.26);
 
-  --accent:       #1a73e8;
-  --accent-hover: #1763cc;
-  --accent-soft:  rgba(26, 115, 232, 0.08);
-  --accent-border:rgba(26, 115, 232, 0.24);
+  --accent:       #2b50c9;
+  --accent-hover: #213fa0;
+  --accent-soft:  rgba(43, 80, 201, 0.08);
+  --accent-border:rgba(43, 80, 201, 0.24);
 
   /* Part-of-speech colours (functional only) */
   --pos-noun-bg:  rgba(234, 179, 8, 0.12);
   --pos-noun-fg:  #92400e;
   --pos-verb-bg:  rgba(16, 185, 129, 0.12);
   --pos-verb-fg:  #065f46;
-  --pos-adj-bg:   rgba(26, 115, 232, 0.12);
-  --pos-adj-fg:   #1857b8;
+  --pos-adj-bg:   rgba(43, 80, 201, 0.12);
+  --pos-adj-fg:   #213fa0;
   --pos-adv-bg:   rgba(139, 92, 246, 0.12);
   --pos-adv-fg:   #5b21b6;
   --pos-other-bg: #f0ebe1;
@@ -80,7 +80,7 @@
   /* Layout */
   --max:        1120px;
   --text-max:   720px;
-  --focus:      rgba(26, 115, 232, 0.45);
+  --focus:      rgba(43, 80, 201, 0.45);
 
   /* Typography — crisp sans for everything; serif is system fallback only */
   --font-serif: Georgia, "Times New Roman", serif;
@@ -1882,8 +1882,9 @@ input:focus, textarea:focus, select:focus {
   transition: all var(--dur) var(--ease);
 }
 
-.home-az-link:hover { border-color: var(--navy-border); background: var(--navy-soft); transform: translateY(-2px); }
-.home-az-link strong { font-family: var(--font-sans); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
+.home-az-link:hover { border-color: var(--navy-border); background: var(--navy-soft); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.home-az-link strong { font-family: var(--font-sans); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; transition: color var(--dur) var(--ease); }
+.home-az-link:hover strong { color: var(--navy); }
 
 /* ── Intent / use-case cards ─────────────────────────────── */
 .intent-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
@@ -2404,10 +2405,26 @@ input:focus, textarea:focus, select:focus {
    The wash dissolves into the page via the gradient (no hard slab edge). */
 .home-hero-band {
   position: relative;
+  isolation: isolate;
   background:
     radial-gradient(120% 150% at 50% -30%, var(--hero-wash-1), transparent 62%),
     linear-gradient(180deg, var(--hero-wash-2), transparent 92%);
 }
+
+/* Subtle premium texture — a faint accent dot-grid that fades out toward the
+   content. Pure CSS (no image weight, no extra request); decorative only. */
+.home-hero-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(circle at center, rgba(43, 80, 201, 0.05) 1px, transparent 1.5px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(115% 95% at 50% -5%, #000 28%, transparent 72%);
+  mask-image: radial-gradient(115% 95% at 50% -5%, #000 28%, transparent 72%);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) { .home-hero-band::before { background-image: none; } }
 
 .hero-search {
   display: block;

@@ -3771,7 +3771,7 @@ ${entries}
 
 function favicon() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#1a73e8"/>
+  <rect width="64" height="64" rx="16" fill="#2b50c9"/>
   <path d="M18 18h8l6 24 6-24h8" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M16 44h32" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
 </svg>`;
@@ -3780,12 +3780,12 @@ function favicon() {
 function ogImage() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <rect width="1200" height="630" fill="#212121"/>
-  <rect x="60" y="200" width="84" height="84" rx="18" fill="#1a73e8"/>
+  <rect x="60" y="200" width="84" height="84" rx="18" fill="#2b50c9"/>
   <path d="M76 226h16l12 40 12-40h16" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M73 266h50" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
   <text x="168" y="256" font-family="Arial,sans-serif" font-size="56" font-weight="700" fill="#ECECEC">Word Helper</text>
   <text x="60" y="348" font-family="Arial,sans-serif" font-size="28" fill="#A3A3A3">English Word Intelligence Platform</text>
-  <rect x="60" y="400" width="180" height="44" rx="8" fill="#1a73e8"/>
+  <rect x="60" y="400" width="180" height="44" rx="8" fill="#2b50c9"/>
   <text x="150" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#fff" text-anchor="middle">Word Unscramble</text>
   <rect x="256" y="400" width="160" height="44" rx="8" fill="#2F2F2F" stroke="#3F3F3F" stroke-width="1"/>
   <text x="336" y="428" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#CFCFCF" text-anchor="middle">Anagram Solver</text>
@@ -3799,7 +3799,7 @@ function ogImage() {
 
 function appleTouchIcon() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
-  <rect width="180" height="180" rx="38" fill="#1a73e8"/>
+  <rect width="180" height="180" rx="38" fill="#2b50c9"/>
   <path d="M46 52h26l22 76 22-76h26" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M40 132h100" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round"/>
 </svg>`;
