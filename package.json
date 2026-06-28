@@ -15,5 +15,8 @@
     "check:domain": "node scripts/check-domain-email.mjs",
     "check:deploy": "node scripts/check-deploy-output.mjs",
     "verify:deploy": "npm run build:prod && npm run check:domain && npm run check:deploy"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-s3": "^3.1075.0"
   }
 }
