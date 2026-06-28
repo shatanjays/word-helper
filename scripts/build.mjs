@@ -383,7 +383,7 @@ function footer() {
   <div class="footer-inner">
     <div class="footer-brand-col">
       <a class="footer-brand" href="/">${icon("logo")}<span>Word Helper</span></a>
-      <p class="footer-tagline">An English word toolkit with dictionary-quality word pages, six interactive tools for word games and writing, and curated vocabulary guides.</p>
+      <p class="footer-tagline">An English word toolkit with dictionary-quality word pages, nine interactive tools for word games and writing, and curated vocabulary guides.</p>
       <a class="footer-email" href="mailto:${site.email}">${site.email}</a>
     </div>
     <nav class="footer-nav" aria-label="Word tools">
@@ -446,7 +446,7 @@ function baseSchemas() {
       email: site.email,
       foundingDate: "2025",
       description:
-        "Word Helper is an English word toolkit with dictionary-quality word pages, six interactive word tools for games and writing, curated vocabulary guides, and practice quizzes. Maintained by Word Helper.",
+        "Word Helper is an English word toolkit with dictionary-quality word pages, nine interactive word tools for games and writing, curated vocabulary guides, and practice quizzes. Maintained by Word Helper.",
       publishingPrinciples: `${site.url}/editorial-policy/`,
       knowsAbout: [
         "English vocabulary",
@@ -774,7 +774,7 @@ function renderSearchPage() {
       <h2>What you can find on Word Helper</h2>
     </div>
     <div class="card-grid">
-      <a class="resource-card" href="/word-lab/"><span class="card-icon">${icon("wordlab")}</span><strong>Word Lab — Six Tools</strong><span>Unscramble letters, solve anagrams, find rhymes, count syllables, explore prefix and suffix patterns.</span></a>
+      <a class="resource-card" href="/word-lab/"><span class="card-icon">${icon("wordlab")}</span><strong>Word Lab — Nine Tools</strong><span>Unscramble, anagrams, rhymes, syllables, prefixes, suffixes, plus word, synonym &amp; antonym finders.</span></a>
       <a class="resource-card" href="/word-explorer/"><span class="card-icon">${icon("wordexplorer")}</span><strong>Word Explorer — Dictionary</strong><span>Browse A–Z word pages with definitions, pronunciation, synonyms, examples, and word families.</span></a>
       <a class="resource-card" href="/word-lists/"><span class="card-icon">${icon("wordlists")}</span><strong>Word Lists</strong><span>Curated vocabulary collections for common words, positive language, academic English, and more.</span></a>
       <a class="resource-card" href="/learn-english/"><span class="card-icon">${icon("learn")}</span><strong>Learn English Guides</strong><span>Plain-language guides on vocabulary, word roots, syllables, spelling patterns, and memory techniques.</span></a>
@@ -829,7 +829,7 @@ function renderHome(homeWords = words) {
     href: "/",
     title: "Word Helper — English Word Tools, Dictionary & Vocabulary",
     metaTitle: "Word Helper — English Word Tools, Dictionary & Vocabulary",
-    metaDescription: "Word Helper is an English word toolkit: look up definitions, pronunciation, synonyms, and etymology — plus six tools for word games, rhymes, syllables, anagrams, prefixes, and suffixes. Editorially reviewed.",
+    metaDescription: "Word Helper is an English word toolkit: look up definitions, pronunciation, synonyms, and etymology — plus nine tools for word games, rhymes, syllables, synonyms, antonyms, and more.",
   };
   const wordPageTotal = homeWords.length;
   const azLinks = "abcdefghijklmnopqrstuvwxyz".split("").map((letter) =>
@@ -866,7 +866,7 @@ function renderHome(homeWords = words) {
   const faqs = [
     {
       q: "What is Word Helper?",
-      a: "Word Helper is an English word toolkit and vocabulary reference. It includes Word Lab (six interactive word tools), Word Explorer (in-depth word pages with definitions, pronunciation, synonyms, and examples), Learn English guides, curated Word Lists, and Practice quizzes.",
+      a: "Word Helper is an English word toolkit and vocabulary reference. It includes Word Lab (nine interactive word tools), Word Explorer (in-depth word pages with definitions, pronunciation, synonyms, and examples), Learn English guides, curated Word Lists, and Practice quizzes.",
     },
     {
       q: "What is Word Explorer?",
@@ -929,7 +929,7 @@ function renderHome(homeWords = words) {
       <ul class="hero-trust-row">
         <li>${icon("check")} <span>${formatCount(wordPageTotal)} word pages</span></li>
         <li>${icon("check")} <span>327k-word search index</span></li>
-        <li>${icon("check")} <span>6 word tools &amp; quizzes</span></li>
+        <li>${icon("check")} <span>9 word tools &amp; quizzes</span></li>
         <li>${icon("check")} <span>Open sources, cited</span></li>
       </ul>
     </div>
@@ -978,7 +978,7 @@ function renderHome(homeWords = words) {
   <section class="section home-tools-section">
     <div class="section-heading">
       <p class="eyebrow">Word tools</p>
-      <h2>Six focused tools for everyday word problems</h2>
+      <h2>Nine focused tools for everyday word problems</h2>
       <p>Each tool keeps quick tasks fast — clear inputs, real-time filters, worked examples, and honest notes on how results vary across word-game dictionaries, accents, and classroom rules.</p>
     </div>
     <div class="card-grid tool-card-grid">
@@ -1075,7 +1075,7 @@ function renderHome(homeWords = words) {
       <dl class="home-stat-strip">
         <div class="home-stat" title="327,000+ words searchable across all tools"><dt>327k+</dt><dd>words in the search index</dd></div>
         <div class="home-stat" title="${formatCount(wordPageTotal)} words that passed the quality gate with a full page: definition, pronunciation, examples, and synonyms"><dt>${formatCount(wordPageTotal)}</dt><dd>full word pages</dd></div>
-        <div class="home-stat"><dt>6</dt><dd>focused word tools</dd></div>
+        <div class="home-stat"><dt>9</dt><dd>focused word tools</dd></div>
         <div class="home-stat"><dt>8</dt><dd>vocabulary guides</dd></div>
       </dl>
       <div class="editorial-standards-grid">
@@ -1137,6 +1137,19 @@ function toolFields(tool) {
       <label>Maximum length <input name="max" type="number" min="2" max="14" placeholder="14"></label>
       <label>Sort results <select name="sort"><option value="alpha">A to Z</option><option value="length-asc">Shortest first</option><option value="length-desc">Longest first</option></select></label>
     </div>`;
+  }
+  if (tool.id === "word-finder") {
+    return `<label>Letters the word must contain <input name="contains" autocomplete="off" placeholder="Example: ae" inputmode="text"></label>
+    <div class="filter-grid">
+      <label>Starts with <input name="starts" autocomplete="off" placeholder="s"></label>
+      <label>Ends with <input name="ends" autocomplete="off" placeholder="t"></label>
+      <label>Minimum length <input name="min" type="number" min="2" max="20" placeholder="2"></label>
+      <label>Maximum length <input name="max" type="number" min="2" max="20" placeholder="20"></label>
+      <label>Sort results <select name="sort"><option value="length-desc">Longest first</option><option value="length-asc">Shortest first</option><option value="alpha">A to Z</option></select></label>
+    </div>`;
+  }
+  if (tool.id === "synonym-finder" || tool.id === "antonym-finder") {
+    return `<label>Word <input name="word" autocomplete="off" placeholder="Example: ${tool.id === "antonym-finder" ? "open" : "happy"}" inputmode="text"></label>`;
   }
   return `<label>Suffix or ending letters <input name="suffix" autocomplete="off" placeholder="Example: ing" inputmode="text"></label>
     <div class="filter-grid">
@@ -1216,11 +1229,13 @@ function workedExamples(tool) {
 
 // Honest, trademark-safe source + compatibility line shown above tool results.
 function toolSourceNote(tool) {
-  const wordListTools = ["word-unscramble", "anagram-solver", "prefix-finder", "suffix-finder"];
+  const wordListTools = ["word-unscramble", "anagram-solver", "prefix-finder", "suffix-finder", "word-finder"];
   const gameTools = ["word-unscramble", "anagram-solver"];
   let source;
   if (wordListTools.includes(tool.id)) {
     source = "Results are matched against a 327,000+ word English word list built on the public-domain ENABLE word list plus a supplementary system word list.";
+  } else if (tool.id === "synonym-finder" || tool.id === "antonym-finder") {
+    source = "Synonyms and antonyms come from the Datamuse API, an open language dataset built on open thesaurus and corpus data. Results are suggestions and may vary by sense and context.";
   } else if (tool.id === "rhyme-finder") {
     source = "Rhyme results are generated from English spelling and pronunciation patterns, covering perfect rhymes, near rhymes, and shared word endings.";
   } else {
@@ -1241,6 +1256,9 @@ const TOOL_STATIC_EXAMPLES = {
   "syllable-counter": { input: "beautiful → beau·ti·ful (3)", groups: [["1 syllable", "cat · dog · house"], ["2 syllables", "wa·ter · gar·den"], ["3 syllables", "beau·ti·ful · in·ter·net"]] },
   "prefix-finder": { input: "pre", groups: [["Words starting with pre", "predict, prepare, present, prevent, preview, prefix"]] },
   "suffix-finder": { input: "ing", groups: [["Words ending with ing", "running, singing, building, morning, evening, reading"]] },
+  "word-finder": { input: "ae", groups: [["Containing a and e (7 letters)", "average, awesome, blaster"], ["Containing a and e (4 letters)", "able, area, gaze, lake, name"]] },
+  "synonym-finder": { input: "happy", groups: [["Synonyms for happy", "glad, joyful, cheerful, content, pleased, delighted, merry"]] },
+  "antonym-finder": { input: "happy", groups: [["Antonyms for happy", "sad, unhappy, miserable, sorrowful, depressed"]] },
 };
 
 function toolStaticExample(tool) {
@@ -1268,7 +1286,6 @@ function renderTool(tool) {
     <p class="eyebrow">${escapeHtml(tool.primaryKeyword)}</p>
     <h1>${escapeHtml(tool.h1)}</h1>
     <p>${escapeHtml(tool.intro)}</p>
-    ${answerBlock(tool.answer)}
     ${editorialByline()}
   </section>
   <section class="tool-shell" data-tool="${tool.id}" data-tool-title="${escapeHtml(tool.title)}" aria-labelledby="${tool.id}-form-title">
@@ -1289,7 +1306,7 @@ function renderTool(tool) {
         ${toolFields(tool)}
         <div class="tool-actions">
           <button class="button primary" type="submit">${escapeHtml(tool.buttonLabel)}</button>
-          <button class="button secondary clear-tool" type="button">${tool.id === "syllable-counter" ? "Clear Text" : tool.id === "word-unscramble" ? "Clear Letters" : tool.id === "anagram-solver" ? "Clear Input" : tool.id === "rhyme-finder" ? "Clear Word" : tool.id === "prefix-finder" ? "Clear Prefix" : "Clear Suffix"}</button>
+          <button class="button secondary clear-tool" type="button">${tool.id === "syllable-counter" ? "Clear Text" : tool.id === "word-unscramble" ? "Clear Letters" : tool.id === "anagram-solver" ? "Clear Input" : tool.id === "rhyme-finder" || tool.id === "synonym-finder" || tool.id === "antonym-finder" ? "Clear Word" : tool.id === "prefix-finder" ? "Clear Prefix" : tool.id === "suffix-finder" ? "Clear Suffix" : "Clear"}</button>
         </div>
       </form>
       <div class="tool-meta-row">
@@ -1336,6 +1353,7 @@ function renderTool(tool) {
       </div>
     </section>
   </section>
+  ${answerBlock(tool.answer)}
   ${toolStaticExample(tool)}
   ${adSlot("tool-mid")}
   ${toolReferencePanel(tool)}
@@ -2206,7 +2224,7 @@ function renderLearnHub() {
     <div class="text-stack">
       <p>Every guide in the Learn English section is written for learners at any level — from beginners looking for vocabulary strategies to confident writers who want to understand how rhyme and spelling patterns work.</p>
       <p>Guides cover practical skills: how to build a vocabulary that sticks, how to decode unfamiliar words from context, how syllables affect pronunciation, and how word families multiply what you know.</p>
-      <p>Use the guides alongside Word Helper's six word tools and the Word Explorer for a complete English vocabulary practice.</p>
+      <p>Use the guides alongside Word Helper's nine word tools and the Word Explorer for a complete English vocabulary practice.</p>
     </div>
   </section>`;
 
@@ -2316,18 +2334,18 @@ function renderLesson(lesson) {
 function renderWordLab() {
   const page = {
     href: "/word-lab/",
-    title: "Word Lab — Six Interactive Word Tools",
+    title: "Word Lab — Nine Interactive Word Tools",
     metaTitle: "Word Lab — Interactive Word Tools | Word Helper",
     metaDescription:
-      "Word Lab is Word Helper's collection of six interactive word tools: Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, and Suffix Finder.",
+      "Word Lab is Word Helper's collection of nine interactive word tools: Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, Suffix Finder, Word Finder, Synonym Finder, and Antonym Finder.",
   };
 
   const body = `<section class="page-hero">
     ${breadcrumb(page)}
     <p class="eyebrow">Word Helper tools</p>
     <h1>Tools</h1>
-    <p class="hero-lede">Six focused word tools for letters, anagrams, rhymes, syllables, prefixes, and suffixes. Each tool has clear inputs, honest results, and a plain explanation of what it can and cannot do.</p>
-    ${answerBlock("Word Lab has six word tools for specific tasks. Word Unscramble finds all valid words from a set of letters. Anagram Solver finds exact and partial anagrams. Rhyme Finder returns rhyme ideas. Syllable Counter breaks any text into syllable counts. Prefix Finder and Suffix Finder show words by their starting or ending letters.")}
+    <p class="hero-lede">Nine focused word tools for letters, anagrams, rhymes, syllables, prefixes, suffixes, synonyms, and antonyms. Each tool has clear inputs, honest results, and a plain explanation of what it can and cannot do.</p>
+    ${answerBlock("Word Lab has nine word tools for specific tasks. Word Unscramble finds all valid words from a set of letters. Anagram Solver finds exact and partial anagrams. Rhyme Finder returns rhyme ideas. Syllable Counter breaks any text into syllable counts. Prefix and Suffix Finders show words by starting or ending letters. Word Finder searches by contained letters, and the Synonym and Antonym Finders surface similar and opposite words.")}
   </section>
   <section class="section">
     <div class="section-heading">
@@ -3793,7 +3811,7 @@ function llmsTxt() {
   return `# Word Helper
 
 > ${site.name} — English word tools and vocabulary reference. An English word
-> toolkit with dictionary-quality word pages, six interactive tools for word
+> toolkit with dictionary-quality word pages, nine interactive tools for word
 > games and writing, curated vocabulary guides, and practice quizzes. Maintained
 > by Word Helper.
 
@@ -3833,7 +3851,7 @@ function deployHeaders(htmlSegments = []) {
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  ${IS_PRODUCTION ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only"}: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.dictionaryapi.dev https://*.google-analytics.com https://*.googlesyndication.com; frame-src https://*.googlesyndication.com https://*.doubleclick.net; base-uri 'self'; form-action 'self'${IS_PRODUCTION ? "\n  Strict-Transport-Security: max-age=63072000" : "\n  X-Robots-Tag: noindex, nofollow"}`;
+  ${IS_PRODUCTION ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only"}: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.dictionaryapi.dev https://api.datamuse.com https://*.google-analytics.com https://*.googlesyndication.com; frame-src https://*.googlesyndication.com https://*.doubleclick.net; base-uri 'self'; form-action 'self'${IS_PRODUCTION ? "\n  Strict-Transport-Security: max-age=63072000" : "\n  X-Robots-Tag: noindex, nofollow"}`;
 
   const htmlCacheBlocks = ["/", ...htmlSegments.map((s) => `/${s}/*`)]
     .map((p) => `${p}\n  Cache-Control: public, max-age=0, must-revalidate`)

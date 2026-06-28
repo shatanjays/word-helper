@@ -406,6 +406,174 @@ export const tools = [
     disclaimer:
       "Suffix results are letter-based. A word can end with the same letters without using that ending as a grammar suffix.",
   },
+  {
+    id: "word-finder",
+    icon: "search",
+    href: "/tools/word-finder/",
+    title: "Word Finder",
+    h1: "Word Finder",
+    metaTitle: "Word Finder - Find Words by Letters, Length & Pattern",
+    metaDescription:
+      "Find English words that contain specific letters, start or end with a pattern, and match a length range. A fast word finder for games, writing, and study.",
+    intro:
+      "Find words that contain the letters you choose — then narrow by starting letters, ending letters, and length.",
+    answer:
+      "A word finder searches a large English word list for words that match your letters and filters. Enter the letters a word must contain, then refine by start, end, or length to find the exact word you need.",
+    primaryKeyword: "word finder",
+    keywords:
+      "word finder, find words, words with letters, words containing letters, word search helper",
+    buttonLabel: "Find Words",
+    resultHeading: "Words that match your letters",
+    emptyState:
+      "Enter letters a word must contain — e.g. \"ae\" — and add optional start, end, or length filters.",
+    noResultState:
+      "No matching words found. Try fewer required letters, a wider length range, or removing a start/end filter.",
+    examples: [
+      { label: "ae", value: "ae", note: "Words containing both a and e." },
+      { label: "zz", value: "zz", note: "Words containing a double z." },
+      { label: "qu", value: "qu", note: "Words containing q and u." },
+    ],
+    how: [
+      "Word Helper keeps only words that contain every letter you list (in any position).",
+      "Starts-with and ends-with filters trim the list to a specific shape.",
+      "The length range removes words that are too short or too long for your need.",
+      "Results are grouped by length so you can scan the most useful words first.",
+    ],
+    tips: [
+      "Start with one or two required letters, then add filters once the list is large.",
+      "Use the length range for word games that need an exact letter count.",
+      "Combine a starting letter with a required letter to solve crossword-style clues.",
+    ],
+    faqs: [
+      {
+        q: "How do I find words with certain letters?",
+        a: "Type the letters a word must contain, then run the tool. Word Helper returns words that include all of those letters, grouped by length.",
+      },
+      {
+        q: "How is Word Finder different from the unscrambler?",
+        a: "The unscrambler builds words only from the exact letters you enter. Word Finder returns any word that contains your letters, even longer words with extra letters.",
+      },
+      {
+        q: "Can I limit results by length?",
+        a: "Yes. Set a minimum and maximum length to match a word game tile count or a crossword slot.",
+      },
+    ],
+    related: ["/tools/word-unscramble/", "/tools/anagram-solver/", "/tools/prefix-finder/"],
+    disclaimer:
+      "Words come from the public-domain ENABLE word list plus a supplementary system list, which can differ from a specific game's official dictionary.",
+  },
+  {
+    id: "synonym-finder",
+    icon: "wordexplorer",
+    href: "/tools/synonym-finder/",
+    title: "Synonym Finder",
+    h1: "Synonym Finder",
+    metaTitle: "Synonym Finder - Find Synonyms for Any Word",
+    metaDescription:
+      "Find synonyms and similar words for any English word. A fast, clean synonym finder for writing, vocabulary, and finding the right word.",
+    intro:
+      "Enter a word to find synonyms and closely related words — useful for writing, paraphrasing, and building vocabulary.",
+    answer:
+      "A synonym finder shows words with the same or similar meaning to the word you enter. Word Helper draws synonyms from an open language dataset so you can quickly find a clearer or stronger alternative.",
+    primaryKeyword: "synonym finder",
+    keywords:
+      "synonym finder, synonyms, similar words, another word for, thesaurus",
+    buttonLabel: "Find Synonyms",
+    resultHeading: "Synonyms and similar words",
+    emptyState:
+      "Enter a word like \"happy\", \"important\", or \"fast\" to find synonyms and similar words.",
+    noResultState:
+      "No synonyms found for that word. Check the spelling, or try a more common base form of the word.",
+    examples: [
+      { label: "happy", value: "happy", note: "glad, joyful, content, cheerful" },
+      { label: "important", value: "important", note: "significant, crucial, vital" },
+      { label: "fast", value: "fast", note: "quick, rapid, swift, speedy" },
+    ],
+    how: [
+      "Enter a single word and Word Helper looks up words with a similar meaning.",
+      "Synonyms are ranked roughly by how closely they match, with the strongest first.",
+      "The best synonym depends on context — tone, formality, and shade of meaning all matter.",
+      "Open any synonym to read its full definition, pronunciation, and examples.",
+    ],
+    tips: [
+      "Read a synonym in your sentence before using it — close meanings still differ in tone.",
+      "Use the base form of a word (e.g. \"run\" rather than \"running\") for the best results.",
+      "Pair this with the Antonym Finder to contrast meanings while you write.",
+    ],
+    faqs: [
+      {
+        q: "How do I find a synonym for a word?",
+        a: "Type the word and run the tool. Word Helper returns words with a similar meaning, with the closest matches first.",
+      },
+      {
+        q: "Where do the synonyms come from?",
+        a: "Synonyms are drawn from an open, freely licensed language dataset (the Datamuse API, which builds on open thesaurus and corpus data).",
+      },
+      {
+        q: "Why are some synonyms only loosely related?",
+        a: "Language rarely has perfect synonyms. Some results are close in meaning rather than exact, so always check the word in your own sentence.",
+      },
+    ],
+    related: ["/tools/antonym-finder/", "/tools/rhyme-finder/", "/word-explorer/"],
+    disclaimer:
+      "Synonyms are suggestions, not exact equivalents. Meaning, tone, and formality can differ — confirm the word fits your context.",
+  },
+  {
+    id: "antonym-finder",
+    icon: "rhyme",
+    href: "/tools/antonym-finder/",
+    title: "Antonym Finder",
+    h1: "Antonym Finder",
+    metaTitle: "Antonym Finder - Find Opposites of Any Word",
+    metaDescription:
+      "Find antonyms and opposite words for any English word. A clean, fast antonym finder for writing, vocabulary, and clear contrast.",
+    intro:
+      "Enter a word to find its antonyms — the opposite words that sharpen contrast in your writing.",
+    answer:
+      "An antonym finder shows words that mean the opposite of the word you enter. Word Helper draws antonyms from an open language dataset to help you find precise contrast for writing and study.",
+    primaryKeyword: "antonym finder",
+    keywords:
+      "antonym finder, antonyms, opposite words, opposite of, word opposites",
+    buttonLabel: "Find Antonyms",
+    resultHeading: "Antonyms and opposites",
+    emptyState:
+      "Enter a word like \"happy\", \"open\", or \"increase\" to find its opposites.",
+    noResultState:
+      "No antonyms found for that word. Many words have no direct opposite — try a more common word or its base form.",
+    examples: [
+      { label: "happy", value: "happy", note: "sad, unhappy, miserable" },
+      { label: "open", value: "open", note: "closed, shut" },
+      { label: "increase", value: "increase", note: "decrease, reduce" },
+    ],
+    how: [
+      "Enter a single word and Word Helper looks up words with the opposite meaning.",
+      "Not every word has a clean opposite — abstract and technical words often have none.",
+      "Antonyms are most useful for adjectives, common verbs, and directional words.",
+      "Open any antonym to read its full definition, pronunciation, and examples.",
+    ],
+    tips: [
+      "Use the base form of a word for the clearest opposites.",
+      "If a word has no direct antonym, try a related word that does.",
+      "Pair this with the Synonym Finder to map a word's full range of meaning.",
+    ],
+    faqs: [
+      {
+        q: "How do I find the opposite of a word?",
+        a: "Type the word and run the tool. Word Helper returns words with the opposite meaning, where one exists.",
+      },
+      {
+        q: "Why do some words return no antonyms?",
+        a: "Many words — especially nouns and technical terms — have no true opposite. Antonyms are most common for adjectives and directional verbs.",
+      },
+      {
+        q: "Where do the antonyms come from?",
+        a: "Antonyms are drawn from an open, freely licensed language dataset (the Datamuse API, which builds on open thesaurus and corpus data).",
+      },
+    ],
+    related: ["/tools/synonym-finder/", "/tools/rhyme-finder/", "/word-explorer/"],
+    disclaimer:
+      "Antonyms are suggestions. Opposite meaning depends on context, so confirm the word fits the contrast you intend.",
+  },
 ];
 
 export const hubs = [
@@ -1125,8 +1293,8 @@ export const legalPages = [
       `<h2>Who runs Word Helper</h2>
       <p>Word Helper is an independent project focused on making English words easier to look up, understand, and use. It is run independently and is not affiliated with, or endorsed by, any dictionary publisher, word-game company, or advertiser.</p>
       <p>The site does not employ a large editorial staff or claim academic credentials it does not have. Instead, it is honest about its method: word data is compiled from openly licensed dictionary sources, standardized into one consistent format, screened for quality, and structured for clarity — with a strict gate that decides which pages are complete enough to publish. Full sourcing and license attribution is documented in the <a href="/editorial-policy/">Editorial Policy</a>. Questions and corrections are welcome at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>`,
-      `<h2>Word Lab — six interactive Word Experiences</h2>
-      <p>Word Lab gives you six focused tools for specific word tasks. Each one has a clear input, honest results, and a plain explanation of what the tool can and cannot do.</p>
+      `<h2>Word Lab — nine interactive Word Experiences</h2>
+      <p>Word Lab gives you nine focused tools for specific word tasks. Each one has a clear input, honest results, and a plain explanation of what the tool can and cannot do.</p>
       <ul>
         <li><strong><a href="/tools/word-unscramble/">Word Unscramble</a></strong> — finds all valid words that can be built from the letters you enter, using letter-frequency matching so only genuinely buildable words appear.</li>
         <li><strong><a href="/tools/anagram-solver/">Anagram Solver</a></strong> — finds exact anagrams that use every letter once, or partial anagrams (smaller words hidden inside a larger set of letters).</li>
@@ -1134,6 +1302,9 @@ export const legalPages = [
         <li><strong><a href="/tools/syllable-counter/">Syllable Counter</a></strong> — estimates the spoken syllable count for any word, sentence, or paragraph, with a word-by-word breakdown.</li>
         <li><strong><a href="/tools/prefix-finder/">Prefix Finder</a></strong> — finds words that begin with the exact letters you type, for vocabulary study, spelling patterns, and word-game use.</li>
         <li><strong><a href="/tools/suffix-finder/">Suffix Finder</a></strong> — finds words that end with the exact letters you type, for grammar study, spelling endings, and creative writing.</li>
+        <li><strong><a href="/tools/word-finder/">Word Finder</a></strong> — finds words that contain the letters you choose, narrowed by start, end, and length.</li>
+        <li><strong><a href="/tools/synonym-finder/">Synonym Finder</a></strong> — finds synonyms and similar words for clearer, stronger writing.</li>
+        <li><strong><a href="/tools/antonym-finder/">Antonym Finder</a></strong> — finds antonyms and opposite words for precise contrast.</li>
       </ul>`,
       `<h2>Word Explorer — dictionary-grade word pages</h2>
       <p>Word Explorer is Word Helper's dictionary section. Each published word page includes a definition, pronunciation guide, syllable breakdown, part of speech, synonyms, antonyms, word family, and example sentences. This data is compiled from openly licensed sources — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a> — then standardized, screened, and structured to a consistent format. See the <a href="/editorial-policy/">Editorial Policy</a> for full sourcing and attribution.</p>

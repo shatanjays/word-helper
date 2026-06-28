@@ -203,6 +203,9 @@
     "syllable-counter": { title: "Syllable Counter", href: "/tools/syllable-counter/", intro: "Count syllables word by word.", keywords: ["syllable", "rhythm", "meter", "poem", "count"] },
     "prefix-finder": { title: "Prefix Finder", href: "/tools/prefix-finder/", intro: "Find words starting with a pattern.", keywords: ["prefix", "starts", "beginning", "start"] },
     "suffix-finder": { title: "Suffix Finder", href: "/tools/suffix-finder/", intro: "Find words ending with a pattern.", keywords: ["suffix", "ends", "ending", "tion", "ing"] },
+    "word-finder": { title: "Word Finder", href: "/tools/word-finder/", intro: "Find words by letters, length, and pattern.", keywords: ["word finder", "find words", "contains", "letters", "search"] },
+    "synonym-finder": { title: "Synonym Finder", href: "/tools/synonym-finder/", intro: "Find synonyms and similar words.", keywords: ["synonym", "synonyms", "similar", "thesaurus", "another word"] },
+    "antonym-finder": { title: "Antonym Finder", href: "/tools/antonym-finder/", intro: "Find antonyms and opposite words.", keywords: ["antonym", "antonyms", "opposite", "opposites"] },
   };
 
   function initNav() {
@@ -544,6 +547,9 @@
         "syllable-counter": "text",
         "prefix-finder": "prefix",
         "suffix-finder": "suffix",
+        "word-finder": "contains",
+        "synonym-finder": "word",
+        "antonym-finder": "word",
       };
       const field = fieldMap[tool];
       if (field && form.elements[field]) {
@@ -560,6 +566,9 @@
       "syllable-counter": "text",
       "prefix-finder": "prefix",
       "suffix-finder": "suffix",
+      "word-finder": "contains",
+      "synonym-finder": "word",
+      "antonym-finder": "word",
     };
     const field = fieldMap[tool];
     if (!field) return;
@@ -600,6 +609,9 @@
       if (tool === "syllable-counter") runSyllable(shell, form);
       if (tool === "prefix-finder") runPrefix(shell, form);
       if (tool === "suffix-finder") runSuffix(shell, form);
+      if (tool === "word-finder") runWordFinder(shell, form);
+      if (tool === "synonym-finder") runThesaurus(shell, form, "syn");
+      if (tool === "antonym-finder") runThesaurus(shell, form, "ant");
     }
 
     examples.forEach((button) => {
@@ -618,8 +630,11 @@
         "syllable-counter": "Paste a word, sentence, or paragraph to see syllable totals and a word-by-word breakdown.",
         "prefix-finder": "Type a prefix like \"pre\", \"un\", or \"re\" to find words that begin with that exact pattern.",
         "suffix-finder": "Type a suffix like \"ing\", \"less\", or \"tion\" to find words ending with that exact pattern.",
+        "word-finder": "Enter letters a word must contain — e.g. \"ae\" — and add optional start, end, or length filters.",
+        "synonym-finder": "Enter a word like \"happy\", \"important\", or \"fast\" to find synonyms and similar words.",
+        "antonym-finder": "Enter a word like \"happy\", \"open\", or \"increase\" to find its opposites.",
       };
-      renderMessage(shell, defaults[tool], "empty");
+      renderMessage(shell, defaults[tool] || "Enter a value to begin.", "empty");
     });
 
     copyAll.addEventListener("click", async () => {
@@ -657,19 +672,19 @@
   }
 
   function fillExample(tool, form, value) {
-    const field =
-      tool === "word-unscramble"
-        ? "letters"
-        : tool === "anagram-solver"
-          ? "phrase"
-          : tool === "rhyme-finder"
-            ? "word"
-            : tool === "syllable-counter"
-              ? "text"
-              : tool === "prefix-finder"
-                ? "prefix"
-                : "suffix";
-    form.elements[field].value = value;
+    const fieldByTool = {
+      "word-unscramble": "letters",
+      "anagram-solver": "phrase",
+      "rhyme-finder": "word",
+      "syllable-counter": "text",
+      "prefix-finder": "prefix",
+      "suffix-finder": "suffix",
+      "word-finder": "contains",
+      "synonym-finder": "word",
+      "antonym-finder": "word",
+    };
+    const field = fieldByTool[tool] || "word";
+    if (form.elements[field]) form.elements[field].value = value;
   }
 
   function runUnscramble(shell, form) {
@@ -1004,6 +1019,89 @@
       title: "Suffix Finder",
       input: `Suffix: ${suffix}`,
     });
+  }
+
+  function runWordFinder(shell, form) {
+    const required = lettersOnly((form.elements.contains.value || "").trim());
+    const starts = lettersOnly(form.elements.starts.value);
+    const ends = lettersOnly(form.elements.ends.value);
+    const min = getNumber(form, "min", 2);
+    const max = getNumber(form, "max", 20);
+    const sort = form.elements.sort?.value || "length-desc";
+    if (!required && !starts && !ends) {
+      renderMessage(shell, "Enter letters a word must contain, or a start/end filter.", "error");
+      return;
+    }
+    const reqFreq = frequency(required);
+    const results = WORD_ENTRIES.filter((entry) => {
+      const word = entry.word;
+      if (word.length < min || word.length > max) return false;
+      if (starts && !word.startsWith(starts)) return false;
+      if (ends && !word.endsWith(ends)) return false;
+      for (const ch in reqFreq) {
+        if ((entry.freq[ch] || 0) < reqFreq[ch]) return false;
+      }
+      return true;
+    }).map((entry) => entry.word);
+    if (!results.length) {
+      renderMessage(shell, "No matching words found. Try fewer required letters, a wider length range, or removing a start/end filter.", "empty");
+      return;
+    }
+    const limited = results.slice(0, 400);
+    const meta = results.length > 400
+      ? `Showing the first 400 of ${results.length.toLocaleString()} matching words`
+      : `${results.length} matching word${results.length === 1 ? "" : "s"}`;
+    trackToolUsage("word-finder");
+    saveRecentInput("word-finder", required || `${starts}${ends}`);
+    renderWordGroups(shell, groupBySort(limited, sort), meta, {
+      title: "Word Finder",
+      input: `Contains: ${required || "(any)"}${starts ? " · starts " + starts : ""}${ends ? " · ends " + ends : ""}`,
+    });
+  }
+
+  async function runThesaurus(shell, form, kind) {
+    const word = lettersOnly((form.elements.word.value || "").trim().toLowerCase());
+    const label = kind === "ant" ? "antonyms" : "synonyms";
+    if (!word) {
+      renderMessage(shell, `Please enter a word to find ${label}.`, "error");
+      return;
+    }
+    renderMessage(shell, `Finding ${label} for “${word}”…`, "empty");
+    const rel = kind === "ant" ? "rel_ant" : "rel_syn";
+    try {
+      const res = await fetch(`https://api.datamuse.com/words?${rel}=${encodeURIComponent(word)}&max=80`);
+      if (!res.ok) throw new Error("network");
+      let data = await res.json();
+      if (kind === "syn" && data.length < 8) {
+        try {
+          const more = await (await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(word)}&max=60`)).json();
+          const have = new Set(data.map((d) => d.word));
+          for (const d of more) if (!have.has(d.word)) data.push(d);
+        } catch (_) {}
+      }
+      const words = [];
+      const seen = new Set([word]);
+      for (const d of data) {
+        const w = String(d.word || "").toLowerCase();
+        if (!/^[a-z][a-z'-]*$/.test(w) || seen.has(w)) continue;
+        seen.add(w);
+        words.push(w);
+      }
+      if (!words.length) {
+        renderMessage(shell, kind === "ant"
+          ? `No antonyms found for “${word}”. Many words have no direct opposite — try a more common word or its base form.`
+          : `No synonyms found for “${word}”. Check the spelling, or try a more common base form of the word.`, "empty");
+        return;
+      }
+      trackToolUsage(kind === "ant" ? "antonym-finder" : "synonym-finder");
+      saveRecentInput(kind === "ant" ? "antonym-finder" : "synonym-finder", word);
+      const heading = kind === "ant" ? `Antonyms for ${word}` : `Synonyms for ${word}`;
+      renderWordGroups(shell, [{ title: heading, words: words.slice(0, 60) }],
+        `${words.length} ${label} for “${word}”`,
+        { title: kind === "ant" ? "Antonym Finder" : "Synonym Finder", input: `Word: ${word}` });
+    } catch (_) {
+      renderMessage(shell, `Could not reach the ${label} service right now. Check your connection and try again.`, "error");
+    }
   }
 
   function initHeroModes() {
