@@ -8,11 +8,12 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:prod": "SITE_ENV=production node scripts/build.mjs",
     "dev": "node scripts/dev-server.mjs",
     "keepalive": "node scripts/keep-local-server.mjs",
     "preview": "node scripts/dev-server.mjs --port 4173",
     "check:domain": "node scripts/check-domain-email.mjs",
     "check:deploy": "node scripts/check-deploy-output.mjs",
-    "verify:deploy": "npm run build && npm run check:domain && npm run check:deploy"
+    "verify:deploy": "npm run build:prod && npm run check:domain && npm run check:deploy"
   }
 }

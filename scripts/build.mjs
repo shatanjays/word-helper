@@ -23,9 +23,12 @@ const assetVersion = String(Date.now());
 
 // ── Canonicalization & indexing env (migration-safe) ─────────────────────
 // Single source of truth for the canonical host and the deploy environment.
-// Going live later = set HOST_CANONICAL (if different) and flip SITE_ENV=production.
+// Going live: set HOST_CANONICAL and SITE_ENV=production (or use build:prod).
+// Cloudflare Pages auto-detection: CF_PAGES=1 on the main branch triggers production.
 const HOST_CANONICAL = (process.env.HOST_CANONICAL || "https://wordhelper.online").replace(/\/+$/, "");
-const SITE_ENV = (process.env.SITE_ENV || "staging").toLowerCase();
+const CF_PAGES_BRANCH = process.env.CF_PAGES_BRANCH || "";
+const IS_CF_PAGES_PROD = process.env.CF_PAGES === "1" && CF_PAGES_BRANCH === "main";
+const SITE_ENV = (process.env.SITE_ENV || (IS_CF_PAGES_PROD ? "production" : "staging")).toLowerCase();
 const IS_PRODUCTION = SITE_ENV === "production";
 // All canonical / og / sitemap / robots URLs derive from this one constant.
 site.url = HOST_CANONICAL;
@@ -167,6 +170,8 @@ function breadcrumbItems(page) {
     items.push({ href: "/word-lists/", label: "Word Lists" });
   } else if (page.href.startsWith("/practice/") && page.href !== "/practice/") {
     items.push({ href: "/practice/", label: "Practice" });
+  } else if (page.href.startsWith("/words/") && page.href !== "/words/") {
+    items.push({ href: "/words/", label: "Browse A–Z" });
   } else if (page.href.startsWith("/word-explorer/") && page.href !== "/word-explorer/") {
     items.push({ href: "/word-explorer/", label: "Word Explorer" });
   } else if (page.href.startsWith("/word-lab/") && page.href !== "/word-lab/") {
@@ -250,12 +255,13 @@ function header(page = {}) {
   const currentHref = page.href || "/";
   const inGroup = (prefixes) => prefixes.some((p) => currentHref === p || currentHref.startsWith(p));
   const toolsActive = inGroup(["/tools/", "/word-lab/"]);
-  const exploreActive = inGroup(["/word-explorer/", "/word-lists/", "/word-games/", "/rhyming-words/", "/word/", "/word-lookup/"]);
+  const exploreActive = inGroup(["/word-explorer/", "/words/", "/word-lists/", "/word-games/", "/rhyming-words/", "/word/", "/word-lookup/"]);
   const learnActive = inGroup(["/guides/", "/learn-english/", "/vocabulary/", "/spelling-patterns/", "/writing-tools/", "/practice/"]);
   const aboutActive = inGroup(["/about/"]);
 
   const exploreLinks = [
-    ["/word-explorer/", "Word Explorer", "Browse A–Z dictionary pages"],
+    ["/word-explorer/", "Word Explorer", "Dictionary pages with definitions"],
+    ["/words/", "Browse A–Z", "All 327k English words by letter"],
     ["/word-lists/", "Word Lists", "Curated vocabulary collections"],
     ["/word-games/", "Word Games", "Helpers for every word game"],
     ["/rhyming-words/", "Rhyming Words", "Rhymes, near-rhymes & endings"],
@@ -351,7 +357,7 @@ function footer() {
   <div class="footer-inner">
     <div class="footer-brand-col">
       <a class="footer-brand" href="/">${icon("logo")}<span>Word Helper</span></a>
-      <p class="footer-tagline">Word Helper — English word tools &amp; vocabulary reference. A comprehensive English dictionary with tools for word games, writing, and vocabulary.</p>
+      <p class="footer-tagline">An English word toolkit with dictionary-quality word pages, six interactive tools for word games and writing, and curated vocabulary guides.</p>
       <a class="footer-email" href="mailto:${site.email}">${site.email}</a>
     </div>
     <nav class="footer-nav" aria-label="Word tools">
@@ -376,10 +382,10 @@ function footer() {
     <nav class="footer-nav" aria-label="Explore content">
       <p class="footer-nav-title">Explore</p>
       <a href="/word-explorer/">Word Explorer</a>
+      <a href="/words/">Browse A–Z</a>
       <a href="/word-lists/">Word Lists</a>
       <a href="/learn-english/">Learn English</a>
       <a href="/practice/">Practice Quizzes</a>
-      <a href="/word-explorer/a/">A–Z Browse</a>
       <a href="/search/">Search</a>
     </nav>
     <nav class="footer-nav" aria-label="Company and policies">
@@ -414,7 +420,7 @@ function baseSchemas() {
       email: site.email,
       foundingDate: "2025",
       description:
-        "Word Helper is a comprehensive English dictionary and word-tools platform: definitions, pronunciation, etymology and synonyms, plus word-game helpers, rhyming and syllable tools, vocabulary guides, and practice quizzes.",
+        "Word Helper is an English word toolkit with dictionary-quality word pages, six interactive word tools for games and writing, curated vocabulary guides, and practice quizzes. Maintained by the Word Helper editorial team.",
       publishingPrinciples: `${site.url}/editorial-policy/`,
       knowsAbout: [
         "English vocabulary",
@@ -786,22 +792,22 @@ function formatCount(value = 0) {
 function renderHome(homeWords = words) {
   const page = {
     href: "/",
-    title: "Word Helper — Comprehensive English Dictionary & Word Tools",
-    metaTitle: "Word Helper — Comprehensive English Dictionary & Word Tools",
-    metaDescription: "A comprehensive global English dictionary and word toolkit: look up definitions, pronunciation, synonyms, etymology and syllables, plus tools for word games, rhymes, anagrams, and vocabulary. Maintained and reviewed by the Word Helper editorial team.",
+    title: "Word Helper — English Word Tools, Dictionary & Vocabulary",
+    metaTitle: "Word Helper — English Word Tools, Dictionary & Vocabulary",
+    metaDescription: "Word Helper is an English word toolkit: look up definitions, pronunciation, synonyms, and etymology — plus six tools for word games, rhymes, syllables, anagrams, prefixes, and suffixes. Editorially reviewed.",
   };
   const wordPageTotal = homeWords.length;
   const azLinks = "abcdefghijklmnopqrstuvwxyz".split("").map((letter) =>
-    `<a class="home-az-link" href="/word-explorer/${letter}/" aria-label="Words starting with ${letter.toUpperCase()}">
+    `<a class="home-az-link" href="/words/${letter}/" aria-label="Words starting with ${letter.toUpperCase()}">
         <strong>${letter.toUpperCase()}</strong>
       </a>`
   ).join("");
   const quickLinks = [
     {
-      href: "/word-explorer/a/",
+      href: "/words/",
       icon: "az",
       label: "Browse A-Z",
-      detail: `${formatCount(wordPageTotal)} word pages`,
+      detail: "327k+ English words",
     },
     {
       href: "/tools/word-unscramble/",
@@ -825,7 +831,7 @@ function renderHome(homeWords = words) {
   const faqs = [
     {
       q: "What is Word Helper?",
-      a: "Word Helper is a comprehensive English word intelligence platform. It includes Word Lab (interactive word tools), Word Explorer (in-depth word pages with definitions, pronunciation, synonyms, and examples), Learn guides, curated Word Lists, and Practice quizzes.",
+      a: "Word Helper is an English word toolkit and vocabulary reference. It includes Word Lab (six interactive word tools), Word Explorer (in-depth word pages with definitions, pronunciation, synonyms, and examples), Learn English guides, curated Word Lists, and Practice quizzes.",
     },
     {
       q: "What is Word Explorer?",
@@ -844,8 +850,8 @@ function renderHome(homeWords = words) {
       a: "Yes. Writers can use Word Lists for vivid adjectives and strong verbs, Word Explorer for precise word meanings, Rhyme Finder for end rhymes, Syllable Counter for rhythm and meter, and the Learn English guides for writing strategies.",
     },
     {
-      q: "Do I need an account to use Word Helper?",
-      a: "No. All Word Lab tools, Word Explorer pages, Learn English guides, Word Lists, and Practice quizzes are open to use directly in your browser.",
+      q: "How do I get started with Word Helper?",
+      a: "Search any word to open its full definition page, or choose a tool from the navigation. The word tools, dictionary pages, guides, word lists, and practice quizzes all work directly in your browser with no setup needed.",
     },
   ];
   // Word of the Day — rotates by day of year
@@ -870,9 +876,9 @@ function renderHome(homeWords = words) {
       </svg>
     </div>
     <div class="hero-copy">
-      <p class="eyebrow hero-eyebrow">${icon("globe")} A comprehensive global English dictionary</p>
-      <h1>Look up any word in the world.</h1>
-      <p class="hero-lede">Definitions, pronunciation, synonyms, etymology, and syllables for English speakers everywhere — plus tools for word games, rhymes, and building vocabulary. Maintained and reviewed by the Word Helper editorial team.</p>
+      <p class="eyebrow hero-eyebrow">${icon("globe")} English word tools &amp; vocabulary reference</p>
+      <h1>Find words. Understand them. Use them well.</h1>
+      <p class="hero-lede">Dictionary-quality definitions, pronunciation, synonyms, etymology, and syllables — plus six focused tools for word games, rhymes, anagrams, and writing. Maintained by the Word Helper editorial team.</p>
       <form class="global-search command-search hero-command-box" data-multimode="true" data-word-pages='${JSON.stringify(words.map((w) => w.word))}' aria-label="Search a word or run a word tool">
         <div class="hero-modes" role="tablist" aria-label="Choose what to do with your input">
           <button type="button" class="hero-mode is-active" role="tab" aria-selected="true" data-mode="define" data-route="/word/" data-param="path" data-submit="Look up" data-placeholder="Look up a word — e.g. ephemeral, resilient…" data-hint="Definition, pronunciation, synonyms, etymology &amp; syllables for any English word.">Define</button>
@@ -893,9 +899,9 @@ function renderHome(homeWords = words) {
         <p class="search-hint" data-mode-hint>Definition, pronunciation, synonyms, etymology &amp; syllables for any English word.</p>
       </form>
       <div class="hero-trust-row">
-        <span>${icon("check")} 327k+ word database</span>
-        <span>${icon("check")} Editorially reviewed</span>
-        <span>${icon("check")} Definitions, pronunciation & etymology</span>
+        <span>${icon("check")} 327k+ searchable words</span>
+        <span>${icon("check")} 2,200+ reviewed word pages</span>
+        <span>${icon("check")} Six focused word tools</span>
       </div>
     </div>
   </section>
@@ -941,12 +947,13 @@ function renderHome(homeWords = words) {
   </div>
   <section class="section platform-stats">
     <div class="stat-grid">
-      <div class="stat-item"><strong>${compactNumber(wordPageTotal)}</strong><span>browsable word pages</span></div>
-      <div class="stat-item"><strong>327k+</strong><span>word database</span></div>
-      <div class="stat-item"><strong>6</strong><span>word tools</span></div>
+      <div class="stat-item" title="327,000+ words searchable across all tools"><strong>327k+</strong><span>words in the search index</span></div>
+      <div class="stat-item" title="${formatCount(wordPageTotal)} words with full editorial pages: definition, pronunciation, examples, synonyms, and etymology"><strong>${compactNumber(wordPageTotal)}</strong><span>reviewed word pages</span></div>
+      <div class="stat-item"><strong>6</strong><span>focused word tools</span></div>
       <div class="stat-item"><strong>8</strong><span>vocabulary guides</span></div>
       <div class="stat-item"><strong>${icon("check")}</strong><span>editorially reviewed</span></div>
     </div>
+    <p class="stat-note">The 327,000+ search index covers all word tools. The ${formatCount(wordPageTotal)} reviewed word pages each carry a full definition, pronunciation guide, example sentences, synonyms, and etymology — added when they meet the editorial standard.</p>
   </section>
   <section class="section">
     <div class="editorial-standards-card">
@@ -1042,14 +1049,14 @@ function renderHome(homeWords = words) {
   <section class="section split">
     <div>
       <p class="eyebrow">Why Word Helper</p>
-      <h2>Useful, honest, and built to last.</h2>
-      <p>Word Helper is a comprehensive English dictionary and word reference platform, maintained and reviewed by the Word Helper editorial team. Every tool, guide, and word page is built around accurate, well-organized answers and fast access — with no clutter in the way.</p>
+      <h2>Focused, honest, and built for real use.</h2>
+      <p>Word Helper is an English word toolkit and vocabulary reference, maintained by the Word Helper editorial team. Each tool, guide, and word page is built around clear, accurate answers — no clutter, no inflated claims.</p>
     </div>
     <div class="feature-list">
-      <article><h3>Word games and puzzles</h3><p>Find words from letters, solve exact and partial anagrams, narrow by length and letter pattern. Results drawn from a 327,000+ word validated database covering all major game dictionaries.</p></article>
-      <article><h3>Writing and creative work</h3><p>Find perfect rhymes and near rhymes, check syllable rhythm, explore word lists with strong verbs and vivid adjectives, and study word families.</p></article>
-      <article><h3>Vocabulary and learning</h3><p>Study word meanings, pronunciation, etymology, and word families with Word Explorer. Practice with quizzes. Build vocabulary with eight curated learning guides.</p></article>
-      <article><h3>Coverage you can trust</h3><p>Word-game dictionaries, regional accents, dialects, and classroom rules vary. Every relevant page explains how those differences affect results, so you can make informed decisions with confidence.</p></article>
+      <article><h3>Word games and puzzles</h3><p>Find words from letters, solve exact and partial anagrams, and narrow by length and letter pattern. Tool results are matched against a 327,000+ word validated English list.</p></article>
+      <article><h3>Writing and creative work</h3><p>Find perfect rhymes and near rhymes, check syllable rhythm, explore word lists with strong verbs and vivid adjectives, and study word families for variety.</p></article>
+      <article><h3>Vocabulary and learning</h3><p>Read full word pages with definitions, pronunciation, etymology, and word families. Practice with quizzes. Build vocabulary with eight plain-English learning guides.</p></article>
+      <article><h3>Honest about its limits</h3><p>Word-game dictionaries, regional accents, dialects, and classroom rules vary. Every page that can be affected explains how — so you can apply results with confidence.</p></article>
     </div>
   </section>
   <section class="section">
@@ -2325,8 +2332,8 @@ function renderWordLab() {
     ${breadcrumb(page)}
     <p class="eyebrow">Word Helper tools</p>
     <h1>Tools</h1>
-    <p class="hero-lede">Six interactive word tools powered by a comprehensive English dictionary. Choose a tool for letters, anagrams, rhymes, syllables, prefixes, or suffixes.</p>
-    ${answerBlock("Word Lab contains six Word Experiences for specific word tasks. Word Unscramble finds all valid words from a set of letters. Anagram Solver finds exact and partial anagrams. Rhyme Finder finds rhyming words. Syllable Counter breaks any text into syllable counts. Prefix Finder and Suffix Finder explore words by their starting or ending letters.")}
+    <p class="hero-lede">Six focused word tools for letters, anagrams, rhymes, syllables, prefixes, and suffixes. Each tool has clear inputs, honest results, and a plain explanation of what it can and cannot do.</p>
+    ${answerBlock("Word Lab has six word tools for specific tasks. Word Unscramble finds all valid words from a set of letters. Anagram Solver finds exact and partial anagrams. Rhyme Finder returns rhyme ideas. Syllable Counter breaks any text into syllable counts. Prefix Finder and Suffix Finder show words by their starting or ending letters.")}
   </section>
   <section class="section">
     <div class="section-heading">
@@ -2340,10 +2347,10 @@ function renderWordLab() {
   <section class="section split">
     <div>
       <p class="eyebrow">What powers Word Lab</p>
-      <h2>Comprehensive dictionary foundation</h2>
+      <h2>What the tools are built on</h2>
     </div>
     <div class="text-stack">
-      <p>Every Word Lab tool uses the same validated word list from the public-domain ENABLE word list. This means when you unscramble letters or find anagrams, results are drawn from a real, comprehensive English word source.</p>
+      <p>Every Word Lab tool uses the same validated word list built on the public-domain ENABLE word list. When you unscramble letters or find anagrams, results are matched against a 327,000+ word English source.</p>
       <p>Letter frequency matching ensures results are accurate: a word only appears if all its letters can be built from the letters you entered. Duplicates are handled correctly — two copies of a letter require two copies in the input.</p>
       <p>Rhyme and syllable tools use pattern-matching logic, with clear notes on where accent and dialect variation can affect results.</p>
     </div>
@@ -2597,7 +2604,7 @@ function renderPracticeHub() {
     },
     {
       q: "Do I need an account to use the practice quizzes?",
-      a: "All three quizzes run entirely in your browser, with instant feedback and no registration. There is no leaderboard or time limit, so you can practise at your own pace.",
+      a: "All three quizzes run in your browser with instant feedback after every answer. There is no leaderboard or time limit — work through questions at your own pace.",
     },
     {
       q: "Which quiz should I start with?",
@@ -2647,7 +2654,7 @@ function renderPracticeHub() {
     <div class="text-stack">
       <p>The most effective vocabulary practice follows a simple pattern: read the word page in Word Explorer first — definition, examples, synonyms, and word family — then take a quiz to test whether that reading turned into real recall. This active-recall step is more durable than passive re-reading.</p>
       <p>All three quizzes use the same ${words.length} Word Explorer words. Questions are shuffled each session so you face a different order every time. After a session, review any words you missed in Word Explorer before quizzing again. This spaced review approach builds longer-lasting vocabulary than a single study session.</p>
-      <p>Use the quizzes as a quick vocabulary check or as focused daily practice. They run entirely in your browser, with instant feedback and no registration.</p>
+      <p>Use the quizzes as a quick vocabulary check or as focused daily practice. They run entirely in your browser with instant feedback after each answer.</p>
     </div>
   </section>
   ${faqList(practiceHubFaqs)}`;
@@ -2704,7 +2711,7 @@ function renderVocabQuiz() {
     },
     {
       q: "Do I need to create an account?",
-      a: "The vocabulary quiz runs entirely in your browser, with no registration and nothing stored on a server. It is a quick, private vocabulary check.",
+      a: "The vocabulary quiz runs entirely in your browser. Your answers are not stored on a server — it is a quick, self-contained vocabulary check.",
     },
     {
       q: "How can I use this quiz to learn vocabulary effectively?",
@@ -3120,6 +3127,196 @@ function renderExplorerPager(letter, current, totalPages, pageHref) {
   return `<nav class="explorer-pager" aria-label="Word pages for ${L}, pagination">${parts.join("")}</nav>`;
 }
 
+// ── Full A-Z Browse: load all words.txt grouped by letter ────────────────────
+async function loadAllWordsByLetter() {
+  const projectWordList = path.join(root, "src/data/words.txt");
+  if (!existsSync(projectWordList)) return {};
+  const lines = (await readFile(projectWordList, "utf8"))
+    .split(/\r?\n/)
+    .map((w) => w.trim().toLowerCase())
+    .filter((w) => /^[a-z]{2,}$/.test(w));
+  const byLetter = {};
+  for (const word of lines) {
+    const l = word[0];
+    if (!byLetter[l]) byLetter[l] = [];
+    byLetter[l].push(word);
+  }
+  for (const l of Object.keys(byLetter)) {
+    byLetter[l] = [...new Set(byLetter[l])].sort((a, b) => a.localeCompare(b));
+  }
+  return byLetter;
+}
+
+// Hub page for /words/ — A-Z letter index
+function renderWordsBrowseIndex() {
+  const page = {
+    href: "/words/",
+    title: "Browse Words A to Z | Word Helper",
+    metaTitle: "Browse English Words A to Z | Word Helper",
+    metaDescription: "Browse over 327,000 English words alphabetically from A to Z. Each letter page lists every word with links to definitions, syllables, pronunciation, and six interactive word tools.",
+  };
+  const azLinks = "abcdefghijklmnopqrstuvwxyz".split("").map((l) =>
+    `<a class="az-link" href="/words/${l}/">${l.toUpperCase()}</a>`
+  ).join("");
+  const body = `<section class="page-hero">
+    ${breadcrumb(page)}
+    <p class="eyebrow">Word Browse</p>
+    <h1>Browse English Words A to Z</h1>
+    <p class="hero-lede">327,000+ English words from the public-domain ENABLE word list, browsable letter by letter. Words with full dictionary pages — definitions, pronunciation, synonyms, and etymology — are highlighted. Click any letter to start.</p>
+  </section>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">Choose a letter</p>
+      <h2>Browse by starting letter</h2>
+    </div>
+    <nav class="az-nav" aria-label="Browse words by starting letter">${azLinks}</nav>
+  </section>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">Word tools</p>
+      <h2>Use any word with these tools</h2>
+    </div>
+    <div class="card-grid">
+      <a class="resource-card" href="/tools/word-unscramble/"><strong>Word Unscramble</strong><span>Find valid words from a set of letters.</span></a>
+      <a class="resource-card" href="/tools/anagram-solver/"><strong>Anagram Solver</strong><span>Find words using the same letters.</span></a>
+      <a class="resource-card" href="/tools/rhyme-finder/"><strong>Rhyme Finder</strong><span>Perfect and near rhymes for any word.</span></a>
+      <a class="resource-card" href="/tools/syllable-counter/"><strong>Syllable Counter</strong><span>Count syllables in any word or phrase.</span></a>
+      <a class="resource-card" href="/tools/prefix-finder/"><strong>Prefix Explorer</strong><span>All words with a given prefix.</span></a>
+      <a class="resource-card" href="/tools/suffix-finder/"><strong>Suffix Explorer</strong><span>All words with a given suffix.</span></a>
+    </div>
+  </section>`;
+  const schemas = [
+    { "@type": "CollectionPage", name: page.metaTitle, url: absolute(page.href), description: page.metaDescription },
+    breadcrumbSchema(page),
+  ];
+  return { href: page.href, html: layout(page, body, schemas) };
+}
+
+// Letter browse pages: /words/[letter]/ — shows ALL dataset words for that letter
+const BROWSE_PER_PAGE = 1000;
+
+// Factual context notes for letters with linguistically fewer words.
+// These are honest descriptions — not apologies or filler.
+const LETTER_NOTES = {
+  j: "J words entered English mainly through French and Latin, then Hebrew (judge, jewel, job). Every valid English J word is listed here.",
+  k: "K words in English often share a sound with C. Many K words came from Old Norse, Greek, and German. This is the complete English K word list.",
+  q: "Almost every Q word in English is followed by \"u\". Beyond qu- words, valid standalone Q words include qi, qanat, and qoph. This is the complete list.",
+  v: "V words entered English from Latin, French, and Germanic languages. This is the complete English V word list.",
+  w: "W words come largely from Old English and German roots. This is the complete English W word list.",
+  x: "X is the rarest starting letter in English. Most X words are scientific or Greek-origin terms (xeno-, xylo-, xanth-). This page contains every English word starting with X.",
+  y: "Y can act as a vowel or consonant in English, making it versatile but less common at the start of words. This is the complete English Y word list.",
+  z: "Z words often come from Yiddish, Hebrew, Italian, or Greek. This is the complete English Z word list.",
+};
+
+function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
+  const L = letter.toUpperCase();
+  const total = letterWords.length;
+  if (total === 0) return [];
+  const totalPages = Math.max(1, Math.ceil(total / BROWSE_PER_PAGE));
+  const pageHref = (n) => n <= 1 ? `/words/${letter}/` : `/words/${letter}/${n}/`;
+
+  const azLinks = "abcdefghijklmnopqrstuvwxyz".split("").map((l) => {
+    const active = l === letter;
+    const hasWords = !allLetterSet || allLetterSet.has(l);
+    return hasWords
+      ? `<a class="az-link${active ? " az-link-active" : ""}" href="/words/${l}/">${l.toUpperCase()}</a>`
+      : `<span class="az-link az-link-empty">${l.toUpperCase()}</span>`;
+  }).join("");
+
+  const routes = [];
+  for (let n = 1; n <= totalPages; n++) {
+    const slice = letterWords.slice((n - 1) * BROWSE_PER_PAGE, n * BROWSE_PER_PAGE);
+    const pageLabel = totalPages > 1 ? ` — Page ${n} of ${totalPages}` : "";
+    const page = {
+      href: pageHref(n),
+      title: `Words That Start With ${L}${pageLabel} | Word Helper`,
+      metaTitle: `Words That Start With ${L}${pageLabel} | Word Helper`,
+      metaDescription: n === 1
+        ? `Browse ${total.toLocaleString()} English words starting with ${L}. Click any word to see its definition, syllables, pronunciation, and synonyms on Word Helper.`
+        : `Page ${n} of ${totalPages} — browse ${total.toLocaleString()} English words starting with ${L} on Word Helper.`,
+      relPrev: n > 1 ? absolute(pageHref(n - 1)) : null,
+      relNext: n < totalPages ? absolute(pageHref(n + 1)) : null,
+    };
+
+    const cards = slice.map((word) => {
+      const href = wordHref(word);
+      const isEditorial = publishedWordSet.has(word);
+      const syl = estimateSyllables(word);
+      return `<a class="word-card browse-card${isEditorial ? " browse-card-editorial" : ""}" href="${href}" data-word="${escapeHtml(word)}"><strong>${escapeHtml(word)}</strong><span>${isEditorial ? `<em>full</em>` : ""}<small>${syl}syl</small></span></a>`;
+    }).join("");
+
+    const rangeStart = ((n - 1) * BROWSE_PER_PAGE + 1).toLocaleString();
+    const rangeEnd = Math.min(n * BROWSE_PER_PAGE, total).toLocaleString();
+    const countNote = `${rangeStart}–${rangeEnd} of ${total.toLocaleString()} "${L}" words`;
+
+    const letterNote = LETTER_NOTES[letter] ? `<p class="stat-note">${escapeHtml(LETTER_NOTES[letter])}</p>` : "";
+    const intro = n === 1
+      ? `<p class="hero-lede">Browse all ${total.toLocaleString()} English words that start with "${L}", sorted alphabetically. Words marked "full" have a complete definition page with pronunciation, synonyms, and examples.</p>${letterNote}`
+      : `<p class="hero-lede">Page ${n} of ${totalPages} — words ${rangeStart} to ${rangeEnd} of ${total.toLocaleString()} starting with "${L}."</p>`;
+
+    const pager = totalPages > 1 ? renderWordsBrowsePager(letter, n, totalPages, pageHref) : "";
+
+    const body = `<section class="page-hero">
+    ${breadcrumb(page)}
+    <p class="eyebrow">Browse A–Z</p>
+    <h1>Words That Start With "${L}"</h1>
+    ${intro}
+  </section>
+  <section class="section">
+    <nav class="az-nav" aria-label="Browse words by letter">${azLinks}</nav>
+  </section>
+  <section class="section">
+    <div class="word-filter-bar">
+      <input id="word-filter" class="word-filter-input" type="search" placeholder="Filter ${L} words on this page…" aria-label="Filter ${L} words">
+      <span id="word-filter-count" class="word-filter-count">${countNote}</span>
+    </div>
+    <div id="word-explorer-grid" class="word-explorer-grid browse-mode">${cards}</div>
+    <p id="word-filter-empty" class="word-filter-empty" hidden>No words on this page match your filter.</p>
+    ${pager}
+  </section>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">Word tools</p>
+      <h2>Explore any "${L}" word further</h2>
+      <p>Paste any word from this list into a tool to find rhymes, count syllables, solve anagrams, or explore prefixes and suffixes.</p>
+    </div>
+    <div class="card-grid">
+      <a class="resource-card" href="/tools/word-unscramble/"><strong>Word Unscramble</strong><span>Find all words from a set of letters.</span></a>
+      <a class="resource-card" href="/tools/anagram-solver/"><strong>Anagram Solver</strong><span>Rearrange letters to find new words.</span></a>
+      <a class="resource-card" href="/tools/rhyme-finder/"><strong>Rhyme Finder</strong><span>Find perfect and near rhymes.</span></a>
+      <a class="resource-card" href="/tools/syllable-counter/"><strong>Syllable Counter</strong><span>Count syllables in any word.</span></a>
+      <a class="resource-card" href="/tools/prefix-finder/"><strong>Prefix Explorer</strong><span>Words by prefix pattern.</span></a>
+      <a class="resource-card" href="/tools/suffix-finder/"><strong>Suffix Explorer</strong><span>Words by suffix pattern.</span></a>
+    </div>
+  </section>`;
+
+    const schemas = [
+      { "@type": "CollectionPage", name: page.metaTitle, url: absolute(page.href), description: page.metaDescription },
+      breadcrumbSchema(page),
+    ];
+    routes.push({ href: page.href, html: layout(page, body, schemas) });
+  }
+  return routes;
+}
+
+function renderWordsBrowsePager(letter, current, totalPages, pageHref) {
+  const L = letter.toUpperCase();
+  const link = (n, label, cls = "") =>
+    `<a class="explorer-pager-link${cls}" href="${pageHref(n)}"${n === current ? ' aria-current="page"' : ""}>${label}</a>`;
+  const parts = [];
+  parts.push(current > 1 ? link(current - 1, "‹ Prev", " explorer-pager-edge") : `<span class="explorer-pager-link is-disabled">‹ Prev</span>`);
+  const windowed = new Set([1, totalPages, current, current - 1, current + 1, current - 2, current + 2]);
+  let last = 0;
+  for (let n = 1; n <= totalPages; n++) {
+    if (!windowed.has(n)) continue;
+    if (n - last > 1) parts.push(`<span class="explorer-pager-gap">…</span>`);
+    parts.push(link(n, String(n), n === current ? " is-active" : ""));
+    last = n;
+  }
+  parts.push(current < totalPages ? link(current + 1, "Next ›", " explorer-pager-edge") : `<span class="explorer-pager-link is-disabled">Next ›</span>`);
+  return `<nav class="explorer-pager" aria-label="${L} words, page ${current} of ${totalPages}">${parts.join("")}</nav>`;
+}
+
 function renderNotFound() {
   const page = {
     href: "/404/",
@@ -3456,10 +3653,10 @@ function llmsTxt() {
   const toolLines = tools.map((t) => `- [${t.title}](${site.url}${t.href}): ${t.intro}`).join("\n");
   return `# Word Helper
 
-> ${site.name} — English word tools & vocabulary reference. A comprehensive English
-> dictionary and word toolkit: definitions, pronunciation, etymology, synonyms,
-> syllables, rhymes, and word-game helpers. Maintained and reviewed by the Word
-> Helper editorial team.
+> ${site.name} — English word tools and vocabulary reference. An English word
+> toolkit with dictionary-quality word pages, six interactive tools for word
+> games and writing, curated vocabulary guides, and practice quizzes. Maintained
+> by the Word Helper editorial team.
 
 ## Primary sections
 - [Word Explorer (dictionary)](${site.url}/word-explorer/): in-depth word pages with definition, pronunciation, syllables, synonyms, antonyms, word family, etymology, and examples.
@@ -3573,6 +3770,18 @@ async function main() {
     );
     for (const route of letterRoutes) await emit(route);
   }
+
+  // ── Full A-Z browse (/words/[letter]/): exposes all 327k dataset words ──────
+  const allWordsByLetter = await loadAllWordsByLetter();
+  const allBrowseLetterSet = new Set(Object.keys(allWordsByLetter));
+  const totalBrowseWords = Object.values(allWordsByLetter).reduce((s, a) => s + a.length, 0);
+  console.log(`Loaded ${totalBrowseWords.toLocaleString()} words for A-Z browse pages`);
+  await emit(renderWordsBrowseIndex());
+  for (const l of allLetters) {
+    const lWords = allWordsByLetter[l] || [];
+    for (const route of renderWordsBrowseLetter(l, lWords, allBrowseLetterSet)) await emit(route);
+  }
+
   for (const word of words) await emit(renderWordPage(word));
   for (const word of enrichedWords) await emit(renderLightWordPage(word));
   await emit(renderWordLookup());
@@ -3606,6 +3815,7 @@ async function main() {
   const indexable = routes.filter((r) => r.href !== "/404/" && !r.noindex);
   const chunkDefs = [
     { name: "sitemap-words.xml", match: (h) => h.startsWith("/word/") },
+    { name: "sitemap-words-browse.xml", match: (h) => h.startsWith("/words/") },
     { name: "sitemap-tools.xml", match: (h) => h.startsWith("/tools/") || h === "/word-lab/" },
     { name: "sitemap-guides.xml", match: (h) => h.startsWith("/learn-english/") || h.startsWith("/guides/") },
     { name: "sitemap-pages.xml", match: () => true },
@@ -3638,6 +3848,7 @@ async function main() {
   // Raster OG image (1200x630 PNG) — committed asset, copied verbatim so it works
   // on every build host (it is pre-rendered; no SVG->PNG step needed at build time).
   await copyFile(path.join(root, "src/assets/og-image.png"), path.join(distDir, "og-image.png"));
+  await copyFile(path.join(root, "src/assets/og-image.svg"), path.join(distDir, "og-image.svg"));
   await writeFile(path.join(distDir, "apple-touch-icon.svg"), appleTouchIcon());
 
   // ── _headers (WS2): cache rules on disjoint path sets (no concatenation) ──

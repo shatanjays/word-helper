@@ -1676,6 +1676,17 @@ input:focus, textarea:focus, select:focus {
 .stat-item strong { font-family: var(--font-sans); font-size: 32px; font-weight: 700; color: var(--navy); line-height: 1; }
 .stat-item span { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
 
+.stat-note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
 /* ── A-Z navigation ──────────────────────────────────────── */
 .az-nav { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
 
@@ -2420,6 +2431,21 @@ input:focus, textarea:focus, select:focus {
   grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
   gap: 5px;
 }
+
+/* Editorial browse card: subtle highlight for words with full dictionary pages */
+.browse-card-editorial {
+  border-color: var(--navy-border);
+  background: var(--navy-soft);
+}
+.browse-card-editorial em {
+  color: var(--navy);
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.browse-card-editorial:hover { background: var(--navy-soft); border-color: var(--navy); }
 
 /* ── Hero: search-first, centered (clean global look) ───── */
 .hero-search {

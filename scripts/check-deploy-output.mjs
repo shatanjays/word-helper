@@ -119,8 +119,8 @@ if (!existsSync(distDir)) {
     fail(`sitemap routes missing files: ${missingSitemapFiles.join(", ")}`);
   }
 
-  if (!robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`)) {
-    fail("robots.txt does not point to the production sitemap.");
+  if (!robots.includes(`Sitemap: ${siteUrl}/sitemap_index.xml`) && !robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`)) {
+    fail("robots.txt does not point to the production sitemap (expected sitemap_index.xml or sitemap.xml).");
   }
   if (!headers.includes("X-Content-Type-Options: nosniff")) {
     fail("_headers is missing baseline security headers.");

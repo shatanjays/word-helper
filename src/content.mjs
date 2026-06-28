@@ -3,7 +3,7 @@ export const site = {
   url: "https://wordhelper.online",
   email: "hello@wordhelper.online",
   description:
-    "Word Helper — English word tools & vocabulary reference. A comprehensive English dictionary with tools for word games, writing, rhymes, syllables, and vocabulary.",
+    "Word Helper is an English word toolkit: look up definitions, pronunciation, synonyms, and etymology, then solve word puzzles, find rhymes, count syllables, and build vocabulary. Editorially reviewed.",
 };
 
 export const toolNav = [
@@ -1116,12 +1116,12 @@ export const legalPages = [
     href: "/about/",
     title: "About Word Helper",
     h1: "About Word Helper",
-    metaTitle: "About Word Helper — Word Intelligence Platform",
+    metaTitle: "About Word Helper — English Word Tools & Vocabulary Reference",
     metaDescription:
-      "Learn about Word Helper: what it is, how Word Lab, Word Explorer, Learn English, Word Lists, and Practice work, and how content is created.",
+      "Learn about Word Helper: the word tools, Word Explorer dictionary pages, Learn English guides, Word Lists, Practice quizzes, and how content is created and reviewed.",
     bodyHtml: [
       `<h2>What Word Helper is</h2>
-      <p>Word Helper is a comprehensive word intelligence platform at <a href="https://wordhelper.online">wordhelper.online</a>. It is built for every kind of word task — solving scrambled letters, finding rhymes, counting syllables, exploring word meanings, building vocabulary, and learning language patterns. Every section connects back to the same comprehensive dictionary foundation.</p>`,
+      <p>Word Helper is an English word toolkit and vocabulary reference built for every kind of word task — solving scrambled letters, finding rhymes, counting syllables, exploring word meanings, building vocabulary, and learning language patterns. Every section connects to the same word database and editorial standard.</p>`,
       `<h2>Word Lab — six interactive Word Experiences</h2>
       <p>Word Lab gives you six focused tools for specific word tasks. Each one has a clear input, honest results, and a plain explanation of what the tool can and cannot do.</p>
       <ul>
@@ -1188,7 +1188,7 @@ export const legalPages = [
     metaDescription:
       "Read the Word Helper Privacy Policy, including notes about tool inputs, cookies, analytics, advertising, and contact requests.",
     body: [
-      "Word Helper is available at https://wordhelper.online. This Privacy Policy explains how this website handles information in a practical, plain-language way.",
+      "Word Helper is the English word toolkit available at wordhelper.online. This Privacy Policy explains how this website handles information in a practical, plain-language way.",
       "Tool inputs are processed in your browser. The interactive word tools run entirely in your browser and do not send your input text to a server. Do not enter private, sensitive, regulated, or confidential text if you do not want it handled by a public website interface.",
       "Word Helper uses local browser storage (localStorage) to remember your color theme preference, recently used tools, and recent tool inputs. This data stays on your device and is not transmitted to any server.",
       "Word Helper may use advertising services, including Google AdSense, to display advertisements. Google AdSense may use cookies and similar technologies to serve ads based on your prior visits to this website and other sites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to this site and other sites on the internet. You may opt out of personalized advertising by visiting Google's Ads Settings at https://adssettings.google.com.",
@@ -1207,7 +1207,7 @@ export const legalPages = [
       "Read the Word Helper Terms and Conditions covering use of the word tools, Word Explorer pages, learning guides, word lists, and practice quizzes on wordhelper.online.",
     bodyHtml: [
       `<h2>Acceptance of terms</h2>
-      <p>These Terms and Conditions govern your use of Word Helper at <a href="https://wordhelper.online">wordhelper.online</a>. By using any part of this website — including the Word Lab tools, Word Explorer dictionary pages, Learn English guides, Word Lists, or Practice quizzes — you agree to these terms. If you do not agree, do not use the website.</p>`,
+      <p>These Terms and Conditions govern your use of Word Helper at wordhelper.online. By using any part of this website — including the Word Lab tools, Word Explorer dictionary pages, Learn English guides, Word Lists, or Practice quizzes — you agree to these terms. If you do not agree, do not use the website.</p>`,
       `<h2>What Word Helper provides</h2>
       <p>Word Helper provides a comprehensive suite of word tools for writing support, vocabulary learning, word game play, spelling pattern discovery, and creative word exploration. The tools include Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, and Suffix Finder. The site also includes dictionary-quality word pages, curated word lists, guided learning articles, and vocabulary quizzes.</p>
       <p>All tools, word pages, guides, lists, and quizzes are openly accessible and do not require registration. The site may display advertising served by third-party providers including Google AdSense.</p>`,

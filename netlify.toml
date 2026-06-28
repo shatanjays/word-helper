@@ -4,3 +4,10 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  SITE_ENV = "production"
+
+[context.deploy-preview.environment]
+  SITE_ENV = "staging"
+
+[context.branch-deploy.environment]
+  SITE_ENV = "staging"
