@@ -6,7 +6,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const distDir = path.join(root, "dist");
-const defaultPort = 3006;
+const defaultPort = 3007;
 const hasPortArg = process.argv.includes("--port");
 const strictPort = process.argv.includes("--strict-port") || process.env.STRICT_PORT === "1";
 const requestedPort = Number(

@@ -1,6 +1,8 @@
 import { mkdir, readFile, readdir, rm, writeFile, copyFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { gzipSync } from "node:zlib";
 import path from "node:path";
+import { SHARD_COUNT, slugFromPath, shardOf } from "../src/shard-util.mjs";
 import {
   guides,
   hubNav,
@@ -50,6 +52,14 @@ const IS_PRODUCTION = SITE_ENV === "production";
 // real static asset). Public pages, sitemap, search index, and internal links are
 // all unaffected. Omit the flag for a full build (used to validate every page).
 const DEPLOY_SLIM = process.env.DEPLOY_SLIM === "1";
+// SHARD_PAGES=1 is the production hosting mode for the free Cloudflare plan
+// (20k-file cap). Instead of 64k individual /word/<slug>/index.html files, each
+// PUBLIC word's pre-rendered HTML is gzipped and packed into SHARD_COUNT JSON
+// shards under dist/_shards/. A Pages Function (functions/word/[[slug]].js)
+// serves /word/<slug>/ by decompressing the matching entry — byte-identical HTML,
+// identical SEO. Non-public (noindex) word pages are not shipped (they 404, as
+// they are unlinked and excluded from the sitemap). See src/shard-util.mjs.
+const SHARD_PAGES = process.env.SHARD_PAGES === "1";
 // All canonical / og / sitemap / robots URLs derive from this one constant.
 site.url = HOST_CANONICAL;
 // Real build/edit date — drives lastReviewed/dateModified trust signals (no fabricated dates).
@@ -3849,15 +3859,14 @@ function deployHeaders(htmlSegments = []) {
 }
 
 function deployRedirects() {
-  // NOTE: we intentionally do NOT add a "/word/* /word-lookup/ 200" splat — on
-  // Cloudflare Pages a 200 rewrite OVERRIDES existing static assets, which would
-  // clobber the 2,215 real word pages. Instead, links to words without a static
-  // page point directly at "/word-lookup/?w=<slug>" via wordHref().
-  // Also: a hard 301 from the *.pages.dev preview host to the apex cannot be
-  // expressed here (_redirects matches paths, not hostnames) — see the Human
-  // Action Item to add a Cloudflare Redirect Rule once the apex is attached.
-  return `/* /404.html 404
-`;
+  // No custom redirects. Cloudflare Pages automatically serves /404.html (with a
+  // 404 status) for any path that matches neither a static asset nor a Function,
+  // so the old "/* /404.html 404" rule is unnecessary — and invalid anyway (Pages
+  // _redirects only accepts 200/301/302/303/307/308 status codes). /word/* misses
+  // are handled by functions/word/[[slug]].js, which serves the branded 404.
+  // (A *.pages.dev → apex 301 can't be expressed here — it needs a dashboard
+  // Redirect Rule once the custom domain is attached.)
+  return "";
 }
 
 async function main() {
@@ -3941,8 +3950,37 @@ async function main() {
 
   const routes = [];
   let slimSkipped = 0;
+  // SHARD_PAGES accumulator: shardId -> { slug: base64(gzip(html)) }.
+  const shards = SHARD_PAGES ? new Map() : null;
+  let shardedCount = 0;
+  let shardSkipped = 0;
+  function addToShard(href, html) {
+    const slug = slugFromPath(href);
+    if (!slug) return false;
+    const id = shardOf(slug, SHARD_COUNT);
+    let bucket = shards.get(id);
+    if (!bucket) {
+      bucket = {};
+      shards.set(id, bucket);
+    }
+    bucket[slug] = gzipSync(Buffer.from(html, "utf8"), { level: 9 }).toString("base64");
+    return true;
+  }
   async function emit(route) {
     routes.push({ href: route.href, noindex: route.noindex === true });
+    // SHARD_PAGES (production free-tier hosting): /word/ detail pages are not
+    // written as files. Public ones go into gzipped shards (served by the Pages
+    // Function); noindex ones are dropped (unlinked + not in sitemap -> 404).
+    if (SHARD_PAGES && route.href.startsWith("/word/")) {
+      if (route.noindex === true) {
+        shardSkipped++;
+      } else if (addToShard(route.href, route.html)) {
+        shardedCount++;
+      } else {
+        await writeRoute(route); // /word/ index page or unparseable slug — keep as file
+      }
+      return;
+    }
     // Slim deploy: skip writing the noindex /word/ thin pages to disk (kept in the
     // routes list for accounting; they are already excluded from the sitemap).
     if (DEPLOY_SLIM && route.noindex === true && route.href.startsWith("/word/")) {
@@ -3997,6 +4035,29 @@ async function main() {
   for (const page of legalPages) await emit(renderLegal(page));
   await emit(renderNotFound());
   await copyFile(path.join(distDir, "404", "index.html"), path.join(distDir, "404.html"));
+
+  // ── SHARD_PAGES: write the gzipped word-page shards + scope Functions to /word/*
+  if (SHARD_PAGES) {
+    const shardsDir = path.join(distDir, "_shards");
+    await mkdir(shardsDir, { recursive: true });
+    let shardBytes = 0;
+    for (const [id, bucket] of shards) {
+      const json = JSON.stringify(bucket);
+      shardBytes += Buffer.byteLength(json);
+      await writeFile(path.join(shardsDir, `${id}.json`), json);
+    }
+    // Only /word/* invokes the Function; every other path (shards, static pages,
+    // chrome) is served as a free, unlimited static request.
+    await writeFile(
+      path.join(distDir, "_routes.json"),
+      JSON.stringify({ version: 1, include: ["/word/*"], exclude: [] }),
+    );
+    console.log(
+      `Sharded ${shardedCount} public word pages into ${shards.size} files ` +
+        `(${(shardBytes / 1024 / 1024).toFixed(1)} MB gzipped+base64); ` +
+        `skipped ${shardSkipped} noindex word pages.`,
+    );
+  }
 
   await copyFile(path.join(root, "src/assets/site.css"), path.join(assetsDir, "site.css"));
   await copyFile(path.join(root, "src/assets/site.js"), path.join(assetsDir, "site.js"));

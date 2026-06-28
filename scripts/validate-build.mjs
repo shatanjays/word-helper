@@ -16,6 +16,7 @@
 import { readFile, writeFile, readdir, mkdir } from "node:fs/promises";
 import { existsSync, statSync } from "node:fs";
 import path from "node:path";
+import { slugFromPath } from "../src/shard-util.mjs";
 
 const root = process.cwd();
 const distDir = path.join(root, "dist");
@@ -74,7 +75,22 @@ async function main() {
   // Set of all real dist paths (for non-HTML targets like /sitemap.xml, /og-image.png)
   const filePaths = new Set(files.map((f) => "/" + path.relative(distDir, f).split(path.sep).join("/")));
 
+  // SHARD_PAGES: /word/<slug>/ pages aren't files — they live in dist/_shards/*.json
+  // and are served by the Pages Function. Load every sharded slug so the validator
+  // treats those URLs as real, indexable pages (they are public by construction).
+  const shardedSlugs = new Set();
+  const shardsDir = path.join(distDir, "_shards");
+  if (existsSync(shardsDir)) {
+    for (const sf of await readdir(shardsDir)) {
+      if (!sf.endsWith(".json")) continue;
+      const obj = JSON.parse(await readFile(path.join(shardsDir, sf), "utf8"));
+      for (const k of Object.keys(obj)) shardedSlugs.add(k);
+    }
+  }
+
   function resolves(href) {
+    const wslug = slugFromPath(href);
+    if (wslug && shardedSlugs.has(wslug)) return true;   // /word/<slug>/ served from a shard
     if (href === "/") return routeMap.has("/");
     if (routeMap.has(href)) return true;                 // /foo/ → /foo/index.html
     if (routeMap.has(href + "/")) return true;
@@ -84,6 +100,8 @@ async function main() {
     return routeMap.has(withSlash);
   }
   function targetNoindex(href) {
+    const wslug = slugFromPath(href);
+    if (wslug && shardedSlugs.has(wslug)) return false;  // sharded word pages are public/indexable
     const r = href.endsWith("/") ? href : href + "/";
     const e = routeMap.get(r) || routeMap.get(href);
     return e ? e.noindex : false;
@@ -125,6 +143,7 @@ async function main() {
   const result = {
     generatedAt: new Date().toISOString(),
     pages: htmlFiles.length,
+    shardedWordPages: shardedSlugs.size,
     sitemapUrls: sitemapUrls.size,
     noindexInSitemap: noindexInSitemap.length,
     missingFromDist: missingFromDist.length,
@@ -146,7 +165,8 @@ async function main() {
 
   console.log("BUILD VALIDATION");
   console.log("=".repeat(48));
-  console.log(`Pages scanned ................... ${result.pages}`);
+  console.log(`Static pages scanned ............ ${result.pages}`);
+  console.log(`Word pages in shards ............ ${result.shardedWordPages}`);
   console.log(`Sitemap URLs .................... ${result.sitemapUrls}`);
   console.log(`Noindex URLs in sitemap ......... ${result.noindexInSitemap}   ${result.noindexInSitemap ? "✗" : "✓"}`);
   console.log(`Sitemap URLs missing from dist .. ${result.missingFromDist}   ${result.missingFromDist ? "✗" : "✓"}`);
