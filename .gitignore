@@ -1,5 +1,8 @@
 node_modules/
 dist/
+deploy-assets/
+.wrangler/
+.r2creds
 .DS_Store
 .env
 .env.local
