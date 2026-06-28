@@ -18,24 +18,24 @@
 :root {
   color-scheme: light;
 
-  /* Backgrounds — clean, bright, cool (global reference, not warm paper) */
-  --bg:           #ffffff;
-  --bg-secondary: #f5f7fb;      /* very light cool grey */
-  --bg-ink:       #0d1320;      /* deep cool for inverted sections */
-  --card:         #ffffff;
-  --elevated:     #f7f9fc;
+  /* Backgrounds — warm porcelain / ivory. White cards lift off it (no glare). */
+  --bg:           #faf8f3;      /* warm porcelain base */
+  --bg-secondary: #f3efe7;      /* warm light neutral band */
+  --bg-ink:       #1a1813;      /* deep warm ink for inverted sections */
+  --card:         #ffffff;      /* clean white cards on the warm base */
+  --elevated:     #fbf9f4;      /* warm elevated surface */
 
-  /* Ink palette — cool neutrals */
-  --text:         #1f2733;
-  --text-2:       #3f4756;
-  --muted:        #5f6776;
-  --soft:         #8b94a3;
-  --faint:        #d9dee7;
+  /* Ink palette — warm deep neutrals */
+  --text:         #1c1a16;      /* deep warm ink */
+  --text-2:       #403b33;
+  --muted:        #6e675b;
+  --soft:         #9a9182;
+  --faint:        #e7e0d2;
 
-  /* Borders — cool hairlines */
-  --border:       #e5e9f0;
-  --border-mid:   #d3d9e3;
-  --border-strong:#b4bdcb;
+  /* Borders — warm hairlines */
+  --border:       #ece6da;
+  --border-mid:   #ded6c6;
+  --border-strong:#cabfa9;
 
   /* Accent — ONE confident global blue. (--navy kept as the var name so every
      existing reference re-skins to blue in one move.) */
@@ -60,14 +60,14 @@
   --pos-adj-fg:   #1857b8;
   --pos-adv-bg:   rgba(139, 92, 246, 0.12);
   --pos-adv-fg:   #5b21b6;
-  --pos-other-bg: #eef1f6;
-  --pos-other-fg: #5f6776;
+  --pos-other-bg: #f0ebe1;
+  --pos-other-fg: #6e675b;
 
-  /* Shadows — soft, cool, Google-ish (separation is mostly whitespace + hairline) */
-  --shadow-xs:  0 1px 2px rgba(31,39,51,0.06);
-  --shadow-sm:  0 1px 3px rgba(31,39,51,0.10), 0 1px 2px rgba(31,39,51,0.05);
-  --shadow:     0 2px 10px rgba(31,39,51,0.10), 0 1px 3px rgba(31,39,51,0.06);
-  --shadow-md:  0 8px 28px rgba(31,39,51,0.14), 0 2px 6px rgba(31,39,51,0.06);
+  /* Shadows — soft + warm-tinted (separation is mostly whitespace + hairline) */
+  --shadow-xs:  0 1px 2px rgba(46,38,24,0.05);
+  --shadow-sm:  0 1px 3px rgba(46,38,24,0.07), 0 1px 2px rgba(46,38,24,0.04);
+  --shadow:     0 4px 16px rgba(46,38,24,0.08), 0 1px 3px rgba(46,38,24,0.05);
+  --shadow-md:  0 14px 34px rgba(46,38,24,0.11), 0 2px 6px rgba(46,38,24,0.05);
 
   /* Shape — slightly rounder for the friendly global feel */
   --radius-xs:  4px;
@@ -98,135 +98,6 @@
   --hero-wash-2: #f9f6f1;
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-
-  /* Surface ladder — matched to the Claude desktop app: a medium, warm neutral-
-     grey dark (not brown-black, not blue-black), with the app's elevation steps. */
-  --bg:           #1e1e1c;
-  --bg-secondary: #242421;
-  --bg-ink:       #161614;
-  --card:         #2a2a27;
-  --elevated:     #333330;
-
-  /* Ink — the app's warm ivory reading tone */
-  --text:         #f5f4ee;
-  --text-2:       #c4c2b8;
-  --muted:        #a09e94;
-  --soft:         #6e6c63;
-  --faint:        #46453e;
-
-  /* Borders — warm and subtle, as in the app */
-  --border:       #393833;
-  --border-mid:   #47463f;
-  --border-strong:#5a594f;
-
-  /* Accent — Claude terracotta/coral. Warm, confident, professional. */
-  --navy:         #d97757;
-  --navy-deep:    #e58d6f;   /* hover BRIGHTENS on dark */
-  --navy-mid:     #c2674a;
-  --navy-pale:    #2a1d16;
-  --navy-soft:    rgba(217, 119, 87, 0.13);
-  --navy-border:  rgba(217, 119, 87, 0.34);
-
-  --accent:       #d97757;
-  --accent-hover: #e58d6f;
-  --accent-soft:  rgba(217, 119, 87, 0.13);
-  --accent-border:rgba(217, 119, 87, 0.34);
-
-  --focus:        rgba(217, 119, 87, 0.52);
-
-  /* Part-of-speech tints — raised opacity + brighter fg for dark legibility */
-  --pos-noun-bg:  rgba(234, 179, 8, 0.16);
-  --pos-noun-fg:  #fcd34d;
-  --pos-verb-bg:  rgba(16, 185, 129, 0.16);
-  --pos-verb-fg:  #6ee7b7;
-  --pos-adj-bg:   rgba(94, 155, 240, 0.18);
-  --pos-adj-fg:   #93c5fd;
-  --pos-adv-bg:   rgba(139, 92, 246, 0.16);
-  --pos-adv-fg:   #c4b5fd;
-  --pos-other-bg: #333330;
-  --pos-other-fg: #a09e94;
-
-  /* Deeper shadows for the deeper base — real depth on float surfaces. */
-  --shadow-xs:  0 1px 2px rgba(0,0,0,0.40);
-  --shadow-sm:  0 2px 10px rgba(0,0,0,0.45);
-  --shadow:     0 10px 30px rgba(0,0,0,0.55);
-  --shadow-md:  0 22px 50px rgba(0,0,0,0.62);
-
-  /* Hero wash — a faint terracotta aurora on the warm-charcoal base */
-  --hero-wash-1: rgba(217, 119, 87, 0.16);
-  --hero-wash-2: transparent;
-}
-
-/* ── Dark theme component overrides ──────────────────────────
-   Light theme is unchanged. These only adjust dark so the CTA pops, the active
-   tab reads as a tinted state (not a solid fill like the CTA), and cards gain a
-   faint "lit from above" highlight. */
-
-/* Primary/solid-accent controls: dark ink on the bright accent fill passes
-   WCAG AA where white would fail. */
-:root[data-theme="dark"] .button.primary,
-:root[data-theme="dark"] .header-search button,
-:root[data-theme="dark"] .quiz-nav button,
-:root[data-theme="dark"] .wotd-cta,
-:root[data-theme="dark"] .az-link-active,
-:root[data-theme="dark"] .az-link-active:hover,
-:root[data-theme="dark"] .explorer-pager-link.is-active {
-  color: #21110a;
-}
-
-/* Terracotta brand chip carries a deep warm glyph. */
-:root[data-theme="dark"] .brand-mark { color: #21110a; box-shadow: 0 1px 3px rgba(217, 119, 87, 0.3); }
-
-/* Premium CTA: a soft terracotta glow + a hairline top highlight so the button
-   reads like a lit object rather than a flat fill. */
-:root[data-theme="dark"] .button.primary {
-  box-shadow: inset 0 1px 0 rgba(255, 240, 232, 0.26), 0 8px 22px -10px rgba(217, 119, 87, 0.6);
-}
-:root[data-theme="dark"] .button.primary:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 240, 232, 0.32), 0 12px 30px -8px rgba(217, 119, 87, 0.78);
-}
-
-/* Active pill/tab = tinted state, visually distinct from the solid primary CTA. */
-:root[data-theme="dark"] .hero-mode.is-active {
-  background: var(--navy-soft);
-  color: var(--navy);
-  border-color: var(--navy-border);
-}
-
-/* Edge-light: a fine top highlight + soft depth so surfaces feel lifted and
-   layered (the core of the "expensive" look). */
-:root[data-theme="dark"] .resource-card,
-:root[data-theme="dark"] .word-card,
-:root[data-theme="dark"] .wotd-card,
-:root[data-theme="dark"] .stat-item,
-:root[data-theme="dark"] .tool-panel,
-:root[data-theme="dark"] .result-panel,
-:root[data-theme="dark"] .intent-card,
-:root[data-theme="dark"] .editorial-standards-card,
-:root[data-theme="dark"] .static-example-card,
-:root[data-theme="dark"] .toc-card,
-:root[data-theme="dark"] .answer-block {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-/* Subtle vertical sheen on the most prominent feature cards. */
-:root[data-theme="dark"] .wotd-card,
-:root[data-theme="dark"] .editorial-standards-card {
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0));
-}
-
-/* Dropdown menus float with depth + a top highlight. */
-:root[data-theme="dark"] .nav-menu {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), var(--shadow-md);
-}
-
-/* Header: a touch more frost + a hairline highlight once lifted. */
-:root[data-theme="dark"] .site-header { background: color-mix(in srgb, var(--bg) 80%, transparent); }
-:root[data-theme="dark"] .site-header.is-scrolled {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.5);
-}
 
 /* The warm band has no hard edge in either theme — the gradient handles the fade. */
 
@@ -452,16 +323,14 @@ p:last-child { margin-bottom: 0; }
 .header-search:focus-within .header-search-kbd { opacity: 0; }
 
 /* Theme toggle + hamburger */
-.theme-toggle, .nav-toggle {
+.nav-toggle {
   display: inline-grid; place-items: center;
   min-width: 42px; min-height: 42px;
   border: 1px solid var(--border); border-radius: var(--radius-sm);
   background: var(--card); color: var(--text);
   transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
 }
-.theme-toggle:hover, .nav-toggle:hover { border-color: var(--border-mid); background: var(--bg-secondary); }
-.theme-toggle span { display: inline-grid; place-items: center; color: inherit; }
-.theme-toggle [hidden] { display: none; }
+.nav-toggle:hover { border-color: var(--border-mid); background: var(--bg-secondary); }
 .nav-toggle { display: none; gap: 4px; }
 .nav-toggle span:not(.sr-only) { width: 17px; height: 1.6px; border-radius: 99px; background: var(--text); transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease); }
 .nav-toggle[aria-expanded="true"] span:not(.sr-only):nth-child(2) { transform: translateY(5.6px) rotate(45deg); }

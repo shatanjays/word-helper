@@ -346,10 +346,6 @@ function header(page = {}) {
         <kbd class="header-search-kbd" aria-hidden="true">/</kbd>
         <button type="submit" class="sr-only">Search</button>
       </form>
-      <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme">
-        <span class="theme-icon-moon" data-icon-moon>${icon("theme")}</span>
-        <span class="theme-icon-sun" data-icon-sun hidden>${icon("sun")}</span>
-      </button>
       <button class="nav-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open menu">
         <span class="sr-only">Menu</span><span></span><span></span><span></span>
       </button>
@@ -493,8 +489,7 @@ function head(page, extraSchemas = [], noindex = false) {
   return `<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <script>try{var t=localStorage.getItem('word-helper-theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light';}catch(e){document.documentElement.dataset.theme='light';}</script>
+  <meta name="color-scheme" content="light">
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(desc)}">
   ${(() => {
@@ -521,7 +516,7 @@ function head(page, extraSchemas = [], noindex = false) {
   <meta name="twitter:title" content="${escapeHtml(title)}">
   <meta name="twitter:description" content="${escapeHtml(desc)}">
   <meta name="twitter:image" content="${ogImage}">
-  <meta name="theme-color" content="#ffffff" data-dynamic>
+  <meta name="theme-color" content="#faf8f3">
   ${isWordPage ? '<link rel="preconnect" href="https://api.dictionaryapi.dev">' : ""}
   <link rel="stylesheet" href="/assets/site.css?v=${assetVersion}">
   ${schemaScript([...baseSchemas(), ...extraSchemas])}

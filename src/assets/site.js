@@ -205,46 +205,6 @@
     "suffix-finder": { title: "Suffix Finder", href: "/tools/suffix-finder/", intro: "Find words ending with a pattern.", keywords: ["suffix", "ends", "ending", "tion", "ing"] },
   };
 
-  function initTheme() {
-    const root = document.documentElement;
-    // Deterministic default: light unless the user explicitly chose dark.
-    // The inline <head> script already set data-theme (no flash); mirror it here.
-    if (root.dataset.theme !== "dark" && root.dataset.theme !== "light") {
-      let stored = null;
-      try { stored = localStorage.getItem("word-helper-theme"); } catch (_) {}
-      root.dataset.theme = stored === "dark" ? "dark" : "light";
-    }
-
-    const metaTheme = document.querySelector('meta[name="theme-color"][data-dynamic]');
-    const toggles = Array.from(document.querySelectorAll(".theme-toggle"));
-
-    function sync(theme) {
-      const dark = theme === "dark";
-      if (metaTheme) metaTheme.setAttribute("content", dark ? "#1e1e1c" : "#ffffff");
-      toggles.forEach((btn) => {
-        btn.setAttribute("aria-pressed", dark ? "true" : "false");
-        const label = dark ? "Switch to light theme" : "Switch to dark theme";
-        btn.setAttribute("aria-label", label);
-        btn.title = label;
-        const moon = btn.querySelector("[data-icon-moon]");
-        const sun = btn.querySelector("[data-icon-sun]");
-        if (moon) moon.hidden = dark;
-        if (sun) sun.hidden = !dark;
-      });
-    }
-
-    sync(root.dataset.theme);
-
-    toggles.forEach((button) => {
-      button.addEventListener("click", () => {
-        const next = root.dataset.theme === "dark" ? "light" : "dark";
-        root.dataset.theme = next;
-        try { localStorage.setItem("word-helper-theme", next); } catch (_) {}
-        sync(next);
-      });
-    });
-  }
-
   function initNav() {
     const header = document.querySelector("[data-header]");
 
@@ -2071,7 +2031,6 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    initTheme();
     initNav();
     initRecentTools();
     initFavoriteButton();
