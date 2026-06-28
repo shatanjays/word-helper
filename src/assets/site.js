@@ -1673,7 +1673,7 @@
   function renderDictionaryExamples(container, examples) {
     if (!container) return;
     container.innerHTML = examples.length
-      ? examples.map((example, index) => `<li><span class="ex-num">${index + 1}</span><p>${escapeHtml(example)}</p></li>`).join("")
+      ? examples.map((example) => `<li><p>${escapeHtml(example)}</p></li>`).join("")
       : '<li class="dictionary-empty">No example sentences are listed for this word yet.</li>';
   }
 

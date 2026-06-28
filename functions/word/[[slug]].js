@@ -81,19 +81,11 @@ export async function onRequest(context) {
   const slug = slugFromPath(url.pathname);
   if (!slug) return serve404(env, url);
 
-  const cache = caches.default;
-  // Namespace the edge cache by deployment so a new deploy never serves stale HTML.
-  // (caches.default is colo-level and is NOT cleared by a redeploy on its own.)
-  const ver = (env.CF_PAGES_COMMIT_SHA || "v1").slice(0, 12);
-  const cacheKey = new Request(`${url.origin}${url.pathname}?_d=${ver}`, { method: "GET" });
-  const cached = await cache.match(cacheKey);
-  if (cached) {
-    return request.method === "HEAD"
-      ? new Response(null, { status: cached.status, headers: cached.headers })
-      : cached;
-  }
-
-  // Fetch the shard (static asset; cached internally, never invokes a Function).
+  // No caches.default here. The shard is a STATIC asset fetched via env.ASSETS,
+  // which is edge-cached AND content-versioned per deployment — so a redeploy is
+  // reflected immediately with zero stale-HTML risk (the previous Cache-API layer
+  // survived redeploys and served stale pages). Decompressing one shard entry is a
+  // sub-millisecond operation; a light browser cache (below) covers repeat views.
   const shardId = shardOf(slug, SHARD_COUNT);
   const shardRes = await env.ASSETS.fetch(new URL(`/_shards/${shardId}.json`, url.origin));
   if (!shardRes.ok) return serveLookup(env, url);
@@ -111,15 +103,10 @@ export async function onRequest(context) {
   const html = await gunzipToString(base64ToBytes(packed));
   const headers = {
     "Content-Type": "text/html; charset=utf-8",
-    "Cache-Control": "public, max-age=300, s-maxage=86400",
+    "Cache-Control": "public, max-age=300",
     ...SECURITY_HEADERS,
   };
-  const response = new Response(html, { status: 200, headers });
-
-  // Edge-cache the rendered page so repeat hits skip the shard read.
-  context.waitUntil(cache.put(cacheKey, response.clone()));
-
   return request.method === "HEAD"
     ? new Response(null, { status: 200, headers })
-    : response;
+    : new Response(html, { status: 200, headers });
 }

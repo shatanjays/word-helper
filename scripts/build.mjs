@@ -1674,7 +1674,7 @@ function renderWordPage(wordData) {
     .join("");
 
   const exampleItems = wordData.examples
-    .map((ex, i) => `<li><span class="ex-num">${i + 1}</span><p>${escapeHtml(ex)}</p></li>`)
+    .map((ex) => `<li><p>${escapeHtml(ex)}</p></li>`)
     .join("");
 
   const relatedToolLinks = wordData.relatedTools
@@ -1821,7 +1821,7 @@ function renderLightWordPage(w) {
 
   // Examples
   const exampleItems = (w.examples || [])
-    .map((ex, i) => `<li><span class="ex-num">${i + 1}</span><p>${escapeHtml(ex)}</p></li>`)
+    .map((ex) => `<li><p>${escapeHtml(ex)}</p></li>`)
     .join("");
 
   // Generated word-specific FAQs — valuable SEO content, genuinely useful

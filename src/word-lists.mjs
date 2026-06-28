@@ -1,6 +1,6 @@
 /**
  * Word Helper — Curated Word Lists
- * Curated word lists written and reviewed by the Word Helper editorial team.
+ * Hand-curated word lists (selection + plain-English meanings) maintained by Word Helper.
  */
 
 export const wordListsHubData = {
