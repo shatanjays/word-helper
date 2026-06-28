@@ -237,7 +237,7 @@ p:last-child { margin-bottom: 0; }
   display: inline-grid; width: 38px; height: 38px; place-items: center;
   border-radius: 10px; background: var(--navy); color: #fff; flex-shrink: 0;
 }
-.brand-mark { box-shadow: 0 1px 3px rgba(26,115,232,0.35); }
+.brand-mark { box-shadow: 0 1px 3px rgba(43,80,201,0.35); }
 .card-icon { background: var(--navy-soft); color: var(--navy); border: 1px solid var(--navy-border); box-shadow: none; }
 .brand-text strong { display: block; font-size: 17px; font-weight: 800; color: var(--text); line-height: 1.05; letter-spacing: -0.02em; }
 .brand-text small { display: block; margin-top: 1px; font-size: 11px; color: var(--muted); }
