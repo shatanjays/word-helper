@@ -3755,5 +3755,5 @@ export const wordExplorerHubData = {
   intro:
     "Each word page covers meaning, pronunciation, syllables, synonyms, antonyms, and word family — compiled from openly-licensed dictionary sources, standardized, and explained in clear English for learners.",
   answer:
-    "Word Explorer gives you detailed, learner-friendly information about common English words. Every page includes the definition, example sentences, synonyms, antonyms, word family, etymology, and memory tips — all written in plain English.",
+    "Word Explorer gives you detailed, learner-friendly information about common English words. Pages include a definition, examples, synonyms, antonyms, and related words, with word family, etymology, and memory tips shown where that data is available — all in plain English.",
 };

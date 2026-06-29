@@ -18,7 +18,7 @@ export const lessons = [
     h1: "How to Build Your English Vocabulary",
     metaTitle: "How to Build Your Vocabulary — Practical Tips for English Learners",
     metaDescription:
-      "Learn proven strategies for building your English vocabulary. Read about spaced repetition, word families, context clues, and daily habits that actually work.",
+      "Learn practical strategies for building your English vocabulary. Read about spaced repetition, word families, context clues, and daily habits that actually work.",
     intro:
       "A strong vocabulary is built gradually with the right habits — not overnight with long word lists.",
     answer:

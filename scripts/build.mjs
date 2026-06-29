@@ -62,6 +62,10 @@ const DEPLOY_SLIM = process.env.DEPLOY_SLIM === "1";
 const SHARD_PAGES = process.env.SHARD_PAGES === "1";
 // All canonical / og / sitemap / robots URLs derive from this one constant.
 site.url = HOST_CANONICAL;
+// SINGLE SOURCE OF TRUTH for the tool count — derived from the actual tools array.
+// Every "N word tools" claim across the site interpolates ${TOOL_COUNT}; never
+// hardcode a different number anywhere.
+const TOOL_COUNT = tools.length;
 // Real build/edit date — drives lastReviewed/dateModified trust signals (no fabricated dates).
 const buildDateISO = new Date().toISOString().slice(0, 10);
 const letterBrowseTargets = {
@@ -290,7 +294,7 @@ function header(page = {}) {
   const aboutActive = inGroup(["/about/"]);
 
   const exploreLinks = [
-    ["/word-explorer/", "Word Explorer", "Dictionary pages with definitions"],
+    ["/word-explorer/", "Word Explorer", "In-depth word pages with meanings"],
     ["/words/", "Browse A–Z", "Recommended complete words by letter"],
     ["/word-lists/", "Word Lists", "Curated vocabulary collections"],
     ["/word-games/", "Word Games", "Helpers for every word game"],
@@ -323,7 +327,7 @@ function header(page = {}) {
   <div class="header-inner">
     <a class="brand" href="/" aria-label="Word Helper home">
       <span class="brand-mark">${icon("logo")}</span>
-      <span class="brand-text"><strong>Word Helper</strong><small>English dictionary &amp; word tools</small></span>
+      <span class="brand-text"><strong>Word Helper</strong><small>The word workspace</small></span>
     </a>
 
     <nav class="site-nav" aria-label="Primary">
@@ -383,7 +387,7 @@ function footer() {
   <div class="footer-inner">
     <div class="footer-brand-col">
       <a class="footer-brand" href="/">${icon("logo")}<span>Word Helper</span></a>
-      <p class="footer-tagline">An English word toolkit with dictionary-quality word pages, eleven interactive tools for word games and writing, and curated vocabulary guides.</p>
+      <p class="footer-tagline">A fast word workspace — ${TOOL_COUNT} word tools, searchable word pages, word lists, and vocabulary practice for finding, exploring, and using words.</p>
       <a class="footer-email" href="mailto:${site.email}">${site.email}</a>
     </div>
     <nav class="footer-nav" aria-label="Word tools">
@@ -446,7 +450,7 @@ function baseSchemas() {
       email: site.email,
       foundingDate: "2025",
       description:
-        "Word Helper is an English word toolkit with dictionary-quality word pages, eleven interactive word tools for games and writing, curated vocabulary guides, and practice quizzes. Maintained by Word Helper.",
+        "Word Helper is a fast word workspace with " + TOOL_COUNT + " word tools, searchable word pages, curated word lists, and vocabulary practice — for finding, exploring, learning, and using words. Maintained by Word Helper.",
       publishingPrinciples: `${site.url}/editorial-policy/`,
       knowsAbout: [
         "English vocabulary",
@@ -742,7 +746,7 @@ function renderSearchPage() {
     ${breadcrumb(page)}
     <p class="eyebrow">Site search</p>
     <h1>Search Word Helper</h1>
-    <p class="hero-lede">Find word tools, rhyming resources, vocabulary guides, spelling patterns, word lists, and dictionary word pages across Word Helper.</p>
+    <p class="hero-lede">Find word tools, rhyming resources, vocabulary guides, spelling patterns, word lists, and in-depth word pages across Word Helper.</p>
     <form class="global-search command-search search-page-form" aria-label="Search Word Helper">
       <div class="global-search-inner">
         <span class="search-icon">${icon("search")}</span>
@@ -776,8 +780,8 @@ function renderSearchPage() {
       <h2>What you can find on Word Helper</h2>
     </div>
     <div class="card-grid">
-      <a class="resource-card" href="/word-lab/"><span class="card-icon">${icon("wordlab")}</span><strong>Word Lab — Eleven Tools</strong><span>Unscramble, anagrams, rhymes, syllables, prefixes, suffixes, plus word, synonym &amp; antonym finders, a word counter, and a random word generator.</span></a>
-      <a class="resource-card" href="/word-explorer/"><span class="card-icon">${icon("wordexplorer")}</span><strong>Word Explorer — Dictionary</strong><span>Browse A–Z word pages with definitions, pronunciation, synonyms, examples, and word families.</span></a>
+      <a class="resource-card" href="/word-lab/"><span class="card-icon">${icon("wordlab")}</span><strong>Word Lab — ${TOOL_COUNT} Tools</strong><span>Unscramble, anagrams, rhymes, syllables, prefixes, suffixes, plus word, synonym &amp; antonym finders, a word counter, and a random word generator.</span></a>
+      <a class="resource-card" href="/word-explorer/"><span class="card-icon">${icon("wordexplorer")}</span><strong>Word Explorer — Word Pages</strong><span>Browse A–Z word pages with definitions, pronunciation, synonyms, examples, and word families.</span></a>
       <a class="resource-card" href="/word-lists/"><span class="card-icon">${icon("wordlists")}</span><strong>Word Lists</strong><span>Curated vocabulary collections for common words, positive language, academic English, and more.</span></a>
       <a class="resource-card" href="/learn-english/"><span class="card-icon">${icon("learn")}</span><strong>Learn English Guides</strong><span>Plain-language guides on vocabulary, word roots, syllables, spelling patterns, and memory techniques.</span></a>
       <a class="resource-card" href="/guides/"><span class="card-icon">${icon("guides")}</span><strong>Tool Guides</strong><span>How to use Word Helper tools for word games, poetry, lyrics, and vocabulary learning.</span></a>
@@ -799,7 +803,7 @@ function renderSearchPage() {
     },
     {
       q: "Where can I find word meanings and definitions?",
-      a: "Visit Word Explorer and browse by letter, or search for a specific word on this page. Full word pages include definition, pronunciation, syllables, synonyms, antonyms, word family, etymology, and examples.",
+      a: "Visit Word Explorer and browse by letter, or search for a specific word on this page. Word pages include a definition, pronunciation or syllables, synonyms, antonyms, related words, and examples — with word family, etymology, and rhymes shown where that data is available.",
     },
   ];
 
@@ -834,7 +838,7 @@ function renderHome(homeWords = words) {
     href: "/",
     title: "Word Helper — English Word Tools, Dictionary & Vocabulary",
     metaTitle: "Word Helper — English Word Tools, Dictionary & Vocabulary",
-    metaDescription: "Word Helper is an English word toolkit: look up definitions, pronunciation, synonyms, and etymology — plus eleven tools for word games, rhymes, syllables, synonyms, antonyms, and more.",
+    metaDescription: "Word Helper is a fast word workspace: find, unscramble, and explore words, get rhymes and synonyms, browse word lists, and practise vocabulary with " + TOOL_COUNT + " word tools.",
   };
   const wordPageTotal = homeWords.length;
   const azLinks = "abcdefghijklmnopqrstuvwxyz".split("").map((letter) =>
@@ -871,11 +875,11 @@ function renderHome(homeWords = words) {
   const faqs = [
     {
       q: "What is Word Helper?",
-      a: "Word Helper is an English word toolkit and vocabulary reference. It includes Word Lab (eleven interactive word tools), Word Explorer (in-depth word pages with definitions, pronunciation, synonyms, and examples), Learn English guides, curated Word Lists, and Practice quizzes.",
+      a: "Word Helper is a fast word workspace for finding, exploring, learning, and using words. It includes Word Lab (" + TOOL_COUNT + " interactive word tools), Word Explorer (in-depth word pages with definitions, examples, synonyms, and related words), Learn English guides, curated Word Lists, and Practice quizzes.",
     },
     {
       q: "What is Word Explorer?",
-      a: "Word Explorer is Word Helper's dictionary section. Each word page includes the definition, pronunciation, syllable breakdown, part of speech, synonyms, antonyms, word family, and example sentences — compiled from openly licensed dictionary sources (Wiktionary via the Datamuse API, plus the Free Dictionary API), then standardized and quality-screened to a consistent format. See the Editorial Policy for full sourcing.",
+      a: "Word Explorer is Word Helper's word-page workspace. Each word page includes the definition, pronunciation, syllable breakdown, part of speech, synonyms, antonyms, word family, and example sentences — compiled from openly licensed dictionary sources (Wiktionary via the Datamuse API, plus the Free Dictionary API), then standardized and quality-screened to a consistent format. See the Editorial Policy for full sourcing.",
     },
     {
       q: "How many words does Word Helper cover?",
@@ -891,7 +895,7 @@ function renderHome(homeWords = words) {
     },
     {
       q: "How do I get started with Word Helper?",
-      a: "Search any word to open its full definition page, or choose a tool from the navigation. The word tools, dictionary pages, guides, word lists, and practice quizzes all work directly in your browser with no setup needed.",
+      a: "Search any word to open its full definition page, or choose a tool from the navigation. The word tools, word pages, guides, word lists, and practice quizzes all work directly in your browser with no setup needed.",
     },
   ];
   // Word of the Day — rotates by day of year
@@ -907,9 +911,9 @@ function renderHome(homeWords = words) {
   <div class="home-hero-band">
   <section class="hero hero-search" id="word-command">
     <div class="hero-copy">
-      <p class="eyebrow hero-eyebrow">${icon("globe")} English dictionary &amp; word tools</p>
+      <p class="eyebrow hero-eyebrow">${icon("globe")} A complete word workspace</p>
       <h1>Understand any English word faster.</h1>
-      <p class="hero-lede">Find, unscramble, explore, and understand English words — with fast word tools, dictionary-style pages, curated word lists, and plain-English guides.</p>
+      <p class="hero-lede">Find, unscramble, explore, and understand English words — with fast word tools, searchable word pages, curated word lists, and vocabulary practice.</p>
       <form class="global-search command-search hero-command-box" data-multimode="true" data-word-pages='${JSON.stringify(words.map((w) => w.word))}' aria-label="Search a word or run a word tool">
         <div class="hero-search-field">
           <div class="global-search-inner">
@@ -934,7 +938,7 @@ function renderHome(homeWords = words) {
       <ul class="hero-trust-row">
         <li>${icon("check")} <span>${formatCount(wordPageTotal)} word pages</span></li>
         <li>${icon("check")} <span>327k-word search index</span></li>
-        <li>${icon("check")} <span>11 word tools &amp; quizzes</span></li>
+        <li>${icon("check")} <span>${TOOL_COUNT} word tools &amp; quizzes</span></li>
         <li>${icon("check")} <span>Open sources, cited</span></li>
       </ul>
     </div>
@@ -983,7 +987,7 @@ function renderHome(homeWords = words) {
   <section class="section home-tools-section">
     <div class="section-heading">
       <p class="eyebrow">Word tools</p>
-      <h2>Eleven focused tools for everyday word problems</h2>
+      <h2>${TOOL_COUNT} focused tools for everyday word problems</h2>
       <p>Each tool keeps quick tasks fast — clear inputs, real-time filters, worked examples, and honest notes on how results vary across word-game dictionaries, accents, and classroom rules.</p>
     </div>
     <div class="card-grid tool-card-grid">
@@ -992,7 +996,7 @@ function renderHome(homeWords = words) {
   </section>
   <section class="section home-az-section">
     <div class="section-heading">
-      <p class="eyebrow">Browse the dictionary</p>
+      <p class="eyebrow">Browse words A&ndash;Z</p>
       <h2>Explore words A to Z</h2>
       <p>Every letter opens word pages with part of speech, definition, example sentences, synonyms, and antonyms.</p>
     </div>
@@ -1001,8 +1005,8 @@ function renderHome(homeWords = words) {
   <section class="section">
     <div class="section-heading">
       <p class="eyebrow">Word Explorer</p>
-      <h2>Dictionary-quality word pages</h2>
-      <p>Each page covers meaning, pronunciation, syllables, synonyms, antonyms, word family, and example sentences — compiled from openly licensed dictionary data, then standardized and structured for clarity.</p>
+      <h2>Word pages built for discovery</h2>
+      <p>Each page covers meaning, pronunciation, syllables, synonyms, antonyms, word family, and example sentences — compiled from openly licensed lexical data, then standardized and structured for clarity.</p>
     </div>
     <div class="word-explorer-grid home-word-grid">
       ${featuredWords.map((w) => renderWordCard(w)).join("")}
@@ -1080,7 +1084,7 @@ function renderHome(homeWords = words) {
       <dl class="home-stat-strip">
         <div class="home-stat" title="327,000+ words searchable across all tools"><dt>327k+</dt><dd>words in the search index</dd></div>
         <div class="home-stat" title="${formatCount(wordPageTotal)} words that passed the quality gate with a full page: definition, pronunciation, examples, and synonyms"><dt>${formatCount(wordPageTotal)}</dt><dd>full word pages</dd></div>
-        <div class="home-stat"><dt>11</dt><dd>focused word tools</dd></div>
+        <div class="home-stat"><dt>${TOOL_COUNT}</dt><dd>focused word tools</dd></div>
         <div class="home-stat"><dt>8</dt><dd>vocabulary guides</dd></div>
       </dl>
       <div class="editorial-standards-grid">
@@ -1863,7 +1867,7 @@ function renderLightWordPage(w) {
     ? `${label} has 1 syllable. It is pronounced as a single beat: ${syllBreak}.`
     : `${label} has ${syllCount} syllable${syllCount !== 1 ? "s" : ""}: ${syllBreak}. The word is broken into ${syllCount} spoken beats.`;
   const posAnswer = initialPos === "word"
-    ? `${label} is an English word listed in the Word Helper dictionary. Its part of speech can shift with the way it is used in a sentence.`
+    ? `${label} is an English word listed in the Word Helper word list. Its part of speech can shift with the way it is used in a sentence.`
     : `${label} is used as ${posPhrase(initialPos)}. ${initialPos.includes("noun") ? "As a noun, it names a thing, idea, or concept." : initialPos.includes("verb") ? "As a verb, it describes an action or state." : initialPos.includes("adjective") ? "As an adjective, it describes or modifies a noun." : initialPos.includes("adverb") ? "As an adverb, it modifies a verb, adjective, or other adverb." : ""}`;
   const synonymAnswer = synonymList.length > 0
     ? `Words with similar meanings to ${w.word} include ${synonymList.slice(0, 4).join(", ")}. The best synonym depends on the exact context you are writing or reading in.`
@@ -2176,7 +2180,7 @@ function renderWordExplorerIndex(allWords = words) {
     <div class="section-heading">
       <p class="eyebrow">Full word pages</p>
       <h2>Complete dictionary pages</h2>
-      <p>Each word page includes definition, pronunciation, syllable breakdown, part of speech, examples, synonyms, antonyms, word family, etymology, and memory tips.</p>
+      <p>Each word page includes a definition, pronunciation or syllables, part of speech, examples, synonyms, antonyms, and related words — with word family, etymology, rhymes, and memory tips shown where that data is available.</p>
     </div>
     <div class="word-explorer-grid">${wordCards}</div>
   </section>
@@ -2246,7 +2250,7 @@ function renderLearnHub() {
     <div class="text-stack">
       <p>Every guide in the Learn English section is written for learners at any level — from beginners looking for vocabulary strategies to confident writers who want to understand how rhyme and spelling patterns work.</p>
       <p>Guides cover practical skills: how to build a vocabulary that sticks, how to decode unfamiliar words from context, how syllables affect pronunciation, and how word families multiply what you know.</p>
-      <p>Use the guides alongside Word Helper's eleven word tools and the Word Explorer for a complete English vocabulary practice.</p>
+      <p>Use the guides alongside Word Helper's ${TOOL_COUNT} word tools and the Word Explorer for a complete English vocabulary practice.</p>
     </div>
   </section>`;
 
@@ -2356,18 +2360,18 @@ function renderLesson(lesson) {
 function renderWordLab() {
   const page = {
     href: "/word-lab/",
-    title: "Word Lab — Eleven Interactive Word Tools",
+    title: "Word Lab — " + TOOL_COUNT + " Interactive Word Tools",
     metaTitle: "Word Lab — Interactive Word Tools | Word Helper",
     metaDescription:
-      "Word Lab is Word Helper's collection of eleven interactive word tools: Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, Suffix Finder, Word Finder, Synonym Finder, Antonym Finder, Word Counter, and Random Word Generator.",
+      "Word Lab is Word Helper's collection of " + TOOL_COUNT + " interactive word tools: Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, Suffix Finder, Word Finder, Synonym Finder, Antonym Finder, Word Counter, and Random Word Generator.",
   };
 
   const body = `<section class="page-hero">
     ${breadcrumb(page)}
     <p class="eyebrow">Word Helper tools</p>
     <h1>Tools</h1>
-    <p class="hero-lede">Eleven focused word tools for letters, anagrams, rhymes, syllables, prefixes, suffixes, synonyms, and antonyms. Each tool has clear inputs, honest results, and a plain explanation of what it can and cannot do.</p>
-    ${answerBlock("Word Lab has eleven word tools for specific tasks. Word Unscramble finds all valid words from a set of letters. Anagram Solver finds exact and partial anagrams. Rhyme Finder returns rhyme ideas. Syllable Counter breaks any text into syllable counts. Prefix and Suffix Finders show words by starting or ending letters. Word Finder searches by contained letters, the Synonym and Antonym Finders surface similar and opposite words, the Word Counter measures text, and the Random Word Generator produces words on demand.")}
+    <p class="hero-lede">${TOOL_COUNT} focused word tools for letters, anagrams, rhymes, syllables, prefixes, suffixes, synonyms, antonyms, counting, and random words. Each tool has clear inputs, honest results, and a plain explanation of what it can and cannot do.</p>
+    ${answerBlock("Word Lab has ${TOOL_COUNT} word tools for specific tasks. Word Unscramble finds all valid words from a set of letters. Anagram Solver finds exact and partial anagrams. Rhyme Finder returns rhyme ideas. Syllable Counter breaks any text into syllable counts. Prefix and Suffix Finders show words by starting or ending letters. Word Finder searches by contained letters, the Synonym and Antonym Finders surface similar and opposite words, the Word Counter measures text, and the Random Word Generator produces words on demand.")}
   </section>
   <section class="section">
     <div class="section-heading">
@@ -2398,7 +2402,7 @@ function renderWordLab() {
       <a class="resource-card" href="/word-explorer/">
         <span class="card-icon">${icon("wordexplorer")}</span>
         <strong>Word Explorer</strong>
-        <span>Dictionary-grade word pages with meanings, pronunciation, synonyms, and examples covering all 26 letters.</span>
+        <span>In-depth word pages with meanings, pronunciation, synonyms, and examples covering all 26 letters.</span>
       </a>
       <a class="resource-card" href="/word-lists/">
         <span class="card-icon">${icon("wordlists")}</span>
@@ -2660,7 +2664,7 @@ function renderPracticeHub() {
     },
     {
       q: "How do the quizzes connect to Word Explorer?",
-      a: "All quiz content is drawn directly from Word Explorer. Every word you see in a quiz has a full Word Explorer page with its definition, pronunciation, syllables, synonyms, word family, etymology, and examples. If you miss a question, visit the word's page to study it before the next session.",
+      a: "All quiz content is drawn directly from Word Explorer. Every word you see in a quiz has a Word Explorer page with its definition, pronunciation or syllables, synonyms, related words, and examples (and more where available). If you miss a question, visit the word's page to study it before the next session.",
     },
   ];
 
@@ -2669,7 +2673,7 @@ function renderPracticeHub() {
     <p class="eyebrow">Word Helper</p>
     <h1>Practice English Vocabulary</h1>
     <p class="hero-lede">Three interactive quizzes built from Word Explorer data — test your knowledge of definitions, word families, and synonyms, with instant feedback at your own pace.</p>
-    ${answerBlock(`Word Helper offers three types of vocabulary practice: a definition quiz, a word family quiz, and a synonym matching game. All questions are drawn from the same ${words.length} words in Word Explorer so every quiz reinforces what you read in the dictionary section. Use the quizzes as a spaced-review check after studying word pages, or as a quick vocabulary warmup.`)}
+    ${answerBlock(`Word Helper offers three types of vocabulary practice: a definition quiz, a word family quiz, and a synonym matching game. All questions are drawn from the same ${words.length} words in Word Explorer so every quiz reinforces what you read in Word Explorer. Use the quizzes as a spaced-review check after studying word pages, or as a quick vocabulary warmup.`)}
   </section>
   <section class="section">
     <div class="section-heading">
@@ -2763,7 +2767,7 @@ function renderVocabQuiz() {
     },
     {
       q: "How can I use this quiz to learn vocabulary effectively?",
-      a: "Use the quiz as a spaced review tool. Read a word's full page in Word Explorer first, then take the quiz to test recall. Return to missed words and re-read their definitions before quizzing again. Active recall — testing yourself before reviewing — is one of the most evidence-backed vocabulary learning methods.",
+      a: "Use the quiz as a spaced review tool. Read a word's full page in Word Explorer first, then take the quiz to test recall. Return to missed words and re-read their definitions before quizzing again. Testing yourself before reviewing (often called active recall) can help many learners practise more actively than only re-reading a list.",
     },
   ];
 
@@ -2772,7 +2776,7 @@ function renderVocabQuiz() {
     <p class="eyebrow">Practice</p>
     <h1>Vocabulary Quiz</h1>
     <p class="hero-lede">Read each definition. Pick the correct word from four choices. Instant feedback after every answer. All ${words.length} Word Explorer words, shuffled every session.</p>
-    ${answerBlock("The vocabulary quiz tests whether you can match a short definition to the correct English word. Questions are drawn from Word Helper's Word Explorer — the same definitions, pronunciations, and word families you can study on each word page. It is a fast, effective way to move words from passive recognition into active recall.")}
+    ${answerBlock("The vocabulary quiz tests whether you can match a short definition to the correct English word. Questions are drawn from Word Helper's Word Explorer — the same definitions, pronunciations, and word families you can study on each word page. It is a quick way to practise recalling words actively, rather than only recognising them on a page.")}
   </section>
   <section class="section">
     <div id="quiz-shell" class="quiz-shell" data-words='${JSON.stringify(quizWords).replace(/'/g, "&#039;")}'>
@@ -2813,10 +2817,10 @@ function renderVocabQuiz() {
   <section class="section split">
     <div>
       <p class="eyebrow">Why it works</p>
-      <h2>Active recall beats passive reading</h2>
+      <h2>Practise actively, not just by re-reading</h2>
     </div>
     <div class="text-stack">
-      <p>Research on vocabulary learning consistently shows that active recall — testing yourself before reviewing — builds stronger, longer-lasting memory than re-reading a definition. The quiz forces retrieval, which strengthens the neural pathway connecting the word to its meaning.</p>
+      <p>Many learners find that testing themselves — recalling a word before checking the answer — helps more than only re-reading a definition, because it makes you retrieve the word from memory. Use the quiz as one part of a regular review habit, alongside reading and writing.</p>
       <p>Use this quiz as the second step after reading a word's full page in Word Explorer. Read the definition, examples, and synonyms first. Then test yourself here. Return to any words you missed and re-read them before quizzing again.</p>
       <p>Even one quiz session per day on a small set of words has a meaningful effect on retention. Spaced practice over days works better than a single long study session.</p>
     </div>
@@ -3206,7 +3210,7 @@ function renderWordsBrowseIndex(completeLetterSet = null, completeCount = 0) {
     href: "/words/",
     title: "Browse Words A to Z | Word Helper",
     metaTitle: "Browse English Words A to Z | Word Helper",
-    metaDescription: "Browse the Word Helper dictionary A to Z. Every listed word opens a complete page with a definition, pronunciation, syllables, synonyms, and examples.",
+    metaDescription: "Browse English words A to Z in the Word Helper workspace. Every listed word opens a complete page with a definition, examples, synonyms, and related words — or jump to the word tools to search by pattern.",
   };
   const azLinks = "abcdefghijklmnopqrstuvwxyz".split("").map((l) => {
     const hasWords = !completeLetterSet || completeLetterSet.has(l);
@@ -3229,6 +3233,24 @@ function renderWordsBrowseIndex(completeLetterSet = null, completeCount = 0) {
       <h2>Browse by starting letter</h2>
     </div>
     <nav class="az-nav" aria-label="Browse words by starting letter">${azLinks}</nav>
+  </section>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">How to browse smarter</p>
+      <h2>Get more from A&ndash;Z browsing</h2>
+    </div>
+    <div class="text-stack">
+      <p>A&ndash;Z browsing is the fastest way to scan vocabulary when you know the starting letter &mdash; for spelling checks, word-game ideas, or rediscovering options you forgot. Each letter page lists complete word pages, sorted by usefulness.</p>
+      <p><strong>Why some letters have fewer words:</strong> English simply has more common words starting with letters like S, C, and P than with X, Z, or Q, so those letters show shorter lists. That reflects the language itself, not a gap in coverage.</p>
+      <p><strong>Browsing not enough? Search by shape instead:</strong></p>
+      <ul>
+        <li><a href="/tools/word-finder/">Word Finder</a> &mdash; find words that contain specific letters, by length or pattern.</li>
+        <li><a href="/tools/word-unscramble/">Word Unscramble</a> &mdash; turn a jumble of letters into valid words.</li>
+        <li><a href="/word-explorer/">Word Explorer</a> &mdash; open in-depth word pages with meanings and related words.</li>
+        <li><a href="/word-lists/">Word Lists</a> &mdash; curated, themed sets for writing and study.</li>
+        <li><a href="/practice/vocabulary-quiz/">Vocabulary Quiz</a> &mdash; practise the words you discover.</li>
+      </ul>
+    </div>
   </section>
   <section class="section">
     <div class="section-heading">
@@ -3536,7 +3558,7 @@ function renderNotFound() {
       <a class="resource-card" href="/word-explorer/">
         <span class="card-icon">${icon("wordexplorer")}</span>
         <strong>Word Explorer</strong>
-        <span>Browse dictionary-quality word pages with definitions, pronunciation, and examples.</span>
+        <span>Browse word pages with definitions, examples, synonyms, and related words.</span>
       </a>
       <a class="resource-card" href="/word-lists/">
         <span class="card-icon">${icon("wordlists")}</span>
@@ -3719,7 +3741,7 @@ function buildSearchIndex() {
       type: "Dictionary",
       title: "Word Explorer",
       href: "/word-explorer/",
-      description: "Browse dictionary-style word pages with definitions, examples, synonyms, antonyms, syllables, and word families.",
+      description: "Browse word pages with definitions, examples, synonyms, antonyms, syllables, and related words.",
       keywords: "word meaning definition synonyms antonyms pronunciation examples",
     },
     {
@@ -3839,13 +3861,13 @@ function llmsTxt() {
   const toolLines = tools.map((t) => `- [${t.title}](${site.url}${t.href}): ${t.intro}`).join("\n");
   return `# Word Helper
 
-> ${site.name} — English word tools and vocabulary reference. An English word
-> toolkit with dictionary-quality word pages, eleven interactive tools for word
+> ${site.name} — a fast word workspace for finding, exploring, learning, and
+> using words. A word tools platform with ${TOOL_COUNT} interactive tools, searchable word
 > games and writing, curated vocabulary guides, and practice quizzes. Maintained
 > by Word Helper.
 
 ## Primary sections
-- [Word Explorer (dictionary)](${site.url}/word-explorer/): in-depth word pages with definition, pronunciation, syllables, synonyms, antonyms, word family, etymology, and examples.
+- [Word Explorer (dictionary)](${site.url}/word-explorer/): in-depth word pages with definition, pronunciation or syllables, synonyms, antonyms, related words, and examples (word family, etymology, and rhymes where available).
 - [Word Lab (tools)](${site.url}/word-lab/): interactive word tools.
 - [Learn English](${site.url}/learn-english/): vocabulary and language guides.
 - [Word Lists](${site.url}/word-lists/): curated, themed vocabulary collections.
