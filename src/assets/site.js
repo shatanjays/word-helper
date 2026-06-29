@@ -206,6 +206,8 @@
     "word-finder": { title: "Word Finder", href: "/tools/word-finder/", intro: "Find words by letters, length, and pattern.", keywords: ["word finder", "find words", "contains", "letters", "search"] },
     "synonym-finder": { title: "Synonym Finder", href: "/tools/synonym-finder/", intro: "Find synonyms and similar words.", keywords: ["synonym", "synonyms", "similar", "thesaurus", "another word"] },
     "antonym-finder": { title: "Antonym Finder", href: "/tools/antonym-finder/", intro: "Find antonyms and opposite words.", keywords: ["antonym", "antonyms", "opposite", "opposites"] },
+    "word-counter": { title: "Word Counter", href: "/tools/word-counter/", intro: "Count words, characters, and reading time.", keywords: ["word counter", "character count", "count words", "reading time", "length"] },
+    "random-word-generator": { title: "Random Word Generator", href: "/tools/random-word-generator/", intro: "Generate random English words.", keywords: ["random word", "random words", "word generator", "prompt", "brainstorm"] },
   };
 
   function initNav() {
@@ -550,6 +552,8 @@
         "word-finder": "contains",
         "synonym-finder": "word",
         "antonym-finder": "word",
+        "word-counter": "text",
+        "random-word-generator": "count",
       };
       const field = fieldMap[tool];
       if (field && form.elements[field]) {
@@ -569,6 +573,8 @@
       "word-finder": "contains",
       "synonym-finder": "word",
       "antonym-finder": "word",
+      "word-counter": "text",
+      "random-word-generator": "count",
     };
     const field = fieldMap[tool];
     if (!field) return;
@@ -612,6 +618,8 @@
       if (tool === "word-finder") runWordFinder(shell, form);
       if (tool === "synonym-finder") runThesaurus(shell, form, "syn");
       if (tool === "antonym-finder") runThesaurus(shell, form, "ant");
+      if (tool === "word-counter") runWordCounter(shell, form);
+      if (tool === "random-word-generator") runRandomWord(shell, form);
     }
 
     examples.forEach((button) => {
@@ -633,6 +641,8 @@
         "word-finder": "Enter letters a word must contain — e.g. \"ae\" — and add optional start, end, or length filters.",
         "synonym-finder": "Enter a word like \"happy\", \"important\", or \"fast\" to find synonyms and similar words.",
         "antonym-finder": "Enter a word like \"happy\", \"open\", or \"increase\" to find its opposites.",
+        "word-counter": "Paste or type text above to count words, characters, sentences, paragraphs, and reading time.",
+        "random-word-generator": "Choose how many words you want (and optional filters), then generate.",
       };
       renderMessage(shell, defaults[tool] || "Enter a value to begin.", "empty");
     });
@@ -682,6 +692,8 @@
       "word-finder": "contains",
       "synonym-finder": "word",
       "antonym-finder": "word",
+      "word-counter": "text",
+      "random-word-generator": "count",
     };
     const field = fieldByTool[tool] || "word";
     if (form.elements[field]) form.elements[field].value = value;
@@ -1102,6 +1114,75 @@
     } catch (_) {
       renderMessage(shell, `Could not reach the ${label} service right now. Check your connection and try again.`, "error");
     }
+  }
+
+  function runWordCounter(shell, form) {
+    const text = form.elements.text.value;
+    const trimmed = text.trim();
+    if (!trimmed) {
+      renderMessage(shell, "Paste or type some text to count.", "empty");
+      return;
+    }
+    if (text.length > 100000) {
+      renderMessage(shell, "That text is very long — try under 100,000 characters.", "error");
+      return;
+    }
+    const words = (trimmed.match(/[A-Za-z0-9]+(?:['-][A-Za-z0-9]+)*/g) || []).length;
+    const charsWithSpaces = text.length;
+    const charsNoSpaces = text.replace(/\s/g, "").length;
+    const sentences = (trimmed.match(/[^.!?]+[.!?]+/g) || []).length || (words ? 1 : 0);
+    const paragraphs = trimmed.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean).length || (words ? 1 : 0);
+    const readSec = Math.round((words / 200) * 60);
+    const readTime = readSec < 60 ? `~${Math.max(1, readSec)} sec read` : `~${Math.max(1, Math.round(words / 200))} min read`;
+    const messageBox = shell.querySelector(".tool-message");
+    const results = shell.querySelector(".results");
+    const copyAll = shell.querySelector(".copy-all");
+    const hint = shell.querySelector(".bookmark-hint");
+    messageBox.hidden = true;
+    results.innerHTML = `<div class="summary-grid">
+      ${summaryCard("Words", words.toLocaleString())}
+      ${summaryCard("Characters", charsWithSpaces.toLocaleString())}
+      ${summaryCard("Characters (no spaces)", charsNoSpaces.toLocaleString())}
+      ${summaryCard("Sentences", sentences.toLocaleString())}
+      ${summaryCard("Paragraphs", paragraphs.toLocaleString())}
+      ${summaryCard("Reading time", readTime)}
+    </div>`;
+    trackToolUsage("word-counter");
+    setCopyButton(copyAll, true, `Word Helper — Word Counter\nWords: ${words}\nCharacters: ${charsWithSpaces}\nCharacters (no spaces): ${charsNoSpaces}\nSentences: ${sentences}\nParagraphs: ${paragraphs}\nReading time: ${readTime}`);
+    if (hint) hint.hidden = false;
+  }
+
+  function runRandomWord(shell, form) {
+    let count = parseInt(form.elements.count.value, 10);
+    if (!Number.isFinite(count) || count < 1) count = 10;
+    count = Math.min(50, count);
+    const starts = lettersOnly(form.elements.starts.value);
+    const min = getNumber(form, "min", 2);
+    const max = getNumber(form, "max", 20);
+    const pool = WORD_ENTRIES.filter((e) => {
+      const w = e.word;
+      if (w.length < min || w.length > max) return false;
+      if (starts && !w.startsWith(starts)) return false;
+      return true;
+    });
+    if (!pool.length) {
+      renderMessage(shell, "No words matched those filters. Try a wider length range or a different starting letter.", "empty");
+      return;
+    }
+    const picks = [];
+    const used = new Set();
+    const limit = Math.min(count, pool.length);
+    while (picks.length < limit) {
+      const i = Math.floor(Math.random() * pool.length);
+      if (used.has(i)) continue;
+      used.add(i);
+      picks.push(pool[i].word);
+    }
+    trackToolUsage("random-word-generator");
+    saveRecentInput("random-word-generator", String(count));
+    renderWordGroups(shell, [{ title: `${picks.length} random word${picks.length === 1 ? "" : "s"}`, words: picks }],
+      `${picks.length} random word${picks.length === 1 ? "" : "s"}${starts ? ` starting with "${starts}"` : ""}`,
+      { title: "Random Word Generator", input: `${count} words` });
   }
 
   function initHeroModes() {

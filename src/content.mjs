@@ -574,6 +574,115 @@ export const tools = [
     disclaimer:
       "Antonyms are suggestions. Opposite meaning depends on context, so confirm the word fits the contrast you intend.",
   },
+  {
+    id: "word-counter",
+    icon: "syllable",
+    href: "/tools/word-counter/",
+    title: "Word Counter",
+    h1: "Word Counter",
+    metaTitle: "Word Counter - Count Words, Characters & Reading Time",
+    metaDescription:
+      "Paste text to count words, characters, sentences, paragraphs, and estimated reading time. A fast, private word counter that runs in your browser.",
+    intro:
+      "Paste or type text to see word count, character count, sentences, paragraphs, and estimated reading time.",
+    answer:
+      "A word counter measures the length of your text. Paste anything in and Word Helper counts words, characters (with and without spaces), sentences, paragraphs, and gives an estimated reading time. Everything runs in your browser — your text is never sent anywhere.",
+    primaryKeyword: "word counter",
+    keywords:
+      "word counter, character counter, count words, word count tool, reading time",
+    buttonLabel: "Count Text",
+    resultHeading: "Your text at a glance",
+    emptyState:
+      "Paste or type text above to count words, characters, sentences, paragraphs, and reading time.",
+    noResultState:
+      "Add some text to count.",
+    examples: [
+      { label: "Short paragraph", value: "Word Helper is a fast, private word counter. It runs entirely in your browser, so your text never leaves your device.", note: "Counts words, characters, and reading time." },
+    ],
+    how: [
+      "Words are counted as runs of letters, numbers, or apostrophes separated by spaces or punctuation.",
+      "Characters are reported both with and without spaces.",
+      "Sentences are estimated from end punctuation (. ! ?) and paragraphs from blank lines.",
+      "Reading time assumes an average pace of about 200 words per minute.",
+    ],
+    tips: [
+      "Use it to hit length limits for essays, meta descriptions, social posts, or abstracts.",
+      "Check character counts for titles and bios with strict limits.",
+      "Paste a draft to gauge reading time before publishing.",
+    ],
+    faqs: [
+      {
+        q: "Is my text sent to a server?",
+        a: "No. The word counter runs entirely in your browser. Your text is never uploaded or stored.",
+      },
+      {
+        q: "How is reading time calculated?",
+        a: "Reading time is the word count divided by an average reading speed of about 200 words per minute, rounded to a friendly estimate.",
+      },
+      {
+        q: "How are words counted?",
+        a: "A word is a run of letters, numbers, or apostrophes. Spaces and punctuation separate words, so hyphenated terms may count as one or two depending on formatting.",
+      },
+    ],
+    related: ["/tools/syllable-counter/", "/tools/word-finder/", "/word-lists/"],
+    disclaimer:
+      "Counts are estimates. Sentence and paragraph detection depends on punctuation and spacing, and reading time varies by reader and content.",
+  },
+  {
+    id: "random-word-generator",
+    icon: "spark",
+    href: "/tools/random-word-generator/",
+    title: "Random Word Generator",
+    h1: "Random Word Generator",
+    metaTitle: "Random Word Generator - Get Random English Words",
+    metaDescription:
+      "Generate random English words for brainstorming, games, writing prompts, and warm-ups. Filter by length and starting letter, then generate as many as you need.",
+    intro:
+      "Generate random English words — optionally filtered by length and starting letter — for prompts, games, and brainstorming.",
+    answer:
+      "A random word generator gives you unpredictable English words on demand. Word Helper draws from a 327,000+ word list and lets you filter by length and starting letter, which is handy for writing prompts, word games, brainstorming, and vocabulary practice.",
+    primaryKeyword: "random word generator",
+    keywords:
+      "random word generator, random words, word generator, random english word, writing prompt words",
+    buttonLabel: "Generate Words",
+    resultHeading: "Your random words",
+    emptyState:
+      "Choose how many words you want (and optional filters), then generate.",
+    noResultState:
+      "No words matched those filters. Try a wider length range or a different starting letter.",
+    examples: [
+      { label: "10 words", value: "10", note: "Generate ten random words." },
+      { label: "5 words", value: "5", note: "Generate five random words." },
+    ],
+    how: [
+      "Word Helper picks words at random from a 327,000+ word English list.",
+      "The count control sets how many words you get (up to 50 at a time).",
+      "Optional filters limit results by length range and starting letter.",
+      "Generate again any time for a fresh set.",
+    ],
+    tips: [
+      "Use it for daily writing prompts or creative warm-ups.",
+      "Generate themed sets by setting a starting letter for word games.",
+      "Pair short random words with the Anagram Solver or Rhyme Finder.",
+    ],
+    faqs: [
+      {
+        q: "Where do the random words come from?",
+        a: "From a 327,000+ word English list built on the public-domain ENABLE word list plus a supplementary system list.",
+      },
+      {
+        q: "Can I control the words I get?",
+        a: "Yes. You can set how many words to generate and filter by length range and starting letter.",
+      },
+      {
+        q: "Are the words always real English words?",
+        a: "Yes — every result comes from the curated word list, though acceptance in a specific game dictionary can still vary.",
+      },
+    ],
+    related: ["/tools/word-finder/", "/tools/word-unscramble/", "/tools/rhyme-finder/"],
+    disclaimer:
+      "Words come from the public-domain ENABLE word list plus a supplementary system list, which can differ from a specific game's official dictionary.",
+  },
 ];
 
 export const hubs = [
@@ -1293,8 +1402,8 @@ export const legalPages = [
       `<h2>Who runs Word Helper</h2>
       <p>Word Helper is an independent project focused on making English words easier to look up, understand, and use. It is run independently and is not affiliated with, or endorsed by, any dictionary publisher, word-game company, or advertiser.</p>
       <p>The site does not employ a large editorial staff or claim academic credentials it does not have. Instead, it is honest about its method: word data is compiled from openly licensed dictionary sources, standardized into one consistent format, screened for quality, and structured for clarity — with a strict gate that decides which pages are complete enough to publish. Full sourcing and license attribution is documented in the <a href="/editorial-policy/">Editorial Policy</a>. Questions and corrections are welcome at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>`,
-      `<h2>Word Lab — nine interactive Word Experiences</h2>
-      <p>Word Lab gives you nine focused tools for specific word tasks. Each one has a clear input, honest results, and a plain explanation of what the tool can and cannot do.</p>
+      `<h2>Word Lab — eleven interactive Word Experiences</h2>
+      <p>Word Lab gives you eleven focused tools for specific word tasks. Each one has a clear input, honest results, and a plain explanation of what the tool can and cannot do.</p>
       <ul>
         <li><strong><a href="/tools/word-unscramble/">Word Unscramble</a></strong> — finds all valid words that can be built from the letters you enter, using letter-frequency matching so only genuinely buildable words appear.</li>
         <li><strong><a href="/tools/anagram-solver/">Anagram Solver</a></strong> — finds exact anagrams that use every letter once, or partial anagrams (smaller words hidden inside a larger set of letters).</li>
@@ -1305,6 +1414,8 @@ export const legalPages = [
         <li><strong><a href="/tools/word-finder/">Word Finder</a></strong> — finds words that contain the letters you choose, narrowed by start, end, and length.</li>
         <li><strong><a href="/tools/synonym-finder/">Synonym Finder</a></strong> — finds synonyms and similar words for clearer, stronger writing.</li>
         <li><strong><a href="/tools/antonym-finder/">Antonym Finder</a></strong> — finds antonyms and opposite words for precise contrast.</li>
+        <li><strong><a href="/tools/word-counter/">Word Counter</a></strong> — counts words, characters, sentences, and reading time, privately in your browser.</li>
+        <li><strong><a href="/tools/random-word-generator/">Random Word Generator</a></strong> — generates random English words for prompts, games, and brainstorming.</li>
       </ul>`,
       `<h2>Word Explorer — dictionary-grade word pages</h2>
       <p>Word Explorer is Word Helper's dictionary section. Each published word page includes a definition, pronunciation guide, syllable breakdown, part of speech, synonyms, antonyms, word family, and example sentences. This data is compiled from openly licensed sources — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a> — then standardized, screened, and structured to a consistent format. See the <a href="/editorial-policy/">Editorial Policy</a> for full sourcing and attribution.</p>

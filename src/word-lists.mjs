@@ -23,6 +23,9 @@ const noPage = (word) => ({ ...word, wordPageHref: null });
 // ── List 1: 50 Common English Words ───────────────────────────────
 export const commonEnglishWords = {
   id: "common-english-words",
+  audience: "English learners and anyone building everyday vocabulary.",
+  useCases: ["Build core vocabulary for reading and conversation","Practice spelling of high-frequency words","Use as flashcards or daily writing prompts"],
+  tip: "Master the most common words first — they carry most of everyday meaning.",
   href: "/word-lists/common-english-words/",
   title: "50 Common English Words Every Learner Should Know",
   h1: "50 Common English Words",
@@ -93,6 +96,9 @@ export const commonEnglishWords = {
 // ── List 2: 50 Positive English Words ────────────────────────────
 export const positiveWords = {
   id: "positive-words",
+  audience: "Writers, students, and anyone reaching for warmer, more uplifting language.",
+  useCases: ["Add warmth to messages, reviews, and notes","Find stronger alternatives to \"good\" or \"nice\"","Build a positive-vocabulary word bank"],
+  tip: "Match a word’s intensity to the moment — “content” and “elated” are both positive but very different.",
   href: "/word-lists/positive-words/",
   title: "50 Positive English Words to Uplift and Inspire",
   h1: "50 Positive English Words",
@@ -163,6 +169,9 @@ export const positiveWords = {
 // ── List 3: 40 Academic English Words ────────────────────────────
 export const academicWords = {
   id: "academic-words",
+  audience: "Students and writers working on essays, reports, and formal writing.",
+  useCases: ["Strengthen essays and research writing","Prepare for academic and exam vocabulary","Replace casual words with precise, formal ones"],
+  tip: "Use an academic word where it adds precision — not just to sound formal.",
   href: "/word-lists/academic-words/",
   title: "40 Essential Academic English Words",
   h1: "40 Academic English Words",
@@ -222,6 +231,9 @@ export const academicWords = {
 // ── List 4: 40 Words for Writers ─────────────────────────────────
 export const wordsForWriters = {
   id: "words-for-writers",
+  audience: "Writers, editors, and storytellers who want sharper prose.",
+  useCases: ["Replace vague words with vivid, precise ones","Vary word choice to avoid repetition","Set tone in fiction, essays, and copy"],
+  tip: "One precise word usually beats two vague ones.",
   href: "/word-lists/words-for-writers/",
   title: "40 Powerful Words for Writers and Storytellers",
   h1: "40 Words for Writers and Storytellers",
@@ -281,6 +293,9 @@ export const wordsForWriters = {
 // ── List 5: 40 Strong Action Verbs ────────────────────────────────
 export const strongActionVerbs = {
   id: "strong-action-verbs",
+  audience: "Writers, resume-builders, and anyone tightening their prose.",
+  useCases: ["Make resumes and cover letters more direct","Replace weak verb-plus-adverb pairs with one strong verb","Energize fiction and marketing copy"],
+  tip: "Prefer “sprinted” over “ran quickly” — a strong verb does the work of several words.",
   href: "/word-lists/strong-action-verbs/",
   title: "40 Strong Action Verbs for Writing and Communication",
   h1: "40 Strong Action Verbs",
@@ -340,6 +355,9 @@ export const strongActionVerbs = {
 // ── List 6: 40 Descriptive Adjectives ─────────────────────────────
 export const descriptiveAdjectives = {
   id: "descriptive-adjectives",
+  audience: "Writers and students describing people, places, and things.",
+  useCases: ["Add specific, sensory detail to descriptions","Avoid overused adjectives like “good” or “big”","Build richer character and setting descriptions"],
+  tip: "Choose adjectives a reader can picture — “serene” beats “very calm”.",
   href: "/word-lists/descriptive-adjectives/",
   title: "40 Descriptive Adjectives for Precise and Vivid Language",
   h1: "40 Descriptive Adjectives",
