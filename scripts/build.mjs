@@ -2384,7 +2384,7 @@ function renderWordLab() {
     <p class="eyebrow">Word Helper tools</p>
     <h1>Tools</h1>
     <p class="hero-lede">${TOOL_COUNT} focused word tools for letters, anagrams, rhymes, syllables, prefixes, suffixes, synonyms, antonyms, counting, and random words. Each tool has clear inputs, honest results, and a plain explanation of what it can and cannot do.</p>
-    ${answerBlock("Word Lab has ${TOOL_COUNT} word tools for specific tasks. Word Unscramble finds all valid words from a set of letters. Anagram Solver finds exact and partial anagrams. Rhyme Finder returns rhyme ideas. Syllable Counter breaks any text into syllable counts. Prefix and Suffix Finders show words by starting or ending letters. Word Finder searches by contained letters, the Synonym and Antonym Finders surface similar and opposite words, the Word Counter measures text, and the Random Word Generator produces words on demand.")}
+    ${answerBlock("Word Lab has " + TOOL_COUNT + " word tools for specific tasks. Word Unscramble finds all valid words from a set of letters. Anagram Solver finds exact and partial anagrams. Rhyme Finder returns rhyme ideas. Syllable Counter breaks any text into syllable counts. Prefix and Suffix Finders show words by starting or ending letters. Word Finder searches by contained letters, the Synonym and Antonym Finders surface similar and opposite words, the Word Counter measures text, and the Random Word Generator produces words on demand.")}
   </section>
   <section class="section">
     <div class="section-heading">
@@ -2764,7 +2764,7 @@ function renderVocabQuiz() {
   const quizFaqs = [
     {
       q: "What does this vocabulary quiz test?",
-      a: "The vocabulary quiz shows you a short definition and asks you to pick the correct word from four choices. All definitions are drawn from Word Helper's Word Explorer, which covers fully researched English words with written definitions, pronunciation, synonyms, and examples.",
+      a: "The vocabulary quiz shows you a short definition and asks you to pick the correct word from four choices. All definitions are drawn from Word Helper's Word Explorer, which covers complete word pages with definitions, pronunciation, synonyms, and examples.",
     },
     {
       q: "How many questions are in the vocabulary quiz?",
@@ -2772,7 +2772,7 @@ function renderVocabQuiz() {
     },
     {
       q: "Does the quiz give feedback on wrong answers?",
-      a: "Yes. After each question you see whether your answer was correct, which word was right if you missed it, and the definition again for review. This immediate feedback strengthens memory better than simply reading definitions.",
+      a: "Yes. After each question you see whether your answer was correct, which word was right if you missed it, and the definition again for review. This immediate feedback can help reinforce memory more than simply rereading definitions.",
     },
     {
       q: "Do I need to create an account?",
@@ -2835,7 +2835,7 @@ function renderVocabQuiz() {
     <div class="text-stack">
       <p>Vocabulary quizzes can help many learners practise recall more actively than rereading a list. Use the quiz as one part of a regular review habit, alongside reading and writing — recalling a word before checking the answer makes you retrieve it from memory.</p>
       <p>Use this quiz as the second step after reading a word's full page in Word Explorer. Read the definition, examples, and synonyms first. Then test yourself here. Return to any words you missed and re-read them before quizzing again.</p>
-      <p>Even one quiz session per day on a small set of words has a meaningful effect on retention. Spaced practice over days works better than a single long study session.</p>
+      <p>Even one short quiz session per day on a small set of words can help retention. For many learners, spreading practice over several days tends to help more than a single long study session.</p>
     </div>
   </section>
   ${faqList(quizFaqs)}
