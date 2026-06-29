@@ -187,7 +187,20 @@ function icon(name, className = "icon") {
 function linkLabel(href) {
   if (toolByHref.has(href)) return toolByHref.get(href).title;
   if (pageByHref.has(href)) return pageByHref.get(href).title;
-  return href.replace(/\//g, " ").trim();
+  const letter = href.match(/^\/word-explorer\/([a-z])\/$/i);
+  if (letter) return `Browse ${letter[1].toUpperCase()} words`;
+  const SECTION = {
+    "/word-explorer/": "Word Explorer",
+    "/word-lists/": "Word Lists",
+    "/learn-english/": "Learn English",
+    "/words/": "Browse A–Z",
+    "/word-lab/": "Word Lab",
+    "/practice/": "Practice",
+    "/guides/": "Guides",
+  };
+  if (SECTION[href]) return SECTION[href];
+  const seg = href.replace(/\/+$/, "").split("/").filter(Boolean).pop() || "Word Helper";
+  return seg.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 function breadcrumbItems(page) {
@@ -433,7 +446,7 @@ function footer() {
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
       <p>© ${new Date().getFullYear()} Word Helper — an independent word-tools project.</p>
-      <p class="footer-bottom-note">Built from openly-licensed dictionary data · Quality-gated · <a href="/editorial-policy/">How we work &amp; sources</a></p>
+      <p class="footer-bottom-note">Built from openly-licensed word data · Quality-gated · <a href="/editorial-policy/">How we work &amp; sources</a></p>
     </div>
   </div>
 </footer>`;
@@ -460,7 +473,7 @@ function baseSchemas() {
         "syllables",
         "spelling patterns",
         "etymology",
-        "dictionary definitions",
+        "word definitions",
       ],
       contactPoint: {
         "@type": "ContactPoint",
@@ -836,8 +849,8 @@ function formatCount(value = 0) {
 function renderHome(homeWords = words) {
   const page = {
     href: "/",
-    title: "Word Helper — English Word Tools, Dictionary & Vocabulary",
-    metaTitle: "Word Helper — English Word Tools, Dictionary & Vocabulary",
+    title: "Word Helper — Word Tools, Word Pages & Vocabulary Workspace",
+    metaTitle: "Word Helper — Word Tools, Word Pages & Vocabulary Workspace",
     metaDescription: "Word Helper is a fast word workspace: find, unscramble, and explore words, get rhymes and synonyms, browse word lists, and practise vocabulary with " + TOOL_COUNT + " word tools.",
   };
   const wordPageTotal = homeWords.length;
@@ -879,7 +892,7 @@ function renderHome(homeWords = words) {
     },
     {
       q: "What is Word Explorer?",
-      a: "Word Explorer is Word Helper's word-page workspace. Each word page includes the definition, pronunciation, syllable breakdown, part of speech, synonyms, antonyms, word family, and example sentences — compiled from openly licensed dictionary sources (Wiktionary via the Datamuse API, plus the Free Dictionary API), then standardized and quality-screened to a consistent format. See the Editorial Policy for full sourcing.",
+      a: "Word Explorer is Word Helper's word-page workspace. It opens useful word profiles with meanings, pronunciation, syllables, examples, synonyms, antonyms, rhymes, and related word paths. Pages may include definitions, examples, pronunciation, syllables, synonyms, antonyms, rhymes, related words, and source notes depending on available data — compiled from open lexical sources (Wiktionary via the Datamuse API, plus the Free Dictionary API), then standardized and quality-screened. See the Editorial Policy for full sourcing.",
     },
     {
       q: "How many words does Word Helper cover?",
@@ -912,8 +925,8 @@ function renderHome(homeWords = words) {
   <section class="hero hero-search" id="word-command">
     <div class="hero-copy">
       <p class="eyebrow hero-eyebrow">${icon("globe")} A complete word workspace</p>
-      <h1>Understand any English word faster.</h1>
-      <p class="hero-lede">Find, unscramble, explore, and understand English words — with fast word tools, searchable word pages, curated word lists, and vocabulary practice.</p>
+      <h1>Find the right word, faster.</h1>
+      <p class="hero-lede">Unscramble letters, explore meanings, discover rhymes, browse word lists, practise vocabulary, and use simple word tools from one clean workspace.</p>
       <form class="global-search command-search hero-command-box" data-multimode="true" data-word-pages='${JSON.stringify(words.map((w) => w.word))}' aria-label="Search a word or run a word tool">
         <div class="hero-search-field">
           <div class="global-search-inner">
@@ -1006,7 +1019,7 @@ function renderHome(homeWords = words) {
     <div class="section-heading">
       <p class="eyebrow">Word Explorer</p>
       <h2>Word pages built for discovery</h2>
-      <p>Each page covers meaning, pronunciation, syllables, synonyms, antonyms, word family, and example sentences — compiled from openly licensed lexical data, then standardized and structured for clarity.</p>
+      <p>Word Explorer opens useful word profiles with meanings, pronunciation, syllables, examples, synonyms, antonyms, rhymes, and related word paths. Word pages may include these sections depending on the data available for each word.</p>
     </div>
     <div class="word-explorer-grid home-word-grid">
       ${featuredWords.map((w) => renderWordCard(w)).join("")}
@@ -1935,7 +1948,7 @@ function renderLightWordPage(w) {
     ${isPublishable(w) ? editorialByline() : ""}
   </section>
   <div class="word-body"${lookupAttrs}>
-    ${needsLookup ? '<p class="dictionary-status" data-word-lookup-status>Loading dictionary details…</p>' : ""}
+    ${needsLookup ? '<p class="dictionary-status" data-word-lookup-status>Loading word details…</p>' : ""}
     ${renderWordFactPanel(w)}
 
     <section class="word-section">
@@ -2007,10 +2020,10 @@ function renderLightWordPage(w) {
       <h2 class="word-section-title">Browse words near ${escapeHtml(label)}</h2>
       <p>Explore more words that start with the letter ${firstLetter} in Word Explorer, or use the A-Z browser to discover other vocabulary starting from any letter.</p>
       <div class="card-grid related-grid">
-        ${cardLink(`/word-explorer/${w.word[0]}/`)}
-        ${cardLink("/word-explorer/")}
-        ${cardLink("/word-lists/")}
-        ${cardLink("/learn-english/")}
+        ${cardLink(`/word-explorer/${w.word[0]}/`, `Browse complete word pages starting with ${w.word[0].toUpperCase()}.`)}
+        ${cardLink("/word-explorer/", "Open in-depth word profiles from A to Z.")}
+        ${cardLink("/word-lists/", "Curated vocabulary collections for writing and study.")}
+        ${cardLink("/learn-english/", "Plain-English guides for vocabulary and usage.")}
       </div>
     </section>
 
@@ -2027,7 +2040,7 @@ function renderLightWordPage(w) {
       description: (w.shortDef || w.definition || "").slice(0, 250),
       inDefinedTermSet: {
         "@type": "DefinedTermSet",
-        name: "Word Helper Dictionary",
+        name: "Word Helper — Word Explorer",
         url: `${site.url}/word-explorer/`,
       },
     },
@@ -2076,15 +2089,15 @@ function renderWordLookup() {
           <span class="syllable-count" data-word-syllable-count></span>
         </div>
       </div>
-      <p class="word-short-def" data-word-short-def>Loading dictionary details…</p>
+      <p class="word-short-def" data-word-short-def>Loading word details…</p>
     </div>
   </section>
   <div class="word-body" data-dictionary-lookup="true" data-dictionary-from-path="true">
-    <p class="dictionary-status" data-word-lookup-status>Loading dictionary details…</p>
+    <p class="dictionary-status" data-word-lookup-status>Loading word details…</p>
 
     <section class="word-section">
       <h2 class="word-section-title">Definition</h2>
-      <div class="definition-block" data-word-definition><p>Looking up this word in the public-domain dictionary…</p></div>
+      <div class="definition-block" data-word-definition><p>Looking up this word…</p></div>
     </section>
 
     <section class="word-section" data-word-examples-section>
@@ -2150,19 +2163,19 @@ function renderWordExplorerIndex(allWords = words) {
 
   const body = `<section class="page-hero">
     ${breadcrumb(page)}
-    <p class="eyebrow">Word Helper Dictionary</p>
+    <p class="eyebrow">Word Explorer</p>
     <h1>${escapeHtml(hub.h1)}</h1>
     <p class="hero-lede">${escapeHtml(hub.intro)}</p>
     ${answerBlock(hub.answer)}
   </section>
   <section class="section">
     <div class="section-heading">
-      <p class="eyebrow">Dictionary status</p>
+      <p class="eyebrow">Publishing standard</p>
       <h2>Quality over quantity</h2>
-      <p>Words are published as full pages only when they meet quality standards: a full definition, pronunciation, examples, synonyms, and word family. More words are added regularly as they reach that bar.</p>
+      <p>Words are published as full pages only when they meet quality standards: a full definition, pronunciation, examples, and synonyms. More words are added regularly as they reach that bar.</p>
     </div>
     <div class="stat-grid">
-      <div class="stat-item"><strong>In-house</strong><span>editorial definitions</span></div>
+      <div class="stat-item"><strong>Open</strong><span>cited word sources</span></div>
       <div class="stat-item"><strong>A–Z</strong><span>all letters covered</span></div>
       <div class="stat-item"><strong>Growing</strong><span>new words added regularly</span></div>
       <div class="stat-item"><strong>A–Z</strong><span>full letter coverage</span></div>
@@ -2179,7 +2192,7 @@ function renderWordExplorerIndex(allWords = words) {
   <section class="section">
     <div class="section-heading">
       <p class="eyebrow">Full word pages</p>
-      <h2>Complete dictionary pages</h2>
+      <h2>Complete word profiles</h2>
       <p>Each word page includes a definition, pronunciation or syllables, part of speech, examples, synonyms, antonyms, and related words — with word family, etymology, rhymes, and memory tips shown where that data is available.</p>
     </div>
     <div class="word-explorer-grid">${wordCards}</div>
@@ -2190,8 +2203,8 @@ function renderWordExplorerIndex(allWords = words) {
       <h2>How word pages are built</h2>
     </div>
     <div class="text-stack">
-      <p>Word Explorer compiles its definitions, pronunciations, syllables, parts of speech, and related words from openly licensed dictionary sources — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a> — and standardizes every entry into one consistent format.</p>
-      <p>Example sentences use real dictionary citations where available, and are otherwise generated and automatically screened for clarity and accuracy. The public-domain ENABLE word list provides the headword inventory. Full sourcing and license attribution is on the <a href="/editorial-policy/">Editorial Policy</a> page.</p>
+      <p>Word Explorer compiles its definitions, pronunciations, syllables, parts of speech, and related words from openly licensed lexical sources — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a> — and standardizes every entry into one consistent format.</p>
+      <p>Example sentences use real usage citations where available, and are otherwise generated and automatically screened for clarity and accuracy. The public-domain ENABLE word list provides the headword inventory. Full sourcing and license attribution is on the <a href="/editorial-policy/">Editorial Policy</a> page.</p>
       <p>Only words that pass the quality gate — a complete definition, pronunciation, syllables, examples, and synonyms — are listed in the sitemap and indexed. Entries that fall short stay unpublished until they meet the bar.</p>
     </div>
   </section>`;
@@ -2557,7 +2570,7 @@ function renderWordList(list) {
     </div>
     ${list.tip ? `<p class="wl-tip">${icon("spark")} <span><strong>Writing tip:</strong> ${escapeHtml(list.tip)}</span></p>` : ""}
     <section class="source-note">
-      <h2>Dictionary and source note</h2>
+      <h2>Source &amp; usage note</h2>
       <p>These word list entries are curated for learning and writing. Where a full Word Explorer page exists, the word links to deeper information. Word-game acceptance can vary by dictionary, region, and rule set.</p>
     </section>
     <section class="section compact">
@@ -2817,10 +2830,10 @@ function renderVocabQuiz() {
   <section class="section split">
     <div>
       <p class="eyebrow">Why it works</p>
-      <h2>Practise actively, not just by re-reading</h2>
+      <h2>Practise recall, not just re-reading</h2>
     </div>
     <div class="text-stack">
-      <p>Many learners find that testing themselves — recalling a word before checking the answer — helps more than only re-reading a definition, because it makes you retrieve the word from memory. Use the quiz as one part of a regular review habit, alongside reading and writing.</p>
+      <p>Vocabulary quizzes can help many learners practise recall more actively than rereading a list. Use the quiz as one part of a regular review habit, alongside reading and writing — recalling a word before checking the answer makes you retrieve it from memory.</p>
       <p>Use this quiz as the second step after reading a word's full page in Word Explorer. Read the definition, examples, and synonyms first. Then test yourself here. Return to any words you missed and re-read them before quizzing again.</p>
       <p>Even one quiz session per day on a small set of words has a meaningful effect on retention. Spaced practice over days works better than a single long study session.</p>
     </div>
@@ -3391,7 +3404,7 @@ function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
       href: pageHref(1),
       title: `Words That Start With ${L} | Word Helper`,
       metaTitle: `Words That Start With ${L} | Word Helper`,
-      metaDescription: `Complete word pages starting with ${L} are being added to the Word Helper dictionary. Browse another letter or search any word.`,
+      metaDescription: `Complete word pages starting with ${L} are being added to Word Helper. Browse another letter or search any word.`,
     };
     const body = `<section class="page-hero">
     ${breadcrumb(page)}
@@ -3738,7 +3751,7 @@ function buildSearchIndex() {
       keywords: [list.category, list.difficulty, list.words?.map((entry) => entry.word).slice(0, 20).join(" ")].filter(Boolean).join(" "),
     })),
     {
-      type: "Dictionary",
+      type: "Word pages",
       title: "Word Explorer",
       href: "/word-explorer/",
       description: "Browse word pages with definitions, examples, synonyms, antonyms, syllables, and related words.",
@@ -3867,7 +3880,7 @@ function llmsTxt() {
 > by Word Helper.
 
 ## Primary sections
-- [Word Explorer (dictionary)](${site.url}/word-explorer/): in-depth word pages with definition, pronunciation or syllables, synonyms, antonyms, related words, and examples (word family, etymology, and rhymes where available).
+- [Word Explorer](${site.url}/word-explorer/): in-depth word pages with definition, pronunciation or syllables, synonyms, antonyms, related words, and examples (word family, etymology, and rhymes where available).
 - [Word Lab (tools)](${site.url}/word-lab/): interactive word tools.
 - [Learn English](${site.url}/learn-english/): vocabulary and language guides.
 - [Word Lists](${site.url}/word-lists/): curated, themed vocabulary collections.
