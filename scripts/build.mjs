@@ -464,7 +464,7 @@ function footer() {
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
       <p>© ${new Date().getFullYear()} Word Helper — an independent word-tools project.</p>
-      <p class="footer-bottom-note">Built from openly-licensed word data · Quality-gated · <a href="/editorial-policy/">How we work &amp; sources</a></p>
+      <p class="footer-bottom-note">Built from open lexical data, cited word sources, quality checks, and practical word tools · <a href="/editorial-policy/">How we work &amp; sources</a></p>
     </div>
   </div>
 </footer>`;
@@ -2181,49 +2181,66 @@ function renderWordExplorerIndex(allWords = words) {
 
   const body = `<section class="page-hero">
     ${breadcrumb(page)}
-    <p class="eyebrow">Word Explorer</p>
+    <p class="eyebrow">The word workspace</p>
     <h1>${escapeHtml(hub.h1)}</h1>
     <p class="hero-lede">${escapeHtml(hub.intro)}</p>
     ${answerBlock(hub.answer)}
   </section>
   <section class="section">
     <div class="section-heading">
-      <p class="eyebrow">Publishing standard</p>
-      <h2>Quality over quantity</h2>
-      <p>Words are published as full pages only when they meet quality standards: a full definition, pronunciation, examples, and synonyms. More words are added regularly as they reach that bar.</p>
+      <p class="eyebrow">What it does</p>
+      <h2>What Word Explorer helps you do</h2>
+      <p>Start from any word and follow the path that helps — a meaning, a sound-alike, a similar word, or a tool that turns letters into answers.</p>
     </div>
-    <div class="stat-grid">
-      <div class="stat-item"><strong>Open</strong><span>cited word sources</span></div>
-      <div class="stat-item"><strong>A–Z</strong><span>all letters covered</span></div>
-      <div class="stat-item"><strong>Growing</strong><span>new words added regularly</span></div>
-      <div class="stat-item"><strong>A–Z</strong><span>full letter coverage</span></div>
-    </div>
+    <ul class="check-list">
+      <li><strong>Understand a word</strong> — clear meanings and parts of speech.</li>
+      <li><strong>See examples</strong> — words used in real sentences.</li>
+      <li><strong>Find synonyms &amp; antonyms</strong> — similar and opposite words.</li>
+      <li><strong>Discover rhymes</strong> — sound-alike words for writing and word games.</li>
+      <li><strong>Follow related word paths</strong> — jump from one word to connected words.</li>
+      <li><strong>Jump into useful tools</strong> — unscramble, anagrams, prefixes, suffixes, and more.</li>
+      <li><strong>Browse connected word lists</strong> — curated sets for learning and writing.</li>
+    </ul>
   </section>
   <section class="section">
     <div class="section-heading">
-      <p class="eyebrow">Browse A-Z</p>
+      <p class="eyebrow">Browse A–Z</p>
       <h2>Browse word pages by letter</h2>
-      <p>Click any letter to browse words starting with that letter — each with definition, pronunciation, synonyms, and examples.</p>
+      <p>Pick a letter to browse complete word profiles starting with it — each with meaning, examples, synonyms, and related words.</p>
     </div>
     <nav class="az-nav" aria-label="Browse words by letter">${azLinks}</nav>
   </section>
   <section class="section">
     <div class="section-heading">
-      <p class="eyebrow">Full word pages</p>
-      <h2>Complete word profiles</h2>
-      <p>Each word page includes a definition, pronunciation or syllables, part of speech, examples, synonyms, antonyms, and related words — with word family, etymology, rhymes, and memory tips shown where that data is available.</p>
+      <p class="eyebrow">Word profiles</p>
+      <h2>What a word profile may include</h2>
+      <p>Word profiles vary by the data available for each word. A word profile <strong>may include</strong> a definition, examples, pronunciation, syllables, part of speech, synonyms, antonyms, rhymes, related words, and source notes — not every page shows every section.</p>
     </div>
     <div class="word-explorer-grid">${wordCards}</div>
   </section>
   <section class="section split">
     <div>
-      <p class="eyebrow">About Word Explorer</p>
-      <h2>How word pages are built</h2>
+      <p class="eyebrow">How it stays useful</p>
+      <h2>How WordHelper keeps pages useful</h2>
     </div>
     <div class="text-stack">
-      <p>Word Explorer compiles its definitions, pronunciations, syllables, parts of speech, and related words from openly licensed lexical sources — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a> — and standardizes every entry into one consistent format.</p>
-      <p>Example sentences use real usage citations where available, and are otherwise generated and automatically screened for clarity and accuracy. The public-domain ENABLE word list provides the headword inventory. Full sourcing and license attribution is on the <a href="/editorial-policy/">Editorial Policy</a> page.</p>
-      <p>Only words that pass the quality gate — a complete definition, pronunciation, syllables, examples, and synonyms — are listed in the sitemap and indexed. Entries that fall short stay unpublished until they meet the bar.</p>
+      <p>Definitions, pronunciation, syllables, synonyms, and related data may come from open lexical sources and APIs — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary), the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>, and the public-domain ENABLE word list. WordHelper adds structure, quality checks, internal linking, tools, and correction paths to make the data more useful.</p>
+      <p>Only pages that pass a quality gate — a complete definition, pronunciation, syllables, examples, and synonyms — are listed and indexed; thinner pages stay <code>noindex</code> until the data improves. Pages are updated as sources improve, and every word profile carries a <a href="/contact/">report a correction</a> link. Full sourcing and license attribution is on the <a href="/editorial-policy/">Editorial Policy</a> page.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">Explore next</p>
+      <h2>Move from a word to the next useful step</h2>
+    </div>
+    <div class="card-grid">
+      ${cardLink("/tools/word-finder/", "Find words that contain specific letters, by length or pattern.")}
+      ${cardLink("/tools/word-unscramble/", "Turn a jumble of letters into valid words.")}
+      ${cardLink("/tools/anagram-solver/", "Find exact and partial anagrams of your letters.")}
+      ${cardLink("/tools/rhyme-finder/", "Perfect and near rhymes for any word.")}
+      ${cardLink("/words/", "Browse complete word profiles A to Z.")}
+      ${cardLink("/word-lists/", "Curated vocabulary collections for writing and study.")}
+      ${cardLink("/practice/vocabulary-quiz/", "Practise recalling the words you discover.")}
     </div>
   </section>`;
 
@@ -2853,7 +2870,7 @@ function renderVocabQuiz() {
     <div class="text-stack">
       <p>Vocabulary quizzes can help many learners practise recall more actively than rereading a list. Use the quiz as one part of a regular review habit, alongside reading and writing — recalling a word before checking the answer makes you retrieve it from memory.</p>
       <p>Use this quiz as the second step after reading a word's full page in Word Explorer. Read the definition, examples, and synonyms first. Then test yourself here. Return to any words you missed and re-read them before quizzing again.</p>
-      <p>Even one short quiz session per day on a small set of words can help retention. For many learners, spreading practice over several days tends to help more than a single long study session.</p>
+      <p>Short practice sessions can be useful for reviewing words, but results vary by learner and study method. Spacing a few short sessions across several days tends to suit many learners better than one long session.</p>
     </div>
   </section>
   ${faqList(quizFaqs)}

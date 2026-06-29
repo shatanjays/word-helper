@@ -3749,11 +3749,11 @@ export const wordExplorerHubData = {
   href: "/word-explorer/",
   title: "Word Explorer",
   h1: "Word Explorer",
-  metaTitle: "Word Explorer — Learn Words In Depth",
+  metaTitle: "Word Explorer — Connected Word Profiles | Word Helper",
   metaDescription:
-    "Explore common English words in depth — definitions, syllables, synonyms, antonyms, etymology, word families, and example sentences. Each word explained for learners.",
+    "Explore connected word profiles — meanings, examples, pronunciation, syllables, synonyms, antonyms, rhymes, and related word paths.",
   intro:
-    "Each word page covers meaning, pronunciation, syllables, synonyms, antonyms, and word family — compiled from openly-licensed lexical sources, standardized, and explained in clear English for learners.",
+    "Explore useful word profiles with meanings, examples, pronunciation, syllables, synonyms, antonyms, rhymes, and related word paths — shown where reliable data is available.",
   answer:
-    "Word Explorer gives you detailed, learner-friendly information about common English words. Pages include a definition, examples, synonyms, antonyms, and related words, with word family, etymology, and memory tips shown where that data is available — all in plain English.",
+    "Use Word Explorer to move from a single word to the tools, lists, and related words that help you write, learn, solve, and discover faster. It is a connected word-profile workspace — start from one word and follow its meaning, examples, synonyms, antonyms, rhymes, and related word paths.",
 };
