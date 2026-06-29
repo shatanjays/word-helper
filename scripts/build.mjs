@@ -68,6 +68,24 @@ site.url = HOST_CANONICAL;
 const TOOL_COUNT = tools.length;
 // Real build/edit date — drives lastReviewed/dateModified trust signals (no fabricated dates).
 const buildDateISO = new Date().toISOString().slice(0, 10);
+// SERP hygiene: Google truncates titles past ~60 chars and meta descriptions past
+// ~158. Word-page metaTitle/metaDescription are baked into the 64k enriched entries,
+// so normalize them at render time (front-loaded keywords kept; never cut mid-word).
+function clampTitle(title, label) {
+  if (!title) return title;
+  if (title.length <= 60) return title;
+  const short = `${label} — meaning, examples & synonyms | Word Helper`;
+  if (short.length <= 60) return short;
+  const minimal = `${label} | Word Helper`;
+  return minimal.length <= 60 ? minimal : minimal.slice(0, 57).trimEnd() + "…";
+}
+function clampMeta(desc) {
+  const d = (desc || "").trim();
+  if (d.length <= 158) return d;
+  const cut = d.slice(0, 158);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (lastSpace > 120 ? cut.slice(0, lastSpace) : cut).replace(/[\s,;:.\u2013\u2014-]+$/, "") + "…";
+}
 const letterBrowseTargets = {
   a: 5000,
   b: 5000,
@@ -1855,8 +1873,8 @@ function renderLightWordPage(w) {
   const page = {
     href: w.href,
     title: label,
-    metaTitle: w.metaTitle || `${label} — Definition, Syllables, and Word Tools | Word Helper`,
-    metaDescription: w.metaDescription || `What does ${w.word} mean? ${(w.shortDef || w.definition || "").slice(0, 120)} Explore syllables, synonyms, and word tools for ${w.word}.`,
+    metaTitle: clampTitle(w.metaTitle || `${label} — Definition, Syllables, and Word Tools | Word Helper`, label),
+    metaDescription: clampMeta(w.metaDescription || `What does ${w.word} mean? ${(w.shortDef || w.definition || "").slice(0, 120)} Explore syllables, synonyms, and word tools for ${w.word}.`),
   };
 
   // Synonyms / antonyms
