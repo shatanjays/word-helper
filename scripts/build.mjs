@@ -3923,7 +3923,13 @@ function deployRedirects() {
   // are handled by functions/word/[[slug]].js, which serves the branded 404.
   // (A *.pages.dev → apex 301 can't be expressed here — it needs a dashboard
   // Redirect Rule once the custom domain is attached.)
-  return "";
+  //
+  // /tools and /tools/ are not pages (individual tools live at /tools/<id>/);
+  // send the bare hub path to the canonical Word Lab hub. Exact paths only — no
+  // splat — so /tools/<id>/ tool pages are never affected.
+  return `/tools /word-lab/ 301
+/tools/ /word-lab/ 301
+`;
 }
 
 async function main() {
