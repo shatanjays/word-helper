@@ -113,7 +113,8 @@ async function main() {
   // sitemapindex documents that point at the chunks, not page lists).
   const sitemapFiles = files.filter((f) => /sitemap[^/]*\.xml$/.test(f) && !/sitemap(_index)?\.xml$/.test(f));
   const sitemapUrls = new Set();
-  const host = "https://wordhelper.online";
+  // Match the HOST_CANONICAL default in build.mjs so sitemap URL stripping stays in sync.
+  const host = (process.env.HOST_CANONICAL || "https://wordhelper-online.pages.dev").replace(/\/+$/, "");
   for (const sf of sitemapFiles) {
     const xml = await readFile(sf, "utf8");
     const re = /<loc>([^<]+)<\/loc>/g;

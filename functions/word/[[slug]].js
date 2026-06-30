@@ -14,14 +14,18 @@ const SECURITY_HEADERS = {
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
   "Strict-Transport-Security": "max-age=63072000",
+  // Keep in sync with the static _headers CSP emitted by scripts/build.mjs
+  // (deployHeaders). No AdSense/Analytics origins are whitelisted while ads are
+  // not active; word pages call the Free Dictionary and Datamuse APIs at runtime,
+  // so both are allowed in connect-src. When AdSense is activated, re-add the
+  // ad/analytics origins HERE and in build.mjs together — see docs/adsense-readiness.md.
   "Content-Security-Policy":
     "default-src 'self'; " +
-    "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagmanager.com https://www.google-analytics.com; " +
+    "script-src 'self' 'unsafe-inline'; " +
     "style-src 'self' 'unsafe-inline'; " +
     "font-src 'self'; " +
     "img-src 'self' data: https:; " +
-    "connect-src 'self' https://api.dictionaryapi.dev https://*.google-analytics.com https://*.googlesyndication.com; " +
-    "frame-src https://*.googlesyndication.com https://*.doubleclick.net; " +
+    "connect-src 'self' https://api.dictionaryapi.dev https://api.datamuse.com; " +
     "base-uri 'self'; form-action 'self'",
 };
 

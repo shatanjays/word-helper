@@ -29,7 +29,8 @@
   --text:         #1c1a16;      /* deep warm ink */
   --text-2:       #403b33;
   --muted:        #6e675b;
-  --soft:         #9a9182;
+  --soft:         #9a9182;      /* decorative glyphs / separators only (below AA for text) */
+  --soft-text:    #736b5d;      /* AA-passing (4.96:1 on bg) for small informational text */
   --faint:        #e7e0d2;
 
   /* Borders — warm hairlines */
@@ -593,7 +594,7 @@ main { min-height: 70vh; }
   align-items: center;
   margin-bottom: 20px;
   font-size: 13px;
-  color: var(--soft);
+  color: var(--soft-text);
 }
 
 .breadcrumb a {
@@ -724,6 +725,14 @@ input, textarea, select {
   outline: none;
   font-size: 15px;
   transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+/* iOS Safari zooms the page when a focused control is below 16px. Bump all form
+   controls to 16px on small screens so focusing an input never triggers zoom. */
+@media (max-width: 760px) {
+  input, textarea, select, .word-filter-input, .header-search input {
+    font-size: 16px;
+  }
 }
 
 input { min-height: 46px; }
@@ -1137,7 +1146,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .word-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.word-card-syllables { color: var(--soft); font-size: 11px; font-weight: 650; font-family: var(--font-mono); }
+.word-card-syllables { color: var(--soft-text); font-size: 11px; font-weight: 650; font-family: var(--font-mono); }
 
 .word-card-word {
   font-family: var(--font-sans);
@@ -2219,7 +2228,7 @@ input:focus, textarea:focus, select:focus {
 .footer-email:hover { color: #fff; }
 
 .footer-nav { display: flex; flex-direction: column; gap: 9px; }
-.footer-nav-title { font-size: 10px; font-weight: 800; letter-spacing: 0.10em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin: 0 0 6px; }
+.footer-nav-title { font-size: 10px; font-weight: 800; letter-spacing: 0.10em; text-transform: uppercase; color: rgba(255,255,255,0.62); margin: 0 0 6px; }
 
 .footer-nav a {
   font-size: 13.5px;
@@ -2675,8 +2684,8 @@ input:focus, textarea:focus, select:focus {
 .editorial-byline time { font-variant-numeric: tabular-nums; }
 
 /* ── Footer bottom note ──────────────────────────────────── */
-.footer-bottom-note { font-size: 12.5px; color: rgba(255,255,255,0.30); margin: 0; }
-.footer-bottom-note a { color: rgba(255,255,255,0.45); text-decoration: none; }
+.footer-bottom-note { font-size: 12.5px; color: rgba(255,255,255,0.58); margin: 0; }
+.footer-bottom-note a { color: rgba(255,255,255,0.72); text-decoration: underline; }
 .footer-bottom-note a:hover { color: #fff; }
 
 /* ── Reserved ad slot (CLS-safe; collapsed until activated) ─ */
@@ -2754,7 +2763,7 @@ input:focus, textarea:focus, select:focus {
 
 .wotd-phonetics .syllable-break {
   font-size: 13px;
-  color: var(--soft);
+  color: var(--soft-text);
   border-left: 1px solid var(--border);
   padding-left: 12px;
 }

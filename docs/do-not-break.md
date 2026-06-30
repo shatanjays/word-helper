@@ -9,16 +9,24 @@ these is a regression even if the build passes.
 - Pages are plain HTML/CSS/JS. No React/Vue. Do not introduce a framework or heavy deps.
 
 ## Single source of truth
-- The canonical host lives in `src/content.mjs` → `site.url` (`https://wordhelper.online`).
-  Everything (canonical, OG, sitemap, robots) derives from it via `absolute()` / `${site.url}`.
-  **Never hardcode the host** anywhere else.
+- The **effective** canonical host is `HOST_CANONICAL` in `scripts/build.mjs` (defaults to
+  `https://wordhelper-online.pages.dev`; `build.mjs` reassigns `site.url` to it at startup).
+  `src/content.mjs` → `site.url` holds the brand host but is overridden by `HOST_CANONICAL`
+  for every real build. Everything (canonical, OG, sitemap, robots, JSON-LD) derives from it
+  via `absolute()` / `${site.url}`. **Never hardcode the host** anywhere else. To switch to
+  the branded domain later, change `HOST_CANONICAL` / use `npm run build:live` — see
+  `docs/custom-domain-readiness.md`.
 
 ## Word pages & the index gate
-- Only ~2,215 word pages exist as static files (96 curated + ~2,119 enriched a-words).
-  The ~107k A–Z "browse" words are **stubs with no static page**; their `/word/<slug>/`
-  links resolve via the `_redirects` rewrite `/word/* /word-lookup/ 200` to the single
-  noindexed client-lookup template. **Do not** start emitting a static page per browse word
-  (that recreates 100k+ thin pages → AdSense risk).
+- ~64,000 in-depth word pages are published (those passing the quality gate). In production
+  (`SHARD_PAGES=1`, the default for `build:prod`/`build:live`) they are **not** emitted as
+  64k individual files — they are packed into gzipped JSON shards under `dist/_shards/` and
+  served by the Pages Function `functions/word/[[slug]].js` (scoped by `dist/_routes.json` to
+  `/word/*`). This keeps the deploy under Cloudflare's free-plan 20k-file cap. **Do not**
+  start emitting a static page per word, and **do not** publish browse-word stubs as indexed
+  pages (that recreates 100k+ thin pages → AdSense risk). There is no `/word/* /word-lookup/`
+  rewrite in `_redirects`; unpublished words are linked through the `noindex` lookup template
+  only where `wordHref()` routes them.
 - `isPublishable(w)` in `build.mjs` is the **single** index-eligibility gate. Sitemap
   membership and the `noindex` flag both derive from it. Keep them in sync.
 - `emit(route)` records `route.noindex`; `sitemap()` excludes noindex routes. If you add a

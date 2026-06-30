@@ -17,6 +17,7 @@ import {
 import { words, wordExplorerHubData } from "../src/words.mjs";
 import { lessons, learnHubData } from "../src/learn.mjs";
 import { wordLists, wordListsHubData } from "../src/word-lists.mjs";
+import { sanitizeRelations } from "../src/relation-filter.mjs";
 import {
   isCompleteWordEntry,
   wordCompletenessScore,
@@ -38,9 +39,19 @@ const assetVersion = String(Date.now());
 
 // ── Canonicalization & indexing env (migration-safe) ─────────────────────
 // Single source of truth for the canonical host and the deploy environment.
-// Going live: set HOST_CANONICAL and SITE_ENV=production (or use build:prod).
+//
+// CURRENT PRODUCTION URL: https://wordhelper-online.pages.dev
+// FUTURE BRANDED DOMAIN:  https://wordhelper.online  (not yet attached)
+//
+// How to build for each target:
+//   Pages.dev (current):  SITE_ENV=production node scripts/build.mjs
+//   Live domain (future): SITE_ENV=production HOST_CANONICAL=https://wordhelper.online node scripts/build.mjs
+//
+// After the custom domain is confirmed live, update the default below and
+// the package.json build:prod script. See docs/custom-domain-readiness.md.
+//
 // Cloudflare Pages auto-detection: CF_PAGES=1 on the main branch triggers production.
-const HOST_CANONICAL = (process.env.HOST_CANONICAL || "https://wordhelper.online").replace(/\/+$/, "");
+const HOST_CANONICAL = (process.env.HOST_CANONICAL || "https://wordhelper-online.pages.dev").replace(/\/+$/, "");
 const CF_PAGES_BRANCH = process.env.CF_PAGES_BRANCH || "";
 const IS_CF_PAGES_PROD = process.env.CF_PAGES === "1" && CF_PAGES_BRANCH === "main";
 const SITE_ENV = (process.env.SITE_ENV || (IS_CF_PAGES_PROD ? "production" : "staging")).toLowerCase();
@@ -66,8 +77,25 @@ site.url = HOST_CANONICAL;
 // Every "N word tools" claim across the site interpolates ${TOOL_COUNT}; never
 // hardcode a different number anywhere.
 const TOOL_COUNT = tools.length;
+// SINGLE SOURCE OF TRUTH for quiz / Word Explorer word count.
+// The vocabulary quiz, word family quiz, and synonym match all use the same
+// words array. Every quiz-count claim must use QUIZ_WORD_COUNT — never a
+// hardcoded number. If words are added or removed, the count updates everywhere.
+const QUIZ_WORD_COUNT = words.length;
 // Real build/edit date — drives lastReviewed/dateModified trust signals (no fabricated dates).
 const buildDateISO = new Date().toISOString().slice(0, 10);
+// Content baseline date for Article datePublished — aligned with the Organization
+// foundingDate ("2025"). Individual guides/lists may override with a real
+// `datePublished` field; this is the honest "published since launch" fallback.
+const SITE_CONTENT_START = "2025-01-01";
+// Reusable publisher node for Article schema (Google Article rich results expect a
+// publisher with a logo ImageObject).
+const ARTICLE_PUBLISHER = () => ({
+  "@type": "Organization",
+  name: site.name,
+  url: `${site.url}/`,
+  logo: { "@type": "ImageObject", url: `${site.url}/og-image.png`, width: 1200, height: 630 },
+});
 // SERP hygiene: Google truncates titles past ~60 chars and meta descriptions past
 // ~158. Word-page metaTitle/metaDescription are baked into the 64k enriched entries,
 // so normalize them at render time (front-loaded keywords kept; never cut mid-word).
@@ -452,7 +480,10 @@ function footer() {
     <nav class="footer-nav" aria-label="Company and policies">
       <p class="footer-nav-title">Trust &amp; policies</p>
       <a href="/about/">About</a>
+      <a href="/editorial-team/">Editorial Team</a>
       <a href="/contact/">Contact</a>
+      <a href="/corrections/">Corrections</a>
+      <a href="/site-updates/">Site Updates</a>
       <a href="/editorial-policy/">Editorial Policy</a>
       <a href="/privacy-policy/">Privacy Policy</a>
       <a href="/terms/">Terms</a>
@@ -464,7 +495,7 @@ function footer() {
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
       <p>© ${new Date().getFullYear()} Word Helper — an independent word-tools project.</p>
-      <p class="footer-bottom-note">Built from open lexical data, cited word sources, quality checks, and practical word tools · <a href="/editorial-policy/">How we work &amp; sources</a></p>
+      <p class="footer-bottom-note">Built from open lexical data, cited word sources, quality checks, and practical word tools · <a href="/editorial-policy/">How we work &amp; sources</a> · <a href="/cookie-policy/">Cookie &amp; privacy info</a></p>
     </div>
   </div>
 </footer>`;
@@ -474,9 +505,15 @@ function baseSchemas() {
   return [
     {
       "@type": "Organization",
+      "@id": `${site.url}/#organization`,
       name: site.name,
       url: `${site.url}/`,
-      logo: `${site.url}/favicon.svg`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${site.url}/og-image.png`,
+        width: 1200,
+        height: 630,
+      },
       image: `${site.url}/og-image.png`,
       email: site.email,
       foundingDate: "2025",
@@ -588,11 +625,15 @@ function answerBlock(text) {
   return `<section class="answer-block"><div>${icon("result")}</div><p>${escapeHtml(text)}</p></section>`;
 }
 
-// Reserved, CLS-safe ad position. Hidden by default (no empty units shown to
-// users or AdSense reviewers). To activate later: drop the AdSense <ins> inside
-// and add data-ad-active — CSS then reserves a fixed min-height, so no layout
-// shift. No ad network code is included now.
+// Ads are not active. Until they are, emit NOTHING — no empty, "Advertisement"-
+// labelled placeholder ships in the DOM (AdSense reviewers and assistive tech
+// should never see an announced ad region with no ad). When AdSense is approved,
+// set ADS_ENABLED=1: this then emits the reserved, CLS-safe slot, ready to hold
+// the AdSense <ins> + data-ad-active (CSS reserves min-height, so no layout shift).
+// See docs/adsense-readiness.md for the activation + placement checklist.
+const ADS_ENABLED = process.env.ADS_ENABLED === "1";
 function adSlot(id, label = "Advertisement") {
+  if (!ADS_ENABLED) return "";
   return `<aside class="ad-slot" data-ad-slot="${escapeHtml(id)}" aria-label="${escapeHtml(label)}"></aside>`;
 }
 
@@ -914,7 +955,7 @@ function renderHome(homeWords = words) {
     },
     {
       q: "How many words does Word Helper cover?",
-      a: "Word Helper's search index draws on a database of more than 327,000 English words. In-depth word pages are published only when they pass the quality gate — a complete definition, pronunciation, examples, synonyms, and word family — and the published set grows regularly.",
+      a: `Word Helper's word tools — the unscramble, anagram, and finder tools — draw on a database of more than 327,000 English words. In-depth word pages are published only when they pass the quality gate (a complete definition, pronunciation, examples, synonyms, and word family); the published set is currently ${formatCount(wordPageTotal)} pages and grows regularly. The on-site search covers these published pages plus the tools, guides, and word lists.`,
     },
     {
       q: "Which Word Lab tool should I use for scrambled letters?",
@@ -968,7 +1009,7 @@ function renderHome(homeWords = words) {
       </form>
       <ul class="hero-trust-row">
         <li>${icon("check")} <span>${formatCount(wordPageTotal)} word pages</span></li>
-        <li>${icon("check")} <span>327k-word search index</span></li>
+        <li>${icon("check")} <span>327k-word tool dictionary</span></li>
         <li>${icon("check")} <span>${TOOL_COUNT} word tools &amp; quizzes</span></li>
         <li>${icon("check")} <span>Open sources, cited</span></li>
       </ul>
@@ -984,7 +1025,7 @@ function renderHome(homeWords = words) {
       <div class="wotd-card">
         <div class="wotd-header">
           <span class="wotd-label">Word of the Day</span>
-          <span class="pos-badge pos-${(wotd.partOfSpeech||"word").replace(/[^a-z]/g,"").slice(0,4)}">${escapeHtml(wotd.partOfSpeech)}</span>
+          <span class="pos-badge pos-${posClassOf(wotd.partOfSpeech)}">${escapeHtml(wotd.partOfSpeech)}</span>
         </div>
         <a class="wotd-word" href="${wotd.href}">${escapeHtml(wotd.word)}</a>
         <div class="wotd-phonetics">
@@ -1006,6 +1047,34 @@ function renderHome(homeWords = words) {
         <a class="wotd-explore-link" href="/practice/vocabulary-quiz/">${icon("practice")}<div><strong>Vocabulary Quiz</strong><small>Test your knowledge</small></div></a>
         <a class="wotd-explore-link" href="/word-lists/">${icon("wordlists")}<div><strong>Word Lists</strong><small>Curated collections</small></div></a>
       </div>
+    </div>
+  </section>
+  <section class="section home-paths-section" aria-labelledby="paths-heading">
+    <div class="section-heading">
+      <p class="eyebrow">${icon("spark")} Find your starting point</p>
+      <h2 id="paths-heading">Word Helper for every word task</h2>
+    </div>
+    <div class="intent-grid">
+      <a class="intent-card" href="/tools/word-unscramble/">
+        <span>${icon("unscramble")}</span>
+        <strong>Word game players</strong>
+        <small>Unscramble letters, solve anagrams, find words by prefix or suffix, and build game vocabulary.</small>
+      </a>
+      <a class="intent-card" href="/tools/rhyme-finder/">
+        <span>${icon("rhyme")}</span>
+        <strong>Writers</strong>
+        <small>Find rhymes, count syllables, pick better synonyms, and explore word lists for stronger writing.</small>
+      </a>
+      <a class="intent-card" href="/word-explorer/">
+        <span>${icon("wordexplorer")}</span>
+        <strong>English learners</strong>
+        <small>Look up full word meanings, study vocabulary lists, take practice quizzes, and read learning guides.</small>
+      </a>
+      <a class="intent-card" href="/word-lists/academic-words/">
+        <span>${icon("learn")}</span>
+        <strong>Students &amp; teachers</strong>
+        <small>Academic vocabulary, study word lists, pronunciation guides, and vocabulary quizzes for classroom use.</small>
+      </a>
     </div>
   </section>
   <div id="recent-tools-section" class="section recent-section" hidden aria-live="polite">
@@ -1088,7 +1157,7 @@ function renderHome(homeWords = words) {
       <a class="resource-card" href="/practice/vocabulary-quiz/">
         <span class="card-icon">${icon("practice")}</span>
         <strong>Vocabulary Quiz</strong>
-        <span>See a definition, pick the right word. Four choices, instant feedback, covers 2,000+ words.</span>
+        <span>See a definition, pick the right word. Four choices, instant feedback, covers ${QUIZ_WORD_COUNT} curated Word Explorer words.</span>
       </a>
       <a class="resource-card" href="/practice/word-family-quiz/">
         <span class="card-icon">${icon("wordexplorer")}</span>
@@ -1113,16 +1182,16 @@ function renderHome(homeWords = words) {
         </div>
       </div>
       <dl class="home-stat-strip">
-        <div class="home-stat" title="327,000+ words searchable across all tools"><dt>327k+</dt><dd>words in the search index</dd></div>
+        <div class="home-stat" title="327,000+ word English list powering the unscramble, anagram, and finder tools"><dt>327k+</dt><dd>words in the tool dictionary</dd></div>
         <div class="home-stat" title="${formatCount(wordPageTotal)} words that passed the quality gate with a full page: definition, pronunciation, examples, and synonyms"><dt>${formatCount(wordPageTotal)}</dt><dd>full word pages</dd></div>
         <div class="home-stat"><dt>${TOOL_COUNT}</dt><dd>focused word tools</dd></div>
-        <div class="home-stat"><dt>8</dt><dd>vocabulary guides</dd></div>
+        <div class="home-stat"><dt>${lessons.length}</dt><dd>vocabulary guides</dd></div>
       </dl>
       <div class="editorial-standards-grid">
         <div><strong>Open word sources</strong><p>Definitions, pronunciations, and related words are compiled from open, openly-licensed lexical data — Wiktionary (via the Datamuse API) and the Free Dictionary API — plus the public-domain ENABLE word list. Every source is credited in the editorial policy.</p></div>
         <div><strong>Quality-gated word pages</strong><p>A word earns a full, indexable page only when it has enough useful detail — a definition, examples, pronunciation or syllables, synonyms, and related or word-family data. Thin entries are kept out of search.</p></div>
         <div><strong>Correction-first editorial process</strong><p>Spotted something wrong? Every page links to a correction path. Reported issues are reviewed and fixed, and pages are expanded and updated over time.</p></div>
-        <div><strong>Built for real word tasks</strong><p>The tools are made for actual work — writing, word games, learning, vocabulary, spelling, and word discovery — and stay fast and useful with no sign-up.</p></div>
+        <div><strong>Runs in your browser</strong><p>Most word tools process your letters and text locally in your browser — your input is not uploaded to a Word Helper server. No account or sign-up is needed. See the <a href="/privacy-policy/">privacy policy</a> for the few tools that look words up via an open API.</p></div>
       </div>
       <a class="button secondary" href="/editorial-policy/">Read the editorial policy ${icon("arrow")}</a>
     </div>
@@ -1138,6 +1207,7 @@ function renderHome(homeWords = words) {
       name: page.title,
       url: absolute(page.href),
       description: page.metaDescription,
+      dateModified: buildDateISO,
     },
     faqSchema(faqs),
   ];
@@ -1286,16 +1356,16 @@ function toolSourceNote(tool) {
   if (tool.id === "word-counter") {
     source = "Counts run entirely in your browser — your text is never sent to a server. Word, sentence, and reading-time figures are estimates based on spacing, punctuation, and an average reading pace.";
   } else if (wordListTools.includes(tool.id)) {
-    source = "Results are matched against a 327,000+ word English word list built on the public-domain ENABLE word list plus a supplementary system word list.";
+    source = "Runs in your browser — your input is not sent to any server. Results are matched against a 327,000+ word English word list built on the public-domain ENABLE word list plus a supplementary system word list.";
   } else if (tool.id === "synonym-finder" || tool.id === "antonym-finder") {
-    source = "Synonyms and antonyms come from the Datamuse API, an open language dataset built on open thesaurus and corpus data. Results are suggestions and may vary by sense and context.";
+    source = "The word you type is sent to the Datamuse API (api.datamuse.com), an open language dataset, to retrieve results. Synonyms and antonyms are suggestions and may vary by sense and context.";
   } else if (tool.id === "rhyme-finder") {
-    source = "Rhyme results are generated from English spelling and pronunciation patterns, covering perfect rhymes, near rhymes, and shared word endings.";
+    source = "Runs in your browser — your input is not sent to any server. Rhymes come from a curated rhyme set plus a spelling-and-sound pattern match, covering perfect rhymes first, then near rhymes and shared word endings.";
   } else {
-    source = "Syllable counts follow standard English pronunciation, segmenting words by vowel groups; regional accents and dialects may divide some words differently.";
+    source = "Runs in your browser — your input is not sent to any server. Syllable counts follow standard English pronunciation; regional accents and dialects may divide some words differently.";
   }
   const trademark = gameTools.includes(tool.id)
-    ? ` <span class="tool-source-tm">Scrabble&reg; and Words With Friends&reg; are trademarks of their respective owners. Word Helper is a separate reference and is not affiliated with or endorsed by them.</span>`
+    ? ` <span class="tool-source-tm">These helpers are for practice, study, and solo play — follow the rules of any game or competition you take part in. Scrabble&reg; and Words With Friends&reg; are trademarks of their respective owners. Word Helper is a separate reference and is not affiliated with or endorsed by them.</span>`
     : "";
   return `<p class="tool-source-note">${icon("info")} <span>${source}${trademark}</span></p>`;
 }
@@ -1391,7 +1461,7 @@ function renderTool(tool) {
           <p class="eyebrow">Results</p>
           <h2>${escapeHtml(tool.resultHeading)}</h2>
         </div>
-        <button type="button" class="copy-all" disabled>${icon("copy")} ${tool.id === "syllable-counter" ? "Copy Analysis" : "Copy Words"}</button>
+        <button type="button" class="copy-all" disabled>${icon("copy")} ${tool.id === "syllable-counter" ? "Copy Analysis" : tool.id === "word-counter" ? "Copy Summary" : "Copy Words"}</button>
       </div>
       <div class="tool-message empty">${escapeHtml(tool.emptyState)}</div>
       <div class="results"></div>
@@ -1563,18 +1633,14 @@ function renderGuide(page) {
       name: page.title,
       url: absolute(page.href),
       description: page.metaDescription,
-      datePublished: "2024-01-01",
+      datePublished: SITE_CONTENT_START,
       dateModified: new Date().toISOString().split("T")[0],
       author: {
         "@type": "Organization",
         name: site.name,
         url: `${site.url}/`,
       },
-      publisher: {
-        "@type": "Organization",
-        name: site.name,
-        url: `${site.url}/`,
-      },
+      publisher: ARTICLE_PUBLISHER(),
     },
     breadcrumbSchema(page),
     faqSchema(page.faqs),
@@ -1590,25 +1656,45 @@ function renderLegal(page) {
     ${breadcrumb(page)}
     <p class="eyebrow">Word Helper trust</p>
     <h1>${escapeHtml(page.h1)}</h1>
-    ${reviewedMeta("Policy reviewed")}
+    ${reviewedMeta(page.reviewedLabel || "Policy reviewed")}
   </section>
   <section class="legal-content">
     ${bodyContent}
-  </section>`;
-  const schemas = [
-    {
-      "@type": "WebPage",
-      name: page.title,
-      url: absolute(page.href),
-      description: page.metaDescription,
-    },
-    breadcrumbSchema(page),
-  ];
+  </section>
+  ${page.faqs ? faqList(page.faqs) : ""}`;
+  // Use the most accurate WebPage subtype when a page declares one (AboutPage for
+  // /about/, ContactPage for /contact/, ProfilePage for /editorial-team/). A
+  // ProfilePage references the publisher Organization as its mainEntity — honest,
+  // since the accountable entity is the brand, not an invented individual.
+  const primarySchema = {
+    "@type": page.schemaType || "WebPage",
+    name: page.title,
+    url: absolute(page.href),
+    description: page.metaDescription,
+    dateModified: buildDateISO,
+  };
+  if (page.schemaType === "ProfilePage" || page.schemaType === "AboutPage") {
+    primarySchema.mainEntity = { "@id": `${site.url}/#organization` };
+  }
+  const schemas = [primarySchema, breadcrumbSchema(page), faqSchema(page.faqs)];
   return { href: page.href, html: layout(page, body, schemas) };
 }
 
+// Map any part-of-speech string to one of the CSS-styled badge classes. The
+// stylesheet styles pos-noun/verb/adje/adve/word/unkn; anything else (preposition,
+// pronoun, conjunction, interjection, determiner, …) falls back to the styled
+// pos-unkn so a badge never renders unstyled.
+function posClassOf(pos = "") {
+  const p = String(pos).toLowerCase();
+  if (p.includes("noun")) return "noun";
+  if (p.includes("verb")) return "verb";
+  if (p.includes("adjective")) return "adje";
+  if (p.includes("adverb")) return "adve";
+  if (p === "word" || p === "") return "word";
+  return "unkn";
+}
 function posBadge(pos) {
-  return `<span class="pos-badge pos-${pos.replace(/[^a-z]/g, "").slice(0, 4)}">${escapeHtml(pos)}</span>`;
+  return `<span class="pos-badge pos-${posClassOf(pos)}">${escapeHtml(pos)}</span>`;
 }
 
 function renderWordCard(w, extraAttrs = "") {
@@ -1617,7 +1703,7 @@ function renderWordCard(w, extraAttrs = "") {
   const partOfSpeech = w.partOfSpeech || "word";
   const needsCardLookup = Boolean(w.needsDictionaryLookup || partOfSpeech === "word");
   const displayPos = needsCardLookup && partOfSpeech === "word" ? "checking" : partOfSpeech;
-  const posClass = partOfSpeech.replace(/[^a-z]/g, "").slice(0, 4) || "word";
+  const posClass = posClassOf(partOfSpeech);
   const syllables = Number(w.syllables) || estimateSyllables(word);
   const label = titleCase(word);
   const shortDef =
@@ -1851,6 +1937,19 @@ function renderWordPage(wordData) {
   return { href: wordData.href, html: layout(page, body, schemas, noindex), noindex };
 }
 
+// Stable per-word hash so generated FAQ phrasing varies deterministically across
+// the corpus (the same word always renders the same wording build-to-build, but
+// neighbouring words differ — reduces the duplicate-content footprint of templated
+// answers across tens of thousands of pages).
+function wordHash(word = "") {
+  let h = 0;
+  for (let i = 0; i < word.length; i++) h = (h * 31 + word.charCodeAt(i)) >>> 0;
+  return h;
+}
+function pickVariant(word, variants) {
+  return variants[wordHash(word) % variants.length];
+}
+
 // ── Light Word Page (enriched words — substantive content, AdSense-safe) ─
 function renderLightWordPage(w) {
   const initialPos = w.partOfSpeech || "word";
@@ -1869,6 +1968,14 @@ function renderLightWordPage(w) {
     w.shortDef && w.shortDef.trim() && w.shortDef.trim() !== initialDefinition.trim()
       ? w.shortDef.trim()
       : "";
+  // When the hero already shows the short definition and the full definition simply
+  // repeats it as its opening sentence, strip that leading duplicate from the
+  // Definition block so the page never reads as a copy-paste of the same sentence.
+  let definitionForBlock = initialDefinition;
+  if (heroSummary && definitionForBlock.toLowerCase().startsWith(heroSummary.toLowerCase())) {
+    const rest = definitionForBlock.slice(heroSummary.length).replace(/^[\s.;:,—-]+/, "").trim();
+    if (rest.length > 25) definitionForBlock = rest.charAt(0).toUpperCase() + rest.slice(1);
+  }
 
   const page = {
     href: w.href,
@@ -1878,8 +1985,15 @@ function renderLightWordPage(w) {
   };
 
   // Synonyms / antonyms
-  const synonymList = (w.synonyms || []).filter(Boolean);
-  const antonymList = (w.antonyms || []).filter(Boolean);
+  // Sanitize the open-data relations (drops crude/off-sense noise, multi-word
+  // junk like "keep down", self-echoes, and contradictions; caps + de-dupes).
+  const cleanRelations = sanitizeRelations(w.word, {
+    synonyms: w.synonyms,
+    antonyms: w.antonyms,
+    related: w.related,
+  });
+  const synonymList = cleanRelations.synonyms;
+  const antonymList = cleanRelations.antonyms;
   const synonymPills = synonymList
     .map((s) => wordPill(s))
     .join("");
@@ -1895,13 +2009,30 @@ function renderLightWordPage(w) {
   // Generated word-specific FAQs — valuable SEO content, genuinely useful
   const posLabel = posPhrase(initialPos);
   const syllableAnswer = syllCount === 1
-    ? `${label} has 1 syllable. It is pronounced as a single beat: ${syllBreak}.`
-    : `${label} has ${syllCount} syllable${syllCount !== 1 ? "s" : ""}: ${syllBreak}. The word is broken into ${syllCount} spoken beats.`;
+    ? pickVariant(w.word, [
+        `${label} has 1 syllable. It is pronounced as a single beat: ${syllBreak}.`,
+        `${label} is a one-syllable word, said in a single beat: ${syllBreak}.`,
+        `There is 1 syllable in ${w.word} — it is spoken as one beat: ${syllBreak}.`,
+      ])
+    : pickVariant(w.word, [
+        `${label} has ${syllCount} syllables: ${syllBreak}. The word is broken into ${syllCount} spoken beats.`,
+        `There are ${syllCount} syllables in ${w.word}, divided as ${syllBreak} when spoken.`,
+        `${label} breaks into ${syllCount} syllables — ${syllBreak} — when you say it aloud.`,
+      ]);
+  const posSenseNote = initialPos.includes("noun") ? "As a noun, it names a thing, idea, or concept." : initialPos.includes("verb") ? "As a verb, it describes an action or state." : initialPos.includes("adjective") ? "As an adjective, it describes or modifies a noun." : initialPos.includes("adverb") ? "As an adverb, it modifies a verb, adjective, or other adverb." : "";
   const posAnswer = initialPos === "word"
     ? `${label} is an English word listed in the Word Helper word list. Its part of speech can shift with the way it is used in a sentence.`
-    : `${label} is used as ${posPhrase(initialPos)}. ${initialPos.includes("noun") ? "As a noun, it names a thing, idea, or concept." : initialPos.includes("verb") ? "As a verb, it describes an action or state." : initialPos.includes("adjective") ? "As an adjective, it describes or modifies a noun." : initialPos.includes("adverb") ? "As an adverb, it modifies a verb, adjective, or other adverb." : ""}`;
+    : pickVariant(w.word, [
+        `${label} is used as ${posPhrase(initialPos)}. ${posSenseNote}`,
+        `In a sentence, ${w.word} functions as ${posPhrase(initialPos)}. ${posSenseNote}`,
+        `${label} works as ${posPhrase(initialPos)}. ${posSenseNote}`,
+      ]);
   const synonymAnswer = synonymList.length > 0
-    ? `Words with similar meanings to ${w.word} include ${synonymList.slice(0, 4).join(", ")}. The best synonym depends on the exact context you are writing or reading in.`
+    ? pickVariant(w.word, [
+        `Words with similar meanings to ${w.word} include ${synonymList.slice(0, 4).join(", ")}. The best synonym depends on the exact context you are writing or reading in.`,
+        `Close in meaning to ${w.word} are ${synonymList.slice(0, 4).join(", ")} — choose the one whose tone fits your sentence.`,
+        `You can often swap ${w.word} for ${synonymList.slice(0, 4).join(", ")}, though each carries a slightly different shade of meaning.`,
+      ])
     : `Close synonyms for ${w.word} depend on the sense you need. Use Word Explorer to browse related words, or the Prefix Finder to surface words built on the same root.`;
 
   // Data-driven FAQ: only include questions a real, grounded answer exists for —
@@ -1932,12 +2063,12 @@ function renderLightWordPage(w) {
   const lookupAttrs = needsLookup
     ? ` data-dictionary-lookup="true" data-dictionary-word="${escapeHtml(w.word)}"`
     : "";
-  const posClass = initialPos.replace(/[^a-z]/g, "").slice(0, 4);
+  const posClass = posClassOf(initialPos);
 
   // Difficulty / usage / relations (rendered only when grounded data exists).
   const levelLabel = wordDifficulty(w);
   const usageLabel = wordUsageLabel(w);
-  const relatedList = (w.related || []).filter(Boolean);
+  const relatedList = cleanRelations.related;
   const rhymeList = (w.rhymes || []).filter(Boolean);
   const formsList = (w.wordFamily || []).filter((f) => f && (f.word || typeof f === "string"));
   const relatedPills = relatedList.map((r) => wordPill(r)).join("");
@@ -1972,7 +2103,7 @@ function renderLightWordPage(w) {
     <section class="word-section">
       <h2 class="word-section-title">Definition of ${escapeHtml(label)}</h2>
       <div class="definition-block" data-word-definition>
-        <p>${escapeHtml(initialDefinition)}</p>
+        <p>${escapeHtml(definitionForBlock)}</p>
       </div>
     </section>
 
@@ -2045,7 +2176,14 @@ function renderLightWordPage(w) {
       </div>
     </section>
 
-    <p class="word-source-note">${icon("info")} Word data may combine open lexical sources, word-list data, and automated checks. If something looks wrong, please <a href="/contact/">report a correction</a>.</p>
+    <aside class="word-source-note" aria-label="About this word page">
+      ${icon("info")} <strong>About this page:</strong> word data is compiled from openly licensed sources
+      — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (building on Wiktionary, CC BY-SA 3.0)
+      and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>
+      — then standardized and quality-checked by Word Helper. Example sentences may include AI-assisted generations that have been automatically screened for accuracy.
+      Last generated: <time datetime="${buildDateISO}">${new Date(buildDateISO + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" })}</time>.
+      <a href="/corrections/">Report an error</a> · <a href="/editorial-policy/">How this works</a>
+    </aside>
   </div>
   ${faqList(genFaqs)}`;
 
@@ -2225,7 +2363,7 @@ function renderWordExplorerIndex(allWords = words) {
     </div>
     <div class="text-stack">
       <p>Definitions, pronunciation, syllables, synonyms, and related data may come from open lexical sources and APIs — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary), the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>, and the public-domain ENABLE word list. WordHelper adds structure, quality checks, internal linking, tools, and correction paths to make the data more useful.</p>
-      <p>Only pages that pass a quality gate — a complete definition, pronunciation, syllables, examples, and synonyms — are listed and indexed; thinner pages stay <code>noindex</code> until the data improves. Pages are updated as sources improve, and every word profile carries a <a href="/contact/">report a correction</a> link. Full sourcing and license attribution is on the <a href="/editorial-policy/">Editorial Policy</a> page.</p>
+      <p>Only pages that pass a quality gate — a complete definition, pronunciation, syllables, examples, and synonyms — are listed and indexed; thinner pages stay <code>noindex</code> until the data improves. Pages are updated as sources improve, and every word profile carries a <a href="/corrections/">report a correction</a> link. Full sourcing and license attribution is on the <a href="/editorial-policy/">Editorial Policy</a> page.</p>
     </div>
   </section>
   <section class="section">
@@ -2384,18 +2522,14 @@ function renderLesson(lesson) {
       name: lesson.title,
       url: absolute(lesson.href),
       description: lesson.metaDescription,
-      datePublished: "2024-01-01",
+      datePublished: SITE_CONTENT_START,
       dateModified: new Date().toISOString().split("T")[0],
       author: {
         "@type": "Organization",
         name: site.name,
         url: `${site.url}/`,
       },
-      publisher: {
-        "@type": "Organization",
-        name: site.name,
-        url: `${site.url}/`,
-      },
+      publisher: ARTICLE_PUBLISHER(),
     },
     breadcrumbSchema(page),
     faqSchema(lesson.faqs),
@@ -2662,10 +2796,22 @@ function renderWordList(list) {
       name: list.title,
       url: absolute(list.href),
       description: list.metaDescription,
-      datePublished: "2024-01-01",
+      datePublished: SITE_CONTENT_START,
       dateModified: new Date().toISOString().split("T")[0],
       author: { "@type": "Organization", name: site.name, url: `${site.url}/` },
-      publisher: { "@type": "Organization", name: site.name, url: `${site.url}/` },
+      publisher: ARTICLE_PUBLISHER(),
+    },
+    {
+      "@type": "ItemList",
+      name: list.title,
+      description: list.metaDescription,
+      numberOfItems: list.words.length,
+      itemListElement: list.words.slice(0, 100).map((entry, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: entry.word,
+        ...(entry.wordPageHref ? { url: absolute(entry.wordPageHref) } : {}),
+      })),
     },
     breadcrumbSchema(page),
     faqSchema([
@@ -2836,7 +2982,7 @@ function renderVocabQuiz() {
         <div id="quiz-def" class="quiz-definition"></div>
         <div id="quiz-pos" class="quiz-pos"></div>
         <div id="quiz-choices" class="quiz-choices" role="group" aria-label="Answer choices"></div>
-        <div id="quiz-feedback" class="quiz-feedback" hidden></div>
+        <div id="quiz-feedback" class="quiz-feedback" role="status" aria-live="polite" hidden></div>
         <div id="quiz-nav" class="quiz-nav" hidden>
           <button id="quiz-next" class="button primary">Next question</button>
         </div>
@@ -2964,7 +3110,7 @@ function renderWordFamilyQuiz() {
         <div id="wf-prompt" class="quiz-definition"></div>
         <div id="wf-pos" class="quiz-pos"></div>
         <div id="wf-choices" class="quiz-choices" role="group" aria-label="Answer choices"></div>
-        <div id="wf-feedback" class="quiz-feedback" hidden></div>
+        <div id="wf-feedback" class="quiz-feedback" role="status" aria-live="polite" hidden></div>
         <div id="wf-nav" class="quiz-nav" hidden>
           <button id="wf-next" class="button primary">Next question</button>
         </div>
@@ -3078,7 +3224,7 @@ function renderSynonymMatch() {
           <div id="sm-words" class="match-col"></div>
           <div id="sm-synonyms" class="match-col"></div>
         </div>
-        <div id="sm-feedback" class="quiz-feedback" hidden></div>
+        <div id="sm-feedback" class="quiz-feedback" role="status" aria-live="polite" hidden></div>
       </div>
       <div id="sm-complete" class="quiz-complete" hidden>
         <h2>Round complete!</h2>
@@ -3927,15 +4073,21 @@ ${toolLines}
 ## Editorial standards
 Definitions and word data are compiled from openly licensed sources (Wiktionary via
 the Datamuse API, and the Free Dictionary API), then standardized, quality-screened,
-and structured to a consistent format; example sentences are real where available and
-otherwise generated and screened. Word-game acceptance, pronunciation, and syllable
-counts can vary by dictionary, accent, and dialect; the relevant pages state these
-limits. Sources and license attribution: ${site.url}/editorial-policy/. Corrections: ${site.email}.
+and structured to a consistent format. Example sentences are real where available and
+otherwise generated by AI and automatically screened for accuracy before publication.
+Word-game acceptance, pronunciation, and syllable counts can vary by dictionary,
+accent, and dialect; the relevant pages state these limits. Sources and license
+attribution: ${site.url}/editorial-policy/. Corrections: ${site.email}.
+
+Word Helper uses no advertising or analytics services (June 2026). See Cookie Policy
+and Privacy Policy for current data handling details. These will be updated before any
+advertising or analytics are activated.
 
 ## Contact
 - Email: ${site.email}
 - About: ${site.url}/about/
 - Editorial policy: ${site.url}/editorial-policy/
+- Site updates: ${site.url}/site-updates/
 `;
 }
 
@@ -3950,7 +4102,12 @@ function deployHeaders(htmlSegments = []) {
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  ${IS_PRODUCTION ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only"}: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.dictionaryapi.dev https://api.datamuse.com https://*.google-analytics.com https://*.googlesyndication.com; frame-src https://*.googlesyndication.com https://*.doubleclick.net; base-uri 'self'; form-action 'self'${IS_PRODUCTION ? "\n  Strict-Transport-Security: max-age=63072000" : "\n  X-Robots-Tag: noindex, nofollow"}`;
+  ${IS_PRODUCTION ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only"}: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.dictionaryapi.dev https://api.datamuse.com; base-uri 'self'; form-action 'self'${IS_PRODUCTION ? "\n  Strict-Transport-Security: max-age=63072000" : "\n  X-Robots-Tag: noindex, nofollow"}`;
+  // NOTE: When Google AdSense is activated, expand the CSP to include:
+  //   script-src: add https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagmanager.com https://www.google-analytics.com
+  //   connect-src: add https://*.google-analytics.com https://*.googlesyndication.com
+  //   frame-src: add https://*.googlesyndication.com https://*.doubleclick.net
+  // See docs/adsense-readiness.md for the full AdSense launch checklist.
 
   const htmlCacheBlocks = ["/", ...htmlSegments.map((s) => `/${s}/*`)]
     .map((p) => `${p}\n  Cache-Control: public, max-age=0, must-revalidate`)

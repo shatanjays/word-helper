@@ -651,7 +651,7 @@
       const ok = await copyText(copyAll.dataset.copyText || "");
       copyAll.textContent = ok ? "Copied" : "Copy failed";
       window.setTimeout(() => {
-        copyAll.innerHTML = `<svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15V7a2 2 0 0 1 2-2h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> ${tool === "syllable-counter" ? "Copy Analysis" : "Copy Words"}`;
+        copyAll.innerHTML = `<svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15V7a2 2 0 0 1 2-2h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> ${tool === "syllable-counter" ? "Copy Analysis" : tool === "word-counter" ? "Copy Summary" : "Copy Words"}`;
       }, 1300);
     });
 
@@ -1134,6 +1134,8 @@
     const paragraphs = trimmed.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean).length || (words ? 1 : 0);
     const readSec = Math.round((words / 200) * 60);
     const readTime = readSec < 60 ? `~${Math.max(1, readSec)} sec read` : `~${Math.max(1, Math.round(words / 200))} min read`;
+    const speakSec = Math.round((words / 130) * 60);
+    const speakTime = speakSec < 60 ? `~${Math.max(1, speakSec)} sec speak` : `~${Math.max(1, Math.round(words / 130))} min speak`;
     const messageBox = shell.querySelector(".tool-message");
     const results = shell.querySelector(".results");
     const copyAll = shell.querySelector(".copy-all");
@@ -1146,9 +1148,10 @@
       ${summaryCard("Sentences", sentences.toLocaleString())}
       ${summaryCard("Paragraphs", paragraphs.toLocaleString())}
       ${summaryCard("Reading time", readTime)}
+      ${summaryCard("Speaking time", speakTime)}
     </div>`;
     trackToolUsage("word-counter");
-    setCopyButton(copyAll, true, `Word Helper — Word Counter\nWords: ${words}\nCharacters: ${charsWithSpaces}\nCharacters (no spaces): ${charsNoSpaces}\nSentences: ${sentences}\nParagraphs: ${paragraphs}\nReading time: ${readTime}`);
+    setCopyButton(copyAll, true, `Word Helper — Word Counter\nWords: ${words}\nCharacters: ${charsWithSpaces}\nCharacters (no spaces): ${charsNoSpaces}\nSentences: ${sentences}\nParagraphs: ${paragraphs}\nReading time: ${readTime}\nSpeaking time: ${speakTime}`);
     if (hint) hint.hidden = false;
   }
 
@@ -2142,6 +2145,13 @@
     const elSynonyms = document.getElementById("sm-synonyms");
     const elGame = document.getElementById("sm-game");
     const elComplete = document.getElementById("sm-complete");
+    const elFeedback = document.getElementById("sm-feedback");
+    function announceMatch(text, ok) {
+      if (!elFeedback) return;
+      elFeedback.hidden = false;
+      elFeedback.className = "quiz-feedback " + (ok ? "correct" : "incorrect");
+      elFeedback.textContent = text;
+    }
 
     function startRound() {
       matched = 0; selectedWord = null; selectedWordEl = null;
@@ -2188,12 +2198,14 @@
         });
         matched++; elMatched.textContent = matched;
         selectedWord = null; selectedWordEl = null;
+        announceMatch("Matched! " + matched + " of " + ROUND_SIZE + ".", true);
         if (matched >= ROUND_SIZE) {
           setTimeout(function() { elGame.hidden = true; elComplete.hidden = false; }, 500);
         }
       } else {
         el.classList.add("wrong");
         if (selectedWordEl) selectedWordEl.classList.add("wrong");
+        announceMatch("Not a match — try again.", false);
         setTimeout(function() {
           el.classList.remove("wrong");
           if (selectedWordEl) selectedWordEl.classList.remove("wrong");

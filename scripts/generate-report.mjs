@@ -74,5 +74,6 @@ console.log("SITEMAP STATUS");
 console.log("=".repeat(60));
 console.log(`  Word pages in sitemap:  ${L(t.indexableWords)} (quality ≥70 only)`);
 console.log(`  Excluded from sitemap:  ${L(t.nonIndexableWords)} (quality <70, needs enrichment)`);
-console.log("  Sitemap URL:            https://wordhelper.online/sitemap.xml");
+const _sitemapHost = (process.env.HOST_CANONICAL || "https://wordhelper-online.pages.dev").replace(/\/+$/, "");
+console.log(`  Sitemap URL:            ${_sitemapHost}/sitemap.xml`);
 console.log("=".repeat(60) + "\n");

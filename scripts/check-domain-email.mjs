@@ -26,11 +26,19 @@ const localOnlyTooling = new Set([
   "scripts/keep-local-server.mjs",
 ]);
 
+// Build-input caches and local tooling state legitimately contain sample/placeholder
+// hosts (Free Dictionary API sample sentences, wrangler/dev state). They are never
+// deployed, so exclude them — only scan deployable source + output.
+const skipDirNames = ["node_modules", ".git", ".claude", ".wrangler"];
+const skipRelPrefixes = ["data/cache", "data/freq", "data/reports", "data/enriched"];
+
 async function walk(dir) {
   const { readdir } = await import("node:fs/promises");
   for (const entry of await readdir(dir, { withFileTypes: true })) {
-    if (["node_modules", ".git", ".claude"].includes(entry.name)) continue;
+    if (skipDirNames.includes(entry.name)) continue;
     const full = path.join(dir, entry.name);
+    const rel = path.relative(root, full).split(path.sep).join("/");
+    if (skipRelPrefixes.some((p) => rel === p || rel.startsWith(p + "/"))) continue;
     if (entry.isDirectory()) {
       await walk(full);
     } else {

@@ -4,7 +4,8 @@ import path from "node:path";
 
 const root = process.cwd();
 const distDir = path.join(root, "dist");
-const siteUrl = "https://wordhelper.online";
+// Match HOST_CANONICAL default in build.mjs so sitemap URL checks stay in sync.
+const siteUrl = (process.env.HOST_CANONICAL || "https://wordhelper-online.pages.dev").replace(/\/+$/, "");
 const maxSitemapUrls = 50000;
 const maxDeployFiles = Number(process.env.WORD_HELPER_MAX_DEPLOY_FILES || 20000);
 const maxDeployBytes = Number(process.env.WORD_HELPER_MAX_DEPLOY_BYTES || 750 * 1024 * 1024);
@@ -97,26 +98,59 @@ if (!existsSync(distDir)) {
   const headers = existsSync(headersPath) ? await readFile(headersPath, "utf8") : "";
   const redirects = existsSync(redirectsPath) ? await readFile(redirectsPath, "utf8") : "";
 
-  const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
-  if (!urls.length) fail("sitemap.xml has no URLs.");
-  if (urls.length > maxSitemapUrls) {
-    fail(`sitemap.xml has ${urls.length} URLs; split sitemaps before exceeding ${maxSitemapUrls}.`);
+  // sitemap.xml is a sitemap INDEX (chunked sub-sitemaps). Resolve it to the real
+  // page URLs across all sub-sitemaps, and validate the sub-sitemap files exist.
+  const topLocs = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+  if (!topLocs.length) fail("sitemap.xml has no URLs.");
+  const isIndex = sitemap.includes("<sitemapindex");
+  let urls = [];
+  if (isIndex) {
+    for (const loc of topLocs) {
+      const fname = path.basename(new URL(loc).pathname);
+      const subPath = path.join(distDir, fname);
+      if (!existsSync(subPath)) {
+        fail(`sitemap index references a missing sub-sitemap file: ${fname}`);
+        continue;
+      }
+      const subXml = await readFile(subPath, "utf8");
+      const subUrls = [...subXml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+      if (subUrls.length > maxSitemapUrls) {
+        fail(`${fname} has ${subUrls.length} URLs; split before exceeding ${maxSitemapUrls}.`);
+      }
+      urls.push(...subUrls);
+    }
+  } else {
+    urls = topLocs;
+    if (urls.length > maxSitemapUrls) {
+      fail(`sitemap.xml has ${urls.length} URLs; split sitemaps before exceeding ${maxSitemapUrls}.`);
+    }
   }
+  if (!urls.length) fail("resolved sitemap has no page URLs.");
   if (urls.some((url) => !url.startsWith(`${siteUrl}/`))) {
-    fail("sitemap.xml contains a non-production URL.");
+    fail("sitemap contains a non-production URL.");
   }
   if (urls.some((url) => url.includes("/404/"))) {
-    fail("sitemap.xml should not include the 404 page.");
+    fail("sitemap should not include the 404 page.");
   }
 
+  // Validate that sitemapped page routes resolve. In SHARD_PAGES production mode the
+  // ~64k /word/ pages are served from gzipped shards by functions/word/[[slug]].js
+  // (no static file), so a missing /word/ file is expected — only flag non-/word/
+  // routes, which must exist as static index.html files.
   const missingSitemapFiles = [];
   for (const url of urls) {
     const pathname = new URL(url).pathname;
+    if (pathname.startsWith("/word/")) continue;
     if (!existsSync(routeFile(pathname))) missingSitemapFiles.push(pathname);
     if (missingSitemapFiles.length >= 10) break;
   }
   if (missingSitemapFiles.length) {
     fail(`sitemap routes missing files: ${missingSitemapFiles.join(", ")}`);
+  }
+  // In shard mode, confirm the shard infrastructure that serves /word/ pages exists.
+  const wordUrls = urls.filter((u) => new URL(u).pathname.startsWith("/word/"));
+  if (wordUrls.length && !existsSync(path.join(distDir, "_routes.json"))) {
+    fail("sitemap lists /word/ pages but dist/_routes.json (shard routing) is missing.");
   }
 
   if (!robots.includes(`Sitemap: ${siteUrl}/sitemap_index.xml`) && !robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`)) {
@@ -128,8 +162,11 @@ if (!existsSync(distDir)) {
   if (!headers.includes("/assets/*") || !headers.includes("immutable")) {
     fail("_headers is missing long-lived asset caching.");
   }
-  if (!redirects.includes("/* /404.html 404")) {
-    fail("_redirects is missing the static custom 404 fallback.");
+  // Cloudflare Pages serves dist/404.html natively for unmatched routes, so a
+  // "/* /404.html 404" rule in _redirects is optional. Just require the file.
+  void redirects;
+  if (!existsSync(path.join(distDir, "404.html"))) {
+    fail("dist/404.html (custom 404 page) is missing.");
   }
 
   const { fileCount, byteCount } = await walk(distDir);
