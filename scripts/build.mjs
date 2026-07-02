@@ -2773,7 +2773,7 @@ function renderWordLab() {
     title: "Word Lab — " + TOOL_COUNT + " Interactive Word Tools",
     metaTitle: "Word Lab — Interactive Word Tools | Word Helper",
     metaDescription:
-      "Word Lab is Word Helper's collection of " + TOOL_COUNT + " interactive word tools: Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, Suffix Finder, Word Finder, Synonym Finder, Antonym Finder, Word Counter, and Random Word Generator.",
+      "Word Lab is Word Helper's collection of " + TOOL_COUNT + " word and writing tools — unscramble letters, solve anagrams, find rhymes and synonyms, count words and syllables, and improve clarity, tone, and readability.",
   };
 
   const body = `<section class="page-hero">
@@ -2798,7 +2798,7 @@ function renderWordLab() {
       <h2>What the tools are built on</h2>
     </div>
     <div class="text-stack">
-      <p>Every Word Lab tool uses the same validated in-browser dictionary of ${TOOL_DICT_COUNT.toLocaleString()} English words, drawn from the public-domain ENABLE word list, a supplementary word list, and Word Helper's published word pages.</p>
+      <p>The word-search tools share one validated in-browser dictionary of ${TOOL_DICT_COUNT.toLocaleString()} English words, drawn from the public-domain ENABLE word list, a supplementary word list, and Word Helper's published word pages. The writing clarity tools analyse the text you paste using simple, transparent rules — also entirely in your browser.</p>
       <p>Letter frequency matching ensures results are accurate: a word only appears if all its letters can be built from the letters you entered. Duplicates are handled correctly — two copies of a letter require two copies in the input.</p>
       <p>Rhyme and syllable tools use pattern-matching logic, with clear notes on where accent and dialect variation can affect results.</p>
     </div>
