@@ -12,6 +12,16 @@ export const site = {
     "Word Helper is an English word toolkit: look up definitions, pronunciation, synonyms, and etymology, then solve word puzzles, find rhymes, count syllables, and build vocabulary. Editorially reviewed.",
 };
 
+// Real, named site creator/owner — honest E-E-A-T (a genuine person, not a
+// fabricated credential). Referenced in Organization/Person schema, the footer,
+// the /creator/ page, About, Editorial Policy, and (subtly) the word-page note.
+export const founder = {
+  name: "Jay Sudha",
+  fullName: "Shatanjay Sudha",
+  url: "https://jaysudha.com/",
+  role: "Founder, builder, and editor",
+};
+
 export const toolNav = [
   "/tools/word-unscramble/",
   "/tools/anagram-solver/",
@@ -1409,8 +1419,9 @@ export const legalPages = [
       `<h2>What Word Helper is</h2>
       <p>Word Helper is a fast word workspace built for every kind of word task — solving scrambled letters, finding rhymes, counting syllables, exploring word meanings, building vocabulary, and learning language patterns. Every section connects to the same word data and quality standard.</p>`,
       `<h2>Who runs Word Helper</h2>
-      <p>Word Helper is an independent project focused on making English words easier to look up, understand, and use. It is run independently and is not affiliated with, or endorsed by, any dictionary publisher, word-game company, or advertiser.</p>
-      <p>The site does not employ a large editorial staff or claim academic credentials it does not have. Instead, it is honest about its method: word data is compiled from openly licensed lexical sources, standardized into one consistent format, screened for quality, and structured for clarity — with a strict gate that decides which pages are complete enough to publish. The people behind this work are described on the <a href="/editorial-team/">Editorial Team</a> page, and full sourcing and license attribution is documented in the <a href="/editorial-policy/">Editorial Policy</a>. Spotted something wrong? Use the <a href="/corrections/">corrections page</a> or email <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>`,
+      <p>Word Helper was created by <strong>Jay Sudha</strong>, also known as Shatanjay Sudha. Jay builds practical web tools, calculators, productivity systems, and educational utilities with a focus on clean design, useful content, and fast mobile-first experiences — and Word Helper follows the same philosophy: make useful word tools fast, clear, accessible, and easy to use on mobile. It is run independently and is not affiliated with, or endorsed by, any dictionary publisher, word-game company, or advertiser. More about the creator: <a href="/creator/">Jay Sudha</a> · <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>
+      <p>Word Helper combines open lexical sources, structured word data, and human-readable explanations to make word lookup easier for students, writers, learners, puzzle players, and everyday users. The site does not employ a large editorial staff or claim academic credentials it does not have. Instead, it is honest about its method: word data is compiled from openly licensed lexical sources, standardized into one consistent format, screened for quality, and structured for clarity — with a strict gate that decides which pages are complete enough to publish. The editorial responsibilities are described on the <a href="/editorial-team/">Editorial Team</a> page, and full sourcing and license attribution is documented in the <a href="/editorial-policy/">Editorial Policy</a>. Spotted something wrong? Use the <a href="/corrections/">corrections page</a> or email <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>
+      <p>Word Helper is an educational and reference tool. It is not an official dictionary, a legal language authority, an academic institution, or a professional writing service.</p>`,
       `<h2>Word Lab — ${tools.length} interactive Word Experiences</h2>
       <p>Word Lab gives you ${tools.length} focused tools for specific word tasks. Each one has a clear input, honest results, and a plain explanation of what the tool can and cannot do.</p>
       <ul>
@@ -1473,6 +1484,42 @@ export const legalPages = [
       <p>For more detail about how Word Helper handles personal data, see the <a href="/privacy-policy/">Privacy Policy</a>.</p>`,
       `<h2>Other ways to explore Word Helper</h2>
       <p>If you have a question about how a specific tool works, the <a href="/guides/">Word Helper Guides</a> cover how to get the best results from each tool. If you are looking for information about how content is created or reviewed, the <a href="/editorial-policy/">Editorial Policy</a> explains our standards. If you have a question about advertising, see the <a href="/affiliate-disclosure/">Advertising Disclosure</a>.</p>`,
+      `<h2>Who runs Word Helper</h2>
+      <p>Word Helper is created and maintained by <a href="/creator/">Jay Sudha</a> (Shatanjay Sudha), an independent builder of practical web tools and educational utilities. For more about the creator, visit <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>`,
+    ],
+  },
+  {
+    href: "/creator/",
+    schemaType: "ProfilePage",
+    mainEntityPerson: true,
+    title: "Jay Sudha — Creator of Word Helper",
+    h1: "Jay Sudha — Creator of Word Helper",
+    reviewedLabel: "Page reviewed",
+    metaTitle: "Jay Sudha — Creator of Word Helper",
+    metaDescription:
+      "Word Helper is created and maintained by Jay Sudha (Shatanjay Sudha), an independent builder of practical web tools, calculators, and educational utilities. Learn more.",
+    bodyHtml: [
+      `<h2>Who created Word Helper</h2>
+      <p>Word Helper was created by <strong>Jay Sudha</strong>, also known as Shatanjay Sudha. Jay builds practical digital tools for everyday users — including calculators, productivity systems, finance tools, and language utilities. Word Helper follows the same product philosophy: make useful tools fast, clear, accessible, and easy to use on mobile.</p>
+      <p>Word Helper is part of a broader set of practical online tools Jay builds and maintains. You can find more of that work at <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>`,
+      `<h2>What Word Helper is for</h2>
+      <p>Word Helper is a practical language and word-tools website. It helps people find word meanings, check synonyms and antonyms, explore example sentences, improve vocabulary, solve word games, find rhymes, unscramble letters, count syllables, improve writing clarity, and learn English words through simple explanations. It is built for students, writers, learners, puzzle players, and everyday users who want a clear, fast answer to a word question.</p>`,
+      `<h2>Product philosophy</h2>
+      <p>The same principles shape every part of Word Helper:</p>
+      <ul>
+        <li><strong>Fast tools</strong> — results appear instantly, without heavy pages or waiting.</li>
+        <li><strong>Clean, uncluttered design</strong> — the answer you came for is the thing you see first.</li>
+        <li><strong>No unnecessary friction</strong> — no sign-up, no pop-ups, no dark patterns.</li>
+        <li><strong>Practical examples</strong> — words shown in real sentences, not just defined in isolation.</li>
+        <li><strong>Clear explanations</strong> — plain-English notes alongside the reference data.</li>
+        <li><strong>Transparent sources</strong> — every word page and tool says where its data comes from.</li>
+        <li><strong>A real correction process</strong> — mistakes can be reported and are reviewed and fixed.</li>
+        <li><strong>Mobile-first</strong> — the whole site is built to work well on a phone.</li>
+      </ul>`,
+      `<h2>An honest note on scope</h2>
+      <p>Word Helper is an educational and reference tool, not an official dictionary, a legal language authority, an academic institution, or a professional writing service. It combines open lexical sources with clear formatting and human-readable explanations. The editorial process is described in the <a href="/editorial-policy/">Editorial Policy</a>, the ongoing editorial responsibilities on the <a href="/editorial-team/">Editorial Team</a> page, and corrections are welcome through the <a href="/corrections/">corrections page</a>.</p>`,
+      `<h2>Contact</h2>
+      <p>For questions, corrections, or anything about the site, email <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a> or use the <a href="/contact/">contact page</a>. For more about the creator, visit <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>`,
     ],
   },
   {
@@ -1486,7 +1533,7 @@ export const legalPages = [
       "Meet the Word Helper Editorial Team: who maintains the word tools and word pages, how data quality is reviewed, how corrections are handled, and what Word Helper does and does not claim.",
     bodyHtml: [
       `<h2>Who we are</h2>
-      <p>Word Helper is built and maintained by a small, independent editorial team that works under the collective name <strong>Word Helper Editorial Team</strong>. We are word-tool builders and language enthusiasts — not a university department, a dictionary publisher, or a panel of credentialed lexicographers, and we do not claim to be. We think being clear about that is more trustworthy than inventing authority we do not have.</p>
+      <p>Word Helper is built and maintained under the collective name <strong>Word Helper Editorial Team</strong>, led by the site's creator <a href="/creator/">Jay Sudha</a> (Shatanjay Sudha). We are word-tool builders and language enthusiasts — not a university department, a dictionary publisher, or a panel of credentialed lexicographers, and we do not claim to be. We think being clear about that is more trustworthy than inventing authority we do not have.</p>
       <p>Our role is practical: we choose and license good open data sources, turn that data into clean and consistent word pages and tools, decide which pages are complete enough to publish, screen AI-assisted text, and fix mistakes when readers report them.</p>`,
       `<h2>What the editorial team is responsible for</h2>
       <ul>
@@ -1641,6 +1688,8 @@ export const legalPages = [
     metaDescription:
       "Learn how Word Helper writes, reviews, and maintains educational word-tool content.",
     bodyHtml: [
+      `<h2>Purpose and ownership</h2>
+      <p>Word Helper uses open lexical data and structured word information to create practical reference pages and tools. The website is created and maintained by <strong><a href="/creator/">Jay Sudha</a></strong> (Shatanjay Sudha), a builder of practical online tools and educational utilities. The editorial goal is to make word information easier to understand, compare, and use for students, writers, learners, and word-game players. The site does not claim to be an official dictionary or an academic authority.</p>`,
       `<h2>How word content is created</h2>
       <p>Word Helper compiles its word data from open, openly licensed language sources and standardizes it into one consistent format. Definitions, parts of speech, pronunciations, syllable counts, synonyms, antonyms, and related words are drawn from the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary and other open datasets) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>. Example sentences use real dictionary citations where available, and are otherwise generated and then automatically screened for clarity and accuracy before publication.</p>
       <p>Word Helper's own editorial work is the <strong>selection, standardization, screening, and structuring</strong> of this data — choosing which words and senses to surface, formatting each entry to a consistent template, filtering out low-quality or malformed results, and applying a strict quality gate (below) that decides which pages are complete enough to publish and index. We do not claim to have independently authored every definition; we curate and quality-control openly licensed reference data and present it clearly.</p>`,

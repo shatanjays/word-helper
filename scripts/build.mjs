@@ -11,6 +11,7 @@ import {
   legalPages,
   mainNav,
   site,
+  founder,
   toolNav,
   tools,
 } from "../src/content.mjs";
@@ -493,6 +494,7 @@ function footer() {
     <nav class="footer-nav" aria-label="Company and policies">
       <p class="footer-nav-title">Trust &amp; policies</p>
       <a href="/about/">About</a>
+      <a href="/creator/">Creator: Jay Sudha</a>
       <a href="/editorial-team/">Editorial Team</a>
       <a href="/contact/">Contact</a>
       <a href="/corrections/">Corrections</a>
@@ -507,7 +509,7 @@ function footer() {
   </div>
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
-      <p>© ${new Date().getFullYear()} Word Helper — an independent word-tools project.</p>
+      <p>© ${new Date().getFullYear()} Word Helper — an independent word-tools project, created and maintained by <a href="/creator/">Jay Sudha</a>. Educational reference only — not an official dictionary.</p>
       <p class="footer-bottom-note">Built from open lexical data, cited word sources, quality checks, and practical word tools · <a href="/editorial-policy/">How we work &amp; sources</a> · <a href="/cookie-policy/">Cookie &amp; privacy info</a></p>
     </div>
   </div>
@@ -533,6 +535,14 @@ function baseSchemas() {
       description:
         "Word Helper is a fast word workspace with " + TOOL_COUNT + " word tools, searchable word pages, curated word lists, and vocabulary practice — for finding, exploring, learning, and using words. Maintained by Word Helper.",
       publishingPrinciples: `${site.url}/editorial-policy/`,
+      founder: {
+        "@type": "Person",
+        "@id": `${site.url}/creator/#person`,
+        name: founder.name,
+        alternateName: founder.fullName,
+        url: `${site.url}/creator/`,
+        sameAs: [founder.url],
+      },
       knowsAbout: [
         "English vocabulary",
         "word games",
@@ -921,9 +931,9 @@ function formatCount(value = 0) {
 function renderHome(homeWords = words) {
   const page = {
     href: "/",
-    title: "Word Helper — Word Tools, Word Pages & Vocabulary Workspace",
-    metaTitle: "Word Helper — Word Tools, Word Pages & Vocabulary Workspace",
-    metaDescription: "Word Helper is a fast word workspace: find, unscramble, and explore words, get rhymes and synonyms, browse word lists, and practise vocabulary with " + TOOL_COUNT + " word tools.",
+    title: "Word Helper — Word Tools, Definitions, Synonyms, Rhymes & Vocabulary Help",
+    metaTitle: "Word Helper — Word Tools, Definitions, Synonyms, Rhymes & Vocabulary Help",
+    metaDescription: "Find definitions, synonyms, antonyms, examples, rhymes, anagrams, and syllables, browse word lists, and practise vocabulary with " + TOOL_COUNT + " fast word tools on Word Helper.",
   };
   const wordPageTotal = homeWords.length;
   const azLinks = "abcdefghijklmnopqrstuvwxyz".split("").map((letter) =>
@@ -1025,7 +1035,7 @@ function renderHome(homeWords = words) {
         <li>${icon("check")} <span>${toolDictLabel()}-word tool dictionary</span></li>
         <li>${icon("check")} <span>${TOOL_COUNT} word tools &amp; quizzes</span></li>
         <li>${icon("check")} <span>Open sources, cited</span></li>
-        <li>${icon("check")} <span><a href="/corrections/">Corrections welcome</a></span></li>
+        <li>${icon("check")} <span>Built by <a href="/creator/">Jay Sudha</a></span></li>
       </ul>
     </div>
   </section>
@@ -1689,10 +1699,25 @@ function renderLegal(page) {
     description: page.metaDescription,
     dateModified: buildDateISO,
   };
-  if (page.schemaType === "ProfilePage" || page.schemaType === "AboutPage") {
+  const extraSchemas = [];
+  if (page.mainEntityPerson) {
+    // /creator/ — the ProfilePage is ABOUT the real named person Jay Sudha.
+    const personSchema = {
+      "@type": "Person",
+      "@id": `${site.url}/creator/#person`,
+      name: founder.name,
+      alternateName: founder.fullName,
+      url: absolute(page.href),
+      sameAs: [founder.url],
+      jobTitle: founder.role,
+      worksFor: { "@id": `${site.url}/#organization` },
+    };
+    primarySchema.mainEntity = { "@id": personSchema["@id"] };
+    extraSchemas.push(personSchema);
+  } else if (page.schemaType === "ProfilePage" || page.schemaType === "AboutPage") {
     primarySchema.mainEntity = { "@id": `${site.url}/#organization` };
   }
-  const schemas = [primarySchema, breadcrumbSchema(page), faqSchema(page.faqs)];
+  const schemas = [primarySchema, ...extraSchemas, breadcrumbSchema(page), faqSchema(page.faqs)];
   return { href: page.href, html: layout(page, body, schemas) };
 }
 
@@ -2251,6 +2276,7 @@ function renderLightWordPage(w) {
       and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>
       — then standardized and quality-checked by Word Helper. Example sentences may include AI-assisted generations that have been automatically screened for accuracy.
       Last generated: <time datetime="${buildDateISO}">${new Date(buildDateISO + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" })}</time>.
+      Maintained by Word Helper; site created by <a href="/creator/">Jay Sudha</a>.
       <a href="/corrections/">Report an error</a> · <a href="/editorial-policy/">How this works</a>
     </aside>
   </div>
