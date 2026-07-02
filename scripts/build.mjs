@@ -505,6 +505,7 @@ function footer() {
       <a href="/disclaimer/">Disclaimer</a>
       <a href="/cookie-policy/">Cookie Policy</a>
       <a href="/affiliate-disclosure/">Advertising Disclosure</a>
+      <a href="/accessibility/">Accessibility</a>
     </nav>
   </div>
   <div class="footer-bottom">
@@ -4252,8 +4253,16 @@ function deployRedirects() {
   // /tools and /tools/ are not pages (individual tools live at /tools/<id>/);
   // send the bare hub path to the canonical Word Lab hub. Exact paths only — no
   // splat — so /tools/<id>/ tool pages are never affected.
+  //
+  // Short convenience aliases for the two policy pages whose canonical slugs are
+  // longer (established slugs are unchanged; these are additive 301s so common
+  // shorthand URLs resolve without churning routes or duplicating pages).
   return `/tools /word-lab/ 301
 /tools/ /word-lab/ 301
+/privacy /privacy-policy/ 301
+/privacy/ /privacy-policy/ 301
+/advertising-disclosure /affiliate-disclosure/ 301
+/advertising-disclosure/ /affiliate-disclosure/ 301
 `;
 }
 

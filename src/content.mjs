@@ -58,6 +58,7 @@ export const legalNav = [
   { href: "/cookie-policy/", label: "Cookie Policy" },
   { href: "/editorial-policy/", label: "Editorial Policy" },
   { href: "/affiliate-disclosure/", label: "Advertising Disclosure" },
+  { href: "/accessibility/", label: "Accessibility" },
 ];
 
 export const tools = [
@@ -1576,20 +1577,28 @@ export const legalPages = [
       "Found a wrong definition, a poor example, an incorrect synonym, a broken tool, or an accessibility issue on Word Helper? Use these structured links to report it — every report is reviewed and fixed.",
     bodyHtml: [
       `<h2>How corrections work</h2>
-      <p>Word Helper compiles word data from open sources and standardizes it, so occasional errors do happen. Every report is read by the <a href="/editorial-team/">editorial team</a>, verified, applied to the source data, and the affected page is rebuilt — we do not wait for a scheduled update cycle to fix a confirmed error. Pick the closest match below; each link opens your email app with a helpful subject line and a short template to fill in.</p>`,
-      `<h2>Report a content issue</h2>
+      <p>Word Helper compiles word data from open sources and standardizes it, so occasional errors do happen. We review correction requests to improve clarity, usefulness, and source handling. Every report is read by the <a href="/editorial-team/">editorial team</a>, verified, applied to the source data, and the affected page is rebuilt — we do not wait for a scheduled update cycle to fix a confirmed error. Pick the closest match below; each link opens your email app with a helpful subject line and a short template to fill in.</p>`,
+      `<h2>Report a word or content issue</h2>
       <ul class="correction-list">
         <li><strong>Wrong or unclear definition</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20definition&body=Page%20URL%3A%20%0AWhat%20looks%20wrong%3A%20%0ASuggested%20correction%3A%20">report a definition problem</a></li>
+        <li><strong>Missing definition or meaning</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20missing%20definition&body=Page%20URL%3A%20%0AWord%3A%20%0AWhat%20is%20missing%3A%20">report a missing definition</a></li>
         <li><strong>A better example sentence</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20example%20sentence&body=Page%20URL%3A%20%0ACurrent%20example%3A%20%0ASuggested%20example%3A%20">suggest a clearer example</a></li>
-        <li><strong>Incorrect synonym or antonym</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20synonym%20or%20antonym&body=Page%20URL%3A%20%0AWhich%20word%20is%20wrong%3A%20%0AWhy%3A%20">report a synonym or antonym</a></li>
-        <li><strong>Wrong syllable count or pronunciation</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20pronunciation%20or%20syllables&body=Page%20URL%3A%20%0AWhat%20looks%20wrong%3A%20%0AWhat%20it%20should%20be%3A%20">report a pronunciation issue</a></li>
+        <li><strong>Incorrect synonym</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20synonym&body=Page%20URL%3A%20%0AWhich%20synonym%20is%20wrong%3A%20%0AWhy%3A%20">report a synonym</a></li>
+        <li><strong>Incorrect antonym</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20antonym&body=Page%20URL%3A%20%0AWhich%20antonym%20is%20wrong%3A%20%0AWhy%3A%20">report an antonym</a></li>
+        <li><strong>Pronunciation issue</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20pronunciation&body=Page%20URL%3A%20%0AWhat%20looks%20wrong%3A%20%0AWhat%20it%20should%20be%3A%20">report a pronunciation issue</a></li>
+        <li><strong>Syllable count issue</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20syllables&body=Page%20URL%3A%20%0AWord%3A%20%0ASyllable%20count%20shown%20vs%20expected%3A%20">report a syllable issue</a></li>
+        <li><strong>Rhyme result issue</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20correction%3A%20rhyme&body=Word%3A%20%0AWhat%20looks%20wrong%3A%20">report a rhyme issue</a></li>
+        <li><strong>Offensive or sensitive wording</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20report%3A%20offensive%20or%20sensitive%20wording&body=Page%20URL%3A%20%0AWhat%20the%20concern%20is%3A%20">report a sensitive-wording concern</a></li>
       </ul>`,
-      `<h2>Report a tool, accessibility, or policy issue</h2>
+      `<h2>Report a tool, source, or policy issue</h2>
       <ul class="correction-list">
         <li><strong>Broken or wrong tool result</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20report%3A%20tool%20result&body=Tool%20page%20URL%3A%20%0AWhat%20you%20entered%3A%20%0AWhat%20you%20expected%3A%20%0AWhat%20happened%3A%20">report a tool problem</a></li>
+        <li><strong>Source or licensing issue</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20report%3A%20source%20or%20licensing&body=Page%20URL%3A%20%0ASource%20concern%3A%20">report a source issue</a></li>
         <li><strong>Accessibility barrier</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20report%3A%20accessibility&body=Page%20URL%3A%20%0AAssistive%20tech%20or%20browser%3A%20%0AWhat%20you%20were%20trying%20to%20do%3A%20%0AWhat%20happened%3A%20">report an accessibility issue</a> (treated as high priority)</li>
         <li><strong>Privacy or data concern</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20report%3A%20privacy&body=Your%20question%20or%20concern%3A%20">contact us about privacy</a> (see the <a href="/privacy-policy/">Privacy Policy</a>)</li>
+        <li><strong>Advertising concern</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20report%3A%20advertising&body=Page%20URL%3A%20%0AYour%20concern%3A%20">report an advertising concern</a> (see the <a href="/affiliate-disclosure/">Advertising Disclosure</a>)</li>
         <li><strong>Copyright concern</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20report%3A%20copyright&body=Page%20URL%3A%20%0AMaterial%20you%20hold%20rights%20to%3A%20%0ADetails%3A%20">report a copyright concern</a></li>
+        <li><strong>Something else</strong> — <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20report%3A%20other&body=Page%20URL%3A%20%0AYour%20message%3A%20">send any other issue</a></li>
       </ul>`,
       `<h2>What to include</h2>
       <p>The more specific your report, the faster we can reproduce and fix it. Wherever possible include the <strong>page URL</strong>, the exact <strong>word or input</strong> involved, and a short note on what is wrong and what you would expect instead. If your email app does not open from the links above, just write to <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a> with those details.</p>`,
@@ -1772,6 +1781,44 @@ export const legalPages = [
     ],
   },
   {
+    href: "/accessibility/",
+    title: "Accessibility Statement",
+    h1: "Accessibility Statement",
+    reviewedLabel: "Statement reviewed",
+    metaTitle: "Accessibility Statement — Word Helper",
+    metaDescription:
+      "How Word Helper works to keep its word tools, word pages, and reading content usable with a keyboard, screen reader, and on mobile — and how to report an accessibility issue.",
+    bodyHtml: [
+      `<h2>Our commitment</h2>
+      <p>Word Helper aims to be usable by as many people as possible, including people who navigate with a keyboard, use a screen reader, need larger text, or rely on high-contrast settings. We work toward the <a href="https://www.w3.org/WAI/WCAG22/quickref/" rel="nofollow noopener" target="_blank">Web Content Accessibility Guidelines (WCAG) 2.2 level AA</a> as a practical target. Accessibility is treated as an ongoing effort, not a one-time checkbox.</p>`,
+      `<h2>What we do</h2>
+      <p>Across the site we aim to provide:</p>
+      <ul>
+        <li>Semantic page structure — a single main heading per page, logical heading order, and landmark regions (header, navigation, main, footer).</li>
+        <li>A "skip to content" link and full keyboard operability, with visible focus outlines on links, buttons, and form controls.</li>
+        <li>Labelled form fields on every tool and search box, so screen readers announce what each input is for.</li>
+        <li>Tool results and quiz feedback announced through live regions, so updates are conveyed without a visual cue alone.</li>
+        <li>Text contrast checked against the AA threshold, with information never conveyed by colour alone.</li>
+        <li>Mobile-first layouts with comfortable tap targets and form fields sized to avoid unexpected zoom on phones.</li>
+        <li>Reduced-motion support: decorative motion is removed for visitors who prefer reduced motion.</li>
+      </ul>`,
+      `<h2>Known limitations</h2>
+      <p>Word Helper is built and maintained by a small independent team, and some areas are still improving. Word data is compiled from open sources, so occasional formatting quirks can affect how a screen reader reads an entry. The interactive tools rely on JavaScript; core word pages and content remain readable without it, but some tool interactions do not. If you hit a barrier, we want to hear about it.</p>`,
+      `<h2>Reporting an accessibility issue</h2>
+      <p>If any part of Word Helper is difficult to use with assistive technology, please tell us. Use the accessibility option on the <a href="/corrections/">corrections page</a>, or email <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20accessibility%20issue">hello@wordhelper.online</a> with the page URL, the assistive technology or browser you were using, what you were trying to do, and what happened instead. Accessibility reports are treated as a high priority.</p>`,
+    ],
+    faqs: [
+      {
+        q: "Which accessibility standard does Word Helper follow?",
+        a: "Word Helper works toward WCAG 2.2 level AA as a practical target. It is an ongoing effort rather than a formal certification, and we fix reported issues as a high priority.",
+      },
+      {
+        q: "How do I report an accessibility problem?",
+        a: "Use the accessibility category on the corrections page, or email hello@wordhelper.online with the page URL, your browser or assistive technology, and a short description of the problem.",
+      },
+    ],
+  },
+  {
     href: "/site-updates/",
     title: "Site Updates",
     h1: "Site Updates",
@@ -1782,6 +1829,15 @@ export const legalPages = [
     bodyHtml: [
       `<h2>What this page tracks</h2>
       <p>This page records meaningful changes to Word Helper — new tools, substantial content improvements, quality fixes, and policy updates. It does not list every small style tweak or technical rebuild. It exists so readers can see that the site is actively maintained and improving, and so corrections are visible rather than silent.</p>`,
+      `<h2>July 2026</h2>
+      <ul>
+        <li><strong>Creator identity added:</strong> Word Helper now clearly identifies its creator and maintainer, <a href="/creator/">Jay Sudha</a> (Shatanjay Sudha), across the About, Editorial Policy, Contact, and Editorial Team pages, with a dedicated Creator page and machine-readable creator information.</li>
+        <li><strong>Accessibility Statement published:</strong> a new <a href="/accessibility/">Accessibility Statement</a> describes the site's WCAG 2.2 AA target, what is in place, known limitations, and how to report an accessibility issue.</li>
+        <li><strong>Word tools accuracy fix:</strong> corrected the in-browser word dictionary so common everyday words are included, and updated tool descriptions to state the real dictionary size honestly.</li>
+        <li><strong>Word pages improved:</strong> added a plain-language "In simple terms" line to word pages where a reliable definition allows it, without inventing meanings.</li>
+        <li><strong>Fifteen new word lists and guides</strong> added across writing, exams, word games, and everyday vocabulary.</li>
+        <li><strong>Policy accuracy pass:</strong> tightened privacy, cookie, terms, disclaimer, and advertising pages for internal consistency and precise, non-overclaiming wording.</li>
+      </ul>`,
       `<h2>June 2026</h2>
       <ul>
         <li><strong>Five new word tools added:</strong> Word Finder (offline, find words containing specific letters), Synonym Finder, Antonym Finder (both using live Datamuse results), Word Counter (in-browser text statistics), and Random Word Generator. Total tools now: 11.</li>
