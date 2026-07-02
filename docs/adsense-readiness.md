@@ -64,6 +64,13 @@ verified before submitting an AdSense application.
 
 Do not place ad units until AdSense sends an approval email.
 
+**Launch-order rule (critical):** all four policy pages (Privacy, Cookie, Terms,
+Advertising Disclosure) currently state that no advertising is active. The updated
+"advertising is served by Google AdSense; partners may use cookies; consent shown
+where required" versions MUST ship in the SAME deploy that first enables ad code
+(`ADS_ENABLED=1`). Never let live ad code and the policies disagree, even for a day —
+that contradiction at review time is itself a rejection risk.
+
 ---
 
 ## Ad placement rules (apply once ads are live)

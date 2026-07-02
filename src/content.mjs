@@ -136,7 +136,7 @@ export const tools = [
     examples: [
       { label: "listen", value: "listen", note: "Exact anagrams include silent, enlist, and tinsel." },
       { label: "stone", value: "stone", note: "Find notes, tones, and onset." },
-      { label: "Dormitory", value: "Dormitory", note: "Spaces and punctuation are ignored." },
+      { label: "earth", value: "earth", note: "Exact anagrams include heart and hater." },
     ],
     how: [
       "Exact mode uses every letter exactly once, after spaces and punctuation are removed.",
@@ -288,7 +288,7 @@ export const tools = [
     ],
     related: ["/tools/rhyme-finder/", "/rhyming-words/", "/writing-tools/"],
     disclaimer:
-      "Syllable counts can vary by accent, pronunciation, dialect, and poetic usage. This tool follows standard English pronunciation; counts can shift with accent, dialect, and poetic usage.",
+      "This tool follows standard English pronunciation; counts can shift with accent, dialect, and poetic usage.",
   },
   {
     id: "prefix-finder",
@@ -499,7 +499,7 @@ export const tools = [
       "Enter a single word and Word Helper looks up words with a similar meaning.",
       "Synonyms are ranked roughly by how closely they match, with the strongest first.",
       "The best synonym depends on context — tone, formality, and shade of meaning all matter.",
-      "Open any synonym to read its full definition, pronunciation, and examples.",
+      "Copy any synonym with one click, or look it up in Word Explorer to read its full definition, pronunciation, and examples.",
     ],
     tips: [
       "Read a synonym in your sentence before using it — close meanings still differ in tone.",
@@ -555,7 +555,7 @@ export const tools = [
       "Enter a single word and Word Helper looks up words with the opposite meaning.",
       "Not every word has a clean opposite — abstract and technical words often have none.",
       "Antonyms are most useful for adjectives, common verbs, and directional words.",
-      "Open any antonym to read its full definition, pronunciation, and examples.",
+      "Copy any antonym with one click, or look it up in Word Explorer to read its full definition, pronunciation, and examples.",
     ],
     tips: [
       "Use the base form of a word for the clearest opposites.",
@@ -648,7 +648,7 @@ export const tools = [
     intro:
       "Generate random English words — optionally filtered by length and starting letter — for prompts, games, and brainstorming.",
     answer:
-      "A random word generator gives you unpredictable English words on demand. Word Helper draws from a 327,000+ word list and lets you filter by length and starting letter, which is handy for writing prompts, word games, brainstorming, and vocabulary practice.",
+      "A random word generator gives you unpredictable English words on demand. Word Helper draws from an in-browser dictionary of more than 90,000 English words and lets you filter by length and starting letter, which is handy for writing prompts, word games, brainstorming, and vocabulary practice.",
     primaryKeyword: "random word generator",
     keywords:
       "random word generator, random words, word generator, random english word, writing prompt words",
@@ -663,7 +663,7 @@ export const tools = [
       { label: "5 words", value: "5", note: "Generate five random words." },
     ],
     how: [
-      "Word Helper picks words at random from a 327,000+ word English list.",
+      "Word Helper picks words at random from an in-browser English dictionary of more than 90,000 words.",
       "The count control sets how many words you get (up to 50 at a time).",
       "Optional filters limit results by length range and starting letter.",
       "Generate again any time for a fresh set.",
@@ -676,7 +676,7 @@ export const tools = [
     faqs: [
       {
         q: "Where do the random words come from?",
-        a: "From a 327,000+ word English list built on the public-domain ENABLE word list plus a supplementary system list.",
+        a: "From an in-browser dictionary of more than 90,000 English words, drawn from the public-domain ENABLE word list, a supplementary word list, and Word Helper's published word pages.",
       },
       {
         q: "Can I control the words I get?",
@@ -701,7 +701,7 @@ export const hubs = [
     h1: "Word Game Tools — Solve Letters, Anagrams, and Patterns",
     metaTitle: "Word Game Helper — Unscramble Letters, Anagrams, and Patterns | Word Helper",
     metaDescription:
-      "Comprehensive word game tools for unscrambling letters, solving exact and partial anagrams, finding words by pattern, and checking letter counts. Works for Scrabble, Wordle, crosswords, and any letter-based game. Works for Scrabble, Wordle, crosswords, and any letter-based game.",
+      "Comprehensive word game tools for unscrambling letters, solving exact and partial anagrams, finding words by pattern, and checking letter counts. Works for Scrabble, Wordle, crosswords, and any letter-based game.",
     answer:
       "Word Helper supports word-game play by turning letters and patterns into scannable word lists. Search by available letters, exact anagrams, starting letters, ending letters, or word length — then apply pattern filters to narrow results to what the board allows.",
     sections: [
@@ -952,7 +952,7 @@ export const hubs = [
     metaDescription:
       "Explore English spelling patterns with Prefix Finder and Suffix Finder. Browse words by starting letters, ending letters, common prefixes, and common suffixes. Useful for learners, teachers, and word game players.",
     answer:
-      "Word Helper makes English spelling patterns accessible by grouping words that share starting or ending letters. Prefix Finder and Suffix Finder draw from a comprehensive 327,000-word English database to show what words follow each pattern — useful for spelling study, word game clues, vocabulary exploration, and classroom practice.",
+      "Word Helper makes English spelling patterns accessible by grouping words that share starting or ending letters. Prefix Finder and Suffix Finder draw from an in-browser dictionary of more than 90,000 English words to show what words follow each pattern — useful for spelling study, word game clues, vocabulary exploration, and classroom practice.",
     sections: [
       {
         heading: "Words that start with a pattern",
@@ -1428,13 +1428,13 @@ export const legalPages = [
       </ul>`,
       `<h2>Word Explorer — in-depth word pages</h2>
       <p>Word Explorer is Word Helper's word-page workspace. Each published word page includes a definition, pronunciation guide, syllable breakdown, part of speech, synonyms, antonyms, word family, and example sentences. This data is compiled from openly licensed sources — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a> — then standardized, screened, and structured to a consistent format. See the <a href="/editorial-policy/">Editorial Policy</a> for full sourcing and attribution.</p>
-      <p>The word tools draw on a database of more than 327,000 English words. A word earns a full, indexed page only when it passes Word Helper's quality gate — a complete definition, pronunciation, syllables, examples, and synonyms — and the published set grows continuously. Only these complete pages are listed and indexed; the on-site search covers them alongside the tools, guides, and word lists.</p>`,
+      <p>The word tools are built from a 327,000-entry source word inventory and, in your browser, match against a curated dictionary of more than 90,000 words. A word earns a full, indexed page only when it passes Word Helper's quality gate — a complete definition, pronunciation, syllables, examples, and synonyms — and the published set grows continuously. Only these complete pages are listed and indexed; the on-site search covers them alongside the tools, guides, and word lists.</p>`,
       `<h2>Learn English, Word Lists, and Practice</h2>
       <p><a href="/learn-english/">Learn English</a> provides plain-language vocabulary guides covering topics like building vocabulary, understanding word roots, how syllables work, how rhyme works, spelling patterns, and memory techniques.</p>
       <p><a href="/word-lists/">Word Lists</a> are hand-curated collections of words organised by theme — common English words, positive vocabulary, academic words, words for writers, strong action verbs, and descriptive adjectives. Every word in a list includes its meaning and an example sentence.</p>
       <p><a href="/practice/">Practice</a> contains vocabulary quizzes built from Word Explorer definitions. You see a definition and choose the correct word from four options. Each quiz is a quick, self-paced vocabulary check with instant feedback.</p>`,
       `<h2>Who Word Helper is for</h2>
-      <p>Word Helper is built for word-game players who need valid words from scrambled letters, writers who want rhyme options or rhythm checks, students and teachers looking for vocabulary and spelling patterns, English learners building their word knowledge, and anyone who wants a focused word answer with a clear, authoritative answer.</p>`,
+      <p>Word Helper is built for word-game players who need valid words from scrambled letters, writers who want rhyme options or rhythm checks, students and teachers looking for vocabulary and spelling patterns, English learners building their word knowledge, and anyone who wants a fast, clearly explained answer to a word question.</p>`,
       `<h2>How to read Word Helper results</h2>
       <p>Word Helper is descriptive: it reflects how English is actually used rather than enforcing a single game dictionary, classroom rule, or style guide. Syllable counts follow standard English pronunciation and may differ by accent, dialect, and speech speed. Rhyme results combine pronunciation and spelling patterns. Each page explains how its results are produced so you can apply them confidently in your own context.</p>`,
       `<h2>Reporting errors and contacting us</h2>
@@ -1493,7 +1493,7 @@ export const legalPages = [
         <li><strong>Source selection and licensing.</strong> Choosing open, properly licensed data sources (the Datamuse API building on Wiktionary, the Free Dictionary API, and the public-domain ENABLE word list) and crediting them — see the <a href="/editorial-policy/">Editorial Policy</a> for full attribution.</li>
         <li><strong>Data standardization.</strong> Normalizing definitions, pronunciations, syllables, and word data into one consistent, readable format.</li>
         <li><strong>The quality gate.</strong> Maintaining the rules that decide which word pages are complete and useful enough to publish and index — and keeping thin entries out of search.</li>
-        <li><strong>Reviewing AI-assisted text.</strong> Where an AI model helps draft an example sentence, screening it for accuracy and clarity before it ships. AI is never used to author definitions or etymologies.</li>
+        <li><strong>Overseeing AI-assisted text.</strong> Maintaining the automated screening rules that AI-assisted example sentences must pass before they ship, and reviewing any reported issues by hand. AI is never used to author definitions or etymologies.</li>
         <li><strong>Handling corrections.</strong> Reading every error report, verifying it, fixing the source data, and rebuilding the affected pages — see <a href="/corrections/">how to report a correction</a>.</li>
         <li><strong>Accessibility and usability.</strong> Keeping the site fast, mobile-friendly, keyboard-operable, and readable.</li>
       </ul>`,
@@ -1569,8 +1569,8 @@ export const legalPages = [
       "Read the Word Helper Privacy Policy: how tool inputs are handled, what browser storage is used, and how contact information is managed.",
     body: [
       "Word Helper is an English word-tools workspace. This Privacy Policy explains how this website handles information in a plain-language way. It reflects the site's current state — not hypothetical future features. This policy will be updated before any advertising or analytics services are activated.",
-      "How tool inputs are handled. Most Word Helper tools — Word Unscramble, Anagram Solver, Prefix Finder, Suffix Finder, Word Finder, Rhyme Finder, Syllable Counter, Word Counter, and Random Word Generator — run entirely in your browser. Your input is not sent to any server. Two tools, Synonym Finder and Antonym Finder, send the word you type to the Datamuse API (api.datamuse.com) to retrieve results; Datamuse is an open language-data service and its privacy information is available at datamuse.com. Word Helper never sells or shares the words or text you type into any tool. Do not enter private, sensitive, regulated, or confidential text into any Word Helper tool.",
-      "Word pages and dictionary lookups. When you open a word page (under /word/), use the word-lookup feature, or browse word-list cards, your browser may send that single word to the Free Dictionary API (api.dictionaryapi.dev) to retrieve definitions, pronunciations, and example sentences. Only the word itself is sent — no account, name, or other personal information accompanies the request. The Free Dictionary API is a separate third party from Datamuse.",
+      "How tool inputs are handled. Most Word Helper tools — Word Unscramble, Anagram Solver, Prefix Finder, Suffix Finder, Word Finder, Rhyme Finder, Syllable Counter, Word Counter, and Random Word Generator — run entirely in your browser. Your input is not sent to any server. Two tools, Synonym Finder and Antonym Finder, send the word you type to the Datamuse API (api.datamuse.com) to retrieve results; Datamuse is an open language-data service and its privacy information is available at datamuse.com. Word Helper does not sell the words or text you type, and does not store them on its own servers — the only transmission of your input is the API lookups described in this policy. Do not enter private, sensitive, regulated, or confidential text into any Word Helper tool.",
+      "Word pages and dictionary lookups. When you open a word page (under /word/), use the word-lookup feature, or browse word-list cards, your browser may send that single word to the Free Dictionary API (api.dictionaryapi.dev) to retrieve definitions, pronunciations, and example sentences. Word Helper attaches no personal information to the request; as with any web request, your IP address and browser details are technically visible to the API operator, and to our hosting provider (Cloudflare), which processes requests to serve this site. The Free Dictionary API is a separate third party from Datamuse.",
       "Word Helper uses local browser storage (localStorage) to remember your recently used tools, recent tool inputs, any saved favourites, and a small cache of dictionary results so repeat word lookups are instant. This data stays on your device and is not transmitted to any Word Helper server. You can clear all of it at any time through your browser's storage settings.",
       "Advertising. Word Helper does not currently serve advertising. If advertising is added in the future, this Privacy Policy will be updated before any ad code is activated, and a consent mechanism will be provided where required by applicable law. At that point, advertising services such as Google AdSense may use cookies and similar technologies to serve ads.",
       "Analytics. Word Helper does not currently use web analytics services or tracking cookies. If analytics are added in the future, this Privacy Policy will be updated before any analytics code is activated.",
@@ -1592,18 +1592,18 @@ export const legalPages = [
       `<h2>Acceptance of terms</h2>
       <p>These Terms and Conditions govern your use of Word Helper. By using any part of this website — including the Word Lab tools, Word Explorer word pages, Learn English guides, Word Lists, or Practice quizzes — you agree to these terms. If you do not agree, do not use the website.</p>`,
       `<h2>What Word Helper provides</h2>
-      <p>Word Helper provides a comprehensive suite of word tools for writing support, vocabulary learning, word game play, spelling pattern discovery, and creative word exploration. The tools include Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, and Suffix Finder. The site also includes searchable word pages, curated word lists, guided learning articles, and vocabulary quizzes.</p>
+      <p>Word Helper provides a comprehensive suite of eleven word tools for writing support, vocabulary learning, word game play, spelling pattern discovery, and creative word exploration — including Word Unscramble, Anagram Solver, Rhyme Finder, Syllable Counter, Prefix Finder, Suffix Finder, Word Finder, Synonym Finder, Antonym Finder, Word Counter, and Random Word Generator. The site also includes searchable word pages, curated word lists, guided learning articles, and vocabulary quizzes.</p>
       <p>All tools, word pages, guides, lists, and quizzes are openly accessible and do not require registration. Word Helper does not currently display advertising. If advertising is added in the future, the Privacy Policy and Cookie Policy will be updated before any ad code is activated.</p>`,
       `<h2>Accuracy and limitations of results</h2>
       <p>Tool results reflect standard English usage and the Word Helper word list. Acceptance can differ across specific game dictionaries, pronunciation standards, accents, dialects, regional usage, and classroom or editorial rules. Word Helper does not warrant that a given result will be accepted in any specific game, contest, publication, classroom, or professional context.</p>
       <p>Syllable counts follow standard English pronunciation and may differ across regional accents and dialects. Rhyme suggestions span perfect rhymes, near rhymes, and similar endings, and are best confirmed by reading aloud. Unscramble and anagram results draw on the public-domain ENABLE word list, which may differ from a specific game's official word list. These notes are documented on each relevant page.</p>`,
       `<h2>Permitted use</h2>
-      <p>You may use Word Helper for personal, educational, creative, and non-commercial purposes. You may share links to Word Helper pages. You may use tool results and word content for your own learning, writing, and word game play.</p>
+      <p>You may use Word Helper freely — for personal, educational, creative, and professional work, including writing you do for your job. You may share links to Word Helper pages, and you may use tool results and word content in your own learning, writing, and word game play. What you may not do is republish or redistribute the site's editorial content itself commercially without permission, as described below.</p>
       <p>You may not copy, republish, redistribute, scrape, or reproduce Word Helper's definitions, examples, guides, or other editorial content for any commercial purpose without written permission. You may not attempt to reverse engineer, scrape at scale, overload, or interfere with the operation of this website.</p>`,
       `<h2>No professional advice</h2>
       <p>Word Helper is an educational word-tools platform. Nothing on this site constitutes legal, medical, financial, linguistic authority, or other professional advice. Do not rely on Word Helper results for professional, academic, publishing, legal, or medical purposes without independent verification.</p>`,
       `<h2>Third-party services</h2>
-      <p>Word Helper currently uses no advertising or analytics services. If third-party services are added in the future — such as advertising or analytics — the relevant policies will be updated before activation, and any such services will be governed by their own terms and privacy policies.</p>`,
+      <p>Word Helper currently uses no advertising or analytics services. Two tools (Synonym Finder and Antonym Finder) and the word pages query open language APIs — the Datamuse API and the Free Dictionary API — as described in the <a href="/privacy-policy/">Privacy Policy</a>. If further third-party services are added in the future — such as advertising or analytics — the relevant policies will be updated before activation, and any such services will be governed by their own terms and privacy policies.</p>`,
       `<h2>Changes to these terms</h2>
       <p>Word Helper reserves the right to update these Terms and Conditions at any time. Continued use of the website after any change constitutes your acceptance of the updated terms. If you have questions about these terms, contact us at <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>`,
     ],
@@ -1626,7 +1626,7 @@ export const legalPages = [
       `<h2>Pronunciation and syllable counts vary by accent</h2>
       <p>Pronunciation guides and syllable counts on Word Helper follow standard English pronunciation. Spoken English varies by accent, dialect, region, and speech speed, so a syllable count common in one accent may differ in another. Pronunciation is provided to guide learners; confirm it aloud in the context where it matters. Pronunciation is shown as a guide to help learners, not as the sole correct form. Always check pronunciation aloud in the context where it matters.</p>`,
       `<h2>Word tool results depend on source word lists</h2>
-      <p>Word Unscramble, Anagram Solver, Prefix Finder, and Suffix Finder results come from the public-domain ENABLE word list. A word that appears in results is valid in this list but may not be accepted by every game dictionary, classroom rule, or publication style guide. Word Helper does not guarantee that any result will be accepted in a specific game, class, or editorial context.</p>`,
+      <p>Word Unscramble, Anagram Solver, Prefix Finder, and Suffix Finder results come from a curated dictionary built on the public-domain ENABLE word list plus a supplementary word list. A word that appears in results is valid in this dictionary but may not be accepted by every game dictionary, classroom rule, or publication style guide. Word Helper does not guarantee that any result will be accepted in a specific game, class, or editorial context.</p>`,
       `<h2>Rhyme results are brainstorming aids</h2>
       <p>Rhyme suggestions from Word Helper are organized as perfect rhymes, near rhymes, and spelling-based similar endings. Because English spelling and pronunciation do not always align, similar-ending words are best confirmed by reading aloud. Rhyme results should be read aloud and evaluated for meaning, sound, and audience before use in published writing, lyrics, or spoken performance.</p>`,
       `<h2>No warranty</h2>
@@ -1645,13 +1645,13 @@ export const legalPages = [
       <p>Word Helper compiles its word data from open, openly licensed language sources and standardizes it into one consistent format. Definitions, parts of speech, pronunciations, syllable counts, synonyms, antonyms, and related words are drawn from the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary and other open datasets) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>. Example sentences use real dictionary citations where available, and are otherwise generated and then automatically screened for clarity and accuracy before publication.</p>
       <p>Word Helper's own editorial work is the <strong>selection, standardization, screening, and structuring</strong> of this data — choosing which words and senses to surface, formatting each entry to a consistent template, filtering out low-quality or malformed results, and applying a strict quality gate (below) that decides which pages are complete enough to publish and index. We do not claim to have independently authored every definition; we curate and quality-control openly licensed reference data and present it clearly.</p>`,
       `<h2>How data sources are handled</h2>
-      <p>Word Helper uses the public-domain ENABLE word list as its word-list backbone. This list covers valid English words and is used solely as a word inventory — its presence does not imply any editorial quality claim about individual words. Tool results (unscramble, anagram, prefix, suffix) are drawn from this list with letter-frequency logic. Rhyme and syllable tools use pattern-matching logic. All source usage is documented and legally verified before deployment.</p>`,
+      <p>Word Helper uses the public-domain ENABLE word list as its word-list backbone. This list covers valid English words and is used solely as a word inventory — its presence does not imply any editorial quality claim about individual words. Tool results (unscramble, anagram, prefix, suffix) are drawn from this list with letter-frequency logic. Rhyme and syllable tools use pattern-matching logic. All source usage is documented and reviewed for license compatibility before deployment.</p>`,
       `<h2>How corrections are reviewed</h2>
       <p>Content corrections can be submitted by email to hello@wordhelper.online. Reports of factual errors, definition inaccuracies, broken tool results, or misleading content are treated as high priority. Corrections are reviewed, verified, and applied to the source files. Updated pages are rebuilt and redeployed as quickly as possible. We do not wait for a scheduled update cycle to fix confirmed errors.</p>`,
       `<h2>Sources, licensing, and attribution</h2>
       <p>Word Helper builds on openly licensed reference data and credits its sources:</p>
       <ul>
-        <li><strong>Headword inventory:</strong> the public-domain <strong>ENABLE</strong> word list (~327,000 words), used as the word inventory for the word-game tools — unscramble, anagram, prefix, suffix, and finder.</li>
+        <li><strong>Headword inventory:</strong> the public-domain <strong>ENABLE</strong> word list (~172,000 words), extended with a supplementary open word list to a ~327,000-entry source inventory used at build time. The word-game tools — unscramble, anagram, prefix, suffix, and finder — match against a curated in-browser dictionary of more than 90,000 words drawn from this inventory and the published word pages.</li>
         <li><strong>Definitions &amp; word data:</strong> the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a>, which incorporates content from <strong>Wiktionary</strong>. Wiktionary text is available under the <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="nofollow noopener" target="_blank">Creative Commons Attribution-ShareAlike 3.0 (CC BY-SA 3.0)</a> license; where Word Helper reuses such content it is credited here and shared under the same terms.</li>
         <li><strong>Supplementary definitions, IPA, and example citations:</strong> the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>.</li>
       </ul>
@@ -1684,11 +1684,11 @@ export const legalPages = [
     metaDescription:
       "Read the Word Helper Cookie Policy, covering local browser storage, and the site's current approach to advertising and analytics.",
     body: [
-      "Word Helper uses local browser storage (localStorage) to remember your recently used tools, recent tool inputs for each tool, and any saved favourites. These values are stored only on your device and are not shared with any third party. There is no server-side storage of tool inputs.",
+      "Word Helper uses local browser storage (localStorage) to remember your recently used tools, recent tool inputs for each tool, any saved favourites, and a small cache of dictionary results so repeat word lookups load instantly. These values are stored only on your device and are not shared with any third party. There is no server-side storage of tool inputs. Clearing your browser's storage removes all of them.",
       "Advertising cookies. Word Helper does not currently display advertising, and no advertising cookies are set by or through this site. If advertising is added in the future — such as Google AdSense — this Cookie Policy will be updated before any ad code is activated, and a consent mechanism will be shown where required by law.",
       "Analytics cookies. Word Helper does not currently use web analytics services. No analytics cookies or tracking pixels are active on this site. If analytics are added in the future, this policy will be updated before activation.",
       "You can control, disable, or clear cookies and localStorage through your browser settings. Clearing localStorage will reset your recent-tools list, recent inputs, and saved favourites. This does not affect the core word-tool functionality of the site.",
-      "For more information about managing cookies in your browser, see the help documentation for your browser (Chrome, Firefox, Safari, or Edge). If you have questions about this policy, contact us at hello@wordhelper.online. Last reviewed: June 2026.",
+      "For more information about managing cookies in your browser, see the help documentation for your browser (Chrome, Firefox, Safari, or Edge). If you have questions about this policy, contact us at hello@wordhelper.online. The date this policy was last reviewed is shown at the top of this page.",
     ],
   },
   {
@@ -1738,7 +1738,7 @@ export const legalPages = [
         <li><strong>Five new word tools added:</strong> Word Finder (offline, find words containing specific letters), Synonym Finder, Antonym Finder (both using live Datamuse results), Word Counter (in-browser text statistics), and Random Word Generator. Total tools now: 11.</li>
         <li><strong>Site-wide quality audit completed:</strong> fixed factual claims on homepage quiz card, corrected privacy/cookie/affiliate policy language to accurately reflect that advertising and analytics are not currently active, removed outdated dark-mode reference from Cookie Policy.</li>
         <li><strong>Content Security Policy tightened:</strong> pre-emptive AdSense/Analytics domains removed from CSP headers. These will be restored only when advertising is actually activated.</li>
-        <li><strong>Host canonical corrected:</strong> canonical URLs, sitemap, and schema now resolve to the actual production URL (wordhelper-online.pages.dev) rather than the branded domain (wordhelper.online), which is not yet attached. Policies and how-to guides updated to reflect current state.</li>
+        <li><strong>Host canonical corrected:</strong> canonical URLs, sitemap, and schema now resolve to the site's active production host, rather than to a branded domain that was not yet attached at the time (June 2026). Policies and how-to guides updated to reflect current state.</li>
         <li><strong>Editorial Policy updated:</strong> added explicit AI disclosure section explaining where AI is used in content production (example-sentence generation and standardization only), and what AI is not used for.</li>
         <li><strong>Single-theme design:</strong> dark mode removed; site now uses one premium warm light theme.</li>
         <li><strong>Edge-cache bug fixed:</strong> word pages were occasionally serving stale content after a redeploy. Root cause (stale colo-level cache not cleared on direct-upload deploys) identified and fixed by removing shared-cache usage from the Pages Function.</li>

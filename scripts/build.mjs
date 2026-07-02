@@ -82,6 +82,13 @@ const TOOL_COUNT = tools.length;
 // words array. Every quiz-count claim must use QUIZ_WORD_COUNT — never a
 // hardcoded number. If words are added or removed, the count updates everywhere.
 const QUIZ_WORD_COUNT = words.length;
+// In-browser tool-dictionary size (SSOT) — set in the main flow once buildWordData
+// runs, BEFORE any page rendering. This is the list the client tools actually
+// match against at runtime (published pages + the most frequent raw-list words),
+// NOT the full 327k build-time source inventory. toolDictLabel() renders a
+// conservative rounded-down "94k+"-style label.
+let TOOL_DICT_COUNT = 0;
+const toolDictLabel = () => `${Math.floor((TOOL_DICT_COUNT || 90000) / 1000)}k+`;
 // Real build/edit date — drives lastReviewed/dateModified trust signals (no fabricated dates).
 const buildDateISO = new Date().toISOString().slice(0, 10);
 // Content baseline date for Article datePublished — aligned with the Organization
@@ -365,6 +372,7 @@ function header(page = {}) {
     ["/rhyming-words/", "Rhyming Words", "Rhymes, near-rhymes & endings"],
   ];
   const learnLinks = [
+    ["/learn-english/", "Learn English", "Vocabulary and word-skill guides"],
     ["/guides/", "Guides", "How the tools and words work"],
     ["/vocabulary/", "Vocabulary", "Build and retain new words"],
     ["/spelling-patterns/", "Spelling Patterns", "Common rules and patterns"],
@@ -872,7 +880,7 @@ function renderSearchPage() {
     },
     {
       q: "How do I find rhymes for a word on Word Helper?",
-      a: "Go to the Rhyme Finder tool and enter your word. You can also type 'rhymes with [word]' in the search box on this page to go directly to results.",
+      a: "Go to the Rhyme Finder tool and enter your word. You can also type 'rhymes with [word]' into this search to surface the Rhyme Finder and the rhyme guides.",
     },
     {
       q: "How do I unscramble letters on Word Helper?",
@@ -960,7 +968,7 @@ function renderHome(homeWords = words) {
     },
     {
       q: "How many words does Word Helper cover?",
-      a: `Word Helper's word tools — the unscramble, anagram, and finder tools — draw on a database of more than 327,000 English words. In-depth word pages are published only when they pass the quality gate (a complete definition, pronunciation, examples, synonyms, and word family); the published set is currently ${formatCount(wordPageTotal)} pages and grows regularly. The on-site search covers these published pages plus the tools, guides, and word lists.`,
+      a: `Word Helper's word tools — the unscramble, anagram, and finder tools — match against an in-browser dictionary of ${TOOL_DICT_COUNT.toLocaleString()} English words, drawn from a 327,000-entry open source inventory. In-depth word pages are published only when they pass the quality gate (a complete definition, pronunciation, examples, synonyms, and word family); the published set is currently ${formatCount(wordPageTotal)} pages and grows regularly. The on-site search covers these published pages plus the tools, guides, and word lists.`,
     },
     {
       q: "Which Word Lab tool should I use for scrambled letters?",
@@ -1014,7 +1022,7 @@ function renderHome(homeWords = words) {
       </form>
       <ul class="hero-trust-row">
         <li>${icon("check")} <span>${formatCount(wordPageTotal)} word pages</span></li>
-        <li>${icon("check")} <span>327k-word tool dictionary</span></li>
+        <li>${icon("check")} <span>${toolDictLabel()}-word tool dictionary</span></li>
         <li>${icon("check")} <span>${TOOL_COUNT} word tools &amp; quizzes</span></li>
         <li>${icon("check")} <span>Open sources, cited</span></li>
         <li>${icon("check")} <span><a href="/corrections/">Corrections welcome</a></span></li>
@@ -1188,7 +1196,7 @@ function renderHome(homeWords = words) {
         </div>
       </div>
       <dl class="home-stat-strip">
-        <div class="home-stat" title="327,000+ word English list powering the unscramble, anagram, and finder tools"><dt>327k+</dt><dd>words in the tool dictionary</dd></div>
+        <div class="home-stat" title="${TOOL_DICT_COUNT.toLocaleString()}-word in-browser dictionary powering the unscramble, anagram, and finder tools — drawn from a 327,000-entry open source inventory"><dt>${toolDictLabel()}</dt><dd>words in the tool dictionary</dd></div>
         <div class="home-stat" title="${formatCount(wordPageTotal)} words that passed the quality gate with a full page: definition, pronunciation, examples, and synonyms"><dt>${formatCount(wordPageTotal)}</dt><dd>full word pages</dd></div>
         <div class="home-stat"><dt>${TOOL_COUNT}</dt><dd>focused word tools</dd></div>
         <div class="home-stat"><dt>${lessons.length}</dt><dd>vocabulary guides</dd></div>
@@ -1362,7 +1370,7 @@ function toolSourceNote(tool) {
   if (tool.id === "word-counter") {
     source = "Counts run entirely in your browser — your text is never sent to a server. Word, sentence, and reading-time figures are estimates based on spacing, punctuation, and an average reading pace.";
   } else if (wordListTools.includes(tool.id)) {
-    source = "Runs in your browser — your input is not sent to any server. Results are matched against a 327,000+ word English word list built on the public-domain ENABLE word list plus a supplementary system word list.";
+    source = `Runs in your browser — your input is not sent to any server. Results are matched against a ${toolDictLabel()} word English dictionary drawn from the public-domain ENABLE word list, a supplementary word list, and Word Helper's published word pages.`;
   } else if (tool.id === "synonym-finder" || tool.id === "antonym-finder") {
     source = "The word you type is sent to the Datamuse API (api.datamuse.com), an open language dataset, to retrieve results. Synonyms and antonyms are suggestions and may vary by sense and context.";
   } else if (tool.id === "rhyme-finder") {
@@ -1381,14 +1389,14 @@ function toolSourceNote(tool) {
 const TOOL_STATIC_EXAMPLES = {
   "word-unscramble": { input: "tca", groups: [["3 letters", "act, cat"], ["2 letters", "at"]] },
   "anagram-solver": { input: "listen", groups: [["Exact anagrams", "silent, enlist, inlets, tinsel"], ["Hidden words", "line, lent, list, nest, tile, isle"]] },
-  "rhyme-finder": { input: "light", groups: [["Perfect rhymes", "bright, night, sight, might, flight"], ["Near rhymes", "quiet, pilot"], ["Multi-syllable", "delight, tonight, alight"]] },
+  "rhyme-finder": { input: "light", groups: [["Perfect rhymes", "bright, night, sight, might, flight"], ["Near rhymes", "like, line, life, white, write"], ["Multi-syllable", "delight, highlight, midnight, sunlight, twilight"]] },
   "syllable-counter": { input: "beautiful → beau·ti·ful (3)", groups: [["1 syllable", "cat · dog · house"], ["2 syllables", "wa·ter · gar·den"], ["3 syllables", "beau·ti·ful · in·ter·net"]] },
   "prefix-finder": { input: "pre", groups: [["Words starting with pre", "predict, prepare, present, prevent, preview, prefix"]] },
   "suffix-finder": { input: "ing", groups: [["Words ending with ing", "running, singing, building, morning, evening, reading"]] },
   "word-finder": { input: "ae", groups: [["Containing a and e (7 letters)", "average, awesome, blaster"], ["Containing a and e (4 letters)", "able, area, gaze, lake, name"]] },
   "synonym-finder": { input: "happy", groups: [["Synonyms for happy", "glad, joyful, cheerful, content, pleased, delighted, merry"]] },
   "antonym-finder": { input: "happy", groups: [["Antonyms for happy", "sad, unhappy, miserable, sorrowful, depressed"]] },
-  "word-counter": { input: "a short two-sentence note", groups: [["Counts", "6 words · 26 characters · 2 sentences · ~1 sec read"]] },
+  "word-counter": { input: "Clear writing takes practice. Count every word here.", groups: [["Counts", "8 words · 52 characters · 2 sentences · ~2 sec read"]] },
   "random-word-generator": { input: "10 words", groups: [["A sample set", "lantern, brisk, meadow, quartz, ponder, vivid, thicket, glance, ember, ripple"]] },
 };
 
@@ -1431,7 +1439,9 @@ function renderTool(tool) {
       <div class="tool-capability-strip" aria-label="Tool capabilities">
         <span>${icon("pulse")} Live results</span>
         <span>${icon("copy")} Copy ready</span>
-        <span>${icon("layers")} Saved locally</span>
+        ${tool.id === "word-counter"
+          ? `<span>${icon("layers")} Nothing uploaded</span>`
+          : `<span>${icon("layers")} Recent inputs stay on-device</span>`}
       </div>
       <form class="tool-form" novalidate>
         ${toolFields(tool)}
@@ -1983,6 +1993,58 @@ function renderLightWordPage(w) {
     if (rest.length > 25) definitionForBlock = rest.charAt(0).toUpperCase() + rest.slice(1);
   }
 
+  // Plain-English gloss ("In simple terms"). EXTRACTED verbatim from the sourced
+  // definition — never rewritten or invented. Picks the first non-taxonomic
+  // sentence (skipping openers like "A mammal of the family Felidae.") and strips
+  // parentheticals (Latin binomials etc.). Only shown when the definition has
+  // multiple sentences (single-sentence definitions are already the simple form)
+  // and the pick is a sane length. When the pick is the opening sentence, it is
+  // removed from the definition block below so the page never repeats itself.
+  let simpleGloss = "";
+  let definitionRest = definitionForBlock;
+  if (!needsLookup && w.definition) {
+    // Protect common abbreviations so the sentence splitter never breaks on
+    // "e.g." / "i.e." / "etc." mid-sentence (restored after splitting).
+    const protectedText = definitionForBlock.replace(/\b(e\.g\.|i\.e\.|etc\.|cf\.|vs\.|viz\.)/gi, (m) => m.replace(/\./g, "\u0001"));
+    const sentences = protectedText
+      .split(/(?<=[.!?])\s+/)
+      .map((s) => s.replace(/\u0001/g, ".").trim())
+      .filter(Boolean);
+    if (sentences.length >= 2) {
+      const technical = /\b(?:family|genus|order|species|phylum|subfamily|superfamily|tribe|clade)\s+[A-Z][a-z]+/;
+      let idx = sentences.findIndex((s) => !technical.test(s.replace(/\s*\([^)]*\)/g, "")));
+      if (idx === -1) idx = 0;
+      const candidate = sentences[idx].replace(/\s*\([^)]*\)/g, "").replace(/\s{2,}/g, " ").trim();
+      const unbalanced = (candidate.match(/\(/g) || []).length !== (candidate.match(/\)/g) || []).length;
+      // The hero teaser is often the first sentence truncated with "…" — the gloss
+      // must never repeat what the hero already shows. Normalize BOTH sides the
+      // same way (ellipsis + parentheticals stripped, whitespace collapsed) and
+      // compare prefixes in both directions.
+      const heroCmp = (heroSummary || "")
+        .replace(/[…]+\s*$/, "")
+        .replace(/\.{3}\s*$/, "")
+        .replace(/\s*\([^)]*\)/g, "")
+        .replace(/\s{2,}/g, " ")
+        .trim()
+        .toLowerCase();
+      const candCmp = candidate.toLowerCase();
+      const echoesHero =
+        heroCmp.length >= 20 &&
+        (candCmp.startsWith(heroCmp.slice(0, 60)) || heroCmp.startsWith(candCmp.slice(0, 60)));
+      if (
+        !unbalanced &&
+        !echoesHero &&
+        /[.!?]$/.test(candidate) &&
+        candidate.length >= 20 &&
+        candidate.length <= 200 &&
+        (!heroSummary || candidate.toLowerCase() !== heroSummary.trim().toLowerCase())
+      ) {
+        simpleGloss = candidate;
+        if (idx === 0) definitionRest = sentences.slice(1).join(" ");
+      }
+    }
+  }
+
   const page = {
     href: w.href,
     title: label,
@@ -2108,8 +2170,9 @@ function renderLightWordPage(w) {
 
     <section class="word-section">
       <h2 class="word-section-title">Definition of ${escapeHtml(label)}</h2>
+      ${simpleGloss ? `<p class="simple-gloss"><span class="simple-gloss-label">In simple terms</span>${escapeHtml(simpleGloss)}</p>` : ""}
       <div class="definition-block" data-word-definition>
-        <p>${escapeHtml(definitionForBlock)}</p>
+        <p>${escapeHtml(definitionRest || definitionForBlock)}</p>
       </div>
     </section>
 
@@ -2576,7 +2639,7 @@ function renderWordLab() {
       <h2>What the tools are built on</h2>
     </div>
     <div class="text-stack">
-      <p>Every Word Lab tool uses the same validated word list built on the public-domain ENABLE word list. When you unscramble letters or find anagrams, results are matched against a 327,000+ word English source.</p>
+      <p>Every Word Lab tool uses the same validated in-browser dictionary of ${TOOL_DICT_COUNT.toLocaleString()} English words, drawn from the public-domain ENABLE word list, a supplementary word list, and Word Helper's published word pages.</p>
       <p>Letter frequency matching ensures results are accurate: a word only appears if all its letters can be built from the letters you entered. Duplicates are handled correctly — two copies of a letter require two copies in the input.</p>
       <p>Rhyme and syllable tools use pattern-matching logic, with clear notes on where accent and dialect variation can affect results.</p>
     </div>
@@ -3662,7 +3725,7 @@ function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
 
     const noteLine = n === 1 && LETTER_NOTES[letter] ? ` ${LETTER_NOTES[letter]}` : "";
     const intro = n === 1
-      ? `<p class="hero-lede">${total.toLocaleString()} recommended word${total === 1 ? "" : "s"} that start with "${L}", sorted by usefulness. Every card opens a complete entry — definition, pronunciation, syllables, synonyms, and examples.${noteLine}</p>`
+      ? `<p class="hero-lede">${total.toLocaleString()} recommended word${total === 1 ? "" : "s"} that start with "${L}", sorted by usefulness. Every card opens a complete entry — definition, pronunciation, syllables, synonyms, and examples.${noteLine} Want every published "${L}" word? See the <a href="/word-explorer/${letter}/">full ${L} index</a>.</p>`
       : `<p class="hero-lede">Page ${n} of ${totalPages} — recommended "${L}" words ${rangeStart} to ${rangeEnd}, each opening a complete entry.</p>`;
 
     const pager = totalPages > 1 ? renderWordsBrowsePager(letter, n, totalPages, pageHref) : "";
@@ -3872,9 +3935,29 @@ async function buildWordData(priorityWords = []) {
     }
     break;
   }
+  // Rank the raw list by real-world frequency (Norvig count_1w list) so the
+  // 30k extra dictionary slots go to the words users actually type — and, at,
+  // which, evening — not to whatever sorts first alphabetically. Unranked words
+  // fall back behind all ranked ones, shortest first (short words matter most
+  // for the unscramble/anagram tools).
+  const freqRank = new Map();
+  const freqListPath = path.join(root, "data/freq/count_1w.txt");
+  if (existsSync(freqListPath)) {
+    const lines = (await readFile(freqListPath, "utf8")).split(/\r?\n/);
+    for (let i = 0; i < lines.length; i++) {
+      const w = lines[i].split(/\s+/)[0];
+      if (w && !freqRank.has(w)) freqRank.set(w, i);
+    }
+  }
+  const UNRANKED = Number.MAX_SAFE_INTEGER;
   const list = Array.from(words)
     .filter((word) => !/(.)\1\1\1/.test(word))
-    .sort((a, b) => a.length - b.length || a.localeCompare(b));
+    .sort((a, b) => {
+      const ra = freqRank.get(a) ?? UNRANKED;
+      const rb = freqRank.get(b) ?? UNRANKED;
+      if (ra !== rb) return ra - rb;
+      return a.length - b.length || a.localeCompare(b);
+    });
   const prioritized = [];
   const seen = new Set();
   // Complete word pages surface first in search suggestions.
@@ -3891,11 +3974,16 @@ async function buildWordData(priorityWords = []) {
       seen.add(word);
     }
   }
+  // Cap counts only the words ADDED from the raw list (a prior bug compared
+  // against the total, which was already past the cap — so common everyday
+  // words like "and" and "at" never made it into the tool dictionary).
+  let added = 0;
   for (const word of list) {
     if (seen.has(word)) continue;
     prioritized.push(word);
     seen.add(word);
-    if (prioritized.length >= 30000) break;
+    added += 1;
+    if (added >= 30000) break;
   }
   return prioritized;
 }
@@ -4214,6 +4302,13 @@ async function main() {
   for (const w of completeWordPages) publishedWordSet.add(String(w.word).toLowerCase());
   console.log(`Public gate (complete + recommended): ${completeWordPages.length} of ${publishedWordPages.length} entries public (${completePct}%).`);
 
+  // Build the in-browser tool dictionary BEFORE rendering so templates can cite
+  // its real size (SSOT) — the tools match against THIS list at runtime, not the
+  // full 327k build-time source inventory.
+  const wordData = await buildWordData(completeWordPages.map((w) => w.word));
+  TOOL_DICT_COUNT = wordData.length;
+  console.log(`Tool dictionary: ${TOOL_DICT_COUNT.toLocaleString()} words shipped to the browser.`);
+
   // Complete words grouped by first letter — feeds both A-Z listings (reco-sorted).
   const completeByLetter = {};
   for (const w of completeWordPages) {
@@ -4349,7 +4444,8 @@ async function main() {
   // Self-hosted Inter (variable, latin) — referenced by @font-face in site.css.
   await mkdir(path.join(assetsDir, "fonts"), { recursive: true });
   await copyFile(path.join(root, "src/assets/fonts/inter.woff2"), path.join(assetsDir, "fonts", "inter.woff2"));
-  const wordData = await buildWordData(completeWordPages.map((w) => w.word));
+  // wordData was computed before rendering (see the completeWordPages block) so
+  // templates could cite the real TOOL_DICT_COUNT.
   await writeFile(
     path.join(assetsDir, "word-data.js"),
     `window.WORD_HELPER_WORDS=${JSON.stringify(wordData)};\n`,

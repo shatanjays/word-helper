@@ -2,11 +2,13 @@
 
 ## Current Word Data
 
-The production word list at `dist/assets/word-data.js` is generated at build time from two sources:
+The production tool dictionary at `dist/assets/word-data.js` is generated at build time from three sources, in priority order:
 
-1. **Curated seed list** (`src/data/seed-words.txt`) — A hand-curated set of common English words used by tool examples, rhyme data, and fallback behavior. This list is owned by the Word Helper project and is free to use and redistribute.
+1. **Published word pages** — the quality-gated set of words that have full Word Helper pages (drawn from the enriched data under `src/data/enriched/`, compiled from Datamuse/Wiktionary and the Free Dictionary API — see the site's Editorial Policy for attribution).
 
-2. **ENABLE word list** (`src/data/words.txt`) — The ENABLE (Enhanced North American Benchmark Lexicon) word list, a public-domain English word list containing approximately 172,000 words. ENABLE is widely used in competitive word games and is freely available for any use without restriction.
+2. **Curated seed list** (`src/data/seed-words.txt`) — A hand-curated set of common English words used by tool examples, rhyme data, and fallback behavior. This list is owned by the Word Helper project and is free to use and redistribute.
+
+3. **Source word inventory** (`src/data/words.txt`, ~327,000 entries) — the public-domain **ENABLE** word list (~172,000 words) **extended with a supplementary word list** (originally derived from a system dictionary; see the provenance note below). The most frequent entries (ranked by the Norvig `count_1w` frequency list at `data/freq/count_1w.txt`) fill the remaining dictionary slots, capped at 30,000 additions.
 
 ## ENABLE Word List
 
@@ -18,14 +20,25 @@ The production word list at `dist/assets/word-data.js` is generated at build tim
 
 The ENABLE word list has been used in Scrabble tournaments, crossword puzzle software, word-game apps, and academic research. Its public-domain status makes it safe to bundle with and redistribute as part of this project.
 
+## Supplementary list provenance note
+
+The ~154,000 entries in `words.txt` beyond ENABLE were originally sourced from a
+system word list. Redistribution terms of system dictionaries can vary by system
+image. Because the supplementary entries are used only as a candidate inventory
+(word validation for game tools) and the shipped dictionary is dominated by
+ENABLE + published pages + frequency-ranked common words, exposure is limited —
+but replacing the supplementary portion with an explicitly-licensed list (e.g.
+SCOWL) remains a recommended future hardening step. Public-facing copy describes
+this accurately ("ENABLE plus a supplementary word list") and does not overclaim.
+
 ## Build Filtering
 
-The build script filters the ENABLE list to:
+The build script filters the source inventory to:
 - Lowercase alphabetic only (`[a-z]`)
 - 2–14 characters long
 - No four or more consecutive repeated letters
 - 12+ letter words further filtered to common word-forming endings (`tion`, `ness`, `ment`, `less`, `able`, `ible`, `ing`, `ful`)
-- Capped at 30,000 words for performance
+- Ranked by real-world frequency (Norvig count_1w list); capped at 30,000 additions on top of the published-page words
 
 ## Fallback Behavior
 

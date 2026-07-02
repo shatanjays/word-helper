@@ -557,7 +557,9 @@
       };
       const field = fieldMap[tool];
       if (field && form.elements[field]) {
-        form.elements[field].value = decodeURIComponent(q);
+        // URLSearchParams already decoded q — decoding again breaks values
+        // containing "%" (e.g. shared word-counter text like "50%").
+        form.elements[field].value = q;
       }
     } catch (_) {}
   }
@@ -1084,11 +1086,12 @@
       const res = await fetch(`https://api.datamuse.com/words?${rel}=${encodeURIComponent(word)}&max=80`);
       if (!res.ok) throw new Error("network");
       let data = await res.json();
+      let padded = false; // true when "means-like" related words extend a short synonym list
       if (kind === "syn" && data.length < 8) {
         try {
           const more = await (await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(word)}&max=60`)).json();
           const have = new Set(data.map((d) => d.word));
-          for (const d of more) if (!have.has(d.word)) data.push(d);
+          for (const d of more) if (!have.has(d.word)) { data.push(d); padded = true; }
         } catch (_) {}
       }
       const words = [];
@@ -1107,9 +1110,12 @@
       }
       trackToolUsage(kind === "ant" ? "antonym-finder" : "synonym-finder");
       saveRecentInput(kind === "ant" ? "antonym-finder" : "synonym-finder", word);
-      const heading = kind === "ant" ? `Antonyms for ${word}` : `Synonyms for ${word}`;
+      const heading = kind === "ant"
+        ? `Antonyms for ${word}`
+        : padded ? `Synonyms and similar words for ${word}` : `Synonyms for ${word}`;
+      const shown = Math.min(words.length, 60);
       renderWordGroups(shell, [{ title: heading, words: words.slice(0, 60) }],
-        `${words.length} ${label} for “${word}”`,
+        `${shown} ${padded && kind === "syn" ? "synonyms and similar words" : label} for “${word}”`,
         { title: kind === "ant" ? "Antonym Finder" : "Synonym Finder", input: `Word: ${word}` });
     } catch (_) {
       renderMessage(shell, `Could not reach the ${label} service right now. Check your connection and try again.`, "error");
