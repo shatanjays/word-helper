@@ -12,6 +12,7 @@ import {
   mainNav,
   site,
   founder,
+  legalReviewedDate,
   toolNav,
   tools,
 } from "../src/content.mjs";
@@ -797,10 +798,17 @@ function posPhrase(pos = "") {
   return `${indefinite(first)} ${first}`;
 }
 
-function reviewedMeta(label = "Quality-checked") {
+// reviewedDate: a REAL, hand-maintained review date (ISO string). When given, it
+// is rendered instead of the build date so redeploys never silently re-date a
+// policy as "reviewed" — bump the date in src/content.mjs only when a human
+// actually reviews the page. Generated pages (guides/tools/words) keep the build
+// date, which honestly reflects when they were regenerated.
+function reviewedMeta(label = "Quality-checked", reviewedDate = null) {
+  const d = reviewedDate ? new Date(reviewedDate + "T00:00:00Z") : new Date();
+  const shown = d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", ...(reviewedDate ? { timeZone: "UTC" } : {}) });
   return `<div class="article-meta">
     <span>${icon("check")} ${escapeHtml(label)}</span>
-    <span>Updated ${new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+    <span>${reviewedDate ? "Reviewed" : "Updated"} ${shown}</span>
     <span>Maintained by Word Helper</span>
   </div>`;
 }
@@ -1656,8 +1664,11 @@ function renderGuide(page) {
       ${page.body
         .map((section, index) => `<section id="${slugify(section.heading)}">
           <h2>${escapeHtml(section.heading)}</h2>
-          ${index === 0 ? `<div class="quick-answer-card"><strong>Quick answer</strong><p>${escapeHtml(page.answer)}</p></div>` : ""}
-          <p>${escapeHtml(section.text)}</p>
+          ${index === 0 && page.quickAnswer ? `<div class="quick-answer-card"><strong>Quick answer</strong><p>${escapeHtml(page.quickAnswer)}</p></div>` : ""}
+          ${String(section.text)
+            .split(/\n\n+/)
+            .map((para) => `<p>${escapeHtml(para.trim())}</p>`)
+            .join("")}
         </section>`)
         .join("")}
     </div>
@@ -1700,7 +1711,7 @@ function renderLegal(page) {
     ${breadcrumb(page)}
     <p class="eyebrow">Word Helper trust</p>
     <h1>${escapeHtml(page.h1)}</h1>
-    ${reviewedMeta(page.reviewedLabel || "Policy reviewed")}
+    ${reviewedMeta(page.reviewedLabel || "Policy reviewed", page.reviewedDate || legalReviewedDate)}
   </section>
   <section class="legal-content">
     ${bodyContent}

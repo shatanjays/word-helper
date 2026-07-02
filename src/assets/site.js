@@ -940,11 +940,11 @@
     if (syllableExceptions[word] !== undefined) return syllableExceptions[word];
     if (word.length <= 3) return 1;
     let cleaned = word;
-    if (cleaned.endsWith("e") && !/(le|ye)$/.test(cleaned)) cleaned = cleaned.slice(0, -1);
+    if (cleaned.endsWith("e") && !/ye$/.test(cleaned)) cleaned = cleaned.slice(0, -1);
     const groups = cleaned.match(/[aeiouy]+/g);
     let count = groups ? groups.length : 1;
     if (/(?:ia|io|eo|ii)/.test(cleaned)) count += 1;
-    if (cleaned.endsWith("le") && cleaned.length > 2 && !"aeiouy".includes(cleaned[cleaned.length - 3])) count += 1;
+    if (word.endsWith("le") && word.length > 2 && !"aeiouy".includes(word[word.length - 3])) count += 1;
     return Math.max(1, count);
   }
 
