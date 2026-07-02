@@ -1504,8 +1504,9 @@ export const legalPages = [
       `<h2>Who created Word Helper</h2>
       <p>Word Helper was created by <strong>Jay Sudha</strong>, also known as Shatanjay Sudha. Jay builds practical digital tools for everyday users — including calculators, productivity systems, finance tools, and language utilities. Word Helper follows the same product philosophy: make useful tools fast, clear, accessible, and easy to use on mobile.</p>
       <p>Word Helper is part of a broader set of practical online tools Jay builds and maintains. You can find more of that work at <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>`,
-      `<h2>What Word Helper is for</h2>
-      <p>Word Helper is a practical language and word-tools website. It helps people find word meanings, check synonyms and antonyms, explore example sentences, improve vocabulary, solve word games, find rhymes, unscramble letters, count syllables, improve writing clarity, and learn English words through simple explanations. It is built for students, writers, learners, puzzle players, and everyday users who want a clear, fast answer to a word question.</p>`,
+      `<h2>Why Jay Sudha built Word Helper</h2>
+      <p>Jay built Word Helper to make everyday word lookup faster, clearer, and more useful for students, writers, learners, and word-game players. The goal is not to replace official dictionaries or professional language advice — it is to put practical tools, structured word information, real examples, related words, and a visible correction path together in one clean, mobile-first place.</p>
+      <p>Word Helper helps people find word meanings, check synonyms and antonyms, explore example sentences, improve vocabulary, solve word games, find rhymes, unscramble letters, count syllables, improve writing clarity, and learn English words through simple explanations — for anyone who wants a clear, fast answer to a word question.</p>`,
       `<h2>Product philosophy</h2>
       <p>The same principles shape every part of Word Helper:</p>
       <ul>
