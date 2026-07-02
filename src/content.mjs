@@ -47,7 +47,7 @@ export const legalNav = [
   { href: "/disclaimer/", label: "Disclaimer" },
   { href: "/cookie-policy/", label: "Cookie Policy" },
   { href: "/editorial-policy/", label: "Editorial Policy" },
-  { href: "/affiliate-disclosure/", label: "Affiliate Disclosure" },
+  { href: "/affiliate-disclosure/", label: "Advertising Disclosure" },
 ];
 
 export const tools = [
@@ -604,6 +604,8 @@ export const tools = [
       "Add some text to count.",
     examples: [
       { label: "Short paragraph", value: "Word Helper is a fast, private word counter. It runs entirely in your browser, so your text never leaves your device.", note: "Counts words, characters, and reading time." },
+      { label: "Social post", value: "Just finished my first 5k run! Three months ago I couldn't jog to the end of the street. Small steps every day really do add up. #running #progress", note: "Check a caption against platform limits." },
+      { label: "Article excerpt", value: "Vocabulary grows fastest when you meet new words in context. Reading widely exposes you to words you would never study deliberately, and each encounter strengthens the memory of words you already half-know. That is why researchers consistently find that heavy readers have larger vocabularies than people who study word lists alone. The most effective approach combines both: read for breadth, then study the words that keep appearing.", note: "See reading and speaking time scale with length." },
     ],
     how: [
       "Words are counted as runs of letters, numbers, or apostrophes separated by spaces or punctuation.",
@@ -1470,7 +1472,7 @@ export const legalPages = [
       <p>Your email address and message content are used only to respond to your request and, where relevant, to improve the website. We do not sell, share, or publish contact information. We do not add you to any mailing list without explicit permission. Contact data is retained only as long as needed to address your inquiry and is then deleted.</p>
       <p>For more detail about how Word Helper handles personal data, see the <a href="/privacy-policy/">Privacy Policy</a>.</p>`,
       `<h2>Other ways to explore Word Helper</h2>
-      <p>If you have a question about how a specific tool works, the <a href="/guides/">Word Helper Guides</a> cover how to get the best results from each tool. If you are looking for information about how content is created or reviewed, the <a href="/editorial-policy/">Editorial Policy</a> explains our standards. If you have a question about advertising, see the <a href="/affiliate-disclosure/">Affiliate Disclosure</a>.</p>`,
+      <p>If you have a question about how a specific tool works, the <a href="/guides/">Word Helper Guides</a> cover how to get the best results from each tool. If you are looking for information about how content is created or reviewed, the <a href="/editorial-policy/">Editorial Policy</a> explains our standards. If you have a question about advertising, see the <a href="/affiliate-disclosure/">Advertising Disclosure</a>.</p>`,
     ],
   },
   {
@@ -1567,7 +1569,7 @@ export const legalPages = [
       "Read the Word Helper Privacy Policy: how tool inputs are handled, what browser storage is used, and how contact information is managed.",
     body: [
       "Word Helper is an English word-tools workspace. This Privacy Policy explains how this website handles information in a plain-language way. It reflects the site's current state — not hypothetical future features. This policy will be updated before any advertising or analytics services are activated.",
-      "How tool inputs are handled. Most Word Helper tools — Word Unscramble, Anagram Solver, Prefix Finder, Suffix Finder, Word Finder, Rhyme Finder, Syllable Counter, Word Counter, and Random Word Generator — run entirely in your browser. Your input is not sent to any server. Two tools, Synonym Finder and Antonym Finder, send the word you type to the Datamuse API (api.datamuse.com) to retrieve results; Datamuse is an open language-data service and its privacy information is available at datamuse.com. Do not enter private, sensitive, regulated, or confidential text into any Word Helper tool.",
+      "How tool inputs are handled. Most Word Helper tools — Word Unscramble, Anagram Solver, Prefix Finder, Suffix Finder, Word Finder, Rhyme Finder, Syllable Counter, Word Counter, and Random Word Generator — run entirely in your browser. Your input is not sent to any server. Two tools, Synonym Finder and Antonym Finder, send the word you type to the Datamuse API (api.datamuse.com) to retrieve results; Datamuse is an open language-data service and its privacy information is available at datamuse.com. Word Helper never sells or shares the words or text you type into any tool. Do not enter private, sensitive, regulated, or confidential text into any Word Helper tool.",
       "Word pages and dictionary lookups. When you open a word page (under /word/), use the word-lookup feature, or browse word-list cards, your browser may send that single word to the Free Dictionary API (api.dictionaryapi.dev) to retrieve definitions, pronunciations, and example sentences. Only the word itself is sent — no account, name, or other personal information accompanies the request. The Free Dictionary API is a separate third party from Datamuse.",
       "Word Helper uses local browser storage (localStorage) to remember your recently used tools, recent tool inputs, any saved favourites, and a small cache of dictionary results so repeat word lookups are instant. This data stays on your device and is not transmitted to any Word Helper server. You can clear all of it at any time through your browser's storage settings.",
       "Advertising. Word Helper does not currently serve advertising. If advertising is added in the future, this Privacy Policy will be updated before any ad code is activated, and a consent mechanism will be provided where required by applicable law. At that point, advertising services such as Google AdSense may use cookies and similar technologies to serve ads.",
@@ -1691,16 +1693,25 @@ export const legalPages = [
   },
   {
     href: "/affiliate-disclosure/",
-    title: "Affiliate Disclosure",
-    h1: "Affiliate Disclosure",
-    metaTitle: "Affiliate Disclosure — Word Helper",
+    title: "Advertising & Affiliate Disclosure",
+    h1: "Advertising & Affiliate Disclosure",
+    metaTitle: "Advertising & Affiliate Disclosure — Word Helper",
     metaDescription:
-      "Read the Word Helper affiliate disclosure: how advertising works on this site, how any affiliate relationships would be disclosed, and how the platform is supported.",
+      "How advertising works on Word Helper: ads never influence definitions, tools, or editorial content; how future ads will be separated, labeled, and placed responsibly.",
     bodyHtml: [
       `<h2>About Word Helper's independence</h2>
       <p>Word Helper is a comprehensive English word-tools platform and word workspace, built and maintained by Word Helper for word-game players, writers, students, teachers, and English learners. All tool pages, word pages, learning guides, word lists, and quizzes are created independently with no influence from advertisers, sponsors, or external commercial partners.</p>`,
       `<h2>How Word Helper is supported</h2>
-      <p>Word Helper does not currently display advertising and has no active commercial relationships. The site is maintained independently. If advertising is added in the future — such as through Google AdSense — it will be clearly separated from editorial content, the Privacy and Cookie policies will be updated before launch, and a consent mechanism will be shown where required. Revenue from any future advertising would help cover the costs of hosting, development, and maintaining the content on this site.</p>`,
+      <p>Word Helper does not currently display advertising and has no active commercial relationships. The site is maintained independently. If advertising is added in the future — such as through Google AdSense — it will be clearly separated from editorial content, the Privacy and Cookie policies will be updated before launch, and a consent mechanism will be shown where required. Revenue from any future advertising would help cover the costs of hosting, development, and maintaining the free tools and content on this site.</p>`,
+      `<h2>Advertising principles</h2>
+      <p>If and when ads are shown on Word Helper, these rules apply:</p>
+      <ul>
+        <li><strong>Ads never influence content.</strong> Advertising does not affect word meanings, definitions, tool results, rankings, word-list selections, or any editorial decision.</li>
+        <li><strong>Ads are separate from tools and content.</strong> Ad units are visually distinct from site content and are never styled to look like tool buttons, results, or navigation.</li>
+        <li><strong>Ads are not endorsements.</strong> The appearance of an ad does not mean Word Helper recommends the advertised product or service.</li>
+        <li><strong>No accidental-click placements.</strong> Ads are kept away from tool inputs, submit and copy buttons, quiz answers, and tool result panels, and are placed so they never push core content out of view or cause layout shift.</li>
+        <li><strong>Third-party partners and cookies.</strong> Advertising partners may use cookies or similar technologies where permitted by law and by your consent choices. Details are covered in the <a href="/privacy-policy/">Privacy Policy</a> and <a href="/cookie-policy/">Cookie Policy</a>.</li>
+      </ul>`,
       `<h2>Affiliate links</h2>
       <p>At this time, Word Helper does not use affiliate links as a core part of the site experience. If affiliate links, sponsored recommendations, sponsored word lists, or paid placements are added in the future, each instance will be clearly labeled with a disclosure such as "affiliate link", "sponsored", or "advertisement" placed near the relevant link or content.</p>
       <p>Any future affiliate relationships will be subject to these conditions: they will not influence which words, tools, guides, or educational content appear on the site; they will not affect the accuracy or completeness of tool results; and they will not be used in a way that misleads users about the nature of the relationship.</p>`,

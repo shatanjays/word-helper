@@ -342,6 +342,11 @@ const TOOL_NAV_DESC = {
   "syllable-counter": "Count beats in any text",
   "prefix-finder": "Words that start with…",
   "suffix-finder": "Words that end with…",
+  "word-finder": "Words containing your letters",
+  "synonym-finder": "Similar words, better choices",
+  "antonym-finder": "Opposites & contrasts",
+  "word-counter": "Words, characters & read time",
+  "random-word-generator": "Fresh words for prompts & games",
 };
 
 function header(page = {}) {
@@ -489,7 +494,7 @@ function footer() {
       <a href="/terms/">Terms</a>
       <a href="/disclaimer/">Disclaimer</a>
       <a href="/cookie-policy/">Cookie Policy</a>
-      <a href="/affiliate-disclosure/">Affiliate Disclosure</a>
+      <a href="/affiliate-disclosure/">Advertising Disclosure</a>
     </nav>
   </div>
   <div class="footer-bottom">
@@ -614,7 +619,7 @@ ${(() => {
   const href = page.href || "/";
   const heavyData = href.startsWith("/tools/") || href === "/search/" || href === "/word-lookup/";
   return heavyData
-    ? `<script src="/assets/word-data.js?v=${assetVersion}"></script>\n<script src="/assets/search-data.js?v=${assetVersion}"></script>\n`
+    ? `<script src="/assets/word-data.js?v=${assetVersion}" defer></script>\n<script src="/assets/search-data.js?v=${assetVersion}" defer></script>\n`
     : "";
 })()}<script src="/assets/site.js?v=${assetVersion}" defer></script>
 </body>
@@ -1012,10 +1017,21 @@ function renderHome(homeWords = words) {
         <li>${icon("check")} <span>327k-word tool dictionary</span></li>
         <li>${icon("check")} <span>${TOOL_COUNT} word tools &amp; quizzes</span></li>
         <li>${icon("check")} <span>Open sources, cited</span></li>
+        <li>${icon("check")} <span><a href="/corrections/">Corrections welcome</a></span></li>
       </ul>
     </div>
   </section>
   </div>
+  <section class="section home-tools-section">
+    <div class="section-heading">
+      <p class="eyebrow">Word tools</p>
+      <h2>${TOOL_COUNT} focused tools for everyday word problems</h2>
+      <p>Each tool keeps quick tasks fast — clear inputs, real-time filters, worked examples, and honest notes on how results vary across word-game dictionaries, accents, and classroom rules.</p>
+    </div>
+    <div class="card-grid tool-card-grid">
+      ${tools.map((tool) => toolCard(tool)).join("")}
+    </div>
+  </section>
   <section class="section wotd-section" aria-labelledby="wotd-heading">
     <div class="section-heading">
       <p class="eyebrow">${icon("spark")} Word of the Day</p>
@@ -1084,16 +1100,6 @@ function renderHome(homeWords = words) {
     </div>
     <div id="recent-tools-list" class="card-grid"></div>
   </div>
-  <section class="section home-tools-section">
-    <div class="section-heading">
-      <p class="eyebrow">Word tools</p>
-      <h2>${TOOL_COUNT} focused tools for everyday word problems</h2>
-      <p>Each tool keeps quick tasks fast — clear inputs, real-time filters, worked examples, and honest notes on how results vary across word-game dictionaries, accents, and classroom rules.</p>
-    </div>
-    <div class="card-grid tool-card-grid">
-      ${tools.map((tool) => toolCard(tool)).join("")}
-    </div>
-  </section>
   <section class="section home-az-section">
     <div class="section-heading">
       <p class="eyebrow">Browse words A&ndash;Z</p>
@@ -3308,11 +3314,11 @@ function renderWordExplorerLetter(letter, letterWords, allLetterSet) {
     const pageLabel = totalPages > 1 ? ` (page ${n} of ${totalPages})` : "";
     const page = {
       href: pageHref(n),
-      title: `Words Starting with ${L}${pageLabel} — Word Explorer`,
-      metaTitle: `English Words Starting with ${L}${pageLabel} | Word Helper`,
+      title: `All Words Starting with ${L}${pageLabel} — A–Z Index`,
+      metaTitle: `All Words Starting with ${L}${pageLabel} — A–Z Index | Word Helper`,
       metaDescription: n === 1
-        ? `Browse word pages starting with ${L} on Word Helper — each with definition, pronunciation, syllables, synonyms, and examples.`
-        : `Page ${n} of ${totalPages} — more word pages starting with ${L} on Word Helper, each with definition, pronunciation, syllables, and examples.`,
+        ? `The full alphabetical index of ${L} word pages on Word Helper — every published entry with definition, pronunciation, syllables, synonyms, and examples.`
+        : `Page ${n} of ${totalPages} of the alphabetical ${L} word index on Word Helper — each entry with definition, pronunciation, syllables, and examples.`,
       relPrev: n > 1 ? absolute(pageHref(n - 1)) : null,
       relNext: n < totalPages ? absolute(pageHref(n + 1)) : null,
     };
@@ -3326,8 +3332,8 @@ function renderWordExplorerLetter(letter, letterWords, allLetterSet) {
     const body = `<section class="page-hero">
     ${breadcrumb(page)}
     <p class="eyebrow">Word Explorer</p>
-    <h1>Words Starting with "${L}"</h1>
-    <p class="hero-lede">In-depth word pages starting with "${L}" — each with definition, pronunciation, syllables, synonyms, and examples.</p>
+    <h1>All Words Starting with "${L}"</h1>
+    <p class="hero-lede">The full A–Z index of "${L}" word pages — each with definition, pronunciation, syllables, synonyms, and examples. Prefer a shorter, curated view? See <a href="/words/${letter}/">common ${L} words</a>.</p>
   </section>
   <section class="section">
     <nav class="az-nav" aria-label="Browse by letter">${azLinks}</nav>
@@ -3583,14 +3589,14 @@ function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
   if (total === 0) {
     const page = {
       href: pageHref(1),
-      title: `Words That Start With ${L} | Word Helper`,
-      metaTitle: `Words That Start With ${L} | Word Helper`,
-      metaDescription: `Complete word pages starting with ${L} are being added to Word Helper. Browse another letter or search any word.`,
+      title: `Common Words That Start With ${L} | Word Helper`,
+      metaTitle: `Common Words That Start With ${L} | Word Helper`,
+      metaDescription: `Common word pages starting with ${L} are being added to Word Helper. Browse another letter or search any word.`,
     };
     const body = `<section class="page-hero">
     ${breadcrumb(page)}
     <p class="eyebrow">Browse A–Z</p>
-    <h1>Words That Start With "${L}"</h1>
+    <h1>Common Words That Start With "${L}"</h1>
     <p class="hero-lede">Complete word pages starting with "${L}" are being added. Browse another letter below, or open the <a href="/word-explorer/">Word Explorer</a>.</p>
   </section>
   <section class="section">
@@ -3611,11 +3617,11 @@ function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
     const pageLabel = totalPages > 1 ? ` — Page ${n} of ${totalPages}` : "";
     const page = {
       href: pageHref(n),
-      title: `Words That Start With ${L}${pageLabel} | Word Helper`,
-      metaTitle: `Words That Start With ${L}${pageLabel} | Word Helper`,
+      title: `Common Words That Start With ${L}${pageLabel} | Word Helper`,
+      metaTitle: `Common Words That Start With ${L}${pageLabel} | Word Helper`,
       metaDescription: n === 1
-        ? `Browse ${total.toLocaleString()} complete word page${total === 1 ? "" : "s"} starting with ${L} — each with a definition, pronunciation, syllables, synonyms, and examples on Word Helper.`
-        : `Page ${n} of ${totalPages} — complete word pages starting with ${L} on Word Helper.`,
+        ? `${total.toLocaleString()} common and useful words starting with ${L}, ranked by everyday usefulness — each opens a full page with definition, syllables, synonyms, and examples.`
+        : `Page ${n} of ${totalPages} — common, usefulness-ranked words starting with ${L} on Word Helper.`,
       relPrev: n > 1 ? absolute(pageHref(n - 1)) : null,
       relNext: n < totalPages ? absolute(pageHref(n + 1)) : null,
     };
@@ -3664,7 +3670,7 @@ function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
     const body = `<section class="page-hero">
     ${breadcrumb(page)}
     <p class="eyebrow">Browse A–Z</p>
-    <h1>Words That Start With "${L}"</h1>
+    <h1>Common Words That Start With "${L}"</h1>
     ${intro}
   </section>
   <section class="section">
@@ -4393,7 +4399,7 @@ async function main() {
   await writeFile(
     path.join(distDir, "robots.txt"),
     IS_PRODUCTION
-      ? `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap_index.xml\n`
+      ? `User-agent: *\nAllow: /\n\n# AdSense crawler — explicitly allowed (required for ad relevance once ads are live)\nUser-agent: Mediapartners-Google\nAllow: /\n\nSitemap: ${site.url}/sitemap_index.xml\n`
       : `User-agent: *\nDisallow: /\n`,
   );
 

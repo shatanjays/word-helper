@@ -813,4 +813,126 @@ export const lessons = [
       "/learn-english/how-to-use-context-clues/",
     ],
   },
+  {
+  href: "/learn-english/how-to-avoid-overused-words/",
+  title: "How to Avoid Overused Words in Your Writing",
+  h1: "How to Avoid Overused Words in Your Writing",
+  metaTitle: "How to Avoid Overused Words — A Practical Guide to Sharper Word Choice | Word Helper",
+  metaDescription:
+    "Learn to spot overused words like very, really, nice, and good — and replace them with one precise word. A simple revision routine with examples and tools.",
+  intro:
+    "A handful of worn-out words — very, really, nice, good, thing — quietly flatten writing that could otherwise be sharp.",
+  answer:
+    "Overused words like very, really, nice, good, thing, and got weaken writing because they are general-purpose: they fit everywhere, so they say almost nothing. The fix is a short revision pass — find the words you lean on, delete the intensifiers that add nothing, and replace vague pairings with one precise word, so very tired becomes exhausted and really big becomes enormous. The goal is precision, not fancy vocabulary: sometimes the plain word is exactly right.",
+  primaryKeyword: "overused words",
+  keywords:
+    "overused words, words to avoid in writing, crutch words, alternatives to very, replace weak words, filler words, word choice in writing",
+  sections: [
+    {
+      heading: "Why overused words weaken writing",
+      body: "Words like very, really, nice, good, thing, a lot, and got are general-purpose words. They fit almost any sentence, which is exactly the problem: a word that fits everywhere tells the reader almost nothing. Compare \"The food was really good and the service was nice\" with \"The curry was rich and generous, and the waiter checked on us without hovering.\" The first sentence is grammatically fine but leaves no picture behind. The second is built from specifics, and the reader can see it.\n\nNone of these words is wrong. They earn their place in speech, where tone of voice and context do the describing for you. On the page, though, they pile up. When good describes the coffee, the meeting, and the film in the same email, it stops meaning anything — and once a reader notices the repetition, they start hearing the word instead of the idea.\n\nTwo of the worst offenders work by hiding information. Got stands in for the real verb, and thing stands in for the real noun. \"We got a problem with the thing on the roof\" tells the reader nothing they can act on; \"We found a leak in the roof vent\" tells them everything. Whenever you catch got or thing in a draft, ask what actually happened and what the thing actually is — the answer is nearly always a better sentence.",
+    },
+    {
+      heading: "Find your crutch words",
+      body: "Every writer has a personal set of default words — crutch words — that appear far more often than they realise. The usual suspects are very, really, just, good, nice, thing, got, a lot, actually, and quite, but your own list will have its own flavour. The difficulty is that you cannot see your habits by rereading normally: your eye slides straight past words your hand types automatically.\n\nThree checks make crutch words visible. First, read the draft aloud — repetition is far easier to hear than to see, and a word you have used five times in two paragraphs will start to grate. Second, use your editor's find function on each suspect word; most editors show a match count, which turns a vague feeling into a number. Third, paste the draft into Word Helper's Word Counter to get the total word count, then judge the rate. Twelve uses of very in a 400-word draft is once every 33 words — frequent enough that your reader will notice it before you do.\n\nKeep the results as a short personal list — most writers' lists settle at five to eight words. Once the list exists, every future revision pass starts with it, and over time the words start disappearing from your first drafts too. If you want a second opinion, ask someone to read a page of your writing and name the word they noticed most; readers spot habits in seconds that the writer has missed for years.",
+    },
+    {
+      heading: "Swap an intensifier and a weak adjective for one precise word",
+      body: "The most common overuse pattern in English is an intensifier propping up a flat adjective: very tired, really big, so hungry. The fix is almost mechanical — replace the pair with one word that carries the intensity inside it. Very tired is exhausted. Really big is enormous. Very hungry is ravenous. Very cold is freezing, very happy is delighted, very bad is dreadful, very small is tiny, and very interested is fascinated. The precise word is shorter and stronger at the same time.\n\nOften you do not even need a replacement. Try deleting the intensifier and reading the sentence again: \"the very best option\" loses nothing when it becomes \"the best option\", and \"it was really quite difficult\" is simply \"it was difficult\". If the sentence survives the cut without losing meaning, the intensifier was decoration. If it does lose something, that loss tells you what the one precise word needs to supply.\n\nFor the two most overworked adjectives, Word Helper keeps dedicated lists. The better words for \"good\" list groups 40 alternatives by the sense you actually mean — excellent for quality, compassionate for kindness, proficient for skill, delightful for enjoyment — because the right swap depends on which of good's many jobs it was doing. The better words for \"important\" list does the same for essential, significant, urgent, and influential. Deciding what you actually mean first, then choosing from that group, is what separates a precise replacement from a random synonym.",
+    },
+    {
+      heading: "When the plain word is the right choice",
+      body: "Avoiding overused words does not mean avoiding common words. The opposite habit — reaching for the thesaurus on every line — produces writing that is worse than the vague draft you started with. \"He masticated his comestibles\" is not an upgrade on \"he ate his food\"; it is a costume. Plain words carry most good writing, and readers trust them.\n\nSome plain words are usually the best available choice. In dialogue, said is close to invisible, which is exactly what a dialogue tag should be — reach for the words instead of \"said\" list only when the manner of speaking genuinely matters, as in whispered or admitted. Likewise, good is the right register in a warm, casual message: telling a friend their party was \"exemplary\" is stranger than telling them it was good. A word is only overused when it is doing a vague job; a plain word doing a deliberate job is fine.\n\nA reliable rule: replace a plain word only when the replacement adds information the sentence needs. \"The weather was good\" becomes worth revising as \"The weather was mild and clear\" because the reader learns something new. Swapping good for splendid adds nothing but syllables. And always check the shade of meaning before you commit — famous and notorious are neighbours in a thesaurus but opposites in tone. The guide on how to use a thesaurus covers this checking habit in detail.",
+    },
+    {
+      heading: "A practical revision routine",
+      body: "Do not police word choice while drafting — it slows you down and rarely helps. Write the first draft freely, then run one dedicated word-choice pass. Start with your personal crutch list and use find to jump to each occurrence. For every hit, make one of three decisions: delete it (most intensifiers), replace it (when a precise word adds real information), or keep it deliberately (when the plain word fits the register or rhythm).\n\nFor the replacements, work with the Synonym Finder. Enter the weak word — say, good or important — and scan the related words it returns for the sense you actually mean. Because the results are drawn from words used in similar contexts, you will usually see several candidates at different levels of formality; check the meaning of any you are not sure of before swapping it in. For the highest-frequency offenders, the better words for \"good\" and better words for \"important\" lists are faster than searching, because they are already grouped by sense with an example sentence for each word. The strong action verbs list does the same job when the weak spot is a verb like went, got, or made.\n\nFinish with two quick checks. Read the revised passage aloud — your ear will catch any replacement that sounds like it came from a thesaurus rather than from you. Then, if you are curious, run the before and after versions through the Word Counter: a good pass usually shortens a draft slightly, because deleted intensifiers and tightened phrases outnumber the new words. On a 500-word piece, the whole routine takes about ten minutes — and it gets faster every time, because the words you keep cutting slowly stop appearing in your first drafts at all.",
+    },
+  ],
+  faqs: [
+    {
+      q: "What are the most overused words in English writing?",
+      a: "The most common are very, really, just, good, nice, bad, thing, stuff, got, and a lot. They are all general-purpose words — natural in speech, but weak on the page because they fit any sentence and therefore add little specific meaning.",
+    },
+    {
+      q: "Is it wrong to use the word 'very'?",
+      a: "No. An occasional very is natural, and sometimes it is the honest choice. It becomes a problem as a habit. A quick test: delete it and reread the sentence. If nothing is lost, leave it out; if something is lost, replace the pair with one precise word — very tired becomes exhausted.",
+    },
+    {
+      q: "How do I find my own overused words?",
+      a: "Read a draft aloud and note any word you hear repeating, then use your editor's find function to count occurrences of the usual suspects. Pasting the draft into Word Helper's Word Counter gives you the total word count, so you can judge how often a word really appears. Keep the results as a short personal list to check in every revision.",
+    },
+    {
+      q: "Should I replace every common word with a synonym?",
+      a: "No. Swapping every plain word for a fancier one makes writing stiff and unnatural. Replace a word only when the new one adds information or precision the sentence needs. Plain words like said, good, and big are often the right choice — especially in dialogue and informal writing.",
+    },
+  ],
+  relatedTools: ["/tools/word-counter/", "/tools/synonym-finder/"],
+  relatedLessons: [
+    "/learn-english/how-to-use-a-thesaurus/",
+    "/learn-english/formal-vs-informal-words/",
+    "/learn-english/how-to-build-your-vocabulary/",
+  ],
+},
+  {
+  href: "/learn-english/how-to-improve-sentence-variety/",
+  title: "How to Improve Sentence Variety",
+  h1: "How to Improve Sentence Variety",
+  metaTitle: "How to Improve Sentence Variety — Make Your Writing Flow | Word Helper",
+  metaDescription:
+    "Learn how to improve sentence variety: vary your openings, mix short and long sentences, join ideas with transitions, and check your rhythm out loud.",
+  intro:
+    "When every sentence has the same length and shape, even good ideas start to drone — variety is what makes writing feel alive.",
+  answer:
+    "To improve sentence variety, mix short sentences with longer ones, vary how your sentences begin, and combine related ideas with conjunctions and transition words. Then read your work aloud: where your voice drones, break the pattern; where you run out of breath, split a sentence. Small structural changes make writing noticeably easier to read.",
+  primaryKeyword: "sentence variety",
+  keywords:
+    "sentence variety, vary sentence structure, sentence openings, mixing short and long sentences, combining sentences, sentence rhythm, writing flow",
+  sections: [
+    {
+      heading: "Why same-shape sentences feel monotonous",
+      body: "Read this paragraph: \"The meeting started late. The room was too warm. The agenda was too long. The coffee ran out early.\" Every sentence is grammatically fine — and the paragraph is dead on arrival. Each one has the same length, the same subject-verb shape, and the same flat beat, so by the third sentence the reader has stopped listening and started skimming.\n\nEven when reading silently, most readers hear the rhythm of prose in their heads. A repeated pattern turns that inner voice into a metronome, and a metronome lulls people to sleep. Monotony also flattens emphasis: when every sentence carries identical weight, the reader has no way to tell which idea matters most. Your strongest point drowns in the pattern along with everything else.\n\nThe fix is structural, not decorative. You do not need rarer vocabulary or longer words — you need to vary three things: how long your sentences run, how they begin, and how they connect to each other. The rest of this guide works through each in turn.",
+    },
+    {
+      heading: "Vary your sentence openings",
+      body: "The default English sentence starts with its subject: \"She checked the map.\" \"The train was late.\" This order is clear, and most of your sentences should keep it. The problem is an unbroken string of them, especially when the openings repeat: \"The report shows... The data confirms... The results suggest...\" After three, the reader hears the pattern instead of the point.\n\nFour openings break the pattern reliably. A prepositional phrase moves the setting up front: \"After the second wrong turn, she checked the map.\" A dependent clause puts the reason first: \"Because the signs were unreadable, she checked the map.\" A well-chosen adverb shifts the emphasis: \"Reluctantly, she checked the map.\" An -ing phrase adds motion: \"Hoping to save ten minutes, she checked the map.\" One caution with the last type: the -ing phrase must describe the subject that follows it. \"Hoping to save ten minutes, the map came out of the glovebox\" is a dangling modifier — the map was not doing the hoping.\n\nA quick audit: read only the first two words of every sentence in a paragraph. If three sentences in a row begin the same way, rework one — usually by moving a phrase to the front or joining it to a neighbour. Then stop. Openings are seasoning, not the meal; if every sentence begins with a flourish, that becomes its own monotony.",
+    },
+    {
+      heading: "Mix short sentences with long ones",
+      body: "Short sentences hit hard. Long sentences carry the detail, the qualifications, and the flow of a developing idea, unwinding at a pace that gives the reader room to think. Both are good. The power is in the contrast: a short sentence landing right after a long one gets extra weight, because the rhythm breaks exactly where you want attention.\n\nUse short sentences at pressure points — the opening line of a piece, the last line of a paragraph, the key claim in an argument, the turn in a story. Use longer sentences for description, explanation, and sequences of connected actions, where chopping the idea into fragments would feel jerky. A rough test for any draft paragraph: if you cannot find one sentence under ten words or one over twenty, it probably reads flat.\n\nStrong verbs make the mixing easier, because they shorten sentences without losing meaning. \"The committee made a decision to reject the proposal\" becomes \"The committee rejected the proposal\" — nine words down to five, and sharper. The strong action verbs list at /word-lists/strong-action-verbs/ collects verbs that do this compressing work, and the words for writers list is a useful companion when you are tightening a full draft.",
+    },
+    {
+      heading: "Combine sentences with conjunctions and transition words",
+      body: "Choppiness is monotony's twin. \"The trial ended. The jury left. The lawyers waited.\" works as deliberate drama, but a whole page of it wears the reader out as surely as a page of forty-word sentences. Combining related sentences is how you build the longer, flowing structures that variety needs.\n\nConjunctions do the joining. Coordinating conjunctions — and, but, so, or — link two equal ideas: \"The trial ended, but the lawyers waited.\" Subordinating conjunctions — because, although, while, until, since — make one idea depend on the other, and they add a second kind of variety for free, because the dependent clause can sit at either end: \"Although the trial had ended, the lawyers waited\" or \"The lawyers waited, although the trial had ended.\" Transition words connect ideas across sentence boundaries: however signals a contrast, therefore a consequence, meanwhile a parallel event. Word Helper's transition words list at /word-lists/transition-words/ groups these by function — adding, contrasting, cause and effect, sequence — so you can pick the connector that matches what you actually mean.\n\nTwo cautions. First, joining two complete sentences with only a comma creates a comma splice (\"The trial ended, the lawyers waited\") — use a conjunction, a semicolon, or a full stop instead. Second, do not chain everything together: a sentence that needs three commas and a deep breath is asking to be split. Combine sentences whose ideas genuinely belong together, and let the rest stand alone.",
+    },
+    {
+      heading: "Read it aloud and listen for the rhythm",
+      body: "Your ear catches what your eye misses. Read the draft aloud at normal speed — or have your device read it to you — and mark three things: where your voice drones, where you run out of breath, and where you stumble. Droning means the same sentence shape is repeating. Running out of breath means a sentence has grown too long. Stumbling usually means the clauses are in an awkward order. Each mark points to a specific fix from the sections above.\n\nSyllables drive the pace of a sentence as much as word count does. One- and two-syllable words move quickly; strings of longer Latin-based words slow a line down and add weight — useful in moderation, heavy in bulk. If a sentence feels sluggish and you cannot see why, run its key words through the Syllable Counter. Swapping one four-syllable word for a one-syllable equivalent (\"utilise\" to \"use\", \"demonstrate\" to \"show\") often lightens the whole line.\n\nNumbers can confirm what your ear suspects. Paste a paragraph into the Word Counter, note the word count, count the sentences, and divide to get your average sentence length. A common guideline for general writing is an average of about 15 to 20 words — but the spread matters more than the average. If every sentence lands within a couple of words of the mean, the paragraph reads flat even when the average looks healthy. Aim for a genuine mix: some sentences under ten words, an occasional one past twenty-five, and most in between.",
+    },
+  ],
+  faqs: [
+    {
+      q: "What is sentence variety?",
+      a: "Sentence variety means mixing sentence lengths, structures, and openings so your writing does not repeat one pattern. A varied paragraph might combine a long descriptive sentence, a mid-length explanation, and a short punchy statement — each beginning in a different way.",
+    },
+    {
+      q: "What is a good average sentence length?",
+      a: "A common guideline for general writing is an average of about 15 to 20 words per sentence. The spread matters more than the average, though: strong writing mixes short sentences of under ten words with occasional longer ones, rather than making every sentence the same medium length.",
+    },
+    {
+      q: "How do I stop starting every sentence with 'The' or 'I'?",
+      a: "Scan the first word of each sentence in the paragraph. Where three in a row match, either move a phrase to the front ('After the meeting, I...' instead of 'I...') or join the sentence to its neighbour with a conjunction. Fixing one sentence in three is usually enough — subject-first sentences should still be your backbone.",
+    },
+    {
+      q: "Does sentence variety matter in formal and academic writing?",
+      a: "Yes. Formal writing tolerates longer sentences, but a page of uniformly long ones is as hard to read as any other monotony. Keep your central claims in shorter sentences so they stand out, and use precise transition words — however, therefore, in contrast — to connect the longer supporting sentences around them.",
+    },
+  ],
+  relatedTools: ["/tools/syllable-counter/", "/tools/word-counter/", "/tools/synonym-finder/"],
+  relatedLessons: [
+    "/learn-english/formal-vs-informal-words/",
+    "/learn-english/how-to-use-a-thesaurus/",
+    "/learn-english/how-to-build-your-vocabulary/",
+  ],
+},
 ];
