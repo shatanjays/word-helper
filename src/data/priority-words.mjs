@@ -405,6 +405,53 @@ export const priorityWords = {
     "advancedExample": "It was a bold, almost audacious bet, staking the whole company on a product no one had asked for.",
     "memoryTip": "Think of BOLD text on a screen: it stands out and refuses to be ignored, just like a bold person."
   },
+  "brilliant": {
+    "word": "brilliant",
+    "plainMeaning": "Extremely clever, impressive, or full of light and shine.",
+    "whenToUse": "Reach for 'brilliant' when something is exceptionally intelligent or dazzling and you want more warmth and enthusiasm than 'good' or 'smart' can carry. In British English it also works as an everyday expression of delight ('Brilliant, thanks!').",
+    "commonContext": "Appears in praise of ideas, performances, and minds ('a brilliant scientist'), and literally of light and color ('brilliant sunshine'); very common in casual British speech.",
+    "synonymsByTone": [
+      {
+        "word": "dazzling",
+        "note": "Leans more toward literal or striking visual brightness; less about intellect than 'brilliant'."
+      },
+      {
+        "word": "ingenious",
+        "note": "Praises cleverness and inventiveness specifically, without the sense of shine or general excellence."
+      },
+      {
+        "word": "outstanding",
+        "note": "Flatter and more neutral-professional; signals top-tier quality but lacks the spark and warmth of 'brilliant'."
+      },
+      {
+        "word": "radiant",
+        "note": "Emphasizes glowing light or a beaming quality; used of faces and light more than of ideas."
+      },
+      {
+        "word": "superb",
+        "note": "Strong general praise for quality, but doesn't imply the intelligence or vividness 'brilliant' suggests."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "dull",
+        "note": "Covers both meanings: unintelligent and lacking shine or interest."
+      },
+      {
+        "word": "dim",
+        "note": "For the light sense, and informally for a person who is slow-witted."
+      },
+      {
+        "word": "mediocre",
+        "note": "For the 'impressive' sense, meaning merely average rather than exceptional."
+      }
+    ],
+    "commonConfusion": "Don't confuse 'brilliant' with 'brilliance' (the noun) or 'brilliantly' (the adverb); also note the double 'l' and the '-iant' ending, not '-ient'.",
+    "beginnerExample": "She had a brilliant idea for the school project.",
+    "writingExample": "The young pianist gave a brilliant performance that left the audience on its feet.",
+    "advancedExample": "His prose is brilliant in the way a cut diamond is: precise, hard, and throwing off more light than heat.",
+    "memoryTip": "Think of a 'brilliant' as a cut, sparkling diamond, so the word means shining, whether with light or with cleverness."
+  },
   "careful": {
     "word": "careful",
     "plainMeaning": "Taking pains to avoid mistakes, harm, or risk by paying close attention.",
@@ -828,6 +875,108 @@ export const priorityWords = {
     "advancedExample": "Her feelings toward her hometown were complex — part longing, part relief at having left.",
     "memoryTip": "Complex = 'com-' (together) + 'plex' (woven) — many strands woven together."
   },
+  "concise": {
+    "word": "concise",
+    "plainMeaning": "Giving a lot of information clearly and in few words.",
+    "whenToUse": "Reach for concise when you want to praise or call for writing or speech that says everything necessary without wasted words. It fits professional, academic, and editorial settings where brevity is a virtue rather than a shortcoming.",
+    "commonContext": "Writing advice, editing feedback, executive summaries, style guides, and reviews of reports, emails, or presentations.",
+    "synonymsByTone": [
+      {
+        "word": "succinct",
+        "note": "Very close to concise, but leans slightly more formal and emphasizes compressing a lot into a small space; often used of statements and summaries."
+      },
+      {
+        "word": "terse",
+        "note": "Concise taken to the point of curtness; can imply the brevity feels abrupt, unfriendly, or withholding rather than efficient."
+      },
+      {
+        "word": "pithy",
+        "note": "Concise plus memorable or clever; suggests brevity that also carries wit or force, as in a pithy remark."
+      },
+      {
+        "word": "brief",
+        "note": "Simply short in length; unlike concise, it says nothing about whether the content is well-chosen or complete."
+      },
+      {
+        "word": "compact",
+        "note": "Emphasizes density and neat packaging of material; more about efficient structure than about word choice specifically."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "verbose",
+        "note": "Using far more words than needed; a direct, somewhat critical opposite of concise."
+      },
+      {
+        "word": "wordy",
+        "note": "Plainer everyday opposite, suggesting text padded with unnecessary words."
+      },
+      {
+        "word": "rambling",
+        "note": "Not just long but unfocused and wandering, lacking the tight control concise implies."
+      },
+      {
+        "word": "long-winded",
+        "note": "Tediously drawn out, usually of speech; stresses the listener's impatience."
+      }
+    ],
+    "commonConfusion": "Do not confuse concise with precise: concise is about using few words, while precise is about being exact and accurate. Writing can be one without the other.",
+    "beginnerExample": "Her answer was short and concise, so everyone understood it right away.",
+    "writingExample": "The memo was admirably concise, covering the budget, the timeline, and the risks in a single page.",
+    "advancedExample": "Good technical writing is concise not because it omits detail, but because it refuses to spend a sentence where a clause will do.",
+    "memoryTip": "Concise shares its start with condense; both are about packing meaning into less space."
+  },
+  "confident": {
+    "word": "confident",
+    "plainMeaning": "Sure of yourself and your abilities, or certain that something will happen or is true.",
+    "whenToUse": "Use it for a settled, self-assured attitude or a firm belief in an outcome, in both casual and professional settings. It suits praise and self-description as long as it stops short of arrogance.",
+    "commonContext": "Job interviews and resumes, coaching and feedback, sports and performance talk, and forecasts where you state how sure you are.",
+    "synonymsByTone": [
+      {
+        "word": "self-assured",
+        "note": "Emphasizes an inner, settled poise about oneself; slightly more formal and less about a specific outcome than confident."
+      },
+      {
+        "word": "assertive",
+        "note": "About standing up for your views and needs plainly; you can be assertive without feeling confident, and vice versa."
+      },
+      {
+        "word": "poised",
+        "note": "Stresses calm, graceful composure under pressure rather than certainty of success."
+      },
+      {
+        "word": "cocky",
+        "note": "Negative; confidence tipped into brash overestimation that others find off-putting."
+      },
+      {
+        "word": "self-possessed",
+        "note": "Formal and admiring; highlights calm control of one's emotions, especially in tense moments."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "insecure",
+        "note": "Points to deep-seated self-doubt about one's worth or abilities."
+      },
+      {
+        "word": "hesitant",
+        "note": "Milder; describes holding back or pausing out of uncertainty in the moment."
+      },
+      {
+        "word": "diffident",
+        "note": "Formal; a shy, modest lack of self-assurance rather than active anxiety."
+      },
+      {
+        "word": "doubtful",
+        "note": "Leans toward uncertainty about a fact or outcome more than about oneself."
+      }
+    ],
+    "commonConfusion": "Do not confuse 'confident' (self-assured) with 'confidant', a noun for a person you trust with secrets; they sound alike but differ by one letter and in meaning.",
+    "beginnerExample": "He felt confident before the test because he had studied hard.",
+    "writingExample": "She walked into the meeting confident, having rehearsed every likely question the night before.",
+    "advancedExample": "The report is cautiously confident: the authors believe the trend will hold, but they hedge every figure with a margin of error.",
+    "memoryTip": "Confident ends in 'dent' but leaves none — a confident person isn't dented by doubt; just watch the spelling against 'confidant'."
+  },
   "correct": {
     "word": "correct",
     "plainMeaning": "Free from mistakes; in agreement with what is true or proper.",
@@ -921,6 +1070,53 @@ export const priorityWords = {
     "writingExample": "The team found a creative solution that no one had thought of before.",
     "advancedExample": "His creative instincts pushed him to abandon the safe design and try something the industry had never seen.",
     "memoryTip": "'Creative' contains 'create'; a creative person is someone who creates new things."
+  },
+  "curious": {
+    "word": "curious",
+    "plainMeaning": "Eager to learn or know more about things; or, in another sense, strange and hard to explain.",
+    "whenToUse": "Use it for a keen desire to find out or explore, which is usually a positive trait. It can also flag something odd or puzzling, as in a curious noise, so let context show which meaning you mean.",
+    "commonContext": "Talk about children, learners, and researchers; descriptions of an inquiring mind; and, in its other sense, storytelling and reports noting something strange or unexpected.",
+    "synonymsByTone": [
+      {
+        "word": "inquisitive",
+        "note": "Close in meaning but hints more at asking lots of questions, sometimes prying into things that aren't your business."
+      },
+      {
+        "word": "nosy",
+        "note": "Clearly negative; accuses someone of prying into private matters rather than showing healthy curiosity."
+      },
+      {
+        "word": "inquiring",
+        "note": "Neutral and slightly formal, as in an inquiring mind; emphasizes a habit of seeking knowledge."
+      },
+      {
+        "word": "intrigued",
+        "note": "Describes curiosity sparked by one particular fascinating thing, rather than a lasting personality trait."
+      },
+      {
+        "word": "probing",
+        "note": "Suggests deliberate, searching inquiry, often into difficult or sensitive subjects; more pointed than curious."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "indifferent",
+        "note": "Signals a flat lack of interest, neither wanting to know nor caring."
+      },
+      {
+        "word": "incurious",
+        "note": "The precise formal opposite: showing no wish to learn or ask."
+      },
+      {
+        "word": "uninterested",
+        "note": "Plainly states no interest, without the aloof edge that indifferent can carry."
+      }
+    ],
+    "commonConfusion": "Curious has two distinct senses — eager to learn, and strange — so 'a curious child' (inquisitive) and 'a curious smell' (odd) use the same word very differently.",
+    "beginnerExample": "The curious cat looked inside the open box.",
+    "writingExample": "She was curious by nature, the kind of reader who checks every footnote just to see where it leads.",
+    "advancedExample": "It is a curious fact that the busiest streets often fall silent first at night, as if the city exhausts itself.",
+    "memoryTip": "Curious shares its start with 'cure' — a curious mind wants to cure its not-knowing."
   },
   "deep": {
     "word": "deep",
@@ -1341,6 +1537,53 @@ export const priorityWords = {
     "advancedExample": "Beneath his friendly manner lay a shrewd negotiator who missed nothing.",
     "memoryTip": "'Friendly' is 'friend' plus '-ly'; it describes acting the way a good friend would."
   },
+  "generous": {
+    "word": "generous",
+    "plainMeaning": "Willing to give more of your money, time, or help than is expected, without wanting much in return.",
+    "whenToUse": "Use it to praise open-handed giving or a warm, forgiving attitude, in both everyday and formal contexts. It also works figuratively for amounts that are pleasingly large, as in a generous helping.",
+    "commonContext": "Descriptions of people and their character, thank-you notes, reviews of food portions or salaries, and appreciations of someone's spirit or judgement.",
+    "synonymsByTone": [
+      {
+        "word": "charitable",
+        "note": "Leans toward organized giving to those in need, or toward a kind, forgiving reading of someone's actions; narrower and slightly more formal than generous."
+      },
+      {
+        "word": "openhanded",
+        "note": "A vivid, slightly literary way to stress freely giving money or resources; less common in speech than generous."
+      },
+      {
+        "word": "magnanimous",
+        "note": "Formal and elevated; specifically about being big-hearted toward rivals or people who wronged you, not just about giving things."
+      },
+      {
+        "word": "liberal",
+        "note": "In the sense of giving freely it sounds a bit old-fashioned, and the word now carries political meanings that can distract."
+      },
+      {
+        "word": "bountiful",
+        "note": "Poetic and mostly about abundance itself, as with a harvest or a table; rarely used for a person's disposition today."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "stingy",
+        "note": "Blunt and disapproving; accuses someone of holding back money or help meanly."
+      },
+      {
+        "word": "miserly",
+        "note": "Stronger and more literary, evoking someone who hoards wealth to an extreme."
+      },
+      {
+        "word": "tight-fisted",
+        "note": "Informal and vivid, picturing a clenched hand that won't let money go."
+      }
+    ],
+    "commonConfusion": "Do not confuse with 'genuine'; the two look similar but 'genuine' means real or sincere, not giving.",
+    "beginnerExample": "She was very generous and shared her lunch with me.",
+    "writingExample": "The museum owes its finest wing to a generous gift from a family that asked to remain anonymous.",
+    "advancedExample": "Even in defeat he was generous, praising the opponent's play before anyone thought to ask him about his own.",
+    "memoryTip": "Think of a 'gen' who 'gives' rous-ing amounts — generous people freely give."
+  },
   "gentle": {
     "word": "gentle",
     "plainMeaning": "Mild, soft, and careful — not rough, harsh, or forceful.",
@@ -1391,6 +1634,57 @@ export const priorityWords = {
     "writingExample": "His gentle tone put the nervous new student at ease.",
     "advancedExample": "The essay offers a gentle critique — pointed enough to land, but never wounding.",
     "memoryTip": "A 'gentle' touch is what a gentle-man was meant to have: soft and considerate."
+  },
+  "genuine": {
+    "word": "genuine",
+    "plainMeaning": "Real and true, not fake, copied, or pretended.",
+    "whenToUse": "Use 'genuine' to stress that something is authentic and sincere rather than counterfeit or put on, whether it's a leather bag, an emotion, or a person's warmth. It works well when you want to vouch for realness.",
+    "commonContext": "Common in reviews, sales, and descriptions of people or feelings ('genuine leather', 'a genuine smile', 'genuine concern').",
+    "synonymsByTone": [
+      {
+        "word": "authentic",
+        "note": "More formal and often about verified origin or cultural truth ('authentic cuisine'); overlaps with genuine but sounds more official."
+      },
+      {
+        "word": "sincere",
+        "note": "Applies mainly to feelings and intentions, meaning honestly meant, rather than to physical objects."
+      },
+      {
+        "word": "real",
+        "note": "Plainer and broader; emphasizes existence or truth generally, without the specific 'not counterfeit' sense of genuine."
+      },
+      {
+        "word": "heartfelt",
+        "note": "Warmer and emotional; stresses deep, earnest feeling, narrower than genuine and only for emotions or expressions."
+      },
+      {
+        "word": "bona fide",
+        "note": "Formal and often legal; signals officially real and in good faith, more technical than everyday genuine."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "fake",
+        "note": "Plainly not real; a counterfeit or imitation."
+      },
+      {
+        "word": "counterfeit",
+        "note": "A deliberate, often illegal copy made to deceive, usually of money or goods."
+      },
+      {
+        "word": "insincere",
+        "note": "For feelings and behavior that are pretended rather than truly meant."
+      },
+      {
+        "word": "phony",
+        "note": "Informal; fake in a way that feels deceptive or pretentious."
+      }
+    ],
+    "commonConfusion": "Don't confuse 'genuine' with 'ingenuous' (innocent and frank) or 'ingenious' (cleverly inventive); despite the overlap in letters, they are unrelated in meaning.",
+    "beginnerExample": "She gave me a genuine smile when we met.",
+    "writingExample": "His apology sounded genuine, free of the excuses that usually followed his mistakes.",
+    "advancedExample": "The museum's task is to tell the genuine from the merely old, since age alone never guarantees authenticity.",
+    "memoryTip": "Link 'genuine' to 'genuine leather' tags: the word marks the real thing rather than an imitation."
   },
   "grammar": {
     "word": "grammar",
@@ -1871,6 +2165,53 @@ export const priorityWords = {
     "advancedExample": "The critique was relentlessly negative, yet buried in it was a single observation worth keeping.",
     "memoryTip": "Think of a 'minus' sign: negative takes away, refuses, or falls below zero."
   },
+  "obvious": {
+    "word": "obvious",
+    "plainMeaning": "Easy to see or understand; clear without needing explanation.",
+    "whenToUse": "Use 'obvious' when something is so clear that no one should reasonably miss it. Be a little careful in conversation, since calling a point 'obvious' can sound like you're implying the other person is slow.",
+    "commonContext": "Common in analysis, argument, and everyday speech ('the obvious choice', 'for obvious reasons', 'it's obvious that...').",
+    "synonymsByTone": [
+      {
+        "word": "evident",
+        "note": "More formal and neutral; states that something is clear from the facts without the faintly impatient edge 'obvious' can carry."
+      },
+      {
+        "word": "apparent",
+        "note": "Slightly hedged; can mean 'clearly true' but also 'seeming to be true', so it is less absolute than 'obvious'."
+      },
+      {
+        "word": "blatant",
+        "note": "Adds disapproval; the thing is obvious and offensively unconcealed, as in 'a blatant lie'."
+      },
+      {
+        "word": "self-evident",
+        "note": "Stronger and more formal; the truth needs no proof at all, common in logical or philosophical contexts."
+      },
+      {
+        "word": "conspicuous",
+        "note": "Emphasizes standing out to the eye or attracting notice, rather than being easy to understand."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "subtle",
+        "note": "Present but easy to miss, requiring attention to notice."
+      },
+      {
+        "word": "obscure",
+        "note": "Hard to understand or not clearly perceived."
+      },
+      {
+        "word": "hidden",
+        "note": "Deliberately or effectively out of sight, the opposite of plainly visible."
+      }
+    ],
+    "commonConfusion": "Don't confuse 'obvious' (clear) with 'oblivious' (unaware); they look similar but mean nearly opposite things.",
+    "beginnerExample": "It was obvious that he was tired after the long trip.",
+    "writingExample": "The report's conclusion felt obvious in hindsight, yet no one had stated it plainly before.",
+    "advancedExample": "What looks obvious in the finished proof was, to the mathematicians who lived it, a decade of dead ends.",
+    "memoryTip": "'Obvious' shares a root with things lying 'in the way' (Latin ob via, 'in the road'), so picture something so in your path you cannot miss it."
+  },
   "original": {
     "word": "original",
     "plainMeaning": "Being the first or earliest version of something, or being new and not copied from anyone else.",
@@ -1917,6 +2258,100 @@ export const priorityWords = {
     "writingExample": "The museum displays the original letters alongside modern copies visitors can handle.",
     "advancedExample": "Her thesis was praised less for its conclusions than for its genuinely original framing of a tired debate.",
     "memoryTip": "'Original' shares its root with 'origin' — the place something began, which anchors both the 'first' and the 'freshly created' senses."
+  },
+  "patient": {
+    "word": "patient",
+    "plainMeaning": "Able to wait calmly or put up with problems and delays without getting angry or upset.",
+    "whenToUse": "Use it to describe someone staying calm through waiting, difficulty, or slow progress, from casual talk to formal praise. Note that as a noun 'patient' also means a person receiving medical care.",
+    "commonContext": "Everyday conversation about traffic, teaching, or parenting; performance reviews and recommendations; and instructions that ask readers to bear with a process.",
+    "synonymsByTone": [
+      {
+        "word": "tolerant",
+        "note": "Focuses on accepting people or behavior you might dislike, rather than on calmly enduring waiting or delay."
+      },
+      {
+        "word": "forbearing",
+        "note": "Formal and somewhat literary; stresses deliberately holding back irritation or retaliation you'd be entitled to feel."
+      },
+      {
+        "word": "long-suffering",
+        "note": "Suggests patience worn thin over a long ordeal, often with a hint of quiet, weary complaint."
+      },
+      {
+        "word": "unhurried",
+        "note": "Describes a relaxed pace rather than the emotional restraint at the core of patient; more about tempo than temper."
+      },
+      {
+        "word": "even-tempered",
+        "note": "Points to a steady, hard-to-rattle personality overall, not specifically the ability to wait."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "impatient",
+        "note": "The plain, direct opposite: restless and easily frustrated by waiting."
+      },
+      {
+        "word": "restless",
+        "note": "Emphasizes physical or mental fidgeting and inability to settle rather than short temper."
+      },
+      {
+        "word": "hasty",
+        "note": "Stresses rushing into action too quickly, which is one result of lacking patience."
+      }
+    ],
+    "commonConfusion": "The same spelling is also a noun meaning a person under medical care, so context decides whether 'patient' means calm or means the sick person.",
+    "beginnerExample": "Please be patient; the bus will come soon.",
+    "writingExample": "A patient teacher, she let students reach the answer themselves rather than handing it to them.",
+    "advancedExample": "Restoration work like this rewards the patient: a single panel can take a conservator months of careful, invisible labor.",
+    "memoryTip": "A good 'patient' in a waiting room waits without fuss — and a patient person does the same."
+  },
+  "persuade": {
+    "word": "persuade",
+    "plainMeaning": "To make someone agree to do or believe something by giving them good reasons.",
+    "whenToUse": "Use persuade when someone succeeds in changing another person's mind or actions through reasoning, appeal, or argument. It suits contexts of debate, marketing, negotiation, and everyday requests where the outcome is genuine agreement rather than force.",
+    "commonContext": "Sales and advertising, essays and rhetoric, negotiations, courtrooms, politics, and everyday conversations about changing minds.",
+    "synonymsByTone": [
+      {
+        "word": "convince",
+        "note": "Often overlaps with persuade, but leans toward changing what someone believes (their mind), whereas persuade classically leans toward getting them to act."
+      },
+      {
+        "word": "coax",
+        "note": "Softer and gentler; suggests patient, flattering, or gradual encouragement rather than reasoned argument."
+      },
+      {
+        "word": "cajole",
+        "note": "Similar to coax but with a hint of manipulation or wheedling, sometimes against the person's better judgment."
+      },
+      {
+        "word": "sway",
+        "note": "Emphasizes influencing someone's opinion or decision, often subtly or emotionally; the shift may be partial rather than full agreement."
+      },
+      {
+        "word": "prevail upon",
+        "note": "More formal; implies finally winning someone over after effort, often to grant a request or favor."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "dissuade",
+        "note": "The direct opposite: to talk someone out of doing something."
+      },
+      {
+        "word": "deter",
+        "note": "To discourage an action, usually through warning, obstacle, or fear rather than argument."
+      },
+      {
+        "word": "discourage",
+        "note": "Milder and broader; to make someone less willing or confident, not necessarily about a specific decision."
+      }
+    ],
+    "commonConfusion": "Do not confuse persuade with convince: in careful usage you persuade someone to do something (an action) and convince someone that something is true (a belief). The distinction is fading, but editors still watch for it.",
+    "beginnerExample": "I tried to persuade my friend to come to the party with me.",
+    "writingExample": "The lawyer used clear evidence and calm reasoning to persuade the jury of her client's innocence.",
+    "advancedExample": "A great essay does not browbeat the reader; it persuades by anticipating every objection and answering it before it can harden into resistance.",
+    "memoryTip": "Persuade ends in -suade, related to Latin for advising or urging; think of gently urging someone toward a choice."
   },
   "polite": {
     "word": "polite",
@@ -2541,6 +2976,100 @@ export const priorityWords = {
     "advancedExample": "Her questions were sharp without being unkind, cutting straight to the flaw in every argument.",
     "memoryTip": "A sharp knife cuts cleanly and a sharp mind thinks cleanly — both get straight to the point."
   },
+  "significant": {
+    "word": "significant",
+    "plainMeaning": "Large or important enough to matter or be worth noticing.",
+    "whenToUse": "Use 'significant' when you want to signal real importance or a meaningful amount without overstating it. In statistics it has a precise technical sense ('statistically significant'), so avoid it loosely in that context.",
+    "commonContext": "Common in reports, news, research, and business writing ('a significant increase', 'significant risk', 'significant other').",
+    "synonymsByTone": [
+      {
+        "word": "considerable",
+        "note": "Stresses size or amount rather than importance; 'a considerable sum' emphasizes how much, not how meaningful."
+      },
+      {
+        "word": "notable",
+        "note": "Highlights that something deserves attention or notice, a lighter claim than full importance."
+      },
+      {
+        "word": "substantial",
+        "note": "Emphasizes solid, real quantity or weight; more concrete and less about meaning than 'significant'."
+      },
+      {
+        "word": "momentous",
+        "note": "Much stronger; reserved for events of great and lasting importance, like history-making moments."
+      },
+      {
+        "word": "meaningful",
+        "note": "Focuses on personal or emotional importance and value, rather than measurable size or statistical weight."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "insignificant",
+        "note": "Too small or unimportant to matter."
+      },
+      {
+        "word": "negligible",
+        "note": "So small it can safely be ignored, often of amounts or effects."
+      },
+      {
+        "word": "trivial",
+        "note": "Of little importance or seriousness."
+      }
+    ],
+    "commonConfusion": "In everyday use 'significant' means important, but in statistics 'statistically significant' means unlikely to be due to chance, which does not necessarily mean large or practically important.",
+    "beginnerExample": "The new medicine made a significant difference to how she felt.",
+    "writingExample": "Sales rose by a significant margin this quarter, outpacing every forecast the team had made.",
+    "advancedExample": "The dip was statistically significant yet clinically trivial, a reminder that a small p-value is not the same as a finding that matters.",
+    "memoryTip": "'Significant' shares a root with 'signify' (to mean or point to), so a significant thing is one that carries real meaning."
+  },
+  "sincere": {
+    "word": "sincere",
+    "plainMeaning": "Genuinely feeling or meaning what you say or do, without pretending.",
+    "whenToUse": "Reach for sincere when you want to stress that an emotion, apology, or intention is real and heartfelt rather than performed. It fits both warm personal contexts and formal closings.",
+    "commonContext": "Apologies, thank-you notes, condolences, letter sign-offs (\"Yours sincerely\"), and descriptions of a person's character.",
+    "synonymsByTone": [
+      {
+        "word": "genuine",
+        "note": "Emphasizes authenticity and not being fake; more about the thing being real, while sincere leans on the honesty of the feeling behind it."
+      },
+      {
+        "word": "heartfelt",
+        "note": "Warmer and more emotional, stressing depth of feeling; sincere can be quiet and plain where heartfelt is fervent."
+      },
+      {
+        "word": "earnest",
+        "note": "Adds seriousness and intensity of purpose; an earnest person is trying hard, which sincere alone doesn't imply."
+      },
+      {
+        "word": "candid",
+        "note": "Focuses on frank openness and holding nothing back, whereas sincere is about meaning what you say, not necessarily saying everything."
+      },
+      {
+        "word": "wholehearted",
+        "note": "Signals full, unreserved commitment; stronger and more active than sincere, which can describe a mild but honest feeling."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "insincere",
+        "note": "The direct opposite: saying what you don't actually mean."
+      },
+      {
+        "word": "hypocritical",
+        "note": "Stronger, implying a moral gap between stated values and real behavior."
+      },
+      {
+        "word": "phony",
+        "note": "Informal and blunt, suggesting a deliberately fake front."
+      }
+    ],
+    "commonConfusion": "Do not confuse the spelling with \"sincerely\"; also, sincere describes honesty of feeling, not correctness — you can be sincere and still be wrong.",
+    "beginnerExample": "She gave me a sincere apology, and I could tell she really meant it.",
+    "writingExample": "His thanks felt sincere rather than routine, delivered slowly and without the usual polish of a rehearsed speech.",
+    "advancedExample": "There is a disarming sincerity in the letter that no amount of careful phrasing could have manufactured.",
+    "memoryTip": "Think \"sincere\" = \"from the heart, no mask\" — it pairs naturally with apology and thanks."
+  },
   "smart": {
     "word": "smart",
     "plainMeaning": "Showing quick intelligence or good judgment; also, neat and stylish in appearance.",
@@ -2788,6 +3317,53 @@ export const priorityWords = {
     "advancedExample": "The ceasefire is holding, but calling the region stable would be premature.",
     "memoryTip": "A stable table doesn't wobble — both stay put."
   },
+  "subtle": {
+    "word": "subtle",
+    "plainMeaning": "So slight or delicate that it is not obvious and is easy to miss.",
+    "whenToUse": "Use subtle for differences, hints, flavors, or techniques that are faint but real, and often clever. It usually carries a hint of praise for refinement or skill, unlike simply \"small.\"",
+    "commonContext": "Descriptions of flavors and scents, hints and clues, differences, humor, and skilled technique.",
+    "synonymsByTone": [
+      {
+        "word": "delicate",
+        "note": "Stresses fineness and fragility; a delicate flavor is light, while subtle emphasizes being hard to detect at all."
+      },
+      {
+        "word": "understated",
+        "note": "Deliberately restrained and low-key; understated is a choice, whereas subtle can just be naturally faint."
+      },
+      {
+        "word": "nuanced",
+        "note": "Focuses on fine shades of meaning or difference; nuanced implies complexity, while subtle can be a single faint quality."
+      },
+      {
+        "word": "faint",
+        "note": "Plainly means weak or barely there, without the connotation of cleverness or refinement that subtle carries."
+      },
+      {
+        "word": "imperceptible",
+        "note": "Stronger — so slight it can't be noticed at all; subtle things can still be sensed by an attentive person."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "obvious",
+        "note": "Easily seen or understood, needing no effort to notice."
+      },
+      {
+        "word": "blatant",
+        "note": "Loud and shameless about being noticed, the opposite of quiet subtlety."
+      },
+      {
+        "word": "heavy-handed",
+        "note": "Clumsy and overdone, lacking the light touch that subtle implies."
+      }
+    ],
+    "commonConfusion": "Note the silent \"b\" in the spelling (sub-tle); also do not confuse with \"suttle\" (a misspelling) — the word is subtle, and its noun is subtlety.",
+    "beginnerExample": "There was a subtle change in his voice, but most people didn't notice it.",
+    "writingExample": "The sauce had a subtle sweetness that balanced the heat without ever announcing itself.",
+    "advancedExample": "The novel's critique is subtle to the point of near-invisibility, working through what its characters decline to say.",
+    "memoryTip": "Remember the silent b: subtle is so quiet even its own letter stays hidden."
+  },
   "synonym": {
     "word": "synonym",
     "plainMeaning": "A word that means the same, or nearly the same, as another word.",
@@ -2814,6 +3390,53 @@ export const priorityWords = {
     "writingExample": "To avoid repeating 'happy,' the writer reached for a synonym like 'content' or 'cheerful.'",
     "advancedExample": "True synonyms are rarer than we assume; 'thrifty' and 'stingy' point to the same behavior yet carry opposite judgments, so they are never quite interchangeable.",
     "memoryTip": "'Syn-' means 'together' or 'same' (as in 'synchronize'), so a synonym carries the 'same' meaning."
+  },
+  "thorough": {
+    "word": "thorough",
+    "plainMeaning": "Done completely and carefully, with attention to every detail.",
+    "whenToUse": "Use thorough to praise or describe work that leaves nothing out and overlooks nothing, especially investigations, reviews, cleaning, or preparation. It signals completeness plus care, not just effort.",
+    "commonContext": "Descriptions of research, inspections, audits, medical exams, cleaning, and background checks.",
+    "synonymsByTone": [
+      {
+        "word": "comprehensive",
+        "note": "Stresses wide coverage of everything relevant; thorough adds the sense of careful depth, not just breadth."
+      },
+      {
+        "word": "meticulous",
+        "note": "Highlights painstaking attention to small details and precision; more about fussy care than sheer completeness."
+      },
+      {
+        "word": "exhaustive",
+        "note": "Stronger, implying nothing whatsoever is left out, often to the point of being tiring or total."
+      },
+      {
+        "word": "rigorous",
+        "note": "Adds strictness and demanding standards; a rigorous method is disciplined, while thorough just means fully covered."
+      },
+      {
+        "word": "painstaking",
+        "note": "Emphasizes the effort and patience taken; foregrounds the labor, where thorough foregrounds the completeness."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "superficial",
+        "note": "Covering only the surface, missing depth and detail."
+      },
+      {
+        "word": "cursory",
+        "note": "Quick and careless, done without proper attention."
+      },
+      {
+        "word": "sloppy",
+        "note": "Informal, stressing carelessness and mess rather than just incompleteness."
+      }
+    ],
+    "commonConfusion": "Do not confuse with \"through\" (spelled without the second o), which is a preposition/adverb, or with \"threw\" and \"thorough\" being pronounced differently.",
+    "beginnerExample": "The doctor did a thorough check-up and looked at everything.",
+    "writingExample": "A thorough review of the accounts turned up two errors that earlier, quicker glances had missed.",
+    "advancedExample": "The report's value lies less in any single finding than in its thoroughness — every claim is traced back to a source.",
+    "memoryTip": "Thorough shares \"through\" inside it: you go all the way through the task, missing nothing."
   },
   "verified": {
     "word": "verified",
@@ -2861,6 +3484,53 @@ export const priorityWords = {
     "writingExample": "Only verified accounts were allowed to post during the event to cut down on impersonation.",
     "advancedExample": "The editors ran every figure past two independent sources, so each claim in the piece is verified rather than merely reported.",
     "memoryTip": "Verified shares its root with 'verify' and 'veritable' — all point back to what is true (Latin 'verus')."
+  },
+  "vivid": {
+    "word": "vivid",
+    "plainMeaning": "So bright, clear, or detailed that it seems real or stands out strongly.",
+    "whenToUse": "Choose vivid for colors, memories, descriptions, or dreams that are intense and lifelike. It works well when you want to praise strong, sensory clarity that makes something easy to picture.",
+    "commonContext": "Descriptions of colors, imagery in writing, memories, dreams, and imagination.",
+    "synonymsByTone": [
+      {
+        "word": "striking",
+        "note": "Emphasizes standing out and grabbing attention; something striking is noticeable, while vivid is specifically bright or lifelike."
+      },
+      {
+        "word": "graphic",
+        "note": "Stresses explicit, sometimes disturbing detail; vivid can be pleasant, but graphic often carries a warning of intensity."
+      },
+      {
+        "word": "lifelike",
+        "note": "Narrower, meaning it closely resembles the real thing; vivid can be intense without being an accurate likeness."
+      },
+      {
+        "word": "colorful",
+        "note": "Lighter and more literal about hues (or a lively personality); vivid implies a stronger, more piercing brightness."
+      },
+      {
+        "word": "vibrant",
+        "note": "Adds energy and liveliness; a vibrant scene feels full of life, while vivid focuses on sharp clarity and intensity."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "dull",
+        "note": "Lacking brightness, sharpness, or interest."
+      },
+      {
+        "word": "faint",
+        "note": "Weak and barely perceptible, especially of a memory or image."
+      },
+      {
+        "word": "vague",
+        "note": "Unclear and blurry in detail, the opposite of vivid clarity."
+      }
+    ],
+    "commonConfusion": "Do not confuse with \"lucid,\" which means clear and easy to understand (as in reasoning); vivid is about sensory brightness and detail, not clarity of logic.",
+    "beginnerExample": "I still have a vivid memory of my first day at school.",
+    "writingExample": "Her writing is full of vivid detail — you can almost smell the rain on the hot pavement.",
+    "advancedExample": "The painting's vivid reds refuse to sit quietly on the wall; they press forward and unsettle the calm of the room.",
+    "memoryTip": "Vivid sounds a bit like \"video in your head\" — a picture so clear you seem to see it."
   },
   "vocabulary": {
     "word": "vocabulary",
