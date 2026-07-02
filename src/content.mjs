@@ -1517,8 +1517,10 @@ export const legalPages = [
         <li><strong>A real correction process</strong> — mistakes can be reported and are reviewed and fixed.</li>
         <li><strong>Mobile-first</strong> — the whole site is built to work well on a phone.</li>
       </ul>`,
+      `<h2>Creator credibility</h2>
+      <p>Jay Sudha is the creator of Word Helper and several practical online tools. His product work focuses on simple interfaces, clear explanations, mobile-first performance, and useful everyday systems. Word Helper follows the same approach: fast tools, structured word information, transparent source notes, and visible correction paths. This is grounded, working-product credibility — Word Helper does not claim linguistic credentials, academic accreditation, or expert certification it does not have.</p>`,
       `<h2>An honest note on scope</h2>
-      <p>Word Helper is an educational and reference tool, not an official dictionary, a legal language authority, an academic institution, or a professional writing service. It combines open lexical sources with clear formatting and human-readable explanations. The editorial process is described in the <a href="/editorial-policy/">Editorial Policy</a>, the ongoing editorial responsibilities on the <a href="/editorial-team/">Editorial Team</a> page, and corrections are welcome through the <a href="/corrections/">corrections page</a>.</p>`,
+      <p>Word Helper is an educational reference and word-tools website, not an official dictionary, an academic institution, a certification body, or a legal language authority. Word meanings and usage can change by context. It combines open lexical sources with clear formatting and human-readable explanations. The editorial process is described in the <a href="/editorial-policy/">Editorial Policy</a>, the ongoing editorial responsibilities on the <a href="/editorial-team/">Editorial Team</a> page, and corrections are welcome through the <a href="/corrections/">corrections page</a>.</p>`,
       `<h2>Contact</h2>
       <p>For questions, corrections, or anything about the site, email <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a> or use the <a href="/contact/">contact page</a>. For more about the creator, visit <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>`,
     ],
@@ -1702,6 +1704,16 @@ export const legalPages = [
       `<h2>How word content is created</h2>
       <p>Word Helper compiles its word data from open, openly licensed language sources and standardizes it into one consistent format. Definitions, parts of speech, pronunciations, syllable counts, synonyms, antonyms, and related words are drawn from the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which builds on Wiktionary and other open datasets) and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>. Example sentences use real dictionary citations where available, and are otherwise generated and then automatically screened for clarity and accuracy before publication.</p>
       <p>Word Helper's own editorial work is the <strong>selection, standardization, screening, and structuring</strong> of this data — choosing which words and senses to surface, formatting each entry to a consistent template, filtering out low-quality or malformed results, and applying a strict quality gate (below) that decides which pages are complete enough to publish and index. We do not claim to have independently authored every definition; we curate and quality-control openly licensed reference data and present it clearly.</p>`,
+      `<h2>How Word Helper builds word pages</h2>
+      <p>Word Helper publishes a large library of word pages. Here is honestly how they are built, so readers and search engines understand what they are:</p>
+      <ul>
+        <li>Word data is <strong>structured from open lexical sources</strong> (see above) and formatted into one consistent template for practical, fast lookup.</li>
+        <li>A page may include a definition, a plain-English "in simple terms" line, example sentences, synonyms, antonyms, related words, rhymes, syllables, part of speech, and learning notes — <strong>but not every word has every section</strong>. Sections appear only when reliable data exists for them.</li>
+        <li>Where data is missing or uncertain, the page uses a <strong>graceful fallback</strong> rather than an empty box, and invites a correction.</li>
+        <li><strong>Priority word pages</strong> — common, high-intent words — receive additional editorial formatting: a closer look at meaning, how close synonyms differ in tone, common confusions, and examples at different levels. This richer layer is added by hand for a curated set of words and grows over time.</li>
+        <li>Every page carries a source and correction note, and users can <a href="/corrections/">report an issue</a> at any time.</li>
+        <li>Word Helper does not claim official dictionary status; it is an educational reference that structures and formats open language data for easier use.</li>
+      </ul>`,
       `<h2>How data sources are handled</h2>
       <p>Word Helper uses the public-domain ENABLE word list as its word-list backbone. This list covers valid English words and is used solely as a word inventory — its presence does not imply any editorial quality claim about individual words. Tool results (unscramble, anagram, prefix, suffix) are drawn from this list with letter-frequency logic. Rhyme and syllable tools use pattern-matching logic. All source usage is documented and reviewed for license compatibility before deployment.</p>`,
       `<h2>How corrections are reviewed</h2>

@@ -1286,6 +1286,31 @@ input:focus, textarea:focus, select:focus {
 
 .word-section:last-child { border-bottom: none; }
 
+/* Premium enrichment block for priority words — calm, scannable, not loud. */
+.premium-lead { max-width: 720px; margin: 0 0 18px; color: var(--muted); font-size: 15.5px; line-height: 1.6; }
+.premium-note { max-width: 720px; margin: 0 0 14px; }
+.premium-note strong { display: block; font-size: 12px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.premium-note p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--text-2); }
+.premium-note.premium-warn strong { color: #9a5a17; }
+.premium-note.premium-tip strong { color: var(--navy); }
+.premium-compare { max-width: 720px; margin: 0 0 16px; }
+.premium-compare > strong { display: block; font-size: 12px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.tone-list { margin: 0; display: grid; gap: 8px; }
+.tone-list > div { display: grid; grid-template-columns: minmax(84px, 150px) 1fr; gap: 6px 16px; align-items: baseline; padding-bottom: 8px; border-bottom: 1px dashed var(--border); }
+.tone-list > div:last-child { border-bottom: none; padding-bottom: 0; }
+.tone-list dt { margin: 0; font-weight: 700; color: var(--text); font-size: 15.5px; }
+.tone-list dt a { color: var(--navy); text-decoration: none; }
+.tone-list dt a:hover { text-decoration: underline; }
+.tone-list dd { margin: 0; color: var(--text-2); font-size: 15px; line-height: 1.55; }
+.premium-examples { max-width: 720px; margin: 0 0 14px; }
+.premium-examples > strong { display: block; font-size: 12px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.premium-examples ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.premium-examples li { font-size: 16px; line-height: 1.65; color: var(--text-2); }
+.premium-ex-label { display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--navy); background: var(--faint); border-radius: 5px; padding: 1px 7px; margin-right: 6px; vertical-align: 1px; }
+@media (max-width: 560px) {
+  .tone-list > div { grid-template-columns: 1fr; gap: 2px; }
+}
+
 .word-section-title {
   font-family: var(--font-sans);
   font-size: 22px;

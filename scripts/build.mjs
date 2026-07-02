@@ -19,6 +19,7 @@ import { words, wordExplorerHubData } from "../src/words.mjs";
 import { lessons, learnHubData } from "../src/learn.mjs";
 import { wordLists, wordListsHubData } from "../src/word-lists.mjs";
 import { sanitizeRelations } from "../src/relation-filter.mjs";
+import { priorityWords } from "../src/data/priority-words.mjs";
 import {
   isCompleteWordEntry,
   wordCompletenessScore,
@@ -1158,15 +1159,30 @@ function renderHome(homeWords = words) {
   </section>
   <section class="section">
     <div class="section-heading">
-      <p class="eyebrow">Learn English</p>
+      <p class="eyebrow">Learn better words</p>
       <h2>Vocabulary guides for every level</h2>
-      <p>Plain-English guides on vocabulary strategies, word roots, syllables, spelling patterns, and memory techniques.</p>
+      <p>Plain-English guides on choosing stronger words, understanding synonyms, syllables, rhyme, and building vocabulary that lasts.</p>
     </div>
     <div class="lesson-grid">
-      ${lessons.slice(0, 4).map((l) => `<a class="resource-card lesson-card" href="${l.href}">
+      ${(() => {
+        // Curated homepage guide set (strongest evergreen), with a graceful
+        // fallback to the first lessons so this never renders fewer than 4.
+        const wanted = [
+          "/learn-english/how-to-build-your-vocabulary/",
+          "/learn-english/how-to-use-a-thesaurus/",
+          "/learn-english/how-syllables-work/",
+          "/learn-english/how-rhyme-works/",
+          "/learn-english/commonly-confused-words/",
+          "/learn-english/how-to-avoid-overused-words/",
+        ];
+        const byHref = new Map(lessons.map((l) => [l.href, l]));
+        const picked = wanted.map((h) => byHref.get(h)).filter(Boolean).slice(0, 6);
+        const list = picked.length >= 4 ? picked : lessons.slice(0, 4);
+        return list.map((l) => `<a class="resource-card lesson-card" href="${l.href}">
         <strong class="lesson-card-title">${escapeHtml(l.title)}</strong>
         <span class="lesson-card-intro">${escapeHtml(l.intro)}</span>
-      </a>`).join("")}
+      </a>`).join("");
+      })()}
     </div>
     <div class="section-actions">
       <a class="button secondary" href="/learn-english/">Browse all guides ${icon("arrow")}</a>
@@ -1992,6 +2008,57 @@ function pickVariant(word, variants) {
   return variants[wordHash(word) % variants.length];
 }
 
+// Premium enrichment block for priority words (config-driven, honest, fallback-safe).
+// Renders only the sub-sections that have real data; returns "" when the word has
+// no priority entry, so ordinary word pages are unchanged.
+function priorityEnrichmentBlock(word) {
+  const p = priorityWords[String(word || "").toLowerCase()];
+  if (!p) return "";
+  const label = word.charAt(0).toUpperCase() + word.slice(1);
+  const note = (title, text, cls = "") =>
+    text && String(text).trim()
+      ? `<div class="premium-note${cls ? " " + cls : ""}"><strong>${title}</strong><p>${escapeHtml(String(text).trim())}</p></div>`
+      : "";
+  const toneList = (title, items) => {
+    const rows = (items || [])
+      .filter((it) => it && it.word && it.note)
+      .map((it) => {
+        const term = publishedWordSet.has(String(it.word).toLowerCase())
+          ? `<a href="/word/${encodeURIComponent(String(it.word).toLowerCase())}/">${escapeHtml(it.word)}</a>`
+          : escapeHtml(it.word);
+        return `<div><dt>${term}</dt><dd>${escapeHtml(it.note)}</dd></div>`;
+      })
+      .join("");
+    return rows ? `<div class="premium-compare"><strong>${title}</strong><dl class="tone-list">${rows}</dl></div>` : "";
+  };
+  const examples = [
+    ["Beginner", p.beginnerExample],
+    ["In writing", p.writingExample],
+    ["Advanced", p.advancedExample],
+  ].filter(([, ex]) => ex && ex.trim());
+  const examplesHtml = examples.length
+    ? `<div class="premium-examples"><strong>Examples by level</strong><ul>${examples
+        .map(([lvl, ex]) => `<li><span class="premium-ex-label">${lvl}</span> ${escapeHtml(ex.trim())}</li>`)
+        .join("")}</ul></div>`
+    : "";
+  const inner = [
+    note("Meaning in everyday English", p.plainMeaning),
+    note("When to use it", p.whenToUse),
+    note("Common context", p.commonContext),
+    note("Watch out", p.commonConfusion, "premium-warn"),
+    toneList("Synonyms by tone or intensity", p.synonymsByTone),
+    toneList("Antonyms by tone", p.antonymsByTone),
+    examplesHtml,
+    note("Memory tip", p.memoryTip, "premium-tip"),
+  ].join("");
+  if (!inner.trim()) return "";
+  return `<section class="word-section word-premium" data-word-premium aria-labelledby="${escapeHtml(word)}-premium-title">
+    <h2 class="word-section-title" id="${escapeHtml(word)}-premium-title">Using ${escapeHtml(label)} well</h2>
+    <p class="premium-lead">A closer look at how ${escapeHtml(label.toLowerCase() === word ? word : label)} is used — meaning in plain English, how close synonyms differ, and examples at different levels.</p>
+    ${inner}
+  </section>`;
+}
+
 // ── Light Word Page (enriched words — substantive content, AdSense-safe) ─
 function renderLightWordPage(w) {
   const initialPos = w.partOfSpeech || "word";
@@ -2213,6 +2280,8 @@ function renderLightWordPage(w) {
         Reading the word aloud after placing it in a sentence is a reliable check for natural usage.
       </p>
     </section>`}
+
+    ${priorityEnrichmentBlock(w.word)}
 
     ${(synonymPills || antonymPills || needsLookup) ? `<section class="word-section" data-word-relations-section>
       <div class="synonym-antonym-grid">
