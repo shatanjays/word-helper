@@ -2614,7 +2614,7 @@ function renderLearnHub() {
     <div class="text-stack">
       <p>Every guide in the Learn English section is written for learners at any level — from beginners looking for vocabulary strategies to confident writers who want to understand how rhyme and spelling patterns work.</p>
       <p>Guides cover practical skills: how to build a vocabulary that sticks, how to decode unfamiliar words from context, how syllables affect pronunciation, and how word families multiply what you know.</p>
-      <p>Use the guides alongside Word Helper's ${TOOL_COUNT} word tools and the Word Explorer for a complete English vocabulary practice.</p>
+      <p>Use the guides alongside Word Helper's ${TOOL_COUNT} word tools and the Word Explorer for a well-rounded vocabulary practice.</p>
     </div>
   </section>`;
 
@@ -3712,14 +3712,14 @@ function browseFilters(L) {
 // Factual context notes for letters with linguistically fewer words.
 // These are honest descriptions — not apologies or filler.
 const LETTER_NOTES = {
-  j: "J words entered English mainly through French and Latin, then Hebrew (judge, jewel, job). Every valid English J word is listed here.",
-  k: "K words in English often share a sound with C. Many K words came from Old Norse, Greek, and German. This is the complete English K word list.",
-  q: "Almost every Q word in English is followed by \"u\". Beyond qu- words, valid standalone Q words include qi, qanat, and qoph. This is the complete list.",
-  v: "V words entered English from Latin, French, and Germanic languages. This is the complete English V word list.",
-  w: "W words come largely from Old English and German roots. This is the complete English W word list.",
-  x: "X is the rarest starting letter in English. Most X words are scientific or Greek-origin terms (xeno-, xylo-, xanth-). This page contains every English word starting with X.",
-  y: "Y can act as a vowel or consonant in English, making it versatile but less common at the start of words. This is the complete English Y word list.",
-  z: "Z words often come from Yiddish, Hebrew, Italian, or Greek. This is the complete English Z word list.",
+  j: "J words entered English mainly through French and Latin, then Hebrew (judge, jewel, job). The J words with published Word Helper pages are listed here.",
+  k: "K words in English often share a sound with C. Many K words came from Old Norse, Greek, and German. The K words with published Word Helper pages are listed here.",
+  q: "Almost every Q word in English is followed by \"u\". Beyond qu- words, valid standalone Q words include qi, qanat, and qoph. The Q words with published Word Helper pages are listed here.",
+  v: "V words entered English from Latin, French, and Germanic languages. The V words with published Word Helper pages are listed here.",
+  w: "W words come largely from Old English and German roots. The W words with published Word Helper pages are listed here.",
+  x: "X is the rarest starting letter in English. Most X words are scientific or Greek-origin terms (xeno-, xylo-, xanth-). The X words with published Word Helper pages are listed here.",
+  y: "Y can act as a vowel or consonant in English, making it versatile but less common at the start of words. The Y words with published Word Helper pages are listed here.",
+  z: "Z words often come from Yiddish, Hebrew, Italian, or Greek. The Z words with published Word Helper pages are listed here.",
 };
 
 function renderWordsBrowseLetter(letter, letterWords, allLetterSet) {
@@ -4345,6 +4345,10 @@ function deployRedirects() {
 /privacy/ /privacy-policy/ 301
 /advertising-disclosure /affiliate-disclosure/ 301
 /advertising-disclosure/ /affiliate-disclosure/ 301
+/copyright-dmca /copyright/ 301
+/copyright-dmca/ /copyright/ 301
+/dmca /copyright/ 301
+/dmca/ /copyright/ 301
 `;
 }
 
