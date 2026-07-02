@@ -1,4 +1,4 @@
-// ── Priority word enrichment (config-driven premium layer) ──────────────────
+// ── Priority word enrichment (config-driven premium layer) ─────────────────
 // Honest, human-authored editorial notes for high-value / high-intent words.
 // Consumed by scripts/build.mjs -> priorityEnrichmentBlock(). Only fields that
 // are present render; empty strings / empty arrays are omitted gracefully, so a
@@ -53,6 +53,49 @@ export const priorityWords = {
     "advancedExample": "Evidence for the theory is now so abundant that skeptics have been reduced to quibbling over details.",
     "memoryTip": "'Abundant' shares its root with 'abound' — think of water that 'abounds', overflowing everywhere."
   },
+  "accurate": {
+    "word": "accurate",
+    "plainMeaning": "Correct in every detail and free from mistakes.",
+    "whenToUse": "Use it when something matches the facts or a standard exactly, especially for measurements, reports, records, or predictions. It stresses correctness rather than mere approximation.",
+    "commonContext": "Science and data, journalism, technical writing, measurement, and reviews of how well something reflects reality.",
+    "synonymsByTone": [
+      {
+        "word": "precise",
+        "note": "Emphasises exactness and fine detail; something can be precise (very specific) yet still wrong, whereas accurate means actually correct."
+      },
+      {
+        "word": "correct",
+        "note": "Plainer and more binary; 'correct' just means not wrong, while 'accurate' suggests careful faithfulness to the real facts."
+      },
+      {
+        "word": "exact",
+        "note": "Stronger sense of matching to the last detail with no rounding; slightly more absolute than accurate."
+      },
+      {
+        "word": "faithful",
+        "note": "Usually about representations or translations; stresses staying true to an original rather than factual correctness of numbers."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "inaccurate",
+        "note": "Direct opposite; contains errors or does not match the facts."
+      },
+      {
+        "word": "wrong",
+        "note": "Blunter and more everyday; flatly incorrect rather than merely slightly off."
+      },
+      {
+        "word": "erroneous",
+        "note": "Formal; describes a statement or belief based on error, common in academic or technical writing."
+      }
+    ],
+    "commonConfusion": "Do not confuse 'accurate' with 'precise': precise means consistently detailed, but a precise figure can still be inaccurate if it does not match reality.",
+    "beginnerExample": "Her answer was accurate, so she got full marks.",
+    "writingExample": "The report gives an accurate account of what happened during the storm.",
+    "advancedExample": "The forecast proved remarkably accurate, predicting both the timing and the intensity of the flooding almost to the hour.",
+    "memoryTip": "Accurate points to a target you actually hit; link 'accurate' with 'correct' since both start with a hard 'c' sound and mean right."
+  },
   "active": {
     "word": "active",
     "plainMeaning": "Doing things, moving, or working rather than being still, idle, or switched off.",
@@ -104,6 +147,174 @@ export const priorityWords = {
     "advancedExample": "The volcano is not extinct but merely dormant, and geologists warn it could turn active with little notice.",
     "memoryTip": "'Active' contains 'act' — if it's acting or in action, it's active."
   },
+  "advanced": {
+    "word": "advanced",
+    "plainMeaning": "At a high or developed level, beyond the basics; or highly progressed in time or complexity.",
+    "whenToUse": "Use 'advanced' for skills, courses, technology, or ideas that go well past the beginner stage. It signals sophistication and progress, so it carries a note of prestige.",
+    "commonContext": "Education levels ('advanced course'), technology ('advanced features'), medicine ('advanced stage'), and describing cutting-edge methods or thinking.",
+    "synonymsByTone": [
+      {
+        "word": "sophisticated",
+        "note": "Stresses refinement and subtlety of design or thought, not just a higher level."
+      },
+      {
+        "word": "expert",
+        "note": "Points to a person's mastery and skill rather than the level of a thing or topic."
+      },
+      {
+        "word": "cutting-edge",
+        "note": "Emphasises being the very newest and most innovative, ahead of everything else."
+      },
+      {
+        "word": "progressive",
+        "note": "Suggests moving forward or reform-minded; not interchangeable in a skills-level sense."
+      },
+      {
+        "word": "developed",
+        "note": "Neutral and gradual: something built up over time, without the prestige 'advanced' can carry."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "basic",
+        "note": "The plain opposite: at the foundational, entry level."
+      },
+      {
+        "word": "elementary",
+        "note": "Opposes it on the learning scale, meaning at the earliest stage."
+      },
+      {
+        "word": "rudimentary",
+        "note": "Suggests undeveloped and crude, the opposite of refined and progressed."
+      }
+    ],
+    "commonConfusion": "As a verb, 'advanced' is the past tense of 'advance' (to move forward or propose an idea); as an adjective it means highly developed.",
+    "beginnerExample": "She is now in the advanced English class.",
+    "writingExample": "The camera's advanced autofocus tracks a moving subject across the whole frame.",
+    "advancedExample": "For all its advanced instrumentation, the lab still relied on a technician's practised eye.",
+    "memoryTip": "'Advanced' has 'advance' inside it: you have advanced far past the starting line."
+  },
+  "antonym": {
+    "word": "antonym",
+    "plainMeaning": "A word that means the opposite of another word.",
+    "whenToUse": "Use it when you need to name a word's opposite. It appears mainly in vocabulary study, dictionaries, and discussions of word meaning.",
+    "commonContext": "Dictionaries and thesauruses, vocabulary lessons and language tests, and writing about contrasts in meaning.",
+    "synonymsByTone": [
+      {
+        "word": "opposite",
+        "note": "Everyday and general; works for any contrasting pair, while 'antonym' is the technical term specifically for words."
+      },
+      {
+        "word": "counterword",
+        "note": "Rare and less standard; a plainer way to name a word set against another, seldom used in ordinary writing."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "synonym",
+        "note": "The technical opposite: a word with the same or nearly the same meaning rather than the opposite."
+      }
+    ],
+    "commonConfusion": "Do not confuse 'antonym' with 'synonym'; 'anti-' signals against or opposite, whereas 'syn-' signals same. They are, fittingly, antonyms of each other.",
+    "beginnerExample": "'Hot' is the antonym of 'cold.'",
+    "writingExample": "For the quiz, students matched each word with its antonym, pairing 'generous' with 'selfish.'",
+    "advancedExample": "Many words have no clean antonym; the true opposite of 'ripe' shifts between 'unripe' and 'rotten' depending on which direction of change you mean.",
+    "memoryTip": "'Anti-' means 'against' or 'opposite' (as in 'anti-hero'), so an antonym stands against another word's meaning."
+  },
+  "basic": {
+    "word": "basic",
+    "plainMeaning": "Forming the simplest, most essential part of something; fundamental or plain rather than advanced.",
+    "whenToUse": "Use 'basic' for the essential foundations of a subject or for something plain and stripped down. Note it can sound dismissive ('just basic') as well as neutrally descriptive.",
+    "commonContext": "Learning levels ('basic skills'), product tiers ('basic plan'), instructions, and, in casual slang, calling something or someone unoriginally mainstream.",
+    "synonymsByTone": [
+      {
+        "word": "fundamental",
+        "note": "More weighty and respectful: stresses that something is a core principle, not merely simple."
+      },
+      {
+        "word": "elementary",
+        "note": "Points to the earliest, easiest stage of learning; can imply beginner-level more than 'basic'."
+      },
+      {
+        "word": "rudimentary",
+        "note": "Suggests basic and undeveloped, hinting the thing is incomplete or crude."
+      },
+      {
+        "word": "essential",
+        "note": "Focuses on being necessary and indispensable rather than simple or entry-level."
+      },
+      {
+        "word": "plain",
+        "note": "Stresses lack of decoration or extras rather than being foundational."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "advanced",
+        "note": "The main opposite in skill and complexity: beyond the foundations."
+      },
+      {
+        "word": "complex",
+        "note": "Opposes the simple sense, meaning made of many interconnected parts."
+      },
+      {
+        "word": "elaborate",
+        "note": "Opposes the plain sense: detailed, decorated, and worked out in full."
+      }
+    ],
+    "commonConfusion": "In chemistry 'basic' means alkaline (the opposite of acidic), a separate meaning from 'simple or fundamental'.",
+    "beginnerExample": "First we learn some basic words in the new language.",
+    "writingExample": "The free tier covers basic needs; power users will want the paid plan.",
+    "advancedExample": "Beneath the elaborate rhetoric lay one basic, unavoidable question: who pays?",
+    "memoryTip": "Basic shares its root with 'base': it is the base or bottom layer everything else is built on."
+  },
+  "beginner": {
+    "word": "beginner",
+    "plainMeaning": "A person who is just starting to learn or do something and has little experience.",
+    "whenToUse": "Use 'beginner' for someone at the very start of learning a skill, especially when the tone is neutral or encouraging. It is gentler and less judgemental than words like 'amateur' or 'novice'.",
+    "commonContext": "Learning and courses ('beginner level'), hobbies, sports, and product labels aimed at newcomers ('beginner-friendly').",
+    "synonymsByTone": [
+      {
+        "word": "novice",
+        "note": "Slightly more formal than 'beginner' and can hint at earnest inexperience; also used for someone new to a religious order."
+      },
+      {
+        "word": "learner",
+        "note": "Focuses on the act of learning rather than the low experience level; less about being brand new."
+      },
+      {
+        "word": "newcomer",
+        "note": "Stresses being new to a place or group, not necessarily new to a skill."
+      },
+      {
+        "word": "rookie",
+        "note": "Informal and often sports- or job-related; can carry a teasing edge about first-year mistakes."
+      },
+      {
+        "word": "amateur",
+        "note": "Contrasts with 'professional' and can imply doing something for love or, negatively, doing it poorly."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "expert",
+        "note": "The clear opposite: someone with deep skill and long experience."
+      },
+      {
+        "word": "veteran",
+        "note": "Stresses long service and seasoned experience rather than raw skill."
+      },
+      {
+        "word": "professional",
+        "note": "Opposes the amateur sense: someone who does it to a paid, expert standard."
+      }
+    ],
+    "commonConfusion": "Do not confuse the noun 'beginner' (a person) with the adjective 'beginning' (the start of something).",
+    "beginnerExample": "I am a beginner, so please explain it slowly.",
+    "writingExample": "The guide is written for absolute beginners, assuming no prior knowledge.",
+    "advancedExample": "Even seasoned players return to beginner drills, treating fundamentals as something you never quite outgrow.",
+    "memoryTip": "A beginner is simply someone at the 'begin' stage: right at the beginning of the journey."
+  },
   "better": {
     "word": "better",
     "plainMeaning": "More good, more suitable, or of higher quality than something else; also, recovered or recovering in health.",
@@ -146,6 +357,53 @@ export const priorityWords = {
     "writingExample": "After a week's rest she felt much better and returned to work on Monday.",
     "advancedExample": "The redesign is not merely different but genuinely better: faster to load, easier to read, and cheaper to maintain.",
     "memoryTip": "'Good, better, best' — 'better' is the middle step, always comparing two things."
+  },
+  "bold": {
+    "word": "bold",
+    "plainMeaning": "Willing to take risks and act confidently, or (of design and type) strong and clearly noticeable.",
+    "whenToUse": "Use 'bold' to praise confident, risk-taking action, or to describe visuals, colours, and fonts that stand out strongly. It carries admiration for daring more often than caution.",
+    "commonContext": "Descriptions of brave decisions, striking design and typography ('bold text'), flavours, and confident statements or moves.",
+    "synonymsByTone": [
+      {
+        "word": "brave",
+        "note": "Focuses on facing fear or danger; 'bold' can be confident without any real threat involved."
+      },
+      {
+        "word": "daring",
+        "note": "Stresses the thrill and risk of going beyond the safe limit, a shade more reckless than 'bold'."
+      },
+      {
+        "word": "audacious",
+        "note": "Stronger and often slightly cheeky; suggests boldness that borders on shocking or impudent."
+      },
+      {
+        "word": "fearless",
+        "note": "Emphasises the complete absence of fear rather than the willingness to act despite it."
+      },
+      {
+        "word": "assertive",
+        "note": "Narrower and more neutral; about standing your ground and stating views firmly, not about risk or spectacle."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "timid",
+        "note": "Suggests shrinking from risk out of nervousness or lack of confidence."
+      },
+      {
+        "word": "cautious",
+        "note": "A neutral opposite: careful and measured rather than fearful."
+      },
+      {
+        "word": "meek",
+        "note": "Implies a gentle, submissive nature that avoids standing out at all."
+      }
+    ],
+    "commonConfusion": "Do not confuse with 'bald' (having no hair), which sounds similar but is unrelated.",
+    "beginnerExample": "She made a bold choice and started her own business.",
+    "writingExample": "The magazine's redesign paired bold headlines with generous white space.",
+    "advancedExample": "It was a bold, almost audacious bet, staking the whole company on a product no one had asked for.",
+    "memoryTip": "Think of BOLD text on a screen: it stands out and refuses to be ignored, just like a bold person."
   },
   "careful": {
     "word": "careful",
@@ -194,6 +452,49 @@ export const priorityWords = {
     "advancedExample": "His prose is careful to the point of caution, weighing each claim so scrupulously that it rarely dares to surprise.",
     "memoryTip": "'Careful' literally means 'full of care' — you take care so nothing goes wrong."
   },
+  "casual": {
+    "word": "casual",
+    "plainMeaning": "Relaxed, informal, and not planned or serious.",
+    "whenToUse": "Use it for a laid-back tone, clothing, or manner, or for things done without much planning or commitment. It carries an easygoing, unforced feel opposite to formal or deliberate.",
+    "commonContext": "Dress codes, everyday conversation about tone and attitude, employment ('casual work'), and descriptions of relaxed relationships or plans.",
+    "synonymsByTone": [
+      {
+        "word": "informal",
+        "note": "Neutral and slightly more formal-sounding itself; focuses on the absence of strict rules rather than a relaxed mood."
+      },
+      {
+        "word": "relaxed",
+        "note": "Emphasises a calm, easy feeling; less about rules or dress and more about atmosphere or attitude."
+      },
+      {
+        "word": "offhand",
+        "note": "Often mildly negative; suggests casual to the point of seeming careless or dismissive."
+      },
+      {
+        "word": "nonchalant",
+        "note": "Stresses a studied, cool lack of concern; more about attitude and composure than dress or setting."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "formal",
+        "note": "Direct opposite; serious, official, and bound by convention."
+      },
+      {
+        "word": "deliberate",
+        "note": "Opposes the 'unplanned' sense; done on purpose with care and intent."
+      },
+      {
+        "word": "serious",
+        "note": "Contrasts the light, easygoing sense with weight and earnestness."
+      }
+    ],
+    "commonConfusion": "Do not confuse 'casual' with 'causal': 'causal' relates to cause and effect, while 'casual' means relaxed or informal.",
+    "beginnerExample": "He wore casual clothes, just jeans and a T-shirt.",
+    "writingExample": "The email had a casual tone, as if she were chatting with a friend.",
+    "advancedExample": "His casual shrug hid how carefully he had rehearsed the answer.",
+    "memoryTip": "'Casual' sounds like 'casually strolling'; picture an unhurried, relaxed walk with no dress code."
+  },
   "choice": {
     "word": "choice",
     "plainMeaning": "The act of picking one option from two or more, or the thing you pick.",
@@ -240,6 +541,57 @@ export const priorityWords = {
     "writingExample": "Faced with two strong candidates, the committee found the final choice surprisingly hard to make.",
     "advancedExample": "In matters of conscience, the freedom to choose is meaningless unless every choice carries a real cost.",
     "memoryTip": "A 'choice' is the noun; you 'choose' (verb) to arrive at it — the extra 'i' marks the result of the action."
+  },
+  "clean": {
+    "word": "clean",
+    "plainMeaning": "Free from dirt, marks, or unwanted matter; also, done neatly and without errors or dishonesty.",
+    "whenToUse": "Use 'clean' for physical freedom from dirt, and figuratively for anything simple, fair, or error-free. It is a warm, positive word signalling order and honesty.",
+    "commonContext": "Housework and hygiene, design and code ('clean layout', 'clean code'), fair play in sport, and untarnished records or reputations.",
+    "synonymsByTone": [
+      {
+        "word": "spotless",
+        "note": "Stronger than 'clean': implies not a single mark or flaw remains."
+      },
+      {
+        "word": "tidy",
+        "note": "About orderly arrangement rather than absence of dirt; a room can be tidy but not clean."
+      },
+      {
+        "word": "pristine",
+        "note": "Suggests untouched, original purity, as if never used or spoiled."
+      },
+      {
+        "word": "sanitary",
+        "note": "A clinical term stressing freedom from germs and health hazards, not general neatness."
+      },
+      {
+        "word": "immaculate",
+        "note": "Formal and emphatic, implying perfect cleanliness with no fault whatsoever."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "dirty",
+        "note": "The plain everyday opposite: covered in dirt or marks."
+      },
+      {
+        "word": "filthy",
+        "note": "A much stronger opposite implying disgusting levels of dirt."
+      },
+      {
+        "word": "messy",
+        "note": "Opposes the neat/orderly sense rather than hygiene."
+      },
+      {
+        "word": "soiled",
+        "note": "Suggests stained or marked, often by use, in a slightly formal register."
+      }
+    ],
+    "commonConfusion": "Do not confuse with 'cleanse', a verb meaning to purify or wash thoroughly; 'clean' is chiefly an adjective (and its plainer verb form).",
+    "beginnerExample": "Please keep your desk clean.",
+    "writingExample": "The app's clean interface put a single search box front and centre.",
+    "advancedExample": "The auditors gave the accounts a clean bill of health, finding not a single irregularity.",
+    "memoryTip": "Clean and 'clear' share the 'cle-' start and the same feeling: nothing in the way, nothing out of place."
   },
   "clear": {
     "word": "clear",
@@ -527,6 +879,49 @@ export const priorityWords = {
     "advancedExample": "It is technically correct to call the treaty binding, though in practice no one enforces it.",
     "memoryTip": "'Correct' shares its root with 'rectify' (to set right) — both are about making things right."
   },
+  "creative": {
+    "word": "creative",
+    "plainMeaning": "Able to make new and original things, or showing imagination and fresh ideas.",
+    "whenToUse": "Use it to praise imaginative, original thinking or work, in art, writing, problem-solving, or design. It fits both people and the ideas or solutions they produce.",
+    "commonContext": "Art, writing, advertising, education, and job descriptions or feedback about problem-solving and design.",
+    "synonymsByTone": [
+      {
+        "word": "imaginative",
+        "note": "Focuses on the mind forming new mental images and ideas; slightly softer, less tied to producing a finished work than 'creative.'"
+      },
+      {
+        "word": "inventive",
+        "note": "Stresses coming up with practical new methods or devices; more about clever solutions than artistic expression."
+      },
+      {
+        "word": "innovative",
+        "note": "Business and tech tone; highlights introducing something genuinely new, often improving on what came before."
+      },
+      {
+        "word": "original",
+        "note": "Emphasises not copying others; describes the result as fresh, whereas 'creative' also describes the ability itself."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "unimaginative",
+        "note": "Lacking fresh ideas; dull and conventional in approach."
+      },
+      {
+        "word": "derivative",
+        "note": "Critical; describes work that just copies or borrows from others rather than inventing."
+      },
+      {
+        "word": "conventional",
+        "note": "Milder; follows familiar patterns without necessarily being bad, just not original."
+      }
+    ],
+    "commonConfusion": "'Creative' means imaginative and original; it does not mean 'made up' or dishonest, though phrases like 'creative accounting' use it ironically to hint at that.",
+    "beginnerExample": "She is very creative and loves painting new pictures.",
+    "writingExample": "The team found a creative solution that no one had thought of before.",
+    "advancedExample": "His creative instincts pushed him to abandon the safe design and try something the industry had never seen.",
+    "memoryTip": "'Creative' contains 'create'; a creative person is someone who creates new things."
+  },
   "deep": {
     "word": "deep",
     "plainMeaning": "Extending far down from the top or surface, or (of feelings and ideas) intense and hard to reach.",
@@ -569,6 +964,53 @@ export const priorityWords = {
     "writingExample": "She felt a deep sense of relief when the results finally came through.",
     "advancedExample": "His silence was not empty but deep, the kind that holds more than any answer could.",
     "memoryTip": "'Deep' points down or inward — a deep hole goes far below, and a deep feeling goes far inside."
+  },
+  "direct": {
+    "word": "direct",
+    "plainMeaning": "Going straight to the point or straight to a place, without anything in between.",
+    "whenToUse": "Use it for a straight route, a clear and blunt manner, or a link with no intermediary. As a verb it means to guide, aim, or manage something.",
+    "commonContext": "Travel and routes, communication style, business and management, cause-and-effect statements, and film or theater (to direct).",
+    "synonymsByTone": [
+      {
+        "word": "straightforward",
+        "note": "Emphasizes being easy to understand and honest, without the bluntness that 'direct' can imply."
+      },
+      {
+        "word": "blunt",
+        "note": "Stronger and can seem rude; suggests directness that ignores others' feelings."
+      },
+      {
+        "word": "frank",
+        "note": "Honest and open, especially about difficult truths; warmer and more candid than plain 'direct'."
+      },
+      {
+        "word": "candid",
+        "note": "Stresses sincerity and holding nothing back, often about personal opinions."
+      },
+      {
+        "word": "immediate",
+        "note": "Highlights the no-intermediary sense, as in an immediate cause, rather than manner or route."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "indirect",
+        "note": "Plain opposite: going a roundabout way, or hinting rather than stating."
+      },
+      {
+        "word": "roundabout",
+        "note": "Opposite of the 'straight route' sense; taking a longer, winding path."
+      },
+      {
+        "word": "evasive",
+        "note": "Opposite of the 'plain-spoken' sense; deliberately avoiding a clear answer."
+      }
+    ],
+    "commonConfusion": "As a verb, do not confuse 'direct' (to guide or instruct) with 'dictate' (to say aloud for writing, or to impose by force).",
+    "beginnerExample": "Is there a direct train to the airport, or do I have to change?",
+    "writingExample": "She gave direct feedback: the draft was strong, but the opening needed to go.",
+    "advancedExample": "There was a direct line from that early decision to everything that followed, though no one saw it at the time.",
+    "memoryTip": "Direct = 'straight': a direct route and direct words both go straight to the target."
   },
   "fast": {
     "word": "fast",
@@ -715,6 +1157,96 @@ export const priorityWords = {
     "advancedExample": "The framework is deliberately flexible, bending to local needs rather than imposing a single rigid model.",
     "memoryTip": "'Flex' is in the word — think of flexing to bend and adapt."
   },
+  "fluent": {
+    "word": "fluent",
+    "plainMeaning": "Able to speak or write a language smoothly and easily, or moving in a smooth, effortless way.",
+    "whenToUse": "Use it to describe a high, comfortable command of a language, or figuratively for anything that flows smoothly and without effort. It suits both everyday speech and formal writing.",
+    "commonContext": "Language learning and job listings ('fluent in Spanish'), descriptions of speech and writing style, and figurative use for smooth movement or design.",
+    "synonymsByTone": [
+      {
+        "word": "articulate",
+        "note": "Stresses expressing ideas clearly and effectively, not necessarily ease in a foreign language; you can be articulate in your only language."
+      },
+      {
+        "word": "eloquent",
+        "note": "Adds persuasive beauty and power to speech; goes beyond mere smoothness to move an audience."
+      },
+      {
+        "word": "proficient",
+        "note": "More neutral and measurable; signals solid competence at a skill without implying the effortless flow that 'fluent' does."
+      },
+      {
+        "word": "smooth",
+        "note": "Broader and less specific; describes flow generally and can carry a slightly negative hint of being glib."
+      },
+      {
+        "word": "voluble",
+        "note": "Emphasizes talking a great deal and readily, sometimes to a fault, rather than skill."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "halting",
+        "note": "Directly opposite for speech: broken up by pauses and hesitation."
+      },
+      {
+        "word": "stilted",
+        "note": "Suggests stiff, unnatural expression that lacks easy flow."
+      },
+      {
+        "word": "inarticulate",
+        "note": "Points to an inability to express oneself clearly, the opposite of fluent expression."
+      }
+    ],
+    "commonConfusion": "Do not confuse 'fluent' (smooth and effortless) with 'flaunt' (to show off) or 'flout' (to openly disregard a rule); they sound nothing alike but are sometimes mistyped.",
+    "beginnerExample": "She is fluent in French and can talk with anyone in Paris.",
+    "writingExample": "After a year abroad, he had become fluent enough to follow fast conversations and crack jokes in the language.",
+    "advancedExample": "The dancer's fluent movements made the difficult choreography look weightless, as if the steps were flowing out of her rather than being performed.",
+    "memoryTip": "Think of a river's 'fluent' current from Latin 'fluere' (to flow) — the same root as 'fluid' — so fluent means flowing smoothly."
+  },
+  "formal": {
+    "word": "formal",
+    "plainMeaning": "Following official rules, serious in style, and suited to important or public occasions.",
+    "whenToUse": "Use it for language, dress, events, or procedures that follow accepted conventions and a serious tone, as opposed to relaxed everyday ones. It signals correctness, structure, and often distance.",
+    "commonContext": "Writing and grammar guides, dress codes, business and legal settings, ceremonies, and official communications.",
+    "synonymsByTone": [
+      {
+        "word": "official",
+        "note": "Stresses authority and being sanctioned by an organisation; 'formal' is more about style and manner than authority."
+      },
+      {
+        "word": "ceremonial",
+        "note": "Narrower; tied specifically to ceremonies and ritual, not everyday formal tone."
+      },
+      {
+        "word": "proper",
+        "note": "Everyday word for socially correct behaviour; less about official structure and more about good manners."
+      },
+      {
+        "word": "stiff",
+        "note": "Negative shading; suggests formality taken too far, so it feels cold or unnatural."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "informal",
+        "note": "Direct opposite; relaxed and not bound by strict convention."
+      },
+      {
+        "word": "casual",
+        "note": "Everyday and easygoing in tone or dress, with no sense of ceremony."
+      },
+      {
+        "word": "colloquial",
+        "note": "Specific to language; everyday spoken style as opposed to formal written English."
+      }
+    ],
+    "commonConfusion": "Do not confuse 'formal' with 'former'; 'former' means earlier or previous, while 'formal' means official or ceremonious.",
+    "beginnerExample": "We wore formal clothes to the wedding.",
+    "writingExample": "The letter used formal language, addressing the reader as 'Dear Sir or Madam.'",
+    "advancedExample": "Her tone shifted to something formal and clipped, a signal that the friendly part of the meeting was over.",
+    "memoryTip": "'Formal' relates to 'form' and rules; formal situations follow a set form or proper structure."
+  },
   "fresh": {
     "word": "fresh",
     "plainMeaning": "Newly made, recently obtained, or feeling clean and full of energy.",
@@ -761,6 +1293,53 @@ export const priorityWords = {
     "writingExample": "After a week off, she came back to the project with fresh eyes and a clearer plan.",
     "advancedExample": "The essay offered a fresh angle on a tired debate, reframing the whole question rather than answering it.",
     "memoryTip": "Fresh food, fresh air, fresh start — all share the sense of just-arrived and full of life."
+  },
+  "friendly": {
+    "word": "friendly",
+    "plainMeaning": "Kind, warm, and pleasant toward other people.",
+    "whenToUse": "Use it to describe a warm, approachable manner in people, places, or tone. It also marks things designed to be easy or welcoming, as in 'user-friendly' or a 'friendly match.'",
+    "commonContext": "Descriptions of people and service, hospitality and customer reviews, and compound words like 'eco-friendly' or 'family-friendly.'",
+    "synonymsByTone": [
+      {
+        "word": "warm",
+        "note": "Emphasises genuine affection and emotional heat; feels more heartfelt than the broadly pleasant 'friendly.'"
+      },
+      {
+        "word": "cordial",
+        "note": "More formal and polite; suggests correct, courteous warmth rather than close or casual friendliness."
+      },
+      {
+        "word": "amiable",
+        "note": "Literary and even-tempered; describes someone easy to like and pleasant to be around, a touch more reserved than 'friendly.'"
+      },
+      {
+        "word": "approachable",
+        "note": "Focuses on being easy to talk to; a person can seem approachable without being actively warm."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "hostile",
+        "note": "Strong opposite; actively unfriendly, even aggressive."
+      },
+      {
+        "word": "unfriendly",
+        "note": "Direct and plain; simply not warm or welcoming."
+      },
+      {
+        "word": "cold",
+        "note": "Milder and more common; distant and lacking warmth without open aggression."
+      },
+      {
+        "word": "aloof",
+        "note": "Suggests deliberate distance and reserve rather than active dislike."
+      }
+    ],
+    "commonConfusion": "As an adjective 'friendly' describes manner; do not confuse it with the noun 'friend' or treat 'friendly' as an adverb, since its own adverb form ('in a friendly way') is awkward.",
+    "beginnerExample": "The new teacher is very friendly and always smiles.",
+    "writingExample": "The cafe has a friendly atmosphere that makes visitors want to stay.",
+    "advancedExample": "Beneath his friendly manner lay a shrewd negotiator who missed nothing.",
+    "memoryTip": "'Friendly' is 'friend' plus '-ly'; it describes acting the way a good friend would."
   },
   "gentle": {
     "word": "gentle",
@@ -812,6 +1391,36 @@ export const priorityWords = {
     "writingExample": "His gentle tone put the nervous new student at ease.",
     "advancedExample": "The essay offers a gentle critique — pointed enough to land, but never wounding.",
     "memoryTip": "A 'gentle' touch is what a gentle-man was meant to have: soft and considerate."
+  },
+  "grammar": {
+    "word": "grammar",
+    "plainMeaning": "The system of rules for how words change and combine to form correct sentences in a language.",
+    "whenToUse": "Use it when referring to the structural rules of a language, or by extension to the basic principles of any system. It fits classrooms, editing, and everyday talk about correct language.",
+    "commonContext": "Language teaching and learning, writing and editing, style guides, and phrases like 'the grammar of' a film or a design to mean its underlying rules.",
+    "synonymsByTone": [
+      {
+        "word": "syntax",
+        "note": "Narrower; covers only how words are arranged into sentences, one part of grammar rather than the whole system."
+      },
+      {
+        "word": "usage",
+        "note": "Focuses on how words are actually used in practice and what counts as accepted, rather than the abstract rule system."
+      },
+      {
+        "word": "structure",
+        "note": "More general; describes how any language or thing is organized, without the specific rule-focused sense of grammar."
+      },
+      {
+        "word": "morphology",
+        "note": "Technical; deals specifically with how words are formed and inflected, a subfield rather than a synonym for the whole."
+      }
+    ],
+    "antonymsByTone": [],
+    "commonConfusion": "Do not confuse 'grammar' (the rule system) with 'spelling' (how words are written) or 'vocabulary' (which words you know); a sentence can be grammatical yet misspelled.",
+    "beginnerExample": "Good grammar helps people understand exactly what you mean.",
+    "writingExample": "The editor fixed a few grammar mistakes, such as a verb that did not agree with its subject.",
+    "advancedExample": "Critics spoke of the director's distinctive visual grammar — the recurring cuts and framings that gave every film its unmistakable syntax.",
+    "memoryTip": "Grammar is spelled 'gramm-A-R,' not 'gramm-E-R' — remember 'A' for the Rules that Arrange your words."
   },
   "growth": {
     "word": "growth",
@@ -1215,6 +1824,53 @@ export const priorityWords = {
     "advancedExample": "What we call modern medicine would have seemed like sorcery to physicians of only a few centuries ago.",
     "memoryTip": "'Modern' sits close to 'mode' (current fashion) — think of what is in style now."
   },
+  "negative": {
+    "word": "negative",
+    "plainMeaning": "Bad, unfavorable, or gloomy; or meaning 'no', or being less than zero.",
+    "whenToUse": "Use it for an unfavorable outcome, a pessimistic attitude, or a refusal. Like 'positive', it also has neutral technical senses (a negative number, a negative test result showing something is absent) that do not imply 'bad'.",
+    "commonContext": "Everyday talk, feedback and criticism, psychology, medical and lab results, mathematics, grammar (negation), and photography.",
+    "synonymsByTone": [
+      {
+        "word": "pessimistic",
+        "note": "Specifically about expecting bad outcomes; narrower than the general 'negative'."
+      },
+      {
+        "word": "unfavorable",
+        "note": "More formal; describes conditions or judgments, not a personal mood."
+      },
+      {
+        "word": "adverse",
+        "note": "Formal; stresses active harm or opposition, as in adverse effects or adverse conditions."
+      },
+      {
+        "word": "downbeat",
+        "note": "Casual; suggests a gloomy or subdued tone rather than outright hostility."
+      },
+      {
+        "word": "detrimental",
+        "note": "Formal; emphasizes causing damage, stronger and more consequence-focused than plain 'negative'."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "positive",
+        "note": "Direct opposite across most senses: favorable, optimistic, or above zero."
+      },
+      {
+        "word": "favorable",
+        "note": "Opposite of the 'unfavorable outcome or judgment' sense."
+      },
+      {
+        "word": "affirmative",
+        "note": "Opposite of the 'meaning no' sense; means 'yes' or confirming."
+      }
+    ],
+    "commonConfusion": "In medicine, a 'negative' result is usually good news (nothing was found) — it means 'not detected', not 'bad'.",
+    "beginnerExample": "Try not to say anything negative about their work in front of them.",
+    "writingExample": "The report highlighted several negative trends in the quarterly numbers.",
+    "advancedExample": "The critique was relentlessly negative, yet buried in it was a single observation worth keeping.",
+    "memoryTip": "Think of a 'minus' sign: negative takes away, refuses, or falls below zero."
+  },
   "original": {
     "word": "original",
     "plainMeaning": "Being the first or earliest version of something, or being new and not copied from anyone else.",
@@ -1261,6 +1917,100 @@ export const priorityWords = {
     "writingExample": "The museum displays the original letters alongside modern copies visitors can handle.",
     "advancedExample": "Her thesis was praised less for its conclusions than for its genuinely original framing of a tired debate.",
     "memoryTip": "'Original' shares its root with 'origin' — the place something began, which anchors both the 'first' and the 'freshly created' senses."
+  },
+  "polite": {
+    "word": "polite",
+    "plainMeaning": "Behaving in a respectful, well-mannered way toward other people.",
+    "whenToUse": "Use it for correct, considerate behavior that follows social manners. It describes conduct that is respectful, though it can sometimes imply politeness on the surface rather than real warmth.",
+    "commonContext": "Everyday manners, customer service, formal correspondence, hospitality, and comments on someone's behavior.",
+    "synonymsByTone": [
+      {
+        "word": "courteous",
+        "note": "Slightly more formal; stresses genuine, gracious respect rather than mere correctness."
+      },
+      {
+        "word": "civil",
+        "note": "Minimal politeness — just enough to avoid rudeness, often when warmth is absent."
+      },
+      {
+        "word": "gracious",
+        "note": "Warmer and more generous; polite with kindness and ease, often from a host or a person of standing."
+      },
+      {
+        "word": "respectful",
+        "note": "Focuses on showing regard for someone's status or feelings, not on manners generally."
+      },
+      {
+        "word": "well-mannered",
+        "note": "Emphasizes trained, habitual good manners, often used of children or upbringing."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "rude",
+        "note": "Plain opposite: openly disrespectful or ill-mannered."
+      },
+      {
+        "word": "impolite",
+        "note": "Direct negation; failing to observe good manners."
+      },
+      {
+        "word": "discourteous",
+        "note": "More formal opposite; lacking the courtesy expected in a situation."
+      }
+    ],
+    "commonConfusion": "Polite behavior is not the same as being friendly or sincere — you can be perfectly polite to someone you dislike.",
+    "beginnerExample": "It is polite to say thank you when someone helps you.",
+    "writingExample": "He wrote a polite but firm reply declining the invitation.",
+    "advancedExample": "Their exchange stayed scrupulously polite, each sentence a small act of restraint over things neither would say aloud.",
+    "memoryTip": "Polite people 'polish' their words and behavior so nothing scrapes."
+  },
+  "positive": {
+    "word": "positive",
+    "plainMeaning": "Good, favorable, or hopeful; or being certain that something is true.",
+    "whenToUse": "Use it for an optimistic outlook, a favorable result, or firm certainty. It also carries a neutral technical sense (a positive test result, a positive number) where it simply means 'present' or 'greater than zero' rather than 'good'.",
+    "commonContext": "Everyday conversation, feedback and reviews, psychology and wellbeing, medical and scientific results, mathematics and electronics.",
+    "synonymsByTone": [
+      {
+        "word": "optimistic",
+        "note": "Focuses specifically on expecting good outcomes in the future; narrower than the broad 'positive'."
+      },
+      {
+        "word": "favorable",
+        "note": "More formal; describes circumstances or judgments that work in your favor rather than a personal outlook."
+      },
+      {
+        "word": "upbeat",
+        "note": "Casual and lively; suggests cheerful energy, not just a good attitude."
+      },
+      {
+        "word": "affirmative",
+        "note": "Formal and technical; means 'yes' or 'confirming', as in an affirmative answer, not 'happy'."
+      },
+      {
+        "word": "constructive",
+        "note": "Stresses being helpful and building something, especially for criticism or feedback."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "negative",
+        "note": "Direct opposite across most senses: unfavorable, pessimistic, or below zero."
+      },
+      {
+        "word": "pessimistic",
+        "note": "Opposite only of the 'optimistic outlook' sense."
+      },
+      {
+        "word": "unfavorable",
+        "note": "Opposite of the 'favorable result or judgment' sense."
+      }
+    ],
+    "commonConfusion": "In medicine, a 'positive' result often means bad news (a disease is present), which is the opposite of the everyday 'good' sense — the word means 'detected', not 'good'.",
+    "beginnerExample": "She always tries to stay positive when things go wrong.",
+    "writingExample": "The reviews were overwhelmingly positive, praising both the pacing and the performances.",
+    "advancedExample": "His positivity was not naive cheer but a disciplined refusal to let setbacks dictate the mood of the team.",
+    "memoryTip": "A 'plus' sign is positive — it adds something good or means 'present'."
   },
   "power": {
     "word": "power",
@@ -1453,6 +2203,53 @@ export const priorityWords = {
     "writingExample": "The brand built its reputation on premium materials and quietly kept its prices high.",
     "advancedExample": "Investors were willing to pay a premium for shares in a company they believed dominated a premium market.",
     "memoryTip": "Link 'premium' to 'prime' — both start with 'pri-/pre-' and point to top quality."
+  },
+  "rare": {
+    "word": "rare",
+    "plainMeaning": "Not happening or found very often; unusual and uncommon.",
+    "whenToUse": "Use it when something occurs seldom or is hard to find, especially when scarcity gives it value or notability. Note the separate cooking sense — a 'rare' steak is cooked only briefly and still red inside.",
+    "commonContext": "Descriptions of events, objects, species, medical conditions, collectibles, and cooking (meat doneness).",
+    "synonymsByTone": [
+      {
+        "word": "uncommon",
+        "note": "Milder and more neutral; just 'not usual', without the suggestion of value or scarcity."
+      },
+      {
+        "word": "scarce",
+        "note": "Stresses short supply relative to demand; about quantity available, not how unusual something is."
+      },
+      {
+        "word": "seldom",
+        "note": "An adverb about frequency ('seldom seen'), not an adjective describing a thing."
+      },
+      {
+        "word": "exceptional",
+        "note": "Adds a sense of unusually high quality, not just infrequency."
+      },
+      {
+        "word": "sparse",
+        "note": "Emphasizes thin distribution over an area, like sparse vegetation, rather than overall rarity."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "common",
+        "note": "Plain opposite: found or happening very often."
+      },
+      {
+        "word": "abundant",
+        "note": "Opposite of the scarcity sense; present in large amounts."
+      },
+      {
+        "word": "frequent",
+        "note": "Opposite when 'rare' refers to how often something happens."
+      }
+    ],
+    "commonConfusion": "Do not confuse with 'raw'. Raw meat is completely uncooked; rare meat is lightly cooked and warm in the center.",
+    "beginnerExample": "It is rare to see snow in this part of the country.",
+    "writingExample": "The museum acquired a rare first edition, one of only a handful known to survive.",
+    "advancedExample": "Hers was a rare talent — the kind that appears perhaps once in a generation and reshapes the form around it.",
+    "memoryTip": "Rare rhymes with 'spare' — there are only a few to spare."
   },
   "real": {
     "word": "real",
@@ -1846,6 +2643,57 @@ export const priorityWords = {
     "advancedExample": "He had a smooth answer for every objection, which was exactly what made the board uneasy.",
     "memoryTip": "Picture running your hand over glass — no snags, no bumps: that's smooth."
   },
+  "soft": {
+    "word": "soft",
+    "plainMeaning": "Easy to press, bend, or touch; gentle rather than harsh in feel, sound, light, or manner.",
+    "whenToUse": "Use 'soft' for anything gentle to the senses or mild in force, and when you want to signal comfort, quietness, or a lack of hardness. It can flatter (tender) or criticise (weak), so context matters.",
+    "commonContext": "Textures ('soft fabric'), sounds and voices, light and colour, and describing people who are gentle or, sometimes, not tough enough.",
+    "synonymsByTone": [
+      {
+        "word": "gentle",
+        "note": "Focuses on mildness of manner or force rather than physical give; a touch can be gentle without being soft."
+      },
+      {
+        "word": "tender",
+        "note": "Adds warmth and affection, or refers to something delicate and easily hurt."
+      },
+      {
+        "word": "supple",
+        "note": "Praises softness that bends easily without breaking, as with leather or a dancer's movement."
+      },
+      {
+        "word": "muted",
+        "note": "Applies mainly to sound or colour, meaning toned down and subdued rather than yielding to touch."
+      },
+      {
+        "word": "cushioned",
+        "note": "Emphasises padded comfort and protection, a more physical and specific kind of softness."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "hard",
+        "note": "The plain physical opposite: firm and resistant to pressure."
+      },
+      {
+        "word": "firm",
+        "note": "A milder opposite suggesting solidity without harshness."
+      },
+      {
+        "word": "harsh",
+        "note": "Opposes the 'gentle' sense: rough, severe, or unpleasant to the senses."
+      },
+      {
+        "word": "coarse",
+        "note": "Opposes soft texture specifically, meaning rough and uneven to the touch."
+      }
+    ],
+    "commonConfusion": "Do not confuse with 'sought', the past tense of 'seek'; the two are pronounced differently and unrelated.",
+    "beginnerExample": "The kitten's fur is very soft.",
+    "writingExample": "Soft evening light fell across the room, blurring the edges of the furniture.",
+    "advancedExample": "His voice stayed soft throughout, which somehow made the reprimand land harder than shouting would have.",
+    "memoryTip": "Soft shares its feel with 'sofa': something you sink into, easy and yielding."
+  },
   "source": {
     "word": "source",
     "plainMeaning": "The place, person, or thing that something comes from or originates in.",
@@ -1940,6 +2788,33 @@ export const priorityWords = {
     "advancedExample": "The ceasefire is holding, but calling the region stable would be premature.",
     "memoryTip": "A stable table doesn't wobble — both stay put."
   },
+  "synonym": {
+    "word": "synonym",
+    "plainMeaning": "A word that means the same, or nearly the same, as another word.",
+    "whenToUse": "Use it when naming a word you could swap in for another with the same basic meaning. It fits writing advice, vocabulary work, and everyday discussion of word choice.",
+    "commonContext": "Dictionaries and thesauruses, writing and editing guidance, vocabulary lessons, and figurative use ('his name became a synonym for luxury').",
+    "synonymsByTone": [
+      {
+        "word": "equivalent",
+        "note": "Broader and not limited to words; stresses equal value or function rather than shared meaning between two terms."
+      },
+      {
+        "word": "substitute",
+        "note": "Emphasizes replacing one thing with another; a synonym is a kind of word substitute, but 'substitute' says nothing about meaning matching."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "antonym",
+        "note": "The exact technical opposite: a word with the opposite meaning rather than the same one."
+      }
+    ],
+    "commonConfusion": "Do not confuse 'synonym' with 'homonym' (words that sound or look alike but differ in meaning) or 'antonym' (opposite meaning); a synonym is about shared meaning.",
+    "beginnerExample": "'Big' and 'large' are synonyms because they mean almost the same thing.",
+    "writingExample": "To avoid repeating 'happy,' the writer reached for a synonym like 'content' or 'cheerful.'",
+    "advancedExample": "True synonyms are rarer than we assume; 'thrifty' and 'stingy' point to the same behavior yet carry opposite judgments, so they are never quite interchangeable.",
+    "memoryTip": "'Syn-' means 'together' or 'same' (as in 'synchronize'), so a synonym carries the 'same' meaning."
+  },
   "verified": {
     "word": "verified",
     "plainMeaning": "Checked and confirmed to be true, accurate, or genuine.",
@@ -1986,6 +2861,117 @@ export const priorityWords = {
     "writingExample": "Only verified accounts were allowed to post during the event to cut down on impersonation.",
     "advancedExample": "The editors ran every figure past two independent sources, so each claim in the piece is verified rather than merely reported.",
     "memoryTip": "Verified shares its root with 'verify' and 'veritable' — all point back to what is true (Latin 'verus')."
+  },
+  "vocabulary": {
+    "word": "vocabulary",
+    "plainMeaning": "The whole set of words a person knows or that belong to a particular language or subject.",
+    "whenToUse": "Use it to talk about the range of words available to a person, a language, or a field. It works in education, writing, and specialized or technical discussion.",
+    "commonContext": "Language learning, education and testing, technical fields ('legal vocabulary'), and figurative use for a set of available elements ('a designer's visual vocabulary').",
+    "synonymsByTone": [
+      {
+        "word": "lexicon",
+        "note": "More formal and scholarly; often means the full word-stock of a language or field, and can also name a dictionary."
+      },
+      {
+        "word": "wordstock",
+        "note": "Plain and somewhat old-fashioned; a direct native-English label for the body of words a language has."
+      },
+      {
+        "word": "terminology",
+        "note": "Narrower; the specialized terms of a particular subject rather than someone's general word knowledge."
+      },
+      {
+        "word": "diction",
+        "note": "Shifts focus to word choice and its effect in speech or writing, not the stock of words known."
+      }
+    ],
+    "antonymsByTone": [],
+    "commonConfusion": "Do not confuse 'vocabulary' (the words themselves) with 'grammar' (the rules for combining them); knowing many words is not the same as arranging them correctly.",
+    "beginnerExample": "Reading every day helped me build a bigger vocabulary.",
+    "writingExample": "The report used the precise vocabulary of finance, so casual readers needed a glossary to follow it.",
+    "advancedExample": "Each architect works within an inherited vocabulary of forms, and originality lies less in inventing new words than in combining the old ones unexpectedly.",
+    "memoryTip": "'Vocabulary' shares a root with 'vocal' and 'voice' (Latin 'vox') — the words you have a voice for."
+  },
+  "weak": {
+    "word": "weak",
+    "plainMeaning": "Not strong; lacking physical power, force, or effectiveness.",
+    "whenToUse": "Use it when something or someone lacks strength, whether physical, structural, or figurative (a weak argument, a weak signal, weak coffee). It often carries a mildly critical tone.",
+    "commonContext": "Health and the body, structures and materials, arguments and reasoning, signals and connections, drinks, and economics (a weak currency or market).",
+    "synonymsByTone": [
+      {
+        "word": "feeble",
+        "note": "Stronger and more pitying; suggests very little strength, often from age or illness."
+      },
+      {
+        "word": "frail",
+        "note": "Emphasizes delicacy and being easily broken, typically of a person's health or an aging body."
+      },
+      {
+        "word": "flimsy",
+        "note": "Applies to objects or arguments that fall apart under pressure; stresses poor construction."
+      },
+      {
+        "word": "faint",
+        "note": "Used of sounds, lights, or signals that are barely perceptible, not of physical power."
+      },
+      {
+        "word": "fragile",
+        "note": "Focuses on being easily damaged; a thing can be fragile yet not exactly 'weak' in force."
+      }
+    ],
+    "antonymsByTone": [
+      {
+        "word": "strong",
+        "note": "Plain opposite across most senses: full of power, force, or effectiveness."
+      },
+      {
+        "word": "powerful",
+        "note": "Opposite emphasizing great force or influence."
+      },
+      {
+        "word": "robust",
+        "note": "Opposite stressing sturdiness and resilience, of a body, system, or argument."
+      },
+      {
+        "word": "sturdy",
+        "note": "Opposite for physical objects; solidly built and hard to break."
+      }
+    ],
+    "commonConfusion": "Do not confuse 'weak' with 'week' (seven days). They sound alike but 'weak' is the adjective meaning 'not strong'.",
+    "beginnerExample": "I felt weak and tired after being sick all week.",
+    "writingExample": "The prosecution's case rested on a weak chain of circumstantial evidence.",
+    "advancedExample": "It was a weak position dressed up as strategy, and everyone in the room sensed the difference.",
+    "memoryTip": "Weak has an 'a' and means 'not strong'; week (the time) is spelled with two e's."
+  },
+  "word": {
+    "word": "word",
+    "plainMeaning": "A single unit of language that carries meaning and is separated by spaces in writing.",
+    "whenToUse": "Use it for the basic building block of language, or in everyday phrases about speech and promises, such as giving your word or having a word with someone.",
+    "commonContext": "Dictionaries, writing and grammar lessons, everyday conversation, and set phrases like 'word for word' or 'in other words.'",
+    "synonymsByTone": [
+      {
+        "word": "term",
+        "note": "More technical; suggests a word used in a specialised or defined sense, as in a legal or scientific term."
+      },
+      {
+        "word": "expression",
+        "note": "Broader; can mean a word or a whole phrase, and hints at how something is said rather than the single unit."
+      },
+      {
+        "word": "vocable",
+        "note": "Rare and academic; used mainly in linguistics for a word considered purely as a sound or spelling."
+      },
+      {
+        "word": "utterance",
+        "note": "Refers to something actually spoken, which may be a word, phrase, or sentence, so it is wider and more spoken-language focused."
+      }
+    ],
+    "antonymsByTone": [],
+    "commonConfusion": "In the phrase 'word' meaning a promise ('you have my word'), it is not the same as the countable language unit; context tells them apart.",
+    "beginnerExample": "The word 'cat' has three letters.",
+    "writingExample": "She chose every word carefully so the message could not be misread.",
+    "advancedExample": "He never broke his word, and in a business built on trust, that was worth more than any contract.",
+    "memoryTip": "A 'word' is a small unit; think of writing a sentence 'word by word,' one piece at a time."
   },
   "writer": {
     "word": "writer",
