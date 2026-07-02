@@ -507,6 +507,7 @@ function footer() {
       <a href="/cookie-policy/">Cookie Policy</a>
       <a href="/affiliate-disclosure/">Advertising Disclosure</a>
       <a href="/accessibility/">Accessibility</a>
+      <a href="/copyright/">Copyright &amp; DMCA</a>
     </nav>
   </div>
   <div class="footer-bottom">
@@ -2345,6 +2346,7 @@ function renderLightWordPage(w) {
       — the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (building on Wiktionary, CC BY-SA 3.0)
       and the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>
       — then standardized and quality-checked by Word Helper. Example sentences may include AI-assisted generations that have been automatically screened for accuracy.
+      Word Helper is an educational reference, not an official dictionary, and word usage can vary by context — some entries may be incomplete.
       Last generated: <time datetime="${buildDateISO}">${new Date(buildDateISO + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" })}</time>.
       Maintained by Word Helper; site created by <a href="/creator/">Jay Sudha</a>.
       <a href="/corrections/">Report an error</a> · <a href="/editorial-policy/">How this works</a>

@@ -59,6 +59,7 @@ export const legalNav = [
   { href: "/editorial-policy/", label: "Editorial Policy" },
   { href: "/affiliate-disclosure/", label: "Advertising Disclosure" },
   { href: "/accessibility/", label: "Accessibility" },
+  { href: "/copyright/", label: "Copyright & DMCA" },
 ];
 
 export const tools = [
@@ -1828,6 +1829,31 @@ export const legalPages = [
         q: "How do I report an accessibility problem?",
         a: "Use the accessibility category on the corrections page, or email hello@wordhelper.online with the page URL, your browser or assistive technology, and a short description of the problem.",
       },
+    ],
+  },
+  {
+    href: "/copyright/",
+    title: "Copyright & DMCA",
+    h1: "Copyright & DMCA",
+    reviewedLabel: "Notice reviewed",
+    metaTitle: "Copyright & DMCA — Word Helper",
+    metaDescription:
+      "How Word Helper handles copyright: the open, licensed sources it builds on, its own site content, and how to send a copyright or DMCA takedown request.",
+    bodyHtml: [
+      `<h2>Word data and open sources</h2>
+      <p>Word Helper builds its word pages and tools on openly licensed and public-domain language data — chiefly the <a href="https://www.datamuse.com/api/" rel="nofollow noopener" target="_blank">Datamuse API</a> (which draws on Wiktionary, available under <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="nofollow noopener" target="_blank">CC BY-SA 3.0</a>), the <a href="https://dictionaryapi.dev/" rel="nofollow noopener" target="_blank">Free Dictionary API</a>, and the public-domain ENABLE word list. Word Helper does not scrape or republish content from commercial dictionaries. Full sourcing and licensing is documented in the <a href="/editorial-policy/">Editorial Policy</a>.</p>`,
+      `<h2>Word Helper's own content</h2>
+      <p>The site's original writing — guides, curated word lists, tool explanations, editorial notes, page formatting, and the site design — is created by Word Helper and © ${new Date().getFullYear()} Word Helper. You are welcome to link to and use tool results in your own work; please do not republish the site's editorial content commercially without permission, as set out in the <a href="/terms/">Terms</a>.</p>`,
+      `<h2>Copyright and DMCA requests</h2>
+      <p>If you believe any content on Word Helper infringes a copyright you own or represent, contact us and we will review it promptly. Please email <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20copyright%2FDMCA%20request&body=Page%20URL%3A%20%0AThe%20work%20you%20hold%20rights%20to%3A%20%0AYour%20relationship%20to%20the%20work%3A%20%0AContact%20details%3A%20">hello@wordhelper.online</a> and include:</p>
+      <ul>
+        <li>The exact URL(s) on Word Helper you are reporting.</li>
+        <li>A description of the copyrighted work you believe has been used.</li>
+        <li>Your relationship to the work (owner or authorised representative).</li>
+        <li>Your contact details so we can follow up.</li>
+        <li>A statement that you have a good-faith belief the use is not authorised by the rights holder or the law.</li>
+      </ul>
+      <p>Verified requests are handled as a high priority — content is reviewed and revised or removed as appropriate. You can also start from the <a href="/corrections/">corrections page</a>, which has a copyright option.</p>`,
     ],
   },
   {
