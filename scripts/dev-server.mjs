@@ -15,13 +15,21 @@ const requestedPort = Number(
     : process.env.PORT || defaultPort,
 );
 
+// Auto-build only for MANUAL dev runs. When spawned unattended (the keepalive
+// sets DEV_AUTOBUILD=0), never rebuild: an unattended staging build can race a
+// production build/deploy and corrupt the dist artifact mid-upload (this
+// actually happened — see docs/mistakes-and-rules.md).
 if (!existsSync(path.join(distDir, "index.html"))) {
-  const result = spawnSync(process.execPath, ["scripts/build.mjs"], {
-    cwd: root,
-    stdio: "inherit",
-  });
-  if (result.status !== 0) {
-    process.exit(result.status || 1);
+  if (process.env.DEV_AUTOBUILD === "0") {
+    console.log("dist/ missing and DEV_AUTOBUILD=0 — serving 404s until a build runs (not auto-building).");
+  } else {
+    const result = spawnSync(process.execPath, ["scripts/build.mjs"], {
+      cwd: root,
+      stdio: "inherit",
+    });
+    if (result.status !== 0) {
+      process.exit(result.status || 1);
+    }
   }
 }
 

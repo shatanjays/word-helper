@@ -152,7 +152,10 @@ function startServer() {
 
   server = spawn(process.execPath, [devServerScript, "--port", String(port), "--strict-port"], {
     cwd: projectRoot,
-    env: { ...process.env, PORT: String(port), STRICT_PORT: "1" },
+    // DEV_AUTOBUILD=0: an unattended keeper-spawned dev server must NEVER kick
+    // off its own build — an unsupervised staging build can race a production
+    // build/deploy and corrupt dist mid-upload.
+    env: { ...process.env, PORT: String(port), STRICT_PORT: "1", DEV_AUTOBUILD: "0" },
     stdio: ["ignore", logFd, logFd],
   });
 

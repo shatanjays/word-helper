@@ -68,3 +68,19 @@ Each entry is a real pitfall hit on this repo, converted into a permanent rule.
   `/word/<slug>/index.html` files — Cloudflare Pages serves existing static assets before
   applying splat rewrites (same reason the SPA `/* /index.html 200` pattern works). Verified
   by design; re-confirm if Cloudflare changes asset/redirect precedence.
+
+## 10. The keepalive dev-server can silently corrupt a production dist
+- **What happened (July 2026):** `keep-local-server.mjs` (long-running keepalive) restarts
+  `dev-server.mjs` whenever its health check fails. The dev server auto-runs a plain
+  `node scripts/build.mjs` (staging, unsharded) when `dist/index.html` is missing. A
+  production `rm -rf dist && build:prod` made the keeper's dev server unhealthy → keeper
+  respawned it → it started its own build that RACED the production build, and a deploy
+  uploaded the corrupted half-written dist. The live site briefly served the homepage for
+  every URL (SPA fallback, because 404.html was missing from the artifact).
+- **Rule:** unattended (keeper-spawned) dev servers run with `DEV_AUTOBUILD=0` and never
+  build. Manual `npm run dev` keeps the auto-build convenience.
+- **Rule:** immediately before ANY `wrangler pages deploy`, verify dist integrity in the
+  same shell: `node scripts/check-deploy-output.mjs` must pass (file count ~2,7xx in shard
+  mode; catches a mid-write dist) AND no `build.mjs` process may be running
+  (`ps aux | grep '[b]uild.mjs'` empty). After deploying, verify live CONTENT (curl a
+  changed page), never just HTTP 200s or wrangler's exit code.
