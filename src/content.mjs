@@ -710,6 +710,260 @@ export const tools = [
     disclaimer:
       "Words come from the public-domain ENABLE word list plus a supplementary system list, which can differ from a specific game's official dictionary.",
   },
+  // ── Writing clarity tools (rule-based, in-browser, no AI dependency) ──────
+  {
+    id: "word-choice-helper",
+    icon: "synonym",
+    href: "/tools/word-choice-helper/",
+    title: "Word Choice Helper",
+    h1: "Word Choice Helper",
+    metaTitle: "Word Choice Helper - Replace Weak Words by Tone",
+    metaDescription:
+      "Paste a sentence and get clearer, more formal, simpler, or friendlier alternatives for weak and overused words — with short notes on how each choice differs.",
+    intro: "Paste a sentence or paragraph, pick a tone, and get better alternatives for weak or overused words in it.",
+    answer:
+      "The Word Choice Helper scans your text for weak or overused words — like very, really, good, bad, thing, nice, got — and suggests alternatives matched to the tone you pick (clear, formal, friendly, academic, simple, or creative). Each suggestion has a short note on how it changes the sentence. Suggestions are context-aware estimates from curated word data, not guaranteed corrections — review them before using.",
+    primaryKeyword: "word choice helper",
+    keywords: "better word finder, replace weak words, word suggestions, stronger word choices, improve word choice",
+    buttonLabel: "Suggest Better Words",
+    resultHeading: "Word suggestions",
+    emptyState: "Paste a sentence above and pick a tone to get word suggestions.",
+    noResultState: "No weak or overused words from our curated set were found in this text. That's a good sign — or try the Synonym Finder for a specific word.",
+    examples: [
+      { label: "Weak words", value: "The food was very good and the service was really nice, but the whole thing felt a bit bad at the end.", note: "Finds very/good/really/nice/thing/bad and suggests alternatives." },
+      { label: "Formal tone", value: "We got a lot of feedback and made some big changes to the plan.", note: "Try the Formal tone to lift casual phrasing." },
+    ],
+    how: [
+      "Your text is scanned in your browser against a curated set of commonly overused English words.",
+      "For each match, alternatives are shown for the tone you selected, each with a short note on the difference it makes.",
+      "An example rewrite shows one suggestion placed into your own sentence.",
+      "For words outside the curated set, use the Synonym Finder — it searches a much larger open dataset.",
+    ],
+    tips: [
+      "Swap one word at a time and re-read the sentence aloud — tone shifts fast.",
+      "Formal alternatives fit reports and applications; simple alternatives fit instructions and learner writing.",
+      "Do not replace every match. A plain word is often the right word.",
+    ],
+    faqs: [
+      {
+        q: "Is this an AI grammar checker?",
+        a: "No. It is a rule-based helper that runs in your browser. It matches your text against a curated set of weak and overused words and shows tone-matched alternatives from Word Helper's editorial word data. It does not read meaning or check grammar.",
+      },
+      {
+        q: "Why did it find nothing in my text?",
+        a: "The curated set focuses on the most commonly overused words (very, really, good, bad, thing, nice, and similar). If your text avoids them, nothing is flagged — that is a good sign. For alternatives to any specific word, use the Synonym Finder.",
+      },
+      {
+        q: "Are the suggestions always safe to use?",
+        a: "No — synonyms shift meaning with context and tone. Every suggestion is an estimate to consider, not a correction. Review each one in your sentence before using it in school, work, or publishing.",
+      },
+    ],
+    related: ["/tools/synonym-finder/", "/tools/clarity-checker/", "/word-lists/better-words-for-good/"],
+    disclaimer:
+      "Suggestions are based on curated word data and simple writing patterns. Review results before using them in school, work, or publishing.",
+  },
+  {
+    id: "clarity-checker",
+    icon: "check",
+    href: "/tools/clarity-checker/",
+    title: "Grammar-Lite Clarity Checker",
+    h1: "Grammar-Lite Clarity Checker",
+    metaTitle: "Clarity Checker - Catch Common Writing Issues",
+    metaDescription:
+      "Paste text to catch common clarity issues: repeated words, overlong sentences, weak filler words, double spaces, missing capitals, and cluttered phrasing.",
+    intro: "Paste text to catch common clarity issues — repeated words, overlong sentences, filler words, and messy punctuation.",
+    answer:
+      "The Grammar-Lite Clarity Checker scans your text in your browser for common clarity issues: doubled words (\"the the\"), sentences over 30 words, weak filler words, missing capital letters at sentence starts, doubled spaces, and stacked punctuation. It catches common clarity issues; it may miss grammar errors and may suggest changes that do not fit every context — it is not a full grammar engine or a replacement for an editor.",
+    primaryKeyword: "clarity checker",
+    keywords: "grammar lite checker, writing clarity tool, find repeated words, long sentence checker, filler word finder",
+    buttonLabel: "Check Clarity",
+    resultHeading: "Clarity report",
+    emptyState: "Paste text above to scan for common clarity issues.",
+    noResultState: "No common clarity issues found by this check. It may still miss grammar errors — re-read once before publishing.",
+    examples: [
+      { label: "Cluttered text", value: "the report was very good.  it it covered a lot of stuff, and honestly the main thing that we really wanted to say was that the results were good and the team did a good job over the last quarter of the year!!", note: "Finds doubled words, fillers, missing capitals, double spaces, and stacked punctuation." },
+    ],
+    how: [
+      "Your text is scanned in your browser with simple, transparent rules — nothing is uploaded.",
+      "Checks include: doubled words, sentences over 30 words, weak filler words (very, really, thing, stuff…), missing sentence capitals, doubled spaces, and repeated punctuation.",
+      "Each finding shows the phrase, the issue type, and a plain suggestion.",
+      "A short 'possible passive phrasing' note appears when a was/were + verb pattern is detected — treat it as a prompt to re-read, not a rule.",
+    ],
+    tips: [
+      "Fix doubled words and spacing first — they are unambiguous.",
+      "Long sentences are not wrong; they are just harder to read. Split when a sentence carries more than one idea.",
+      "Run it after editing, not while drafting.",
+    ],
+    faqs: [
+      {
+        q: "Is this a full grammar checker?",
+        a: "No. This tool catches common clarity issues with simple rules. It may miss grammar errors and may suggest changes that do not fit every context. For high-stakes writing, a human read-through is still the best check.",
+      },
+      {
+        q: "What does 'possible passive phrasing' mean?",
+        a: "The tool flags was/were/been + verb patterns as possibly passive. Passive voice is not an error — it is sometimes the right choice — but active phrasing is often shorter and clearer, so the flag is a prompt to re-read.",
+      },
+      {
+        q: "Is my text uploaded anywhere?",
+        a: "No. The whole check runs in your browser; your text never leaves your device.",
+      },
+    ],
+    related: ["/tools/word-choice-helper/", "/tools/readability-checker/", "/tools/repeated-word-finder/"],
+    disclaimer:
+      "This tool catches common clarity issues. It may miss grammar errors and may suggest changes that do not fit every context.",
+  },
+  {
+    id: "tone-checker",
+    icon: "pulse",
+    href: "/tools/tone-checker/",
+    title: "Tone Checker",
+    h1: "Tone Checker",
+    metaTitle: "Tone Checker - See How Your Text Reads",
+    metaDescription:
+      "Paste text to see broad tone signals — formal, casual, friendly, direct, promotional, or wordy — with a clarity note and practical suggestions.",
+    intro: "Paste text to see its broad tone signals — formal, casual, friendly, direct, promotional — with practical suggestions.",
+    answer:
+      "The Tone Checker reads simple, visible signals in your text — contractions, formal connectives, exclamation marks, sales words, sentence length, filler phrases — and summarizes the broad tone it projects: formal, casual, friendly, direct, promotional, or wordy. It is a rule-based estimate of how the text reads, not a psychological analysis, and it can misread irony, quotes, and technical writing.",
+    primaryKeyword: "tone checker",
+    keywords: "tone analyzer, writing tone checker, formal or casual text, check text tone",
+    buttonLabel: "Check Tone",
+    resultHeading: "Tone summary",
+    emptyState: "Paste a paragraph above to see its broad tone signals.",
+    noResultState: "Not enough text to read tone signals — paste at least a sentence or two.",
+    examples: [
+      { label: "Casual note", value: "Hey! Just wanted to say the demo was awesome — we're gonna tweak a couple things and it'll be good to go. Thanks so much!", note: "Reads as casual and friendly." },
+      { label: "Formal note", value: "Furthermore, the committee has determined that the proposal shall be implemented in the subsequent quarter, pending final documentation.", note: "Reads as formal, with a wordiness note." },
+    ],
+    how: [
+      "Your text is scanned in your browser for visible tone signals: contractions and casual words, formal connectives, direct address (you/we), exclamation marks, sales language, and sentence length.",
+      "Signals are tallied into a broad tone summary with the evidence that produced it.",
+      "A clarity note flags long average sentence length and filler phrases.",
+      "Suggestions are practical edits — not rewrites of your meaning.",
+    ],
+    tips: [
+      "Match tone to the reader: formal for applications and reports, friendly for newsletters, direct for instructions.",
+      "One exclamation mark is friendly; several start to read as promotional.",
+      "If the wordiness note appears, split the longest sentence first.",
+    ],
+    faqs: [
+      {
+        q: "How accurate is the tone reading?",
+        a: "It is a rule-based estimate built on visible signals like contractions, connectives, and punctuation. It cannot read intent, irony, or audience context, so treat it as a second opinion, not a verdict.",
+      },
+      {
+        q: "Can it detect emotion?",
+        a: "No. It reports broad, surface-level tone signals (formal, casual, friendly, direct, promotional, wordy). It makes no claims about emotion or psychology.",
+      },
+      {
+        q: "Does my text leave my device?",
+        a: "No. The analysis runs entirely in your browser.",
+      },
+    ],
+    related: ["/tools/clarity-checker/", "/tools/word-choice-helper/", "/learn-english/formal-vs-informal-words/"],
+    disclaimer:
+      "Tone results are rule-based estimates from visible signals in the text. Review results before using them in school, work, or publishing.",
+  },
+  {
+    id: "readability-checker",
+    icon: "learn",
+    href: "/tools/readability-checker/",
+    title: "Readability Checker",
+    h1: "Readability Checker",
+    metaTitle: "Readability Checker - Sentence Length & Reading Ease",
+    metaDescription:
+      "Paste text to check readability: word and sentence counts, average sentence length, long-sentence warnings, complex-word count, reading time, and a reading-ease estimate.",
+    intro: "Paste text to check sentence length, complex words, reading time, and an estimated reading-ease score.",
+    answer:
+      "The Readability Checker measures your text in your browser: words, sentences, average sentence length, reading and speaking time, sentences over 25 words, and words of three or more syllables. It combines these into an estimated reading-ease score. Syllables are estimated from spelling patterns, so the score is a guide — useful for comparing drafts, not an official grade level.",
+    primaryKeyword: "readability checker",
+    keywords: "readability score, reading ease, sentence length checker, readability test, text readability",
+    buttonLabel: "Check Readability",
+    resultHeading: "Readability report",
+    emptyState: "Paste text above to measure sentence length, complex words, and reading ease.",
+    noResultState: "Add at least one full sentence to measure readability.",
+    examples: [
+      { label: "Dense paragraph", value: "Notwithstanding the considerable enthusiasm demonstrated by participants throughout the implementation period, the evaluation committee ultimately determined that the methodology employed in the preliminary assessment necessitated substantial modification before subsequent deployment could be recommended.", note: "One very long, very dense sentence — watch the score." },
+      { label: "Clear paragraph", value: "The team liked the plan. We tested it for two weeks. Most parts worked well. Two steps were slow, so we changed them. The new version ships next month.", note: "Short sentences, plain words — easy to read." },
+    ],
+    how: [
+      "Words, sentences, and paragraphs are counted in your browser — nothing is uploaded.",
+      "Syllables per word are estimated from spelling patterns (the same logic as the Syllable Counter), which makes the reading-ease score an estimate.",
+      "Sentences over 25 words are listed so you can split them.",
+      "Reading time assumes about 200 words per minute; speaking time about 130.",
+    ],
+    tips: [
+      "Compare drafts: a rising score after an edit usually means the text got easier to read.",
+      "Split any sentence carrying two ideas; keep one idea per sentence for instructions.",
+      "Replace three-syllable words with shorter ones where meaning allows — but never at the cost of precision.",
+    ],
+    faqs: [
+      {
+        q: "Is this an official readability grade?",
+        a: "No. The score is an estimate built on syllable and sentence-length approximations. It is consistent enough to compare your own drafts, but it is not an official grade-level measurement.",
+      },
+      {
+        q: "What counts as a long sentence?",
+        a: "This tool flags sentences over 25 words. That is a guide, not a rule — a well-structured 30-word sentence can be perfectly clear, but most drafts read better when very long sentences are split.",
+      },
+      {
+        q: "Is my text stored or sent anywhere?",
+        a: "No. All counting runs in your browser and your text never leaves your device.",
+      },
+    ],
+    related: ["/tools/word-counter/", "/tools/syllable-counter/", "/tools/clarity-checker/"],
+    disclaimer:
+      "Scores are estimates from spelling-based syllable counts and sentence lengths. Review results before using them in school, work, or publishing.",
+  },
+  {
+    id: "repeated-word-finder",
+    icon: "layers",
+    href: "/tools/repeated-word-finder/",
+    title: "Repeated Word Finder",
+    h1: "Repeated Word Finder",
+    metaTitle: "Repeated Word Finder - Spot Overused Words in Text",
+    metaDescription:
+      "Paste text to find repeated and overused words with frequency counts. Ignore common stop words, spot your crutch words, and find alternatives.",
+    intro: "Paste text to see which words you repeat most — with counts, a stop-word toggle, and alternative suggestions.",
+    answer:
+      "The Repeated Word Finder counts every word in your text and shows the ones you use most, in your browser. Toggle common stop words (the, and, of…) off to surface your real crutch words. Where a repeated word is in Word Helper's curated overused-words set, alternatives are suggested; for anything else, one click opens the Synonym Finder.",
+    primaryKeyword: "repeated word finder",
+    keywords: "find repeated words, overused words checker, word frequency counter, crutch words",
+    buttonLabel: "Find Repeated Words",
+    resultHeading: "Repeated words",
+    emptyState: "Paste text above to count repeated words.",
+    noResultState: "No word repeats often enough to flag. Repetition of key terms can be fine — this check is for unintentional echoes.",
+    examples: [
+      { label: "Echoey draft", value: "The design is great and the team did great work. The great thing about the design is that the design feels simple, and simple design is what customers really want from a design team.", note: "Watch design/great/simple stack up." },
+    ],
+    how: [
+      "Words are counted in your browser after lowercasing and stripping punctuation.",
+      "Common stop words (the, and, of, to…) are hidden by default — toggle them on to see everything.",
+      "Words appearing three or more times are flagged; the threshold scales with text length.",
+      "Alternatives come from Word Helper's curated overused-words data where available, otherwise the Synonym Finder is one click away.",
+    ],
+    tips: [
+      "Repeating a key term (product name, topic word) is often correct — replace echoes, not anchors.",
+      "Read the flagged sentences aloud; your ear catches echo faster than your eye.",
+      "In short texts, even two uses of a distinctive word can feel repetitive.",
+    ],
+    faqs: [
+      {
+        q: "Is repeating a word always bad?",
+        a: "No. Deliberate repetition of key terms aids clarity and SEO. This tool surfaces repetition so you can decide — it flags echoes, it does not demand replacements.",
+      },
+      {
+        q: "What are stop words?",
+        a: "Very common function words like the, and, of, to, in. They repeat naturally in all writing, so they are hidden by default. Use the toggle to include them.",
+      },
+      {
+        q: "Where do the alternative suggestions come from?",
+        a: "From Word Helper's curated overused-words data where the repeated word is in that set. For other words, the result links straight to the Synonym Finder, which searches a larger open dataset.",
+      },
+    ],
+    related: ["/tools/word-choice-helper/", "/tools/synonym-finder/", "/learn-english/how-to-avoid-overused-words/"],
+    disclaimer:
+      "Counts run entirely in your browser. Alternatives are suggestions based on available word data — review them in context before replacing anything.",
+  },
 ];
 
 export const hubs = [

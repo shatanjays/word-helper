@@ -867,7 +867,7 @@ export const lessons = [
       a: "No. Swapping every plain word for a fancier one makes writing stiff and unnatural. Replace a word only when the new one adds information or precision the sentence needs. Plain words like said, good, and big are often the right choice — especially in dialogue and informal writing.",
     },
   ],
-  relatedTools: ["/tools/word-counter/", "/tools/synonym-finder/"],
+  relatedTools: ["/tools/word-counter/", "/tools/synonym-finder/", "/tools/word-choice-helper/", "/tools/repeated-word-finder/"],
   relatedLessons: [
     "/learn-english/how-to-use-a-thesaurus/",
     "/learn-english/formal-vs-informal-words/",
@@ -928,7 +928,7 @@ export const lessons = [
       a: "Yes. Formal writing tolerates longer sentences, but a page of uniformly long ones is as hard to read as any other monotony. Keep your central claims in shorter sentences so they stand out, and use precise transition words — however, therefore, in contrast — to connect the longer supporting sentences around them.",
     },
   ],
-  relatedTools: ["/tools/syllable-counter/", "/tools/word-counter/", "/tools/synonym-finder/"],
+  relatedTools: ["/tools/syllable-counter/", "/tools/word-counter/", "/tools/synonym-finder/", "/tools/readability-checker/", "/tools/clarity-checker/"],
   relatedLessons: [
     "/learn-english/formal-vs-informal-words/",
     "/learn-english/how-to-use-a-thesaurus/",

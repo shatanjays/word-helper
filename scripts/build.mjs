@@ -85,6 +85,8 @@ const TOOL_COUNT = tools.length;
 // words array. Every quiz-count claim must use QUIZ_WORD_COUNT — never a
 // hardcoded number. If words are added or removed, the count updates everywhere.
 const QUIZ_WORD_COUNT = words.length;
+// The five rule-based writing-clarity tools — grouped separately on the homepage.
+const WRITING_TOOL_IDS = new Set(["word-choice-helper", "clarity-checker", "tone-checker", "readability-checker", "repeated-word-finder"]);
 // In-browser tool-dictionary size (SSOT) — set in the main flow once buildWordData
 // runs, BEFORE any page rendering. This is the list the client tools actually
 // match against at runtime (published pages + the most frequent raw-list words),
@@ -357,6 +359,11 @@ const TOOL_NAV_DESC = {
   "antonym-finder": "Opposites & contrasts",
   "word-counter": "Words, characters & read time",
   "random-word-generator": "Fresh words for prompts & games",
+  "word-choice-helper": "Better words, matched to tone",
+  "clarity-checker": "Catch common writing issues",
+  "tone-checker": "See how your text reads",
+  "readability-checker": "Sentence length & reading ease",
+  "repeated-word-finder": "Spot your overused words",
 };
 
 function header(page = {}) {
@@ -1058,7 +1065,17 @@ function renderHome(homeWords = words) {
       <p>Each tool keeps quick tasks fast — clear inputs, real-time filters, worked examples, and honest notes on how results vary across word-game dictionaries, accents, and classroom rules.</p>
     </div>
     <div class="card-grid tool-card-grid">
-      ${tools.map((tool) => toolCard(tool)).join("")}
+      ${tools.filter((tool) => !WRITING_TOOL_IDS.has(tool.id)).map((tool) => toolCard(tool)).join("")}
+    </div>
+  </section>
+  <section class="section home-writing-section" aria-labelledby="writing-tools-heading">
+    <div class="section-heading">
+      <p class="eyebrow">${icon("check")} Writing clarity tools</p>
+      <h2 id="writing-tools-heading">Sharpen word choice, clarity, and tone</h2>
+      <p>Improve word choice, clarity, tone, and readability with lightweight writing tools built for students, writers, bloggers, and word-game players. Everything runs in your browser — suggestions are estimates to review, not corrections.</p>
+    </div>
+    <div class="card-grid tool-card-grid">
+      ${tools.filter((tool) => WRITING_TOOL_IDS.has(tool.id)).map((tool) => toolCard(tool)).join("")}
     </div>
   </section>
   <section class="section wotd-section" aria-labelledby="wotd-heading">
@@ -1239,7 +1256,7 @@ function renderHome(homeWords = words) {
       </dl>
       <div class="editorial-standards-grid">
         <div><strong>Open word sources</strong><p>Definitions, pronunciations, and related words are compiled from open, openly-licensed lexical data — Wiktionary (via the Datamuse API) and the Free Dictionary API — plus the public-domain ENABLE word list. Every source is credited in the editorial policy.</p></div>
-        <div><strong>Quality-gated word pages</strong><p>A word earns a full, indexable page only when it has enough useful detail — a definition, examples, pronunciation or syllables, synonyms, and related or word-family data. Thin entries are kept out of search.</p></div>
+        <div><strong>Quality-gated word pages</strong><p>Word Helper avoids pretending every word page is equally complete. Common, well-supported words carry richer usage notes, examples, and related words; lower-data entries are kept honest, and pages that are not yet useful enough are held back from search until they meet the quality standard.</p></div>
         <div><strong>Correction-first editorial process</strong><p>Spotted something wrong? Every page links to a correction path. Reported issues are reviewed and fixed, and pages are expanded and updated over time.</p></div>
         <div><strong>Runs in your browser</strong><p>Most word tools process your letters and text locally in your browser — your input is not uploaded to a Word Helper server. No account or sign-up is needed. See the <a href="/privacy-policy/">privacy policy</a> for the few tools that look words up via an open API.</p></div>
       </div>
@@ -1313,6 +1330,30 @@ function toolFields(tool) {
   }
   if (tool.id === "word-counter") {
     return `<label>Text to count <textarea name="text" rows="7" placeholder="Paste or type your text here"></textarea></label>`;
+  }
+  if (tool.id === "word-choice-helper") {
+    return `<label>Your sentence or paragraph <textarea name="text" rows="6" placeholder="Paste the sentence you want better words for"></textarea></label>
+    <div class="filter-grid">
+      <label>Focus on one word (optional) <input name="target" autocomplete="off" placeholder="e.g. good"></label>
+      <label>Tone <select name="tone">
+        <option value="clear">Clear</option>
+        <option value="formal">Formal</option>
+        <option value="friendly">Friendly</option>
+        <option value="academic">Academic</option>
+        <option value="simple">Simple</option>
+        <option value="creative">Creative</option>
+      </select></label>
+    </div>`;
+  }
+  if (tool.id === "clarity-checker" || tool.id === "tone-checker" || tool.id === "readability-checker") {
+    return `<label>Your text <textarea name="text" rows="7" placeholder="Paste the text you want to check"></textarea></label>`;
+  }
+  if (tool.id === "repeated-word-finder") {
+    return `<label>Your text <textarea name="text" rows="7" placeholder="Paste the text to scan for repeated words"></textarea></label>
+    <fieldset class="mode-options">
+      <legend>Stop words</legend>
+      <label><input type="checkbox" name="stopwords" value="ignore" checked> Hide common stop words (the, and, of…)</label>
+    </fieldset>`;
   }
   if (tool.id === "random-word-generator") {
     return `<label>How many words <input name="count" type="number" min="1" max="50" value="10" inputmode="numeric"></label>
@@ -1402,8 +1443,11 @@ function workedExamples(tool) {
 function toolSourceNote(tool) {
   const wordListTools = ["word-unscramble", "anagram-solver", "prefix-finder", "suffix-finder", "word-finder", "random-word-generator"];
   const gameTools = ["word-unscramble", "anagram-solver"];
+  const writingTools = ["word-choice-helper", "clarity-checker", "tone-checker", "readability-checker", "repeated-word-finder"];
   let source;
-  if (tool.id === "word-counter") {
+  if (writingTools.includes(tool.id)) {
+    source = "Runs entirely in your browser — your text is never sent to a server. Suggestions are based on curated word data and simple writing patterns; review results before using them in school, work, or publishing.";
+  } else if (tool.id === "word-counter") {
     source = "Counts run entirely in your browser — your text is never sent to a server. Word, sentence, and reading-time figures are estimates based on spacing, punctuation, and an average reading pace.";
   } else if (wordListTools.includes(tool.id)) {
     source = `Runs in your browser — your input is not sent to any server. Results are matched against a ${toolDictLabel()} word English dictionary drawn from the public-domain ENABLE word list, a supplementary word list, and Word Helper's published word pages.`;
@@ -1433,6 +1477,11 @@ const TOOL_STATIC_EXAMPLES = {
   "synonym-finder": { input: "happy", groups: [["Synonyms for happy", "glad, joyful, cheerful, content, pleased, delighted, merry"]] },
   "antonym-finder": { input: "happy", groups: [["Antonyms for happy", "sad, unhappy, miserable, sorrowful, depressed"]] },
   "word-counter": { input: "Clear writing takes practice. Count every word here.", groups: [["Counts", "8 words · 52 characters · 2 sentences · ~2 sec read"]] },
+  "word-choice-helper": { input: "The food was very good. (tone: Clear)", groups: [["very (weakens the sentence)", "genuinely — adds sincerity · notably — draws attention · remove it — often strongest"], ["good (vague praise)", "excellent — high quality · delicious — for food specifically · satisfying — quieter praise"]] },
+  "clarity-checker": { input: "the report was very good.  it it covered a lot of stuff!!", groups: [["Findings", "Missing capital at sentence start · doubled word \"it it\" · double space · weak words: very, good, stuff · stacked punctuation \"!!\""]] },
+  "tone-checker": { input: "Hey! The demo was awesome — we're gonna tweak a couple things. Thanks!", groups: [["Tone summary", "Casual (contractions, gonna, awesome) · Friendly (direct address, thanks, exclamation)"], ["Clarity note", "Short sentences — easy to read"]] },
+  "readability-checker": { input: "The team liked the plan. We tested it for two weeks.", groups: [["Report", "11 words · 2 sentences · avg 5.5 words/sentence · 0 long sentences · reading ease: very easy (estimate)"]] },
+  "repeated-word-finder": { input: "Great design, great team, great work — the design team loves design.", groups: [["Repeated words", "design ×3 · great ×3 · team ×2 (stop words hidden)"]] },
   "random-word-generator": { input: "10 words", groups: [["A sample set", "lantern, brisk, meadow, quartz, ponder, vivid, thicket, glance, ember, ripple"]] },
 };
 
@@ -1513,7 +1562,7 @@ function renderTool(tool) {
           <p class="eyebrow">Results</p>
           <h2>${escapeHtml(tool.resultHeading)}</h2>
         </div>
-        <button type="button" class="copy-all" disabled>${icon("copy")} ${tool.id === "syllable-counter" ? "Copy Analysis" : tool.id === "word-counter" ? "Copy Summary" : "Copy Words"}</button>
+        <button type="button" class="copy-all" disabled>${icon("copy")} ${tool.id === "syllable-counter" ? "Copy Analysis" : ["word-counter", "clarity-checker", "tone-checker", "readability-checker", "repeated-word-finder", "word-choice-helper"].includes(tool.id) ? "Copy Report" : "Copy Words"}</button>
       </div>
       <div class="tool-message empty">${escapeHtml(tool.emptyState)}</div>
       <div class="results"></div>
@@ -2338,6 +2387,7 @@ function renderLightWordPage(w) {
         <a class="button secondary" href="/tools/syllable-counter/?q=${encodeURIComponent(w.word)}">Count syllables</a>
         <a class="button secondary" href="/tools/word-unscramble/?q=${encodeURIComponent(w.word)}">Unscramble letters</a>
         <a class="button secondary" href="/tools/anagram-solver/?q=${encodeURIComponent(w.word)}">Find anagrams</a>
+        <a class="button secondary" href="/tools/word-choice-helper/?q=${encodeURIComponent(w.word)}">Find a clearer alternative</a>
       </div>
     </section>
 

@@ -554,6 +554,11 @@
         "antonym-finder": "word",
         "word-counter": "text",
         "random-word-generator": "count",
+        "word-choice-helper": "target",
+        "clarity-checker": "text",
+        "tone-checker": "text",
+        "readability-checker": "text",
+        "repeated-word-finder": "text",
       };
       const field = fieldMap[tool];
       if (field && form.elements[field]) {
@@ -577,6 +582,11 @@
       "antonym-finder": "word",
       "word-counter": "text",
       "random-word-generator": "count",
+        "word-choice-helper": "target",
+        "clarity-checker": "text",
+        "tone-checker": "text",
+        "readability-checker": "text",
+        "repeated-word-finder": "text",
     };
     const field = fieldMap[tool];
     if (!field) return;
@@ -622,6 +632,11 @@
       if (tool === "antonym-finder") runThesaurus(shell, form, "ant");
       if (tool === "word-counter") runWordCounter(shell, form);
       if (tool === "random-word-generator") runRandomWord(shell, form);
+      if (tool === "word-choice-helper") runWordChoice(shell, form);
+      if (tool === "clarity-checker") runClarityCheck(shell, form);
+      if (tool === "tone-checker") runToneCheck(shell, form);
+      if (tool === "readability-checker") runReadability(shell, form);
+      if (tool === "repeated-word-finder") runRepeatedWords(shell, form);
     }
 
     examples.forEach((button) => {
@@ -653,7 +668,7 @@
       const ok = await copyText(copyAll.dataset.copyText || "");
       copyAll.textContent = ok ? "Copied" : "Copy failed";
       window.setTimeout(() => {
-        copyAll.innerHTML = `<svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15V7a2 2 0 0 1 2-2h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> ${tool === "syllable-counter" ? "Copy Analysis" : tool === "word-counter" ? "Copy Summary" : "Copy Words"}`;
+        copyAll.innerHTML = `<svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15V7a2 2 0 0 1 2-2h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> ${tool === "syllable-counter" ? "Copy Analysis" : ["word-counter","clarity-checker","tone-checker","readability-checker","repeated-word-finder","word-choice-helper"].includes(tool) ? "Copy Report" : "Copy Words"}`;
       }, 1300);
     });
 
@@ -696,6 +711,11 @@
       "antonym-finder": "word",
       "word-counter": "text",
       "random-word-generator": "count",
+        "word-choice-helper": "target",
+        "clarity-checker": "text",
+        "tone-checker": "text",
+        "readability-checker": "text",
+        "repeated-word-finder": "text",
     };
     const field = fieldByTool[tool] || "word";
     if (form.elements[field]) form.elements[field].value = value;
@@ -1159,6 +1179,210 @@
     trackToolUsage("word-counter");
     setCopyButton(copyAll, true, `Word Helper — Word Counter\nWords: ${words}\nCharacters: ${charsWithSpaces}\nCharacters (no spaces): ${charsNoSpaces}\nSentences: ${sentences}\nParagraphs: ${paragraphs}\nReading time: ${readTime}\nSpeaking time: ${speakTime}`);
     if (hint) hint.hidden = false;
+  }
+
+  // ── Writing clarity tools (rule-based, fully in-browser) ─────────────────
+
+  // Curated overused words with tone-keyed alternatives. Each alternative has a
+  // short honest note; no entry claims exact replaceability.
+  const WEAK_WORDS = {
+    very:    { note: "intensifier that weakens more than it strengthens", tones: { clear: [["genuinely", "adds sincerity"], ["notably", "draws attention"]], formal: [["considerably", "measured emphasis"], ["markedly", "formal, visible degree"]], friendly: [["really", "softer, conversational"], ["truly", "warm emphasis"]], academic: [["significantly", "claims a meaningful degree"], ["substantially", "large in scale"]], simple: [["so", "plain emphasis"], ["", "often best removed entirely"]], creative: [["achingly", "poetic intensity"], ["impossibly", "playful exaggeration"]] } },
+    really:  { note: "filler emphasis", tones: { clear: [["truly", "sincere emphasis"], ["", "often best removed"]], formal: [["indeed", "formal confirmation"], ["genuinely", "sincere, still formal"]], friendly: [["honestly", "warm and personal"], ["seriously", "casual emphasis"]], academic: [["demonstrably", "backed by evidence"], ["notably", "worth attention"]], simple: [["", "usually best removed"], ["so", "plain emphasis"]], creative: [["fiercely", "vivid intensity"], ["wildly", "energetic exaggeration"]] } },
+    good:    { note: "vague praise", tones: { clear: [["effective", "does its job"], ["solid", "dependable quality"]], formal: [["satisfactory", "meets the standard"], ["commendable", "worthy of praise"]], friendly: [["great", "warmer praise"], ["lovely", "gentle warmth"]], academic: [["sound", "logically robust"], ["rigorous", "carefully done"]], simple: [["fine", "plain approval"], ["nice", "gentle approval"]], creative: [["luminous", "glowing praise"], ["delicious", "sensory delight — food or ideas"]] } },
+    bad:     { note: "vague criticism", tones: { clear: [["flawed", "has specific defects"], ["weak", "lacks force or quality"]], formal: [["inadequate", "below the required standard"], ["unsatisfactory", "fails expectations"]], friendly: [["rough", "gentle criticism"], ["not quite there", "softened judgement"]], academic: [["deficient", "measurably lacking"], ["problematic", "raises concerns"]], simple: [["poor", "plain criticism"], ["wrong", "plainly incorrect"]], creative: [["dismal", "bleak and vivid"], ["dire", "dramatic severity"]] } },
+    thing:   { note: "vague noun", tones: { clear: [["issue", "a matter to address"], ["detail", "a specific part"]], formal: [["matter", "formal topic"], ["element", "component of a whole"]], friendly: [["part", "plain and warm"], ["bit", "casual and light"]], academic: [["factor", "contributing variable"], ["aspect", "one side of a topic"]], simple: [["part", "plain word"], ["item", "one from a list"]], creative: [["notion", "an idea with character"], ["quirk", "a charming oddity"]] } },
+    stuff:   { note: "vague filler noun", tones: { clear: [["material", "concrete substance"], ["details", "the specifics"]], formal: [["content", "formal general term"], ["items", "individual pieces"]], friendly: [["bits", "casual and light"], ["things", "still casual — consider being specific"]], academic: [["material", "neutral academic term"], ["data", "if referring to information"]], simple: [["things", "plain word"], ["items", "one by one"]], creative: [["odds and ends", "playful assortment"], ["treasures", "affectionate spin"]] } },
+    nice:    { note: "mild, overused praise", tones: { clear: [["pleasant", "agreeable experience"], ["thoughtful", "shows care"]], formal: [["agreeable", "formally pleasant"], ["courteous", "politely kind"]], friendly: [["lovely", "warm praise"], ["sweet", "affectionate"]], academic: [["favourable", "positive on balance"], ["constructive", "useful and positive"]], simple: [["kind", "plain warmth"], ["friendly", "plain and clear"]], creative: [["charming", "winning appeal"], ["delightful", "sparkling praise"]] } },
+    big:     { note: "generic size word", tones: { clear: [["large", "neutral size"], ["major", "important, not just physical"]], formal: [["substantial", "considerable in scale"], ["significant", "important in effect"]], friendly: [["huge", "enthusiastic size"], ["massive", "casual emphasis"]], academic: [["considerable", "measured scale"], ["extensive", "wide in scope"]], simple: [["large", "plain size"], ["great", "size or importance"]], creative: [["towering", "vivid height"], ["colossal", "dramatic scale"]] } },
+    small:   { note: "generic size word", tones: { clear: [["minor", "low importance"], ["compact", "efficiently small"]], formal: [["modest", "restrained scale"], ["limited", "bounded in scope"]], friendly: [["little", "warm and light"], ["tiny", "affectionate smallness"]], academic: [["marginal", "at the edge of significance"], ["negligible", "too small to matter"]], simple: [["little", "plain word"], ["short", "for length or time"]], creative: [["pocket-sized", "playful image"], ["whisper-thin", "delicate image"]] } },
+    "a lot": { note: "casual quantity", tones: { clear: [["many", "countable amount"], ["much", "uncountable amount"]], formal: [["a great deal", "formal quantity"], ["numerous", "formally many"]], friendly: [["plenty", "warm abundance"], ["loads", "casual abundance"]], academic: [["a substantial number", "measured count"], ["considerable", "notable amount"]], simple: [["many", "plain count"], ["lots", "casual plain"]], creative: [["an avalanche of", "vivid abundance"], ["a sea of", "poetic abundance"]] } },
+    got:     { note: "casual verb", tones: { clear: [["received", "came to have"], ["obtained", "acquired deliberately"]], formal: [["received", "formal and neutral"], ["acquired", "formal acquisition"]], friendly: [["picked up", "casual and warm"], ["grabbed", "energetic casual"]], academic: [["obtained", "standard academic verb"], ["derived", "obtained from a source"]], simple: [["had", "plain possession"], ["found", "plain discovery"]], creative: [["seized", "dramatic taking"], ["unearthed", "discovery with effort"]] } },
+    said:    { note: "neutral but repetitive in dialogue", tones: { clear: [["stated", "clear declaration"], ["explained", "added understanding"]], formal: [["stated", "formal record"], ["noted", "formally observed"]], friendly: [["mentioned", "light remark"], ["shared", "warm disclosure"]], academic: [["asserted", "claimed with confidence"], ["observed", "noted from evidence"]], simple: [["told", "plain speech"], ["asked", "if it was a question"]], creative: [["murmured", "quiet colour"], ["declared", "bold colour"]] } },
+    make:    { note: "generic verb", tones: { clear: [["create", "bring into being"], ["build", "assemble deliberately"]], formal: [["produce", "formal output"], ["construct", "formal assembly"]], friendly: [["put together", "casual assembly"], ["whip up", "quick and playful"]], academic: [["generate", "produce systematically"], ["formulate", "carefully devise"]], simple: [["build", "plain construction"], ["do", "plain action"]], creative: [["craft", "artisanal care"], ["conjure", "magical creation"]] } },
+    get:     { note: "generic verb", tones: { clear: [["receive", "come to have"], ["understand", "if it means comprehend"]], formal: [["obtain", "formal acquisition"], ["comprehend", "formal understanding"]], friendly: [["grab", "casual energy"], ["catch", "casual understanding"]], academic: [["acquire", "academic standard"], ["ascertain", "find out precisely"]], simple: [["take", "plain action"], ["find", "plain discovery"]], creative: [["seize", "dramatic energy"], ["glean", "gather carefully"]] } },
+  };
+
+  const STOP_WORDS = new Set(["the","a","an","and","or","but","of","to","in","on","at","for","with","by","from","as","is","are","was","were","be","been","being","it","its","this","that","these","those","i","you","he","she","we","they","them","his","her","their","our","your","my","me","him","us","not","no","so","if","then","than","too","also","just","there","here","what","which","who","whom","how","when","where","why","will","would","can","could","should","shall","may","might","must","do","does","did","have","has","had","up","down","out","over","under","again","once","about","into","through","during"]);
+
+  function textOf(form) {
+    return String((form.elements.text && form.elements.text.value) || "").trim();
+  }
+  function splitSentences(text) {
+    return text.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
+  }
+  function wordsOf(text) {
+    return (text.toLowerCase().match(/[a-z][a-z'-]*/g) || []);
+  }
+  function reportShell(shell) {
+    const messageBox = shell.querySelector(".tool-message");
+    const results = shell.querySelector(".results");
+    const copyAll = shell.querySelector(".copy-all");
+    messageBox.hidden = true;
+    return { messageBox, results, copyAll };
+  }
+  const escapeText = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  function runWordChoice(shell, form) {
+    const text = textOf(form);
+    const target = String((form.elements.target && form.elements.target.value) || "").trim().toLowerCase();
+    const tone = String((form.elements.tone && form.elements.tone.value) || "clear");
+    if (!text && !target) { renderMessage(shell, "Paste a sentence, or enter one word to focus on.", "empty"); return; }
+    const found = [];
+    const lower = (text || "").toLowerCase();
+    const keys = Object.keys(WEAK_WORDS);
+    for (const key of keys) {
+      const re = new RegExp("\\b" + key.replace(/ /g, "\\s+") + "\\b");
+      if ((target && target === key) || (!target && re.test(lower))) found.push(key);
+    }
+    if (target && !WEAK_WORDS[target]) {
+      renderMessage(shell, `“${target}” is not in the curated overused-words set. Try the Synonym Finder for alternatives to any word.`, "empty");
+      const results = shell.querySelector(".results");
+      results.innerHTML = `<p class="word-rhyme-cta"><a class="button secondary" href="/tools/synonym-finder/?q=${encodeURIComponent(target)}">Find synonyms for “${escapeText(target)}”</a></p>`;
+      return;
+    }
+    if (!found.length) { renderMessage(shell, shell.dataset.noResult || "No weak or overused words from our curated set were found in this text.", "empty"); return; }
+    const { results, copyAll } = reportShell(shell);
+    let copyText = "Word Helper — Word Choice Helper (tone: " + tone + ")\n";
+    const blocks = found.slice(0, 8).map((key) => {
+      const entry = WEAK_WORDS[key];
+      const alts = (entry.tones[tone] || entry.tones.clear).filter((a) => a[0]);
+      const altHtml = alts.map(([w, note]) => `<div><dt>${escapeText(w)}</dt><dd>${escapeText(note)}</dd></div>`).join("");
+      const removeNote = (entry.tones[tone] || []).some((a) => !a[0]) ? `<p class="word-usage-note">Often strongest: remove “${escapeText(key)}” entirely and let the sentence stand.</p>` : "";
+      let example = "";
+      if (text && alts.length) {
+        const re = new RegExp("\\b" + key.replace(/ /g, "\\s+") + "\\b", "i");
+        const sentence = splitSentences(text).find((s) => re.test(s));
+        if (sentence) example = `<p class="word-usage-note"><strong>Example:</strong> ${escapeText(sentence.replace(re, alts[0][0]))}</p>`;
+      }
+      copyText += `\n${key}: ${alts.map((a) => a[0]).join(", ")}`;
+      return `<section class="static-example-group"><span class="static-example-label">${escapeText(key)} — ${escapeText(entry.note)}</span><dl class="tone-list">${altHtml}</dl>${example}${removeNote}</section>`;
+    }).join("");
+    results.innerHTML = blocks + `<p class="word-usage-note">Suggestions are context-aware estimates, not corrections — synonyms shift meaning with context and tone. Review each one in your sentence.</p>`;
+    trackToolUsage("word-choice-helper");
+    setCopyButton(copyAll, true, copyText);
+  }
+
+  function runClarityCheck(shell, form) {
+    const text = textOf(form);
+    if (!text) { renderMessage(shell, "Paste text above to scan for common clarity issues.", "empty"); return; }
+    const issues = [];
+    const push = (type, phrase, tip) => issues.push({ type, phrase, tip });
+    let m;
+    const doubled = /\b([A-Za-z]+)\s+\1\b/gi;
+    while ((m = doubled.exec(text)) !== null) push("Doubled word", m[0], `Remove the repeated “${m[1]}”.`);
+    for (const s of splitSentences(text)) {
+      const count = wordsOf(s).length;
+      if (count > 30) push("Long sentence (" + count + " words)", s.slice(0, 90) + (s.length > 90 ? "…" : ""), "Split it where it carries a second idea.");
+      if (/^[a-z]/.test(s)) push("Missing capital", s.slice(0, 40) + "…", "Start the sentence with a capital letter.");
+    }
+    for (const weak of ["very", "really", "thing", "stuff", "good", "bad", "nice", "a lot", "honestly", "basically", "actually"]) {
+      const re = new RegExp("\\b" + weak.replace(/ /g, "\\s+") + "\\b", "gi");
+      const count = (text.match(re) || []).length;
+      if (count) push("Weak word ×" + count, weak, "Consider a more specific word — try the Word Choice Helper.");
+    }
+    if (/ {2,}/.test(text)) push("Double space", "…  …", "Collapse repeated spaces to one.");
+    if (/([!?]){2,}/.test(text)) push("Stacked punctuation", (text.match(/([!?]){2,}/) || ["!!"])[0], "One mark carries more weight than three.");
+    const passive = text.match(/\b(?:was|were|been|being|is|are)\s+\w+ed\b/gi) || [];
+    if (passive.length) push("Possible passive phrasing ×" + passive.length, passive[0], "Not an error — but check whether active phrasing is clearer.");
+    if (!issues.length) { renderMessage(shell, shell.dataset.noResult || "No common clarity issues found by this check.", "empty"); return; }
+    const { results, copyAll } = reportShell(shell);
+    results.innerHTML = issues.slice(0, 20).map((i) => `<div class="static-example-group"><span class="static-example-label">${escapeText(i.type)}</span><p class="static-example-words">“${escapeText(i.phrase)}” — ${escapeText(i.tip)}</p></div>`).join("") +
+      `<p class="word-usage-note">This tool catches common clarity issues. It may miss grammar errors and may suggest changes that do not fit every context.</p>`;
+    trackToolUsage("clarity-checker");
+    setCopyButton(copyAll, true, "Word Helper — Clarity report\n" + issues.map((i) => `${i.type}: ${i.phrase} — ${i.tip}`).join("\n"));
+  }
+
+  function runToneCheck(shell, form) {
+    const text = textOf(form);
+    const words = wordsOf(text);
+    if (!text || words.length < 8) { renderMessage(shell, "Paste at least a sentence or two to read tone signals.", "empty"); return; }
+    const sentences = splitSentences(text);
+    const signals = [];
+    const contractions = (text.match(/\b\w+'(?:s|re|ll|ve|d|t|m)\b/gi) || []).length;
+    const casualWords = (text.toLowerCase().match(/\b(?:gonna|wanna|kinda|sorta|awesome|cool|yeah|hey|stuff|guys)\b/g) || []).length;
+    const formalWords = (text.toLowerCase().match(/\b(?:furthermore|moreover|therefore|consequently|shall|herein|pursuant|notwithstanding|subsequent|accordingly)\b/g) || []).length;
+    const directAddress = (text.toLowerCase().match(/\b(?:you|your|we|our|let's)\b/g) || []).length;
+    const exclaims = (text.match(/!/g) || []).length;
+    const salesWords = (text.toLowerCase().match(/\b(?:free|amazing|incredible|unbeatable|buy now|limited time|guaranteed|exclusive)\b/g) || []).length;
+    const politeWords = (text.toLowerCase().match(/\b(?:please|thanks|thank you|appreciate)\b/g) || []).length;
+    const avgLen = Math.round(words.length / sentences.length);
+    if (formalWords || (contractions === 0 && avgLen >= 18)) signals.push(["Formal", `formal connectives ×${formalWords}, ${contractions === 0 ? "no contractions" : contractions + " contractions"}`]);
+    if (contractions >= 2 || casualWords) signals.push(["Casual", `contractions ×${contractions}${casualWords ? ", casual words ×" + casualWords : ""}`]);
+    if (politeWords || (directAddress >= 2 && exclaims >= 1)) signals.push(["Friendly", `direct address ×${directAddress}${politeWords ? ", courtesy words ×" + politeWords : ""}${exclaims ? ", exclamation ×" + exclaims : ""}`]);
+    if (avgLen <= 12 && exclaims === 0 && casualWords === 0) signals.push(["Direct", `short sentences (avg ${avgLen} words)`]);
+    if (salesWords >= 2 || exclaims >= 3) signals.push(["Promotional", `${salesWords ? "sales words ×" + salesWords : ""}${salesWords && exclaims >= 3 ? ", " : ""}${exclaims >= 3 ? "exclamation ×" + exclaims : ""}`]);
+    if (avgLen > 24) signals.push(["Wordy", `average sentence length ${avgLen} words`]);
+    if (!signals.length) signals.push(["Neutral", "no strong tone signals detected"]);
+    const { results, copyAll } = reportShell(shell);
+    const suggestions = [];
+    if (avgLen > 24) suggestions.push("Split the longest sentence — the average is " + avgLen + " words.");
+    if (exclaims >= 3) suggestions.push("Cut exclamation marks to at most one; several read as promotional.");
+    if (contractions === 0 && signals.some((s) => s[0] === "Formal")) suggestions.push("If this is for a general audience, a contraction or two makes it warmer.");
+    if (casualWords && !signals.some((s) => s[0] === "Friendly")) suggestions.push("Casual words (gonna, stuff) may undercut a professional context.");
+    results.innerHTML = `<div class="summary-grid">${signals.slice(0, 4).map((s) => summaryCard(s[0], s[1])).join("")}</div>` +
+      (suggestions.length ? `<div class="static-example-group"><span class="static-example-label">Suggestions</span><p class="static-example-words">${suggestions.map(escapeText).join(" · ")}</p></div>` : "") +
+      `<p class="word-usage-note">Tone signals are rule-based estimates from visible patterns — they cannot read intent, irony, or audience.</p>`;
+    trackToolUsage("tone-checker");
+    setCopyButton(copyAll, true, "Word Helper — Tone summary\n" + signals.map((s) => `${s[0]}: ${s[1]}`).join("\n") + (suggestions.length ? "\nSuggestions: " + suggestions.join(" ") : ""));
+  }
+
+  function runReadability(shell, form) {
+    const text = textOf(form);
+    const words = wordsOf(text);
+    const sentences = splitSentences(text);
+    if (!text || !sentences.length || words.length < 3) { renderMessage(shell, "Add at least one full sentence to measure readability.", "empty"); return; }
+    const avgLen = words.length / sentences.length;
+    let syllables = 0;
+    let complex = 0;
+    for (const w of words) { const c = countSyllables(w); syllables += c; if (c >= 3) complex++; }
+    // Flesch-style reading-ease ESTIMATE (syllables are spelling-based estimates).
+    const ease = Math.max(0, Math.min(100, Math.round(206.835 - 1.015 * avgLen - 84.6 * (syllables / words.length))));
+    const easeLabel = ease >= 80 ? "very easy" : ease >= 60 ? "easy" : ease >= 40 ? "moderate" : ease >= 20 ? "difficult" : "very difficult";
+    const longOnes = sentences.filter((s) => wordsOf(s).length > 25);
+    const readSec = Math.round((words.length / 200) * 60);
+    const { results, copyAll } = reportShell(shell);
+    const suggestions = [];
+    if (longOnes.length) suggestions.push(`Split the ${longOnes.length} sentence${longOnes.length > 1 ? "s" : ""} over 25 words.`);
+    if (complex / words.length > 0.2) suggestions.push("Over 20% of words have 3+ syllables — swap a few for shorter ones where meaning allows.");
+    if (avgLen > 20) suggestions.push("Average sentence length is high — vary short and long sentences.");
+    if (!suggestions.length) suggestions.push("Nothing flagged — sentence lengths and word choices look comfortable to read.");
+    results.innerHTML = `<div class="summary-grid">
+      ${summaryCard("Words", words.length.toLocaleString())}
+      ${summaryCard("Sentences", sentences.length.toLocaleString())}
+      ${summaryCard("Avg words / sentence", (Math.round(avgLen * 10) / 10).toLocaleString())}
+      ${summaryCard("Long sentences (25+)", longOnes.length.toLocaleString())}
+      ${summaryCard("Complex words (3+ syllables)", complex.toLocaleString())}
+      ${summaryCard("Reading ease (estimate)", ease + " · " + easeLabel)}
+      ${summaryCard("Reading time", readSec < 60 ? "~" + Math.max(1, readSec) + " sec" : "~" + Math.round(words.length / 200) + " min")}
+    </div>` +
+      (longOnes.length ? `<div class="static-example-group"><span class="static-example-label">Longest sentence</span><p class="static-example-words">${escapeText(longOnes[0].slice(0, 160))}${longOnes[0].length > 160 ? "…" : ""}</p></div>` : "") +
+      `<div class="static-example-group"><span class="static-example-label">Suggestions</span><p class="static-example-words">${suggestions.map(escapeText).join(" · ")}</p></div>` +
+      `<p class="word-usage-note">The score uses spelling-based syllable estimates — treat it as a draft-to-draft guide, not an official grade.</p>`;
+    trackToolUsage("readability-checker");
+    setCopyButton(copyAll, true, `Word Helper — Readability report\nWords: ${words.length}\nSentences: ${sentences.length}\nAvg words/sentence: ${Math.round(avgLen * 10) / 10}\nLong sentences: ${longOnes.length}\nComplex words: ${complex}\nReading ease (estimate): ${ease} (${easeLabel})`);
+  }
+
+  function runRepeatedWords(shell, form) {
+    const text = textOf(form);
+    const hideStop = !!(form.elements.stopwords && form.elements.stopwords.checked);
+    const words = wordsOf(text);
+    if (!text || words.length < 5) { renderMessage(shell, "Paste a few sentences to count repeated words.", "empty"); return; }
+    const freq = new Map();
+    for (const w of words) freq.set(w, (freq.get(w) || 0) + 1);
+    const threshold = words.length > 200 ? 4 : words.length > 60 ? 3 : 2;
+    const rows = [...freq.entries()]
+      .filter(([w, c]) => c >= threshold && (!hideStop || !STOP_WORDS.has(w)))
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 25);
+    if (!rows.length) { renderMessage(shell, shell.dataset.noResult || "No word repeats often enough to flag.", "empty"); return; }
+    const { results, copyAll } = reportShell(shell);
+    results.innerHTML = rows.map(([w, c]) => {
+      const weak = WEAK_WORDS[w];
+      const alt = weak ? (weak.tones.clear || []).filter((a) => a[0]).map((a) => a[0]).join(", ") : "";
+      return `<div class="static-example-group"><span class="static-example-label">${escapeText(w)} ×${c}</span><p class="static-example-words">${alt ? "Alternatives: " + escapeText(alt) + " · " : ""}<a href="/tools/synonym-finder/?q=${encodeURIComponent(w)}">more synonyms →</a></p></div>`;
+    }).join("") + `<p class="word-usage-note">Repetition of key terms can be deliberate and correct — replace echoes, not anchors. Threshold for this text: ${threshold}+ uses.</p>`;
+    trackToolUsage("repeated-word-finder");
+    setCopyButton(copyAll, true, "Word Helper — Repeated words\n" + rows.map(([w, c]) => `${w}: ${c}`).join("\n"));
   }
 
   function runRandomWord(shell, form) {
