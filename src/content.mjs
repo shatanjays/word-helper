@@ -1708,7 +1708,7 @@ export const legalPages = [
       `<h2>What Word Helper is</h2>
       <p>Word Helper is a fast word workspace built for every kind of word task — solving scrambled letters, finding rhymes, counting syllables, exploring word meanings, building vocabulary, and learning language patterns. Every section connects to the same word data and quality standard.</p>`,
       `<h2>Who runs Word Helper</h2>
-      <p>Word Helper was created by <strong>Jay Sudha</strong>, also known as Shatanjay Sudha. Jay builds practical web tools, calculators, productivity systems, and educational utilities with a focus on clean design, useful content, and fast mobile-first experiences — and Word Helper follows the same philosophy: make useful word tools fast, clear, accessible, and easy to use on mobile. It is run independently and is not affiliated with, or endorsed by, any dictionary publisher, word-game company, or advertiser. More about the creator: <a href="/creator/">Jay Sudha</a> · <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>
+      <p>Word Helper was created by <strong>Jay Sudha</strong>, also known as Shatanjay Sudha. Jay builds practical web tools, calculators, productivity systems, and educational utilities with a focus on clean design, useful content, and fast mobile-first experiences — and Word Helper follows the same philosophy: make useful word tools fast, clear, accessible, and easy to use on mobile. Word Helper is not affiliated with, or endorsed by, any dictionary publisher, word-game company, or advertiser. More about the creator: <a href="/creator/">Jay Sudha</a> · <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>
       <p>Word Helper combines open lexical sources, structured word data, and human-readable explanations to make word lookup easier for students, writers, learners, puzzle players, and everyday users. The site does not employ a large editorial staff or claim academic credentials it does not have. Instead, it is honest about its method: word data is compiled from openly licensed lexical sources, standardized into one consistent format, screened for quality, and structured for clarity — with a strict gate that decides which pages are complete enough to publish. The editorial responsibilities are described on the <a href="/editorial-team/">Editorial Team</a> page, and full sourcing and license attribution is documented in the <a href="/editorial-policy/">Editorial Policy</a>. Spotted something wrong? Use the <a href="/corrections/">corrections page</a> or email <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>.</p>
       <p>Word Helper is an educational and reference tool. It is not an official dictionary, a legal language authority, an academic institution, or a professional writing service.</p>`,
       `<h2>Word Lab — ${tools.length} interactive Word Experiences</h2>
@@ -1756,22 +1756,25 @@ export const legalPages = [
       "Contact Word Helper for tool questions, word corrections, accessibility feedback, or content improvement suggestions. We respond within a few business days.",
     bodyHtml: [
       `<h2>How to reach us</h2>
-      <p>Send an email to <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a>. Every message is read and answered by Word Helper. Here are the most common reasons people contact us:</p>
+      <p>Send an email to <a href="mailto:hello@wordhelper.online">hello@wordhelper.online</a> — this address works for every kind of question, and every message is read and answered by Word Helper. You can report anything you think is wrong: an incorrect definition, a bad example sentence, a wrong syllable count, a misleading synonym or antonym, or a tool result that does not look right. Pick the topic below that fits best (each link pre-fills the email subject for you):</p>
       <ul>
-        <li><strong>Tool result questions or corrections</strong> — if a word is missing, a result seems wrong, or a filter is not working as expected</li>
-        <li><strong>Missing word reports</strong> — if a word you searched for is not in the dictionary or is missing pronunciation, examples, or synonyms</li>
-        <li><strong>Accessibility feedback</strong> — if any part of the site is difficult to use with a screen reader, keyboard, or other assistive technology</li>
-        <li><strong>Content corrections or factual errors</strong> — if a definition, etymology, syllable count, or pronunciation guide contains an error</li>
-        <li><strong>General feedback or improvement suggestions</strong> — if you have ideas for tools, word lists, guides, or features that would make Word Helper more useful</li>
-        <li><strong>Copyright or content concerns</strong> — if you believe any Word Helper content may overlap with copyrighted material you hold or represent</li>
-        <li><strong>Partnership or collaboration inquiries</strong> — if you represent an educational organisation, publisher, or technology company interested in working with Word Helper</li>
-      </ul>`,
+        <li><strong><a href="mailto:hello@wordhelper.online?subject=Word%20correction">Word correction</a></strong> — a definition, example, syllable count, pronunciation, synonym, or antonym on a word page looks wrong</li>
+        <li><strong><a href="mailto:hello@wordhelper.online?subject=Missing%20word">Missing word</a></strong> — a word you searched for is not covered, or its page is missing pronunciation, examples, or synonyms</li>
+        <li><strong><a href="mailto:hello@wordhelper.online?subject=Tool%20issue">Tool issue</a></strong> — a tool result seems wrong, a filter is not working, or a tool behaves unexpectedly</li>
+        <li><strong><a href="mailto:hello@wordhelper.online?subject=Broken%20link">Broken link</a></strong> — a link on any page leads to the wrong place or a page that does not load</li>
+        <li><strong><a href="mailto:hello@wordhelper.online?subject=Privacy%20question">Privacy question</a></strong> — anything about your data, cookies, or the <a href="/privacy-policy/">Privacy Policy</a></li>
+        <li><strong><a href="mailto:hello@wordhelper.online?subject=Accessibility%20issue">Accessibility issue</a></strong> — any part of the site is difficult to use with a screen reader, keyboard, or other assistive technology</li>
+        <li><strong><a href="mailto:hello@wordhelper.online?subject=Advertising%20or%20business">Advertising or business question</a></strong> — advertising questions, or you represent an educational organisation, publisher, or technology company interested in working with Word Helper</li>
+        <li><strong><a href="mailto:hello@wordhelper.online?subject=Copyright%20concern">Copyright concern</a></strong> — you believe any Word Helper content may overlap with copyrighted material you hold or represent</li>
+        <li><strong><a href="mailto:hello@wordhelper.online?subject=General%20feedback">General feedback</a></strong> — ideas for tools, word lists, guides, or features that would make Word Helper more useful</li>
+      </ul>
+      <p>If email does not work for you for any reason, the same address is shown in the footer of every page, and the <a href="/corrections/">corrections page</a> offers pre-filled report templates for content errors.</p>`,
       `<h2>What to include in your message</h2>
       <p>For tool-related reports, please include the page URL and the specific input you used. For example: <em>&ldquo;I searched for 'tca' on the Word Unscramble page and expected to see 'cat' but it did not appear in the results.&rdquo;</em> The more specific your description, the faster we can reproduce the issue and fix it.</p>
       <p>For definition or content corrections, include the word page URL, the section you believe contains an error, and a brief explanation of what you think is incorrect and why. We take content accuracy seriously and investigate every report.</p>
       <p>For accessibility issues, describe what you were trying to do, what assistive technology or browser you were using, and what happened instead of what you expected. Accessibility reports are treated as a high priority.</p>`,
       `<h2>Response time</h2>
-      <p>Word Helper is maintained independently. We aim to read and respond to feedback within a few business days. Tool corrections and content fixes are prioritized and applied as quickly as we can after verifying the issue — we do not wait for a scheduled update cycle.</p>
+      <p>Word Helper is maintained by its creator, Jay Sudha. We aim to read and respond to feedback within a few business days. Tool corrections and content fixes are prioritized and applied as quickly as we can after verifying the issue — we do not wait for a scheduled update cycle.</p>
       <p>We read every message and use the feedback to improve the site. If your issue requires a longer investigation, we will acknowledge your message while we look into it.</p>`,
       `<h2>What we do with your message</h2>
       <p>Your email address and message content are used only to respond to your request and, where relevant, to improve the website. We do not sell, share, or publish contact information. We do not add you to any mailing list without explicit permission. Contact data is retained only as long as needed to address your inquiry and is then deleted.</p>
@@ -1779,7 +1782,7 @@ export const legalPages = [
       `<h2>Other ways to explore Word Helper</h2>
       <p>If you have a question about how a specific tool works, the <a href="/guides/">Word Helper Guides</a> cover how to get the best results from each tool. If you are looking for information about how content is created or reviewed, the <a href="/editorial-policy/">Editorial Policy</a> explains our standards. If you have a question about advertising, see the <a href="/affiliate-disclosure/">Advertising Disclosure</a>.</p>`,
       `<h2>Who runs Word Helper</h2>
-      <p>Word Helper is created and maintained by <a href="/creator/">Jay Sudha</a> (Shatanjay Sudha), an independent builder of practical web tools and educational utilities. For more about the creator, visit <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>`,
+      <p>Word Helper is created and maintained by <a href="/creator/">Jay Sudha</a> (Shatanjay Sudha), who builds practical calculators, word tools, file tools, and educational utility websites. For more about the creator, visit <a href="https://jaysudha.com/" rel="noopener" target="_blank">jaysudha.com</a>.</p>`,
     ],
   },
   {
@@ -1791,7 +1794,7 @@ export const legalPages = [
     reviewedLabel: "Page reviewed",
     metaTitle: "Jay Sudha — Creator of Word Helper",
     metaDescription:
-      "Word Helper is created and maintained by Jay Sudha (Shatanjay Sudha), an independent builder of practical web tools, calculators, and educational utilities. Learn more.",
+      "Word Helper is created and maintained by Jay Sudha (Shatanjay Sudha), who builds practical web tools, calculators, and educational utilities. Learn more.",
     bodyHtml: [
       `<h2>Who created Word Helper</h2>
       <p>Word Helper was created by <strong>Jay Sudha</strong>, also known as Shatanjay Sudha. Jay builds practical digital tools for everyday users — including calculators, productivity systems, finance tools, and language utilities. Word Helper follows the same product philosophy: make useful tools fast, clear, accessible, and easy to use on mobile.</p>
@@ -1855,7 +1858,7 @@ export const legalPages = [
       },
       {
         q: "Does Word Helper have credentialed linguists or named expert authors?",
-        a: "No. Word Helper is run by a small independent team under the collective name Word Helper Editorial Team. We do not claim individual academic credentials, named expert authors, or institutional affiliation — we are transparent about being a practical word-tools project.",
+        a: "No. Word Helper is a small editorial project created and maintained by Jay Sudha, working under the collective name Word Helper Editorial Team. We do not claim individual academic credentials, named expert authors, or institutional affiliation — we are transparent about being a practical word-tools project.",
       },
       {
         q: "How do I report a mistake on a word page?",
@@ -1929,7 +1932,7 @@ export const legalPages = [
       "Children's privacy. Word Helper is a general-audience reference and learning site. It does not require an account, does not knowingly collect personal information from children, and builds no profile of any visitor. The only way to send us personal information is by emailing us directly. If you are a parent or guardian and believe a child has sent us personal information through the contact email, write to hello@wordhelper.online and we will delete it.",
       "If you contact Word Helper at hello@wordhelper.online, your email address and message are used only to respond to your request and, where relevant, to improve the website. We do not sell, share, or publish contact information. Contact data is retained only as long as needed to address your inquiry.",
       "Your choices and regional rights. If you are in the EEA, the UK, or California, you have rights over your personal data, including access, correction, deletion, and the right to object to processing. Because Word Helper requires no account, serves no ads, and runs tool processing in your browser, it does not build a personal profile of you. You can clear browser localStorage at any time through your browser settings.",
-      "Who is responsible for your data. Word Helper is operated independently. For any privacy question or data request, contact hello@wordhelper.online and we will respond as quickly as we can.",
+      "Who is responsible for your data. Word Helper is operated by its creator, Jay Sudha. For any privacy question or data request, contact hello@wordhelper.online and we will respond as quickly as we can.",
       "If you have questions about this policy, contact us at hello@wordhelper.online. The date this policy was last reviewed is shown at the top of this page.",
     ],
   },
@@ -2063,10 +2066,10 @@ export const legalPages = [
     metaDescription:
       "How advertising works on Word Helper: ads never influence definitions, tools, or editorial content; how future ads will be separated, labeled, and placed responsibly.",
     bodyHtml: [
-      `<h2>About Word Helper's independence</h2>
-      <p>Word Helper is a comprehensive English word-tools platform and word workspace, built and maintained by Word Helper for word-game players, writers, students, teachers, and English learners. All tool pages, word pages, learning guides, word lists, and quizzes are created independently with no influence from advertisers, sponsors, or external commercial partners.</p>`,
+      `<h2>About Word Helper's editorial standards</h2>
+      <p>Word Helper is a comprehensive English word-tools platform and word workspace, created and maintained by Jay Sudha for word-game players, writers, students, teachers, and English learners. All tool pages, word pages, learning guides, word lists, and quizzes are created with no influence from advertisers, sponsors, or external commercial partners.</p>`,
       `<h2>How Word Helper is supported</h2>
-      <p>Word Helper does not currently display advertising and has no active commercial relationships. The site is maintained independently. If advertising is added in the future — such as through Google AdSense — it will be clearly separated from editorial content, the Privacy and Cookie policies will be updated before launch, and a consent mechanism will be shown where required. Revenue from any future advertising would help cover the costs of hosting, development, and maintaining the free tools and content on this site.</p>`,
+      <p>Word Helper does not currently display advertising and has no active commercial relationships. The site is maintained by its creator. If advertising is added in the future — such as through Google AdSense — it will be clearly separated from editorial content, the Privacy and Cookie policies will be updated before launch, and a consent mechanism will be shown where required. Revenue from any future advertising would help cover the costs of hosting, development, and maintaining the free tools and content on this site.</p>`,
       `<h2>Advertising principles</h2>
       <p>If and when ads are shown on Word Helper, these rules apply:</p>
       <ul>
@@ -2109,7 +2112,7 @@ export const legalPages = [
         <li>Reduced-motion support: decorative motion is removed for visitors who prefer reduced motion.</li>
       </ul>`,
       `<h2>Known limitations</h2>
-      <p>Word Helper is built and maintained by a small independent team, and some areas are still improving. Word data is compiled from open sources, so occasional formatting quirks can affect how a screen reader reads an entry. The interactive tools rely on JavaScript; core word pages and content remain readable without it, but some tool interactions do not. If you hit a barrier, we want to hear about it.</p>`,
+      <p>Word Helper is built and maintained by a very small team, and some areas are still improving. Word data is compiled from open sources, so occasional formatting quirks can affect how a screen reader reads an entry. The interactive tools rely on JavaScript; core word pages and content remain readable without it, but some tool interactions do not. If you hit a barrier, we want to hear about it.</p>`,
       `<h2>Reporting an accessibility issue</h2>
       <p>If any part of Word Helper is difficult to use with assistive technology, please tell us. Use the accessibility option on the <a href="/corrections/">corrections page</a>, or email <a href="mailto:hello@wordhelper.online?subject=Word%20Helper%20accessibility%20issue">hello@wordhelper.online</a> with the page URL, the assistive technology or browser you were using, what you were trying to do, and what happened instead. Accessibility reports are treated as a high priority.</p>`,
     ],

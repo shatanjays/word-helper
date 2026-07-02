@@ -469,7 +469,7 @@ function footer() {
   <div class="footer-inner">
     <div class="footer-brand-col">
       <a class="footer-brand" href="/">${icon("logo")}<span>Word Helper</span></a>
-      <p class="footer-tagline">A fast word workspace — ${TOOL_COUNT} word tools, searchable word pages, word lists, and vocabulary practice for finding, exploring, and using words.</p>
+      <p class="footer-tagline">A fast word workspace — ${TOOL_COUNT} word and writing tools, searchable word pages, word lists, and vocabulary practice for finding, exploring, and using words.</p>
       <a class="footer-email" href="mailto:${site.email}">${site.email}</a>
     </div>
     <nav class="footer-nav" aria-label="Word tools">
@@ -520,7 +520,7 @@ function footer() {
   </div>
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
-      <p>© ${new Date().getFullYear()} Word Helper — an independent word-tools project, created and maintained by <a href="/creator/">Jay Sudha</a>. Educational reference only — not an official dictionary.</p>
+      <p>© ${new Date().getFullYear()} Word Helper — an educational word-tools project created and maintained by <a href="/creator/">Jay Sudha</a>. Educational reference only — not an official dictionary.</p>
       <p class="footer-bottom-note">Built from open lexical data, cited word sources, quality checks, and practical word tools · <a href="/editorial-policy/">How we work &amp; sources</a> · <a href="/cookie-policy/">Cookie &amp; privacy info</a></p>
     </div>
   </div>
@@ -544,7 +544,7 @@ function baseSchemas() {
       email: site.email,
       foundingDate: "2025",
       description:
-        "Word Helper is a fast word workspace with " + TOOL_COUNT + " word tools, searchable word pages, curated word lists, and vocabulary practice — for finding, exploring, learning, and using words. Maintained by Word Helper.",
+        "Word Helper is a fast word workspace with " + TOOL_COUNT + " word and writing tools, searchable word pages, curated word lists, and vocabulary practice — for finding, exploring, learning, and using words. Created and maintained by Jay Sudha.",
       publishingPrinciples: `${site.url}/editorial-policy/`,
       founder: {
         "@type": "Person",
@@ -1867,6 +1867,11 @@ function renderWordFactPanel(wordData) {
   const partOfSpeech = wordData.partOfSpeech || "word";
   const wordLength = word.replace(/[^a-z]/gi, "").length || word.length;
   const factId = `word-facts-${lowerWord.replace(/[^a-z0-9-]/g, "") || "entry"}`;
+  // Standard Scrabble letter-tile values; only shown for plain a-z words.
+  const TILE_VALUES = { a: 1, b: 3, c: 3, d: 2, e: 1, f: 4, g: 2, h: 4, i: 1, j: 8, k: 5, l: 1, m: 3, n: 1, o: 1, p: 3, q: 10, r: 1, s: 1, t: 1, u: 1, v: 4, w: 4, x: 8, y: 4, z: 10 };
+  const tilePoints = /^[a-z]+$/.test(lowerWord)
+    ? [...lowerWord].reduce((sum, ch) => sum + (TILE_VALUES[ch] || 0), 0)
+    : null;
 
   return `<section class="word-section word-facts-section" aria-labelledby="${factId}">
       <h2 class="word-section-title" id="${factId}">Word facts</h2>
@@ -1883,6 +1888,10 @@ function renderWordFactPanel(wordData) {
           <span>Letters</span>
           <strong>${wordLength}</strong>
         </div>
+        ${tilePoints ? `<div class="word-fact">
+          <span>Scrabble&reg; points</span>
+          <strong>${tilePoints}</strong>
+        </div>` : ""}
         <div class="word-fact">
           <span>Starts with</span>
           <strong><a href="/word-explorer/${firstLetter}/">${firstLetterLabel}</a></strong>
@@ -2396,7 +2405,12 @@ function renderLightWordPage(w) {
       <p>Explore more words that start with the letter ${firstLetter} in Word Explorer, or use the A-Z browser to discover other vocabulary starting from any letter.</p>
       <div class="card-grid related-grid">
         ${cardLink(`/word-explorer/${w.word[0]}/`, `Browse complete word pages starting with ${w.word[0].toUpperCase()}.`)}
-        ${cardLink("/word-explorer/", "Open in-depth word profiles from A to Z.")}
+        ${(() => {
+          const len = w.word.replace(/[^a-z]/gi, "").length;
+          if (len === 5) return cardLink("/word-lists/five-letter-words/", "Five-letter words for Wordle, Scrabble, and crosswords.");
+          if (len >= 2 && len <= 4) return cardLink("/word-lists/short-words-for-word-games/", "Short words that punch above their weight in word games.");
+          return cardLink("/word-explorer/", "Open in-depth word profiles from A to Z.");
+        })()}
         ${cardLink("/word-lists/", "Curated vocabulary collections for writing and study.")}
         ${cardLink("/learn-english/", "Plain-English guides for vocabulary and usage.")}
       </div>
@@ -3068,7 +3082,7 @@ function renderPracticeHub() {
     title: "Practice — Word Quizzes and Vocabulary Tests",
     metaTitle: "Practice English Vocabulary — Quizzes and Word Tests | Word Helper",
     metaDescription:
-      "Practice English vocabulary with Word Helper quizzes: a vocabulary quiz, word family quiz, and synonym match covering the full set of Word Explorer entries, with instant feedback.",
+      "Practice English vocabulary with Word Helper: a vocabulary quiz, word family quiz, and synonym match with instant feedback, plus topic paths for beginner, academic, writing, and word-game practice.",
   };
 
   const practiceHubFaqs = [
@@ -3088,13 +3102,17 @@ function renderPracticeHub() {
       q: "How do the quizzes connect to Word Explorer?",
       a: "All quiz content is drawn directly from Word Explorer. Every word you see in a quiz has a Word Explorer page with its definition, pronunciation or syllables, synonyms, related words, and examples (and more where available). If you miss a question, visit the word's page to study it before the next session.",
     },
+    {
+      q: "Can I practise a specific topic, like academic words or spelling?",
+      a: "Yes — use the practice paths on this page. Each path links to the best place on Word Helper for that topic: a curated word list to study (like academic words or positive words), a guide with worked examples (like commonly confused words or word roots), or a tool for hands-on checking (like the Syllable Counter). The three quizzes draw from the shared Word Explorer pool, so the most effective pattern is to study a topic path first, then use a quiz to test your recall.",
+    },
   ];
 
   const body = `<section class="page-hero">
     ${breadcrumb(page)}
     <p class="eyebrow">Word Helper</p>
     <h1>Practice English Vocabulary</h1>
-    <p class="hero-lede">Three interactive quizzes built from Word Explorer data — test your knowledge of definitions, word families, and synonyms, with instant feedback at your own pace.</p>
+    <p class="hero-lede">Three interactive quizzes built from Word Explorer data, plus topic-based practice paths into word lists, guides, and tools — study a topic, then test your recall with instant feedback.</p>
     ${answerBlock(`Word Helper offers three types of vocabulary practice: a definition quiz, a word family quiz, and a synonym matching game. All questions are drawn from the same ${words.length} words in Word Explorer so every quiz reinforces what you read in Word Explorer. Use the quizzes as a spaced-review check after studying word pages, or as a quick vocabulary warmup.`)}
   </section>
   <section class="section">
@@ -3117,6 +3135,80 @@ function renderPracticeHub() {
         <span class="card-icon">${icon("learn")}</span>
         <strong>Synonym Match</strong>
         <span>Match each word to its closest synonym. Click a word, then click its match. Eight pairs per round, unlimited rounds.</span>
+      </a>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">Practice by topic</p>
+      <h2>Pick a practice path</h2>
+      <p class="section-lede">Each path below takes you to the best place on Word Helper to practise that topic — a curated word list to study, a guide with worked examples, or a tool for checking your own attempts. Study a path first, then come back and use a quiz above to test what stuck.</p>
+    </div>
+    <div class="card-grid">
+      <a class="resource-card" href="/word-lists/common-english-words/">
+        <span class="card-icon">${icon("az")}</span>
+        <strong>Beginner vocabulary</strong>
+        <span>Start with the everyday words English uses most, with meanings and examples for each.</span>
+      </a>
+      <a class="resource-card" href="/word-lists/academic-words/">
+        <span class="card-icon">${icon("learn")}</span>
+        <strong>Academic words</strong>
+        <span>Vocabulary for essays, lectures, and formal writing — study the list, then quiz yourself.</span>
+      </a>
+      <a class="resource-card" href="/word-lists/words-for-writers/">
+        <span class="card-icon">${icon("writing")}</span>
+        <strong>Writing words</strong>
+        <span>Precise verbs and adjectives that lift your writing, with usage notes.</span>
+      </a>
+      <a class="resource-card" href="/word-lists/positive-words/">
+        <span class="card-icon">${icon("spark")}</span>
+        <strong>Positive words</strong>
+        <span>Encouraging, upbeat words for messages, reviews, and descriptions.</span>
+      </a>
+      <a class="resource-card" href="/learn-english/commonly-confused-words/">
+        <span class="card-icon">${icon("guides")}</span>
+        <strong>Confusing words</strong>
+        <span>Affect vs effect, fewer vs less, its vs it&rsquo;s — sound-alike pairs with memory hooks.</span>
+      </a>
+      <a class="resource-card" href="/practice/synonym-match/">
+        <span class="card-icon">${icon("practice")}</span>
+        <strong>Synonyms practice</strong>
+        <span>Match each word to its closest synonym in the interactive Synonym Match game.</span>
+      </a>
+      <a class="resource-card" href="/word-lists/common-antonyms/">
+        <span class="card-icon">${icon("wordlists")}</span>
+        <strong>Antonyms practice</strong>
+        <span>Study common opposite pairs, then check any word with the Antonym Finder tool.</span>
+      </a>
+      <a class="resource-card" href="/spelling-patterns/">
+        <span class="card-icon">${icon("patterns")}</span>
+        <strong>Spelling practice</strong>
+        <span>Work through common English spelling patterns and the exceptions that trip people up.</span>
+      </a>
+      <a class="resource-card" href="/tools/syllable-counter/">
+        <span class="card-icon">${icon("syllable")}</span>
+        <strong>Syllable practice</strong>
+        <span>Count syllables in any word or line while you practise rhythm and stress.</span>
+      </a>
+      <a class="resource-card" href="/tools/prefix-finder/">
+        <span class="card-icon">${icon("prefix")}</span>
+        <strong>Prefix &amp; suffix practice</strong>
+        <span>Explore words that share a prefix, then try the Suffix Finder for word endings.</span>
+      </a>
+      <a class="resource-card" href="/learn-english/understanding-word-roots-prefixes-suffixes/">
+        <span class="card-icon">${icon("vocabulary")}</span>
+        <strong>Word roots practice</strong>
+        <span>Learn how roots, prefixes, and suffixes combine to build the meaning of longer words.</span>
+      </a>
+      <a class="resource-card" href="/word-games/">
+        <span class="card-icon">${icon("games")}</span>
+        <strong>Word game warm-up</strong>
+        <span>Unscramble and anagram drills to warm up before Scrabble, Wordle, or a crossword.</span>
+      </a>
+      <a class="resource-card" href="/practice/vocabulary-quiz/">
+        <span class="card-icon">${icon("pulse")}</span>
+        <strong>Daily vocabulary practice</strong>
+        <span>A shuffled definition quiz — a few questions a day builds lasting recall.</span>
       </a>
     </div>
   </section>
